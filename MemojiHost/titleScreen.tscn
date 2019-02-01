@@ -16,14 +16,63 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
+
+[node name="ColorRect" type="ColorRect" parent="." index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1024.0
+margin_bottom = 600.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 0.0732422, 0.327568, 0.625, 1 )
+_sections_unfolded = [ "Margin", "Rect" ]
+
+[node name="MarginContainer2" type="MarginContainer" parent="." index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1024.0
+margin_bottom = 600.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+_sections_unfolded = [ "Margin" ]
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer2" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1024.0
+margin_bottom = 600.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
-_sections_unfolded = [ "Margin", "Rect", "custom_constants" ]
+_sections_unfolded = [ "Margin" ]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2/MarginContainer3" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -40,7 +89,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer" index="0"]
 
 editor/display_folded = true
 anchor_left = 0.0
@@ -57,7 +106,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="TitleContainer" type="MarginContainer" parent="VBoxContainer/VBoxContainer" index="0"]
+[node name="TitleContainer" type="MarginContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -77,7 +126,7 @@ custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 
-[node name="TitleTexture" type="TextureRect" parent="VBoxContainer/VBoxContainer/TitleContainer" index="0"]
+[node name="TitleTexture" type="TextureRect" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer/TitleContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -98,7 +147,7 @@ texture = ExtResource( 1 )
 expand = true
 stretch_mode = 4
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer" index="1"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer" index="1"]
 
 editor/display_folded = true
 anchor_left = 0.0
@@ -116,7 +165,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VBoxContainer2" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -132,7 +181,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="PlayersTitleText" type="TextureRect" parent="VBoxContainer/VBoxContainer2/VBoxContainer" index="0"]
+[node name="PlayersTitleText" type="TextureRect" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -149,7 +198,7 @@ size_flags_vertical = 1
 texture = ExtResource( 1 )
 stretch_mode = 4
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/VBoxContainer2" index="1"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -166,7 +215,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="Players" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/VBoxContainer2" index="0"]
+[node name="Players" type="HBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2" index="0"]
 
 editor/display_folded = true
 anchor_left = 0.0
@@ -183,7 +232,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="0"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -203,7 +252,7 @@ custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="PlayerOne" type="TextureRect" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer" index="0"]
+[node name="PlayerOne" type="TextureRect" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -222,7 +271,7 @@ size_flags_vertical = 1
 texture = ExtResource( 1 )
 stretch_mode = 0
 
-[node name="MarginContainer4" type="MarginContainer" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="1"]
+[node name="MarginContainer4" type="MarginContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -243,7 +292,7 @@ custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="PlayerTwo" type="TextureRect" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer4" index="0"]
+[node name="PlayerTwo" type="TextureRect" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer4" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -262,7 +311,7 @@ size_flags_vertical = 1
 texture = ExtResource( 1 )
 stretch_mode = 0
 
-[node name="MarginContainer5" type="MarginContainer" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="2"]
+[node name="MarginContainer5" type="MarginContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -283,7 +332,7 @@ custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="PlayerThree" type="TextureRect" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer5" index="0"]
+[node name="PlayerThree" type="TextureRect" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer5" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -302,7 +351,7 @@ size_flags_vertical = 1
 texture = ExtResource( 1 )
 stretch_mode = 0
 
-[node name="MarginContainer6" type="MarginContainer" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="3"]
+[node name="MarginContainer6" type="MarginContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -323,7 +372,7 @@ custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="PlayerFour" type="TextureRect" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer6" index="0"]
+[node name="PlayerFour" type="TextureRect" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer6" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -342,7 +391,7 @@ size_flags_vertical = 1
 texture = ExtResource( 1 )
 stretch_mode = 0
 
-[node name="MarginContainer7" type="MarginContainer" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="4"]
+[node name="MarginContainer7" type="MarginContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -363,7 +412,7 @@ custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="PlayerFive" type="TextureRect" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer7" index="0"]
+[node name="PlayerFive" type="TextureRect" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer7" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -382,7 +431,7 @@ size_flags_vertical = 1
 texture = ExtResource( 1 )
 stretch_mode = 0
 
-[node name="MarginContainer8" type="MarginContainer" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="5"]
+[node name="MarginContainer8" type="MarginContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="5"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -403,7 +452,7 @@ custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="PlayerSix" type="TextureRect" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer8" index="0"]
+[node name="PlayerSix" type="TextureRect" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer8" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -422,7 +471,7 @@ size_flags_vertical = 1
 texture = ExtResource( 1 )
 stretch_mode = 0
 
-[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="6"]
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="6"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -443,7 +492,7 @@ custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="PlayerSeven" type="TextureRect" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer2" index="0"]
+[node name="PlayerSeven" type="TextureRect" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer2" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -462,7 +511,7 @@ size_flags_vertical = 1
 texture = ExtResource( 1 )
 stretch_mode = 0
 
-[node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="7"]
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="7"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -483,7 +532,7 @@ custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="PlayerEight" type="TextureRect" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer3" index="0"]
+[node name="PlayerEight" type="TextureRect" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer3" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -502,7 +551,7 @@ size_flags_vertical = 1
 texture = ExtResource( 1 )
 stretch_mode = 0
 
-[node name="MarginContainer9" type="MarginContainer" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="8"]
+[node name="MarginContainer9" type="MarginContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players" index="8"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -523,7 +572,7 @@ custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="StartButton" type="TextureRect" parent="VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer9" index="0"]
+[node name="StartButton" type="TextureRect" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer9" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -542,7 +591,7 @@ size_flags_vertical = 1
 texture = ExtResource( 1 )
 stretch_mode = 0
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer" index="2"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -559,7 +608,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer3" index="0"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer3" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -575,7 +624,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer3/HBoxContainer" index="0"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer3/HBoxContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -593,7 +642,7 @@ size_flags_vertical = 1
 alignment = 0
 _sections_unfolded = [ "Rect" ]
 
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer3/HBoxContainer/HBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer3/HBoxContainer/HBoxContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -612,7 +661,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer3/HBoxContainer" index="1"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer3/HBoxContainer" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -630,7 +679,7 @@ size_flags_vertical = 1
 alignment = 0
 _sections_unfolded = [ "Rect" ]
 
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer3/HBoxContainer/HBoxContainer2" index="0"]
+[node name="Label" type="Label" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer3/HBoxContainer/HBoxContainer2" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -649,7 +698,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="VBoxContainer4" type="VBoxContainer" parent="VBoxContainer" index="3"]
+[node name="VBoxContainer4" type="VBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer" index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -666,7 +715,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer4" index="0"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer4" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -682,7 +731,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer4/HBoxContainer" index="0"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer4/HBoxContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -700,7 +749,7 @@ size_flags_vertical = 1
 alignment = 0
 _sections_unfolded = [ "Hint", "Rect" ]
 
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer4/HBoxContainer/HBoxContainer" index="0"]
+[node name="Label" type="Label" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer4/HBoxContainer/HBoxContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -719,7 +768,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer4/HBoxContainer" index="1"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer4/HBoxContainer" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -738,7 +787,7 @@ size_flags_vertical = 1
 alignment = 0
 _sections_unfolded = [ "Rect" ]
 
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer4/HBoxContainer/HBoxContainer2" index="0"]
+[node name="Label" type="Label" parent="MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer4/HBoxContainer/HBoxContainer2" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
