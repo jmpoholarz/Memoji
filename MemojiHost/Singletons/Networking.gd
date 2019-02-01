@@ -26,14 +26,15 @@ func ___test():
 	startedTest = true
 	if socket.get_status() == socket.STATUS_NONE:
 		connectHostToServer(defaultServerIP, defaultServerPort)
+		
 
 
 func _process(delta):
 	# if connected, check for message
 	if socket.get_status() == socket.STATUS_CONNECTED:
-		pass
-		#if socket.get_available_bytes() > 0:
-		#	getMessageFromServer()
+		#pass
+		if socket.get_available_bytes() > 0:
+			getMessageFromServer()
 
 func connectHostToServer(serverIP, serverPort):
 	if !socket.is_connected_to_host():
@@ -60,6 +61,7 @@ func _on_ConnectingTimer_timeout():
 		print(socket.get_status())
 		print("Connection attempt was successful.")
 		print("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
+		sendMessageToServer("Test Message")
 
 func sendMessageToServer(message):
 	# Check if can send message
@@ -67,7 +69,9 @@ func sendMessageToServer(message):
 		print("Failed to send message.  Not connected to server.")
 		return
 	# Send message
+	print("Send Message")
 	socket.put_utf8_string(message)
+	print("Message Sent")
 
 func getMessageFromServer():
 	# Check if can get message
@@ -75,4 +79,5 @@ func getMessageFromServer():
 		print("Failed to get message.  Not connected to server.")
 		return
 	# Obtain message
-	var message = socket.get_utf8_string()
+	var message = socket.get_utf8_string(1)
+	print(message)
