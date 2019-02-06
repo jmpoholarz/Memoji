@@ -18,16 +18,17 @@ const server = net.createServer( socket => {
     // const buf = new Buffer([0x05, 0x00, 0x00, 0x00, 0x62, 0x75, 0x66, 0x66, 0x65, 0x72, 0x00]);
 
     // Send length of message first as unsigned 32 bit integer
+    // const msglen = (data.toString().length)>>>0;
     // socket.write(data.toString().length);
     // Send message
     socket.write(data.toString());
   });
 
-  // socket.pipe(socket); //send back to socket
+  server.on('error', (err) => {
+    throw err;
+  });
 });
 
-server.on('error', (err) => {
-  throw err;
-});
+
 
 server.listen(port, '127.0.0.1');
