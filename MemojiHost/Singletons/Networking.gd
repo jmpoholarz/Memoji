@@ -1,11 +1,16 @@
 extends Node
 
 # # # Signals # # #
-signal connectedToServer
-signal disconnectedFromServer
-signal obtainedLetterCode
+signal _connectedToServer
+signal _disconnectedFromServer
+signal obtainedLetterCode(letterCode)
+signal playerConnected(playerID)
+signal playerDisconnected(playerID)
+signal receivedPlayerDetails(playerID, username, avatarIndex)
+signal receivedPlayerAnswer(playerID, promptID, emojiArray)
+signal receivedPlayerVote(playerID, promptID, voteID)
+signal receivedPlayerMultiVote(playerID, promptID, voteArray)
 # # # # # # # # # #
-
 
 var defaultServerIP = "127.0.0.1"
 var defaultServerPort = 7575
@@ -26,7 +31,6 @@ func ___test():
 	startedTest = true
 	if socket.get_status() == socket.STATUS_NONE:
 		connectHostToServer(defaultServerIP, defaultServerPort)
-		
 
 
 func _process(delta):
@@ -45,11 +49,11 @@ func connectHostToServer(serverIP, serverPort):
 			print("Connection attempt failed.")
 		elif response == OK:
 			print("Connection attempt made on " + defaultServerIP + ":" + str(defaultServerPort))
-			emit_signal("connectedToServer")
+			emit_signal("_connectedToServer")
 
 func disconnectHostFromServer():
 	socket.disconnect_from_host()
-	emit_signal("disconnectedFromServer")
+	emit_signal("_disconnectedFromServer")
 
 func _on_ConnectingTimer_timeout():
 	if socket.get_status() != socket.STATUS_CONNECTED:
@@ -79,5 +83,32 @@ func getMessageFromServer():
 		print("Failed to get message.  Not connected to server.")
 		return
 	# Obtain message
-	var message = socket.get_utf8_string(1)
-	print(message)
+	var messageLen = socket.get_u32()
+	print(messageLen)
+	var messageJson = socket.get_utf8_string(messageLen)
+	print(messageJson)
+	
+	# Convert message to dictionary
+	var messageDict = $Parser.decodeMessage(messageJson)
+	# Decode message purpose and send appropriate signal
+	var messageCode = messageDict[messageType]
+	print(messageCode)
+	match messageCode:
+		MESSAGE_TYPES.SERVER_SENDING_CODE:
+			emit_signal("obtainedLetterCode", messageDict[letterCode])
+			print(messageDict[letterCode])
+		MESSAGE_TYPES.SERVER_PING:
+			pass #TODO
+		MESSAGE_TYPES.PLAYER_CONNECTED:
+			pass #TODO
+		MESSAGE_TYPES.PLAYER_DISCONNECTED:
+			pass #TODO
+		MESSAGE_TYPES.PLAYER_USERNAME_AND_AVATAR:
+			pass #TODO
+		MESSAGE_TYPES.PLAYER_SENDING_PROMPT_RESPONSE:
+			pass #TODO
+		MESSAGE_TYPES.PLAYER_SENDING_SINGLE_VOTE:
+			pass #TODO
+		MESSAGE_TYPES.PLAYER_SENDING_MULTI_VOTE:
+			pass #TODO
+		

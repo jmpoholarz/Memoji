@@ -14,6 +14,10 @@ config/name="MemojiHost"
 run/main_scene="res://Singletons/Networking.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+MESSAGE_TYPES="*res://Singletons/MESSAGE_TYPES.gd"
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
