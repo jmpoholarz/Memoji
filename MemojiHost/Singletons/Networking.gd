@@ -101,7 +101,7 @@ func getMessageFromServer():
 		print("Failed to get message.  Not connected to server.")
 		return
 	# Obtain message
-	var messageLen = socket.get_u32()
+	var messageLen = $Parser.getMessageLength(socket)
 	print(messageLen)
 	var messageJson = socket.get_utf8_string(messageLen)
 	print(messageJson)

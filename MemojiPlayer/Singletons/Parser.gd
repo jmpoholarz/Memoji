@@ -21,3 +21,17 @@ func decodeMessage(json):
 	"""
 	var dictionary = JSON.parse(json).result
 	return dictionary
+
+func getMessageLength(socket):
+	"""
+	Obtains the message length from the socket by mathing 4 bytes
+	Arguments:
+		socket - the stream connected to the server
+	Returns:
+		total - the value of the 4 bytes
+	"""
+	var total = 0
+	for i in range(3, -1, -1):
+		var byte = socket.get_u8()
+		total += (byte * int(pow(i,16)))
+	return total
