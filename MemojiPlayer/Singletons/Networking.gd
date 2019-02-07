@@ -3,19 +3,10 @@ extends Node
 # # # Signals # # #
 signal _connectedToServer
 signal _disconnectedFromServer
-signal obtainedLetterCode(letterCode)
-signal playerConnected(playerID)
-signal playerDisconnected(playerID)
-signal receivedPlayerDetails(playerID, username, avatarIndex)
-signal receivedPlayerAnswer(playerID, promptID, emojiArray)
-signal receivedPlayerVote(playerID, promptID, voteID)
-signal receivedPlayerMultiVote(playerID, promptID, voteArray)
 # # # # # # # # # #
 
 var defaultServerIP = "127.0.0.1"
 var defaultServerPort = 7575
-
-var letterCode = "????"
 
 var socket = null
 var startedTest = false
@@ -40,9 +31,9 @@ func _process(delta):
 		if socket.get_available_bytes() > 0:
 			getMessageFromServer()
 
-func connectHostToServer(serverIP, serverPort):
+func connectPlayerToServer(serverIP, serverPort):
 	"""
-	Tries to connect the host application to the server
+	Tries to connect the player application to the server
 	Arguments:
 		serverIP - the string IP address of the server being connected to
 		serverPort - the integer port number of the server being connected to
@@ -59,7 +50,7 @@ func connectHostToServer(serverIP, serverPort):
 			print("Connection attempt made on " + defaultServerIP + ":" + str(defaultServerPort))
 			emit_signal("_connectedToServer")
 
-func disconnectHostFromServer():
+func disconnectPlayerFromServer():
 	"""
 	Disconnects the Host from the Server
 	Arguments:
@@ -75,12 +66,12 @@ func _on_ConnectingTimer_timeout():
 		print(socket.get_status())
 		print("Connection attempt failed.  Took too long to connect.")
 		# Force disconnect
-		disconnectHostFromServer()
+		disconnectPlayerFromServer()
 	else:
 		print(socket.get_status())
 		print("Connection attempt was successful.")
 		print("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
-		sendMessageToServer("Test Message")
+		sendMessageToServer("Test Message from Player")
 
 func sendMessageToServer(message):
 	# Check if can send message
@@ -91,9 +82,9 @@ func sendMessageToServer(message):
 	if !message.has("messageType"):
 		print("Failed to send message.  Lacking messageType attribute.")
 	# Send message
-	print("Sending message...")
+	print("Sending player message...")
 	socket.put_utf8_string(message)
-	print("Message sent.")
+	print("Player message sent.")
 
 func getMessageFromServer():
 	# Check if can get message
@@ -112,22 +103,33 @@ func getMessageFromServer():
 	var messageCode = messageDict[messageType]
 	print(messageCode)
 	match messageCode:
-		MESSAGE_TYPES.SERVER_SENDING_CODE:
-			emit_signal("obtainedLetterCode", messageDict[letterCode])
-			print(messageDict[letterCode])
-		MESSAGE_TYPES.SERVER_PING:
+		MESSAGE_TYPES.INVALID_SERVER_CODE:
 			pass #TODO
-		MESSAGE_TYPES.PLAYER_CONNECTED:
+		MESSAGE_TYPES.SERVER_FORCE_DISCONNECT_CLIENT:
 			pass #TODO
-		MESSAGE_TYPES.PLAYER_DISCONNECTED:
+		MESSAGE_TYPES.HOST_STARTING_GAME:
 			pass #TODO
-		MESSAGE_TYPES.PLAYER_USERNAME_AND_AVATAR:
+		MESSAGE_TYPES.HOST_ENDING_GAME:
 			pass #TODO
-		MESSAGE_TYPES.PLAYER_SENDING_PROMPT_RESPONSE:
+		MESSAGE_TYPES.HOST_SENDING_PROMPT:
 			pass #TODO
-		MESSAGE_TYPES.PLAYER_SENDING_SINGLE_VOTE:
+		MESSAGE_TYPES.HOST_SENDING_ANSWERS:
 			pass #TODO
-		MESSAGE_TYPES.PLAYER_SENDING_MULTI_VOTE:
+		MESSAGE_TYPES.INVALID_USERNAME:
+			pass #TODO
+		MESSAGE_TYPES.ACCEPTED_USERNAME_AND_AVATAR:
+			pass #TODO
+		MESSAGE_TYPES.INVALID_PROMPT_RESPONSE:
+			pass #TODO
+		MESSAGE_TYPES.ACCEPTED_PROMPT_RESPONSE:
+			pass #TODO
+		MESSAGE_TYPES.INVALID_VOTE_RESPONSE:
+			pass #TODO
+		MESSAGE_TYPES.ACCEPTED_VOTE_RESPONSE:
+			pass #TODO
+		MESSAGE_TYPES.INVALID_MULTI_VOTE:
+			pass #TODO
+		MESSAGE_TYPES.ACCEPTED_MULTI_VOTE:
 			pass #TODO
 		_:
 			print("Unrecognized message code " + str(messageCode)) 
