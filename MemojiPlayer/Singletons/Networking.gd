@@ -3,6 +3,20 @@ extends Node
 # # # Signals # # #
 signal _connectedToServer
 signal _disconnectedFromServer
+signal enteredInvalidHostCode
+signal forcedToDisconnect
+signal gameStartedByHost
+signal gameEndedByHost
+signal promptsReceived(promptArray)
+signal answersReceived(answerArray)
+signal enteredInvalidUsername
+signal enteredValidUsername
+signal enteredInvalidAnswer
+signal enteredValidAnswer
+signal enteredInvalidVote
+signal enteredValidVote
+signal enteredInvalidMultiVote
+signal enteredValidMultiVote
 # # # # # # # # # #
 
 var defaultServerIP = "127.0.0.1"
@@ -106,7 +120,8 @@ func getMessageFromServer():
 		MESSAGE_TYPES.INVALID_SERVER_CODE:
 			pass #TODO
 		MESSAGE_TYPES.SERVER_FORCE_DISCONNECT_CLIENT:
-			pass #TODO
+			print("Forcibly disconnected from Host by Server.")
+			disconnectPlayerFromServer()
 		MESSAGE_TYPES.HOST_STARTING_GAME:
 			pass #TODO
 		MESSAGE_TYPES.HOST_ENDING_GAME:
