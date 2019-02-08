@@ -83,7 +83,7 @@ func _on_ConnectingTimer_timeout():
 		print("Connection attempt was successful.")
 		print("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
 		# TODO REMOVE THIS TODO #
-		var msg = {"messageType": MESSAGE_TYPES.HOST_RESPONDING_TO_PING}
+		var msg = {"messageType": MESSAGE_TYPES.HOST_REQUESTING_CODE}
 		sendMessageToServer(msg)
 		# # # # # # # # # # # # #
 

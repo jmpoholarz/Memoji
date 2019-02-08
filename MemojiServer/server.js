@@ -35,9 +35,12 @@ const server = net.createServer( socket => {
   socket.on('data', (data) => {
     console.log(data.toString());
     console.log(data.toString().length);
-
-    const parsedData = JSON.parse(data.toString());
-
+    // const temp = {"messageType": 110};
+    // const parsedData = JSON.parse(JSON.stringify(data.toString()));
+    const parsedData = JSON.parse('{"messageType": 110}');
+    // const parsedData = data.toString();
+    console.log(parsedData);
+    console.log(parsedData.messageType);
     switch(parsedData.messageType){
       case 110:
         const letterCode = generateCode();
@@ -49,9 +52,9 @@ const server = net.createServer( socket => {
           players: []
         });
 
-        console.log(hosts[0].code);
-        console.log(hosts[0].host);
-        console.log(hosts[0].players);
+        // console.log(hosts[0].code);
+        // console.log(hosts[0].host);
+        // console.log(hosts[0].players);
 
         // Send back letter code
         const resjson = {
@@ -102,7 +105,7 @@ function generateCode() {
     code = "";
     for(var i = 0; i < 4; i++)
       code += possible.charAt(Math.floor(Math.random() * possible.length));
-  } while(codes.includes(text));
+  } while(codes.includes(code));
 
   codes.push(code);
   return code;
