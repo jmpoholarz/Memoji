@@ -82,7 +82,10 @@ func _on_ConnectingTimer_timeout():
 		print(socket.get_status())
 		print("Connection attempt was successful.")
 		print("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
-		sendMessageToServer("Test MessageTest Message")
+		# TODO REMOVE THIS TODO #
+		var msg = {"messageType": MESSAGE_TYPES.HOST_RESPONDING_TO_PING}
+		sendMessageToServer(msg)
+		# # # # # # # # # # # # #
 
 func sendMessageToServer(message):
 	# Check if can send message
@@ -123,9 +126,9 @@ func getMessageFromServer():
 			var msg = {"messageType": MESSAGE_TYPES.HOST_RESPONDING_TO_PING}
 			sendMessageToServer($Parser.encodeMessage(msg))
 		MESSAGE_TYPES.PLAYER_CONNECTED:
-			emit_signal("playerConnected", messageDict[playerId])
+			emit_signal("playerConnected", messageDict["playerId"])
 		MESSAGE_TYPES.PLAYER_DISCONNECTED:
-			emit_signal("playerDisconnected", messageDict[playerId])
+			emit_signal("playerDisconnected", messageDict["playerId"])
 		MESSAGE_TYPES.PLAYER_USERNAME_AND_AVATAR:
 			emit_signal("receivedPlayerDetails", messageDict["playerId"], messageDict["username"], messageDict["avatarIndex"])
 		MESSAGE_TYPES.PLAYER_SENDING_PROMPT_RESPONSE:
