@@ -82,7 +82,7 @@ func _on_ConnectingTimer_timeout():
 		print(socket.get_status())
 		print("Connection attempt was successful.")
 		print("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
-		sendMessageToServer("Test Message")
+		sendMessageToServer("Test MessageTest Message")
 
 func sendMessageToServer(message):
 	# Check if can send message
@@ -90,8 +90,8 @@ func sendMessageToServer(message):
 		print("Failed to send message.  Not connected to server.")
 		return
 	# Check if valid message
-	if !message.has("messageType"):
-		print("Failed to send message.  Lacking messageType attribute.")
+	#if !message.has("messageType"):
+	#	print("Failed to send message.  Lacking messageType attribute.")
 	# Send message
 	print("Sending message...")
 	socket.put_utf8_string(message)
@@ -105,9 +105,13 @@ func getMessageFromServer():
 	# Obtain message
 	var messageLen = $Parser.getMessageLength(socket)
 	print(messageLen)
-	var messageJson = socket.get_utf8_string(messageLen)
+	var messageJson = ""
+	for i in range(messageLen):
+		messageJson += socket.get_utf8_string(1)
+		print(messageJson)
 	print(messageJson)
 	
+	"""
 	# Convert message to dictionary
 	var messageDict = $Parser.decodeMessage(messageJson)
 	# Decode message purpose and send appropriate signal
@@ -133,4 +137,5 @@ func getMessageFromServer():
 		MESSAGE_TYPES.PLAYER_SENDING_MULTI_VOTE:
 			emit_signal("receivedPlayerMultiVote", messageDict["playerId"], messageDict["promptId"], messageDict["voteArray"])
 		_:
-			print("Unrecognized message code " + str(messageCode)) 
+			print("Unrecognized message code " + str(messageCode)))
+	"""
