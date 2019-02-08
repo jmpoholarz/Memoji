@@ -66,7 +66,7 @@ func connectPlayerToServer(serverIP, serverPort):
 
 func disconnectPlayerFromServer():
 	"""
-	Disconnects the Host from the Server
+	Disconnects the Player from the Server
 	Arguments:
 		none
 	Returns:
@@ -118,33 +118,33 @@ func getMessageFromServer():
 	print(messageCode)
 	match messageCode:
 		MESSAGE_TYPES.INVALID_SERVER_CODE:
-			pass #TODO
+			emit_signal("enteredInvalidHostCode")
 		MESSAGE_TYPES.SERVER_FORCE_DISCONNECT_CLIENT:
 			print("Forcibly disconnected from Host by Server.")
 			disconnectPlayerFromServer()
 		MESSAGE_TYPES.HOST_STARTING_GAME:
-			pass #TODO
+			emit_signal("gameStartedByHost")
 		MESSAGE_TYPES.HOST_ENDING_GAME:
-			pass #TODO
+			emit_signal("gameEndedByHost")
 		MESSAGE_TYPES.HOST_SENDING_PROMPT:
-			pass #TODO
+			emit_signal("promptsReceived", messageDict["promptArray"])
 		MESSAGE_TYPES.HOST_SENDING_ANSWERS:
-			pass #TODO
+			emit_signal("answersReceived", messageDict["answerArray"])
 		MESSAGE_TYPES.INVALID_USERNAME:
-			pass #TODO
+			emit_signal("enteredInvalidUsername")
 		MESSAGE_TYPES.ACCEPTED_USERNAME_AND_AVATAR:
-			pass #TODO
+			emit_signal("enteredValidUsername")
 		MESSAGE_TYPES.INVALID_PROMPT_RESPONSE:
-			pass #TODO
+			emit_signal("enteredInvalidAnswer")
 		MESSAGE_TYPES.ACCEPTED_PROMPT_RESPONSE:
-			pass #TODO
+			emit_signal("enteredValidAnswer")
 		MESSAGE_TYPES.INVALID_VOTE_RESPONSE:
-			pass #TODO
+			emit_signal("enteredInvalidVote")
 		MESSAGE_TYPES.ACCEPTED_VOTE_RESPONSE:
-			pass #TODO
+			emit_signal("enteredValidVote")
 		MESSAGE_TYPES.INVALID_MULTI_VOTE:
-			pass #TODO
+			emit_signal("enteredInvalidMultiVote")
 		MESSAGE_TYPES.ACCEPTED_MULTI_VOTE:
-			pass #TODO
+			emit_signal("enteredInvalidMultiVote")
 		_:
 			print("Unrecognized message code " + str(messageCode)) 
