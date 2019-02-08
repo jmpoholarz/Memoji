@@ -16,6 +16,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
+_sections_unfolded = [ "Margin" ]
 
 [node name="ColorRect" type="ColorRect" parent="." index="0"]
 
@@ -23,7 +24,6 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 8.0
 margin_right = 400.0
 margin_bottom = 400.0
 rect_pivot_offset = Vector2( 0, 0 )
@@ -41,7 +41,6 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 8.0
 margin_right = 400.0
 margin_bottom = 400.0
 rect_pivot_offset = Vector2( 0, 0 )
@@ -54,7 +53,7 @@ custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
-_sections_unfolded = [ "custom_constants" ]
+_sections_unfolded = [ "Grow Direction", "Margin", "custom_constants" ]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" index="0"]
 
@@ -64,7 +63,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 382.0
+margin_right = 390.0
 margin_bottom = 390.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -81,8 +80,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 36.0
-margin_right = 336.0
+margin_left = 40.0
+margin_right = 340.0
 margin_bottom = 380.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
