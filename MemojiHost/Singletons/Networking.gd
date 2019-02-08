@@ -120,7 +120,7 @@ func getMessageFromServer():
 	# Decode message purpose and send appropriate signal
 	var messageCode = messageDict["messageType"]
 	print(messageCode)
-	match messageCode:
+	match int(messageCode):
 		MESSAGE_TYPES.SERVER_SENDING_CODE:
 			emit_signal("obtainedLetterCode", messageDict["letterCode"])
 			print(messageDict["letterCode"])
