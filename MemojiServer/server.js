@@ -35,14 +35,14 @@ const server = net.createServer( socket => {
   socket.on('data', (data) => {
     console.log(data.toString());
     console.log(data.toString().length);
-    // const temp = {"messageType": 110};
-    // const parsedData = JSON.parse(JSON.stringify(data.toString()));
-    const parsedData = JSON.parse('{"messageType": 110}');
-    // const parsedData = data.toString();
+
+    const message = parseData(data);
+    const parsedData = JSON.parse(message);
     console.log(parsedData);
-    console.log(parsedData.messageType);
+
+    // See what message type (action)
     switch(parsedData.messageType){
-      case 110:
+      case 110: // Host requests new room code
         const letterCode = generateCode();
         console.log(letterCode);
 
@@ -51,10 +51,6 @@ const server = net.createServer( socket => {
           host: socket,
           players: []
         });
-
-        // console.log(hosts[0].code);
-        // console.log(hosts[0].host);
-        // console.log(hosts[0].players);
 
         // Send back letter code
         const resjson = {
@@ -67,7 +63,7 @@ const server = net.createServer( socket => {
       default:
         console.log("Unknown action");
     }
-    send(socket, data);
+    // send(socket, data);
   });
 
   server.on('error', (err) => {
@@ -75,16 +71,29 @@ const server = net.createServer( socket => {
   });
 });
 
+function parseData(data) {
+  // Convert buffer to string
+  const json = JSON.stringify(data);
+  // Convert back to JSON
+  const copy = JSON.parse(json);
+  // Cut off padding
+  const message = copy.data.slice(4);
+  // Place new message in buffer
+  const b = new Buffer.from(message);
+  // Return message without padding
+  return b.toString();
+}
+
 function send(s, data) {
   // Convert length to 32bit integer
   const n = data.toString().length;
   const arr = toBytesInt32(n);
   // Store length in Buffer
   const buff = new Buffer.from(arr);
-  console.log(buff);
+  // console.log(buff);
   // Store message in Buffer
   const buff2 = new Buffer.from(data.toString());
-  console.log(buff2);
+  console.log("Message sent: " + buff2.toString());
   // Send length
   s.write(buff);
   // Send message
