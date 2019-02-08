@@ -97,6 +97,7 @@ func sendMessageToServer(message):
 		print("Failed to send message.  Lacking messageType attribute.")
 	# Send message
 	print("Sending message...")
+	message = $Parser.encodeMessage(message)
 	socket.put_utf8_string(message)
 	print("Message sent.")
 
