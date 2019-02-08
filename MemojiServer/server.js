@@ -10,7 +10,7 @@ Host data structure
 {
   code: "ABCD"
   host: socket object
-  players: [p1 socket, p2 socket, ...]
+  players: [p1 uuid, p2 uuid, ...]
 }
 */
 
@@ -19,10 +19,9 @@ Player data structure
 {
   code: "ABCD"
   player: socket object
+  id: uuid
 }
 */
-
-
 
 const server = net.createServer( socket => {
 
@@ -43,6 +42,7 @@ const server = net.createServer( socket => {
     // See what message type (action)
     switch(parsedData.messageType){
       case 110: // Host requests new room code
+        console.log("Code 110: Host request a room code");
         const letterCode = generateCode();
         console.log(letterCode);
 
@@ -60,14 +60,28 @@ const server = net.createServer( socket => {
         const res = JSON.stringify(resjson);
         send(socket, res);
         break;
+      case 121: // Host is still handling games
+        console.log("Host is still handling games");
+        break;
+      case 130: // Host shutting down
+        console.log("Host is shutting down");
+        // Find host via matching socket
+        break;
+
+      case 401: // Player Connection
+        break;
+      case 402: // Player Disconnecting
+        break;
       default:
         console.log("Unknown action");
     }
+
     // send(socket, data);
   });
 
   server.on('error', (err) => {
-    throw err;
+    console.log(err);
+    // throw err;
   });
 });
 
