@@ -90,8 +90,8 @@ func sendMessageToServer(message):
 		print("Failed to send message.  Not connected to server.")
 		return
 	# Check if valid message
-	#if !message.has("messageType"):
-	#	print("Failed to send message.  Lacking messageType attribute.")
+	if !message.has("messageType"):
+		print("Failed to send message.  Lacking messageType attribute.")
 	# Send message
 	print("Sending message...")
 	socket.put_utf8_string(message)
@@ -108,10 +108,8 @@ func getMessageFromServer():
 	var messageJson = ""
 	for i in range(messageLen):
 		messageJson += socket.get_utf8_string(1)
-		print(messageJson)
 	print(messageJson)
 	
-	"""
 	# Convert message to dictionary
 	var messageDict = $Parser.decodeMessage(messageJson)
 	# Decode message purpose and send appropriate signal
@@ -137,5 +135,5 @@ func getMessageFromServer():
 		MESSAGE_TYPES.PLAYER_SENDING_MULTI_VOTE:
 			emit_signal("receivedPlayerMultiVote", messageDict["playerId"], messageDict["promptId"], messageDict["voteArray"])
 		_:
-			print("Unrecognized message code " + str(messageCode)))
-	"""
+			print("Unrecognized message code " + str(messageCode))
+
