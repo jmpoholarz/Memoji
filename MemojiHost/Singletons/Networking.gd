@@ -31,6 +31,7 @@ func ___test():
 	startedTest = true
 	if socket.get_status() == socket.STATUS_NONE:
 		connectHostToServer(defaultServerIP, defaultServerPort)
+	testMatch()
 
 
 func _process(delta):
@@ -123,6 +124,7 @@ func getMessageFromServer():
 		MESSAGE_TYPES.SERVER_SENDING_CODE:
 			emit_signal("obtainedLetterCode", messageDict["letterCode"])
 			print(messageDict["letterCode"])
+			letterCode = messageDict["letterCode"]
 		MESSAGE_TYPES.SERVER_PING:
 			var msg = {"messageType": MESSAGE_TYPES.HOST_RESPONDING_TO_PING}
 			sendMessageToServer($Parser.encodeMessage(msg))
@@ -140,4 +142,3 @@ func getMessageFromServer():
 			emit_signal("receivedPlayerMultiVote", messageDict["playerId"], messageDict["promptId"], messageDict["voteArray"])
 		_:
 			print("Unrecognized message code " + str(messageCode))
-
