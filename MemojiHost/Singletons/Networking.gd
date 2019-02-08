@@ -71,12 +71,14 @@ func disconnectHostFromServer():
 	emit_signal("_disconnectedFromServer")
 
 func _on_ConnectingTimer_timeout():
+	# Check if host was able to connect to the server
 	if socket.get_status() != socket.STATUS_CONNECTED:
 		print(socket.get_status())
 		print("Connection attempt failed.  Took too long to connect.")
 		# Force disconnect
 		disconnectHostFromServer()
 	else:
+		# Successfully connected
 		print(socket.get_status())
 		print("Connection attempt was successful.")
 		print("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
@@ -109,25 +111,26 @@ func getMessageFromServer():
 	# Convert message to dictionary
 	var messageDict = $Parser.decodeMessage(messageJson)
 	# Decode message purpose and send appropriate signal
-	var messageCode = messageDict[messageType]
+	var messageCode = messageDict["messageType"]
 	print(messageCode)
 	match messageCode:
 		MESSAGE_TYPES.SERVER_SENDING_CODE:
-			emit_signal("obtainedLetterCode", messageDict[letterCode])
-			print(messageDict[letterCode])
+			emit_signal("obtainedLetterCode", messageDict["letterCode"])
+			print(messageDict["letterCode"])
 		MESSAGE_TYPES.SERVER_PING:
-			pass #TODO
+			var msg = {"messageType": MESSAGE_TYPES.HOST_RESPONDING_TO_PING}
+			sendMessageToServer($Parser.encodeMessage(msg))
 		MESSAGE_TYPES.PLAYER_CONNECTED:
-			pass #TODO
+			emit_signal("playerConnected", messageDict[playerId])
 		MESSAGE_TYPES.PLAYER_DISCONNECTED:
-			pass #TODO
+			emit_signal("playerDisconnected", messageDict[playerId])
 		MESSAGE_TYPES.PLAYER_USERNAME_AND_AVATAR:
-			pass #TODO
+			emit_signal("receivedPlayerDetails", messageDict["playerId"], messageDict["username"], messageDict["avatarIndex"])
 		MESSAGE_TYPES.PLAYER_SENDING_PROMPT_RESPONSE:
-			pass #TODO
+			emit_signal("receivedPlayerAnswer", messageDict["playerId"], messageDict["promptId"], messageDict["emojiArray"])
 		MESSAGE_TYPES.PLAYER_SENDING_SINGLE_VOTE:
-			pass #TODO
+			emit_signal("receivedPlayerVote", messageDict["playerId"], messageDict["promptId"], messageDict["voteID"])
 		MESSAGE_TYPES.PLAYER_SENDING_MULTI_VOTE:
-			pass #TODO
+			emit_signal("receivedPlayerMultiVote", messageDict["playerId"], messageDict["promptId"], messageDict["voteArray"])
 		_:
 			print("Unrecognized message code " + str(messageCode)) 
