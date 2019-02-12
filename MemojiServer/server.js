@@ -1,4 +1,6 @@
 const net = require('net');
+const _ = require('lodash');
+const uuid = require('uuid/v1');
 const port = 7575;
 
 var codes = [];
@@ -45,20 +47,17 @@ const server = net.createServer( socket => {
         console.log("Code 110: Host request a room code");
         const letterCode = generateCode();
         console.log(letterCode);
-
         hosts.push({
           code: letterCode,
           host: socket,
           players: []
         });
-
         // Send back letter code
-        const resjson = {
+        const res = {
           "messageType": 111,
           "letterCode": letterCode
         };
-        const res = JSON.stringify(resjson);
-        send(socket, res);
+        send(socket, JSON.stringify(res));
         break;
       case 121: // Host is still handling games
         console.log("Host is still handling games");
@@ -69,8 +68,38 @@ const server = net.createServer( socket => {
         break;
 
       case 401: // Player Connection
+        const letterCode = parseData.letterCode;
+        // Check if letter code exists
+        if(!codeCheck){
+            break;
+        }
+        // Code exists
+        console.log("Code exists: " + letterCode);
+        // Add player to host
+        const id = uuid();
+        const player = {
+          code: letterCode,
+          player: socket,
+          id: id
+        };
+        // Find host
+        // const host = _.find(hosts, (h) => {
+        //   return h.code === letterCode;
+        // });
+        const host = _.find(hosts, ['code', letterCode]);
+        host.players.push(player);
         break;
       case 402: // Player Disconnecting
+        // Remove player from host
+        const letterCode = parseData.letterCode;
+        if(!codeCheck){
+          break;
+        }
+        const host = _.find(hosts, ['code', letterCode]);
+        const player = _.remove(host.players, (p) => {
+          return p.player === socket;
+        });
+        console.log("Removing player: " + player.id);
         break;
       default:
         console.log("Unknown action");
@@ -84,6 +113,19 @@ const server = net.createServer( socket => {
     // throw err;
   });
 });
+
+function codeCheck(code) {
+  if(!codes.includes(letterCode)){
+    console.log("Code does not exist: " + letterCode);
+    // Send back 112 code : Invalid server codes
+    const res = {
+      "messageType": 112
+    };
+    send(socket, JSON.stringify(res));
+    return false;
+  }
+  return true;
+}
 
 function parseData(data) {
   // Convert buffer to string
