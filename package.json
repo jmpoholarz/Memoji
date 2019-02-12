@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/jmpoholarz/Memoji#readme",
   "dependencies": {
-    "net": "^1.0.2"
+    "lodash": "^4.17.11",
+    "net": "^1.0.2",
+    "uuid": "^3.3.2"
   }
 }
