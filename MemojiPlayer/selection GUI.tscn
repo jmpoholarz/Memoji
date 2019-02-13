@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
-[ext_resource path="res://Assets/DonePlaceholder.png" type="Texture" id=2]
+[ext_resource path="res://Singletons/Networking.gd" type="Script" id=2]
+[ext_resource path="res://Assets/DonePlaceholder.png" type="Texture" id=3]
 
 [node name="selection GUI" type="Container" index="0"]
 
@@ -77,7 +78,6 @@ _sections_unfolded = [ "Margin" ]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -95,6 +95,7 @@ alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -184,6 +185,7 @@ caret_moving_by_right_click = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer" index="1"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -260,7 +262,6 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -322,6 +323,7 @@ shape_visible = true
 passby_press = false
 action = ""
 visibility_mode = 0
+script = ExtResource( 2 )
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer" index="1"]
 
@@ -932,6 +934,7 @@ visibility_mode = 0
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer" index="2"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -971,7 +974,7 @@ custom_constants/margin_bottom = 0
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer3/MarginContainer" index="0"]
 
-normal = ExtResource( 2 )
+normal = ExtResource( 3 )
 pressed = null
 bitmask = null
 shape = null
@@ -980,5 +983,7 @@ shape_visible = true
 passby_press = false
 action = ""
 visibility_mode = 0
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer2/TouchScreenButton" to="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer2/TouchScreenButton" method="_on_TouchScreenButton_pressed"]
 
 

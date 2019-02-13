@@ -148,3 +148,6 @@ func getMessageFromServer():
 			emit_signal("enteredInvalidMultiVote")
 		_:
 			print("Unrecognized message code " + str(messageCode)) 
+
+func _on_TouchScreenButton_pressed():
+	sendMessageToServer("asdf")
