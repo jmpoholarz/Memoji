@@ -11,8 +11,12 @@ config_version=3
 [application]
 
 config/name="MemojiHost"
-run/main_scene="res://FirstTitle.tscn"
+run/main_scene="res://Singletons/Networking.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+MESSAGE_TYPES="*res://Singletons/MESSAGE_TYPES.gd"
 
 [rendering]
 
