@@ -7,6 +7,8 @@ var codes = [];
 var hosts = [];
 var players = [];
 
+const max_players = 8;
+
 /*
 Host data structure
 {
@@ -44,20 +46,7 @@ const server = net.createServer( socket => {
     // See what message type (action)
     switch(parsedData.messageType){
       case 110: // Host requests new room code
-        console.log("Code 110: Host request a room code");
-        const letterCode = generateCode();
-        console.log(letterCode);
-        hosts.push({
-          code: letterCode,
-          host: socket,
-          players: []
-        });
-        // Send back letter code
-        const res = {
-          "messageType": 111,
-          "letterCode": letterCode
-        };
-        send(socket, JSON.stringify(res));
+        handleHostCodeRequest();
         break;
       case 121: // Host is still handling games
         console.log("Host is still handling games");
@@ -66,43 +55,16 @@ const server = net.createServer( socket => {
         console.log("Host is shutting down");
         // Find host via matching socket
         break;
-
+      // Player Codes
       case 401: // Player Connection
-        const letterCode = parseData.letterCode;
-        // Check if letter code exists
-        if(!codeCheck){
-            break;
-        }
-        // Code exists
-        console.log("Code exists: " + letterCode);
-        // Add player to host
-        const id = uuid();
-        const player = {
-          code: letterCode,
-          player: socket,
-          id: id
-        };
-        // Find host
-        // const host = _.find(hosts, (h) => {
-        //   return h.code === letterCode;
-        // });
-        const host = _.find(hosts, ['code', letterCode]);
-        host.players.push(player);
+        handlePlayerConn(parseData.letterCode);
         break;
       case 402: // Player Disconnecting
         // Remove player from host
-        const letterCode = parseData.letterCode;
-        if(!codeCheck){
-          break;
-        }
-        const host = _.find(hosts, ['code', letterCode]);
-        const player = _.remove(host.players, (p) => {
-          return p.player === socket;
-        });
-        console.log("Removing player: " + player.id);
+        handlePlayerDisConn(parseData.letterCode);
         break;
       default:
-        console.log("Unknown action");
+        console.log("Default Forward Message");
     }
 
     // send(socket, data);
@@ -113,6 +75,59 @@ const server = net.createServer( socket => {
     // throw err;
   });
 });
+
+function handleHostCodeRequest() {
+  console.log("Code 110: Host request a room code");
+  const letterCode = generateCode();
+  console.log(letterCode);
+  hosts.push({
+    code: letterCode,
+    host: socket,
+    players: []
+  });
+  // Send back letter code
+  const res = {
+    "messageType": 111,
+    "letterCode": letterCode
+  };
+  send(socket, JSON.stringify(res));
+}
+
+function handlePlayerConn(letterCode) {
+  // Check if letter code exists
+  if(!codeCheck){
+    console.log("Did not handle player connection successfully.");
+    return 0;
+  }
+  // Code exists
+  console.log("Code exists: " + letterCode);
+  // Add player to host
+  const id = uuid();
+  const player = {
+    code: letterCode,
+    player: socket,
+    id: id
+  };
+  const host = _.find(hosts, ['code', letterCode]);
+  host.players.push(player);
+  console.log("Handled player connection successfully.");
+  return 1;
+}
+
+function handlePlayerDisConn(letterCode) {
+  // Remove player from host
+  if(!codeCheck){
+    console.log("Did not handle player disconnection successfully.");
+    return 0;
+  }
+  const host = _.find(hosts, ['code', letterCode]);
+  const player = _.remove(host.players, (p) => {
+    return p.player === socket;
+  });
+  console.log("Removing player: " + player.id);
+  console.log("Handled player disconnection successfully.");
+  return 1;
+}
 
 function codeCheck(code) {
   if(!codes.includes(letterCode)){
