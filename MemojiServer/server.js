@@ -27,7 +27,7 @@ Player data structure
 }
 */
 
-const server = net.createServer( socket => {
+const server = net.createServer(socket => {
 
   console.log('client connected');
 
@@ -44,7 +44,7 @@ const server = net.createServer( socket => {
     console.log(parsedData);
 
     // See what message type (action)
-    switch(parsedData.messageType){
+    switch (parsedData.messageType) {
       case 110: // Host requests new room code
         handleHostCodeRequest();
         break;
@@ -55,7 +55,7 @@ const server = net.createServer( socket => {
         console.log("Host is shutting down");
         // Find host via matching socket
         break;
-      // Player Codes
+        // Player Codes
       case 401: // Player Connection
         handlePlayerConn(parseData.letterCode);
         break;
@@ -95,7 +95,7 @@ function handleHostCodeRequest() {
 
 function handlePlayerConn(letterCode) {
   // Check if letter code exists
-  if(!codeCheck){
+  if (!codeCheck(letterCode)) {
     console.log("Did not handle player connection successfully.");
     return 0;
   }
@@ -116,7 +116,7 @@ function handlePlayerConn(letterCode) {
 
 function handlePlayerDisConn(letterCode) {
   // Remove player from host
-  if(!codeCheck){
+  if (!codeCheck(letterCode)) {
     console.log("Did not handle player disconnection successfully.");
     return 0;
   }
@@ -130,7 +130,7 @@ function handlePlayerDisConn(letterCode) {
 }
 
 function codeCheck(code) {
-  if(!codes.includes(letterCode)){
+  if (!codes.includes(letterCode)) {
     console.log("Code does not exist: " + letterCode);
     // Send back 112 code : Invalid server codes
     const res = {
@@ -181,11 +181,11 @@ function toBytesInt32(num) {
 function generateCode() {
   var code = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  do{
+  do {
     code = "";
-    for(var i = 0; i < 4; i++)
+    for (var i = 0; i < 4; i++)
       code += possible.charAt(Math.floor(Math.random() * possible.length));
-  } while(codes.includes(code));
+  } while (codes.includes(code));
 
   codes.push(code);
   return code;
