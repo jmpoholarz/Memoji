@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 # Dependency directories
 node_modules/
+=======
+# Dependencies
+/node_modules
+
+>>>>>>> Add .gitignore for node_modules. Hot fix for checking if letter code exists.
