@@ -96,6 +96,8 @@ func sendMessageToServer(message):
 	# Check if valid message
 	if !message.has("messageType"):
 		print("Failed to send message.  Lacking messageType attribute.")
+	if !message.has("letterCode"):
+		print("Failed to send message.  Lacking letterCode attribute.")
 	# Send message
 	print("Sending message...")
 	message = $Parser.encodeMessage(message)

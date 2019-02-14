@@ -95,6 +95,8 @@ func sendMessageToServer(message):
 	# Check if valid message
 	if !message.has("messageType"):
 		print("Failed to send message.  Lacking messageType attribute.")
+	if !message.has("letterCode"):
+		print("Failed to send message.  Lacking letterCode attribute.")
 	# Send message
 	print("Sending player message...")
 	socket.put_utf8_string(message)
