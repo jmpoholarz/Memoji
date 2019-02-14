@@ -99,10 +99,17 @@ function handleHostCodeRequest(socket) {
 function handleHostDisConn(letterCode) {
   console.log("Host is shutting down");
   // Find host via matching socket
+  // Send force disonnect message to clients connected to host
   const host = _.remove(hosts, ['code', letterCode]);
   const code = _.remove(codes, (c) => { return c === letterCode;});
   console.log(host);
   console.log(code);
+  const res = {
+    "messageType": 131
+  };
+  _.forEach(host.players, (player) => {
+    send(player.player, JSON.stringify(res));
+  });
   console.log("Removed");
 }
 
@@ -166,7 +173,7 @@ function parseData(data) {
   return b.toString();
 }
 
-function send(s, data) {
+function send(socket, data) {
   // Convert length to 32bit integer
   const n = data.toString().length;
   const arr = toBytesInt32(n);
@@ -177,9 +184,9 @@ function send(s, data) {
   const buff2 = new Buffer.from(data.toString());
   console.log("Message sent: " + buff2.toString());
   // Send length
-  s.write(buff);
+  socket.write(buff);
   // Send message
-  s.write(buff2);
+  socket.write(buff2);
 }
 
 function toBytesInt32(num) {
