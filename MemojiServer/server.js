@@ -39,33 +39,36 @@ const server = net.createServer(socket => {
     console.log(data.toString());
     console.log(data.toString().length);
 
-    const message = parseData(data);
-    const parsedData = JSON.parse(message);
-    console.log(parsedData);
+    const json = parseData(data);
+    const message = JSON.parse(json);
+    console.log(message);
 
     // See what message type (action)
-    switch (parsedData.messageType) {
+    const letterCode = message.letterCode;
+    switch (message.messageType) {
       case 110: // Host requests new room code
-        handleHostCodeRequest();
+        handleHostCodeRequest(socket);
         break;
       case 121: // Host is still handling games
         console.log("Host is still handling games");
         break;
       case 130: // Host shutting down
-        console.log("Host is shutting down");
-        // Find host via matching socket
+        handleHostDisConn(letterCode);
         break;
-        // Player Codes
+      // Player Codes
       case 401: // Player Connection
-        handlePlayerConn(parseData.letterCode);
+        handlePlayerConn(letterCode, socket);
         break;
       case 402: // Player Disconnecting
         // Remove player from host
-        handlePlayerDisConn(parseData.letterCode);
+        handlePlayerDisConn(letterCode, socket);
         break;
       default:
         console.log("Default Forward Message");
     }
+    console.log(hosts);
+    console.log(players);
+    console.log(codes);
 
     // send(socket, data);
   });
@@ -76,7 +79,7 @@ const server = net.createServer(socket => {
   });
 });
 
-function handleHostCodeRequest() {
+function handleHostCodeRequest(socket) {
   console.log("Code 110: Host request a room code");
   const letterCode = generateCode();
   console.log(letterCode);
@@ -93,7 +96,17 @@ function handleHostCodeRequest() {
   send(socket, JSON.stringify(res));
 }
 
-function handlePlayerConn(letterCode) {
+function handleHostDisConn(letterCode) {
+  console.log("Host is shutting down");
+  // Find host via matching socket
+  const host = _.remove(hosts, ['code', letterCode]);
+  const code = _.remove(codes, (c) => { return c === letterCode;});
+  console.log(host);
+  console.log(code);
+  console.log("Removed");
+}
+
+function handlePlayerConn(letterCode, socket) {
   // Check if letter code exists
   if (!codeCheck(letterCode)) {
     console.log("Did not handle player connection successfully.");
@@ -114,16 +127,14 @@ function handlePlayerConn(letterCode) {
   return 1;
 }
 
-function handlePlayerDisConn(letterCode) {
+function handlePlayerDisConn(letterCode, socket) {
   // Remove player from host
   if (!codeCheck(letterCode)) {
     console.log("Did not handle player disconnection successfully.");
     return 0;
   }
   const host = _.find(hosts, ['code', letterCode]);
-  const player = _.remove(host.players, (p) => {
-    return p.player === socket;
-  });
+  const player = _.remove(host.players, ['player', socket]);
   console.log("Removing player: " + player.id);
   console.log("Handled player disconnection successfully.");
   return 1;
