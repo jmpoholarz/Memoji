@@ -27,7 +27,7 @@ func _ready():
 func ___test():
 	if startedTest == true:
 		pass
-	
+
 	startedTest = true
 	if socket.get_status() == socket.STATUS_NONE:
 		connectHostToServer(defaultServerIP, defaultServerPort)
@@ -96,6 +96,8 @@ func sendMessageToServer(message):
 	# Check if valid message
 	if !message.has("messageType"):
 		print("Failed to send message.  Lacking messageType attribute.")
+	if !message.has("letterCode"):
+		print("Failed to send message.  Lacking letterCode attribute.")
 	# Send message
 	print("Sending message...")
 	message = $Parser.encodeMessage(message)
@@ -114,7 +116,7 @@ func getMessageFromServer():
 	for i in range(messageLen):
 		messageJson += socket.get_utf8_string(1)
 	print(messageJson)
-	
+
 	# Convert message to dictionary
 	var messageDict = $Parser.decodeMessage(messageJson)
 	# Decode message purpose and send appropriate signal
