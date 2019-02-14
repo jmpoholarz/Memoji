@@ -6,6 +6,7 @@ const port = 7575;
 var codes = [];
 var hosts = [];
 var players = [];
+var audience = [];
 
 const max_players = 8;
 
@@ -16,13 +17,18 @@ Host data structure
   host: socket object
   players: [p1 uuid, p2 uuid, ...]
 }
-*/
 
-/*
 Player data structure
 {
   code: "ABCD"
   player: socket object
+  id: uuid
+}
+
+Audience data structure
+{
+  code: "ABCD"
+  audience: socket object
   id: uuid
 }
 */
@@ -56,8 +62,25 @@ const server = net.createServer(socket => {
         handleHostDisConn(letterCode);
         break;
       // Player Codes
-      case 401: // Player Connection
-        handlePlayerConn(letterCode, socket);
+      case 401: // Player Connection and Audience connection
+        // Check if there is room in the lobby
+        if(codeCheck(letterCode)){
+          const host = _.find(hosts, ['code', letterCode]);
+          if(host.players.length < max_players){
+            // Player can join
+            handlePlayerConn(letterCode, socket);
+          } else {
+            // Player cannot join
+            // Join as audience member
+            const id = uuid();
+            audience.push({
+              code: letterCode,
+              audience: socket,
+              id: id
+            });
+          }
+        }
+
         break;
       case 402: // Player Disconnecting
         // Remove player from host
