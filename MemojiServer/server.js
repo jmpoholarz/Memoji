@@ -116,7 +116,12 @@ function handleHostDisConn(letterCode) {
 function handlePlayerConn(letterCode, socket) {
   // Check if letter code exists
   if (!codeCheck(letterCode)) {
+    console.log("Invalid code");
     console.log("Did not handle player connection successfully.");
+    const res = {
+      "messageType": 406
+    };
+    send(socket, JSON.stringify(res));
     return 0;
   }
   // Code exists
