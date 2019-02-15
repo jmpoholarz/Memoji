@@ -15,4 +15,4 @@ func _ready():
 #	pass
 
 func on_icon_select(iconId):
-	print(iconId)
+	TextureRect.texture = load("res://EmojiIcons/icon"+iconId+".png")

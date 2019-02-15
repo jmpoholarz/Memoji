@@ -1,6 +1,6 @@
-extends TouchScreenButton
+extends TextEdit
 
-signal icon_select(iconId)
+signal name_changed(newName)
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
@@ -8,8 +8,8 @@ signal icon_select(iconId)
 func _ready():
 	# Called when the node is added to the scene for the first time.
 	# Initialization here
-	self.connect("icon_select", TextureRect, "on_icon_select")
-	self.connect("icon_select", TouchScreenButton, "on_icon_select")
+	self.connect("name_changed", TouchScreenButton, "on_name_changed")
+
 
 #func _process(delta):
 #	# Called every frame. Delta is time since last frame.
@@ -17,5 +17,7 @@ func _ready():
 #	pass
 
 
-func _on_TouchScreenButton_pressed():
-	emit_signal("icon_select", 1)
+
+
+func _on_TextEdit_text_changed():
+	emit_signal("name_changed",TextEdit.text)
