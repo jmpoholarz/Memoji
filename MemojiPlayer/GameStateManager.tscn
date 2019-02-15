@@ -28,6 +28,8 @@ script = ExtResource( 1 )
 
 [connection signal="enteredValidAnswer" from="Networking" to="." method="_on_Networking_enteredValidAnswer"]
 
+[connection signal="enteredValidHostCode" from="Networking" to="." method="_on_Networking_enteredValidHostCode"]
+
 [connection signal="enteredValidMultiVote" from="Networking" to="." method="_on_Networking_enteredValidMultiVote"]
 
 [connection signal="enteredValidUsername" from="Networking" to="." method="_on_Networking_enteredValidUsername"]

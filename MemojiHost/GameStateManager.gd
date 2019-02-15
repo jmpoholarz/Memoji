@@ -6,7 +6,7 @@ var players
 var audiencePlayers
 
 func _ready():
-	pass
+	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
 
 func setupGame():
 	pass

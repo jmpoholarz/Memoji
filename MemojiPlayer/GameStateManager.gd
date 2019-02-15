@@ -5,7 +5,7 @@ var currentState
 var player
 
 func _ready():
-	pass
+	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
 
 func sendAnswer():
 	pass
@@ -19,6 +19,9 @@ func _on_Networking_answersReceived(answerArray):
 	pass # replace with function body
 
 func _on_Networking_enteredInvalidAnswer():
+	pass # replace with function body
+
+func _on_Networking_enteredValidHostCode():
 	pass # replace with function body
 
 func _on_Networking_enteredInvalidHostCode():
@@ -61,4 +64,6 @@ func _on_Networking_promptsReceived(promptArray):
 
 
 func _on_ScreenManager_sendMessageToServer(msg):
-	pass # replace with function body
+	$Networking.sendMessageToServer(msg)
+
+
