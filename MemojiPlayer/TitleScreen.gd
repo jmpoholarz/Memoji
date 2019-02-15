@@ -19,10 +19,19 @@ func _on_JoinMeButton_pressed():
 				break
 		
 		if check == true:
+			roomCode = roomCode.to_upper()
+			print(roomCode)
 			get_node("InstructionsLabel").text = roomCode
+			
+#			var msg = {
+#				"messageType": MESSAGE_TYPES.PLAYER_CONNECTED,
+#				"letterCode": roomCode
+#			}
+#			Networking.sendMessageToServer(msg)
+			
 			get_tree().change_scene("res://UserInformationScreen.tscn")
 		else:
-			get_node("RoomCodeInvalidLengthPopup").popup()
+			get_node("RoomCodeInvalidCharacters").popup()
 	else:
 		get_node("RoomCodeInvalidLengthPopup").popup()
 	
