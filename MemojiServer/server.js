@@ -9,6 +9,91 @@ var players = [];
 var audience = [];
 
 const max_players = 8;
+const max_audience = 100;
+
+const server = net.createServer(socket => {
+
+  console.log('client connected');
+
+  socket.on('end', () => {
+    console.log('client disconnected');
+  });
+
+  socket.on('data', (data) => {
+    console.log(data.toString());
+    console.log(data.toString().length);
+
+    const json = parseData(data);
+    if(json === -1){
+      console.warn("Error parsing data");
+      const res = {
+        "messageType": 601,
+        "data": data.toString()
+      };
+      send(socket, JSON.stringify(res));
+      return;
+    }
+    const message = JSON.parse(json);
+    console.log(message);
+
+    // See what message type (action)
+    try {
+      const letterCode = message.letterCode;
+    } catch(err) {
+      console.warn("Message does not contain letterCode");
+      console.warn(err);
+      const res = {
+        "messageType": 601,
+        "message": data.toString()
+      };
+      send(socket, JSON.stringify(res));
+    }
+
+    switch (message.messageType) {
+      case 110: // Host requests new room code
+        handleHostCodeRequest(socket);
+        break;
+      case 121: // Host is still handling games
+        console.log("Host is still handling games");
+        break;
+      case 130: // Host shutting down
+        handleHostDisConn(letterCode);
+        break;
+      // Player Codes
+      case 401: // Player Connection and Audience connection
+        // Check if there is room in the lobby
+        if(codeCheck(letterCode)){
+          const host = _.find(hosts, ['code', letterCode]);
+          if(host.players.length < max_players){
+            // Player can join
+            handlePlayerConn(letterCode, socket);
+          } else {
+            // Host lobby full, join as audience member
+            handleAudienceConn(letterCode, socket);
+          }
+        }
+        break;
+      case 402: // Player Disconnecting
+        // Remove player from host
+        handlePlayerDisConn(letterCode, socket);
+        break;
+      default:
+        console.log("Default Forward Message");
+    }
+    console.log("Hosts: ");
+    console.log(hosts);
+    // console.log("Players: " + players);
+    // console.log("Codes: " + codes);
+
+    // Echo Message back
+    // send(socket, data);
+  });
+
+  server.on('error', (err) => {
+    console.log(err);
+    throw err;
+  });
+});
 
 /*
 Host data structure
@@ -32,75 +117,6 @@ Audience data structure
   id: uuid
 }
 */
-
-const server = net.createServer(socket => {
-
-  console.log('client connected');
-
-  socket.on('end', () => {
-    console.log('client disconnected');
-  });
-
-  socket.on('data', (data) => {
-    console.log(data.toString());
-    console.log(data.toString().length);
-
-    const json = parseData(data);
-    const message = JSON.parse(json);
-    console.log(message);
-
-    // See what message type (action)
-    const letterCode = message.letterCode;
-    switch (message.messageType) {
-      case 110: // Host requests new room code
-        handleHostCodeRequest(socket);
-        break;
-      case 121: // Host is still handling games
-        console.log("Host is still handling games");
-        break;
-      case 130: // Host shutting down
-        handleHostDisConn(letterCode);
-        break;
-      // Player Codes
-      case 401: // Player Connection and Audience connection
-        // Check if there is room in the lobby
-        if(codeCheck(letterCode)){
-          const host = _.find(hosts, ['code', letterCode]);
-          if(host.players.length < max_players){
-            // Player can join
-            handlePlayerConn(letterCode, socket);
-          } else {
-            // Player cannot join
-            // Join as audience member
-            const id = uuid();
-            audience.push({
-              code: letterCode,
-              audience: socket,
-              id: id
-            });
-          }
-        }
-
-        break;
-      case 402: // Player Disconnecting
-        // Remove player from host
-        handlePlayerDisConn(letterCode, socket);
-        break;
-      default:
-        console.log("Default Forward Message");
-    }
-    console.log(hosts);
-    console.log(players);
-    console.log(codes);
-
-    // send(socket, data);
-  });
-
-  server.on('error', (err) => {
-    console.log(err);
-    // throw err;
-  });
-});
 
 function handleHostCodeRequest(socket) {
   console.log("Code 110: Host request a room code");
@@ -142,7 +158,7 @@ function handlePlayerConn(letterCode, socket) {
     console.log("Invalid code");
     console.log("Did not handle player connection successfully.");
     const res = {
-      "messageType": 406
+      "messageType": 112
     };
     send(socket, JSON.stringify(res));
     return 0;
@@ -159,7 +175,27 @@ function handlePlayerConn(letterCode, socket) {
   const host = _.find(hosts, ['code', letterCode]);
   host.players.push(player);
   console.log("Handled player connection successfully.");
+  console.log("Send id to player.");
+  const res = {
+    "messageType": 406,
+    "id": id
+  }
+  send(socket, JSON.stringify(res));
   return 1;
+}
+
+function handleAudienceConn(letterCode, socket) {
+  const id = uuid();
+  audience.push({
+    code: letterCode,
+    audience: socket,
+    id: id
+  });
+  // const res = {
+  //   "messageType": 406,
+  //   "id": id
+  // }
+  // send(socket, JSON.stringify(res));
 }
 
 function handlePlayerDisConn(letterCode, socket) {
@@ -192,7 +228,13 @@ function parseData(data) {
   // Convert buffer to string
   const json = JSON.stringify(data);
   // Convert back to JSON
-  const copy = JSON.parse(json);
+  var copy = "";
+  try {
+    copy = JSON.parse(json);
+  } catch (err) {
+    console.warn(err);
+    return -1;
+  }
   // Cut off padding
   const message = copy.data.slice(4);
   // Place new message in buffer
@@ -200,6 +242,8 @@ function parseData(data) {
   // Return message without padding
   return b.toString();
 }
+
+
 
 function send(socket, data) {
   // Convert length to 32bit integer

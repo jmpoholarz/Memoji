@@ -33,7 +33,7 @@ func ___test():
 	startedTest = true
 	if socket.get_status() == socket.STATUS_NONE:
 		connectHostToServer(defaultServerIP, defaultServerPort)
-	testMatch()
+	#testMatch()
 
 
 func _process(delta):
@@ -96,10 +96,11 @@ func sendMessageToServer(message):
 		print("Failed to send message.  Not connected to server.")
 		return
 	# Check if valid message
-	if !message.has("messageType"):
-		print("Failed to send message.  Lacking messageType attribute.")
-	if !message.has("letterCode"):
-		print("Failed to send message.  Lacking letterCode attribute.")
+	if message["messageType"] != MESSAGE_TYPES.HOST_REQUESTING_CODE:
+		if !message.has("messageType"):
+			print("Failed to send message.  Lacking messageType attribute.")
+		if !message.has("letterCode"):
+			print("Failed to send message.  Lacking letterCode attribute.")
 	# Send message
 	print("Sending message...")
 	message = $Parser.encodeMessage(message)
