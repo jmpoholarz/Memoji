@@ -37,8 +37,9 @@ const server = net.createServer(socket => {
     console.log(message);
 
     // See what message type (action)
+    var letterCode = ""
     try {
-      const letterCode = message.letterCode;
+      letterCode = message.letterCode;
     } catch(err) {
       console.warn("Message does not contain letterCode");
       console.warn(err);
@@ -77,13 +78,38 @@ const server = net.createServer(socket => {
         // Remove player from host
         handlePlayerDisConn(letterCode, socket);
         break;
+      case 301: // Host starting game -----> Send to all Players
+      case 302: // Host ending game -------> Send to all Players
+      case 320: // Host round time is up --> Send to all Players
+        sendToAllPlayers(letterCode, message);
+        break;
+      case 311: // Host Sending promtpt ---> Send to Player
+        sendToPlayer(message);
+        break;
+      case 312: // Host sending answers ---> Send to all Players and Audience
+        sendToPlayersAndAudience(letterCode, message);
+        break;
+      case 404: // Invalid username ----------------> Send to Player
+      case 405: // Accepted Username and avatar ----> Send to Player
+        sendToPlayer(message);
+        break;
+      case 403: // Player username and avatar ------> Send to Host
+      case 410: // Player sending prompt response --> Send to Host
+      case 411: // Invalid promtpt response --------> Send to Host
+      case 412: // Accepted prompt response --------> Send to Host
+      case 420: // Player sending single vote ------> Send to Host
+      case 421: // Invalid vote response -----------> Send to Host
+      case 422: // Accepted vote response ----------> Send to Host
+      case 430: // Player sending multi vote -------> Send to Host
+      case 431: // Invalid multi vote --------------> Send to Host
+      case 432: // Accepted multi vote -------------> Send to Host
+        sendToHost(letterCode, message);
+        break;
       default:
-        console.log("Default Forward Message");
+        console.log("Unknown Message Type");
     }
     console.log("Hosts: ");
     console.log(hosts);
-    // console.log("Players: " + players);
-    // console.log("Codes: " + codes);
 
     // Echo Message back
     // send(socket, data);
@@ -102,20 +128,6 @@ Host data structure
   host: socket object
   players: [p1 uuid, p2 uuid, ...]
   audience: [a1, a2, a3, ...]
-}
-
-Player data structure
-{
-  code: "ABCD"
-  player: socket object
-  id: uuid
-}
-
-Audience data structure
-{
-  code: "ABCD"
-  audience: socket object
-  id: uuid
 }
 */
 
@@ -158,6 +170,15 @@ function handleHostDisConn(letterCode) {
   console.log("Players removed from host lobby");
 }
 
+/*
+Player data structure
+{
+  code: "ABCD"
+  player: socket object
+  id: uuid
+}
+*/
+
 function handlePlayerConn(letterCode, socket) {
   // Check if letter code exists
   if (!codeCheck(letterCode)) {
@@ -165,7 +186,7 @@ function handlePlayerConn(letterCode, socket) {
     console.log("Invalid code");
     console.log("Did not handle player connection successfully.");
     const res = {
-      "messageType": 112
+      "messageType": 113
     };
     send(socket, JSON.stringify(res));
     return 0;
@@ -184,12 +205,24 @@ function handlePlayerConn(letterCode, socket) {
   console.log("Handled player connection successfully.");
   console.log("Send id to player.");
   const res = {
-    "messageType": 406,
-    "id": id
+    "messageType": 112,
+    "letterCode": letterCode,
+    "playerId": id,
+    "isPlayer": true
   }
+  send(host.socket, JSON.stringify(res));
   send(socket, JSON.stringify(res));
   return 1;
 }
+
+/*
+Audience data structure
+{
+  code: "ABCD"
+  audience: socket object
+  id: uuid
+}
+*/
 
 function handleAudienceConn(letterCode, socket) {
   const id = uuid();
@@ -202,9 +235,12 @@ function handleAudienceConn(letterCode, socket) {
   host.audience.push(audience);
   audience.push(audience);
   const res = {
-    "messageType": 406,
-    "id": id
+    "messageType": 112,
+    "letterCode": letterCode,
+    "id": id,
+    "isPlayer": false
   }
+  send(host)
   send(socket, JSON.stringify(res));
 }
 
@@ -219,6 +255,57 @@ function handlePlayerDisConn(letterCode, socket) {
   console.log("Removing player: " + player.id);
   console.log("Handled player disconnection successfully.");
   return 1;
+}
+
+function sendToAllPlayers(letterCode, message) {
+  const host = _.find(hosts, ['code', letterCode]);
+  _.forEach(host.players, (player) => {
+    send(player.socket, JSON.stringify(message));
+  });
+}
+
+function sendToPlayer(message) {
+  const player = _.find(players, ['id', message.playerId]);
+  send(player.socket, JSON.stringify(message));
+}
+
+function sendToPlayersAndAudience(letterCode, message) {
+  const host = _.find(hosts, ['code', letterCode]);
+  _.forEach(host.players, (player) => {
+    send(player.socket, JSON.stringify(message));
+  });
+  _.forEach(host.audience, (audience) => {
+    send(audience.socket, JSON.stringify(message));
+  });
+}
+
+function sendToHost(letterCode, message) {
+  const host = _.find(hosts, ['code', letterCode]);
+  send(host.socket, JSON.stringify(message));
+}
+
+
+function send(socket, data) {
+  // Convert length to 32bit integer
+  const n = data.toString().length;
+  const arr = toBytesInt32(n);
+  // Store length in Buffer
+  const buff = new Buffer.from(arr);
+  // console.log(buff);
+  // Store message in Buffer
+  const buff2 = new Buffer.from(data.toString());
+  console.log("Message sent: " + buff2.toString());
+  // Send length
+  socket.write(buff);
+  // Send message
+  socket.write(buff2);
+}
+
+function toBytesInt32(num) {
+  arr = new ArrayBuffer(4);
+  view = new DataView(arr);
+  view.setUint32(0, num, false);
+  return arr;
 }
 
 function codeCheck(code) {
@@ -251,29 +338,6 @@ function parseData(data) {
   const b = new Buffer.from(message);
   // Return message without padding
   return b.toString();
-}
-
-function send(socket, data) {
-  // Convert length to 32bit integer
-  const n = data.toString().length;
-  const arr = toBytesInt32(n);
-  // Store length in Buffer
-  const buff = new Buffer.from(arr);
-  // console.log(buff);
-  // Store message in Buffer
-  const buff2 = new Buffer.from(data.toString());
-  console.log("Message sent: " + buff2.toString());
-  // Send length
-  socket.write(buff);
-  // Send message
-  socket.write(buff2);
-}
-
-function toBytesInt32(num) {
-  arr = new ArrayBuffer(4);
-  view = new DataView(arr);
-  view.setUint32(0, num, false);
-  return arr;
 }
 
 function generateCode() {
