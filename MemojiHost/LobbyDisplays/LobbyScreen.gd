@@ -1,15 +1,27 @@
 extends Node2D
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+onready var player1 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P1
+onready var player2 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P2
+onready var player3 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P3
+onready var player4 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P4
+onready var player5 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P5
+onready var player6 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P6
+onready var player7 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P7
+onready var player8 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P8
 
 func _ready():
-	# Called when the node is added to the scene for the first time.
-	# Initialization here
+	player1.get_node("Name").text = "Octosquid" 
+	player2.player_update("Asdf", null)
+	player3.player_update("Asdf", null)
+	player4.player_update("Asdf", null)
+	player5.player_update("Asdf", null)
+	player6.player_update("Asdf", null)
+	player7.player_update("Asdf", null)
+	player8.player_update("Eighth Player", null)
 	pass
 
-#func _process(delta):
-#	# Called every frame. Delta is time since last frame.
-#	# Update game logic here.
-#	pass
+func _process(delta):
+	
+	pass
+	
+

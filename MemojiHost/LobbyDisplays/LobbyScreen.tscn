@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://LobbyDisplays/LobbyScreen.gd" type="Script" id=1]
 [ext_resource path="res://LobbyDisplays/P_Status.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/font/Comfortaa-Bold.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://LobbyDisplays/ABCDcode.gd" type="Script" id=4]
 
 [sub_resource type="DynamicFontData" id=1]
 
@@ -335,6 +336,7 @@ text = "ABCD Code"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+script = ExtResource( 4 )
 _sections_unfolded = [ "Mouse", "Rect", "custom_constants", "custom_fonts" ]
 
 
