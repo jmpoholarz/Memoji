@@ -3,6 +3,7 @@ extends Panel
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
+signal sendMessage(msg)
 
 func _ready():
 	get_node("JoinButton").connect("pressed", self, "_on_JoinMeButton_pressed")
@@ -23,11 +24,13 @@ func _on_JoinMeButton_pressed():
 			print(roomCode)
 			get_node("InstructionsLabel").text = roomCode
 			
-#			var msg = {
-#				"messageType": MESSAGE_TYPES.PLAYER_CONNECTED,
-#				"letterCode": roomCode
-#			}
+			var msg = {
+				"messageType": MESSAGE_TYPES.PLAYER_CONNECTED,
+				"letterCode": roomCode
+			}
 #			Networking.sendMessageToServer(msg)
+			emit_signal("sendMessage", msg)
+			
 			
 			get_tree().change_scene("res://UserInformationScreen.tscn")
 		else:

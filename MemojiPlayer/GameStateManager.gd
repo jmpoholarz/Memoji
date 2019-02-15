@@ -22,6 +22,7 @@ func _on_Networking_enteredInvalidAnswer():
 	pass # replace with function body
 
 func _on_Networking_enteredInvalidHostCode():
+#	$ScreenManager.currentScene
 	pass # replace with function body
 
 func _on_Networking_enteredInvalidMultiVote():
