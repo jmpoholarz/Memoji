@@ -11,7 +11,7 @@ config_version=3
 [application]
 
 config/name="MemojiPlayer"
-run/main_scene="res://Singletons/Networking.tscn"
+run/main_scene="res://GameStateManager.tscn"
 config/icon="res://icon.png"
 
 [autoload]
