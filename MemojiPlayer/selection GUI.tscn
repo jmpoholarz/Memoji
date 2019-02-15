@@ -1,11 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://EmojiIcons/icon1.png" type="Texture" id=1]
-[ext_resource path="res://ButtonScripts/TouchScreenButton1.gd" type="Script" id=2]
-[ext_resource path="res://EmojiIcons/icon2.png" type="Texture" id=3]
-[ext_resource path="res://EmojiIcons/icon3.png" type="Texture" id=4]
-[ext_resource path="res://EmojiIcons/icon4.png" type="Texture" id=5]
-[ext_resource path="res://Assets/DonePlaceholder.png" type="Texture" id=6]
+[ext_resource path="res://TextureRect.gd" type="Script" id=2]
+[ext_resource path="res://ButtonScripts/TouchScreenButton1.gd" type="Script" id=3]
+[ext_resource path="res://EmojiIcons/icon2.png" type="Texture" id=4]
+[ext_resource path="res://ButtonScripts/TouchScreenButton2.gd" type="Script" id=5]
+[ext_resource path="res://EmojiIcons/icon3.png" type="Texture" id=6]
+[ext_resource path="res://EmojiIcons/icon4.png" type="Texture" id=7]
+[ext_resource path="res://Assets/DonePlaceholder.png" type="Texture" id=8]
 
 [sub_resource type="GDScript" id=1]
 
@@ -220,6 +222,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 1 )
 stretch_mode = 0
+script = ExtResource( 2 )
 _sections_unfolded = [ "Rect" ]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer" index="1"]
@@ -362,7 +365,7 @@ shape_visible = true
 passby_press = false
 action = ""
 visibility_mode = 0
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
 [node name="VBoxContainer4" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer" index="1"]
 
@@ -385,7 +388,7 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer4" index="0"]
 
-normal = ExtResource( 3 )
+normal = ExtResource( 4 )
 pressed = null
 bitmask = null
 shape = null
@@ -394,6 +397,7 @@ shape_visible = true
 passby_press = false
 action = ""
 visibility_mode = 0
+script = ExtResource( 5 )
 
 [node name="VBoxContainer5" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer" index="2"]
 
@@ -416,7 +420,7 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer5" index="0"]
 
-normal = ExtResource( 4 )
+normal = ExtResource( 6 )
 pressed = null
 bitmask = null
 shape = null
@@ -447,7 +451,7 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer6" index="0"]
 
-normal = ExtResource( 5 )
+normal = ExtResource( 7 )
 pressed = null
 bitmask = null
 shape = null
@@ -498,7 +502,7 @@ custom_constants/margin_bottom = 0
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer3/MarginContainer" index="0"]
 
-normal = ExtResource( 6 )
+normal = ExtResource( 8 )
 pressed = null
 bitmask = null
 shape = null
@@ -510,5 +514,7 @@ visibility_mode = 0
 script = SubResource( 1 )
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer3/TouchScreenButton" to="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer3/TouchScreenButton" method="_on_TouchScreenButton_pressed"]
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer4/TouchScreenButton" to="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer4/TouchScreenButton" method="_on_TouchScreenButton_pressed"]
 
 

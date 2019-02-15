@@ -17,4 +17,4 @@ func _ready():
 
 
 func _on_TouchScreenButton_pressed():
-	emit_signal("icon_select", 1)
+	emit_signal("icon_select", 2)

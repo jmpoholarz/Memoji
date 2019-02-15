@@ -1,6 +1,5 @@
-extends TouchScreenButton
+extends TextureRect
 
-signal icon_select(iconId)
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
@@ -8,13 +7,12 @@ signal icon_select(iconId)
 func _ready():
 	# Called when the node is added to the scene for the first time.
 	# Initialization here
-	self.connect("icon_select", TextureRect, "on_icon_select")
+	pass
 
 #func _process(delta):
 #	# Called every frame. Delta is time since last frame.
 #	# Update game logic here.
 #	pass
 
-
-func _on_TouchScreenButton_pressed():
-	emit_signal("icon_select", 1)
+func on_icon_select(iconId):
+	print(iconId)
