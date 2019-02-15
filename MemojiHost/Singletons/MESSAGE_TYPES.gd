@@ -25,7 +25,6 @@ enum MESSAGE_TYPES {
 	PLAYER_USERNAME_AND_AVATAR = 403,		# Sent to update player's username and avatar on the host
 	INVALID_USERNAME = 404,					# Sent when an entered username is already taken or invalid
 	ACCEPTED_USERNAME_AND_AVATAR = 405,		# Sent when an entered username/avatar are valid
-	INVALID_LETTER_CODE = 406,				# Sent from server to client when sent an invalid letter code
 
 	PLAYER_SENDING_PROMPT_RESPONSE = 410,	# Sent to deliver an answer to a prompt to the host
 	INVALID_PROMPT_RESPONSE = 411,			# Sent when a prompt response is invalid
@@ -36,6 +35,8 @@ enum MESSAGE_TYPES {
 	PLAYER_SENDING_MULTI_VOTE = 430,		# Sent to deliver an answer to the final round to the host
 	INVALID_MULTI_VOTE = 431,				#
 	ACCEPTED_MULTI_VOTE = 432,				#
+	
+	INVALID_MESSAGE_JSON = 601,				# Sent from server if message received is invalid JSON
 
 	FINAL # Honestly just here so I don't have to re-add the comma etc.
 }
