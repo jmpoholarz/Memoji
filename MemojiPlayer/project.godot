@@ -11,8 +11,11 @@ config_version=3
 [application]
 
 config/name="MemojiPlayer"
-run/main_scene="res://TitleScreen.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+MESSAGE_TYPES="*res://Singletons/MESSAGE_TYPES.gd"
 
 [rendering]
 
