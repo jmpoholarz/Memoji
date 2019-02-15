@@ -6,7 +6,7 @@ enum SCREENS {
 	TITLE_SCREEN = 1
 }
 
-var currentScene
+var currentScreen
 
 func _ready():
 	pass

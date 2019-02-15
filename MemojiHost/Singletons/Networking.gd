@@ -33,7 +33,10 @@ func ___test():
 	startedTest = true
 	if socket.get_status() == socket.STATUS_NONE:
 		connectHostToServer(defaultServerIP, defaultServerPort)
+<<<<<<< HEAD
+=======
 	#testMatch()
+>>>>>>> 0f4ede37b59cb8790854569332bffade97613901
 
 
 func _process(delta):
