@@ -125,7 +125,7 @@ function handleHostCodeRequest(socket) {
   console.log(letterCode);
   hosts.push({
     code: letterCode,
-    host: socket,
+    socket: socket,
     players: [],
     audience: []
   });
@@ -150,8 +150,11 @@ function handleHostDisConn(letterCode) {
     "messageType": 131
   };
   _.forEach(host.players, (player) => {
-    send(player.player, JSON.stringify(res));
+    send(player.socket, JSON.stringify(res));
   });
+  _.forEach(host.audience, (audience) => {
+    send(audience.socket, JSON.stringify(res));
+  })
   console.log("Players removed from host lobby");
 }
 
@@ -173,7 +176,7 @@ function handlePlayerConn(letterCode, socket) {
   const id = uuid();
   const player = {
     code: letterCode,
-    player: socket,
+    socket: socket,
     id: id
   };
   const host = _.find(hosts, ['code', letterCode]);
@@ -191,21 +194,18 @@ function handlePlayerConn(letterCode, socket) {
 function handleAudienceConn(letterCode, socket) {
   const id = uuid();
   const host = _.find(hosts, ['code', letterCode]);
-  host.audience.push({
+  const audience = {
     code: letterCode,
-    audience: socket,
+    socket: socket,
     id: id
-  });
-  audience.push({
-    code: letterCode,
-    audience: socket,
-    id: id
-  });
-  // const res = {
-  //   "messageType": 406,
-  //   "id": id
-  // }
-  // send(socket, JSON.stringify(res));
+  };
+  host.audience.push(audience);
+  audience.push(audience);
+  const res = {
+    "messageType": 406,
+    "id": id
+  }
+  send(socket, JSON.stringify(res));
 }
 
 function handlePlayerDisConn(letterCode, socket) {
@@ -252,8 +252,6 @@ function parseData(data) {
   // Return message without padding
   return b.toString();
 }
-
-
 
 function send(socket, data) {
   // Convert length to 32bit integer
