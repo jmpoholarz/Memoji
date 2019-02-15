@@ -37,6 +37,9 @@ func _on_JoinMeButton_pressed():
 			get_node("RoomCodeInvalidCharacters").popup()
 	else:
 		get_node("RoomCodeInvalidLengthPopup").popup()
+		
+func _on_InvalidRoomCode():
+	get_node("RoomCodeInvalidCharacters").popup()
 	
 	
 	

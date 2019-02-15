@@ -19,9 +19,14 @@ func _on_Networking_answersReceived(answerArray):
 	pass # replace with function body
 
 func _on_Networking_enteredInvalidAnswer():
+#	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
+		
 	pass # replace with function body
 
 func _on_Networking_enteredValidHostCode():
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
+		$ScreenManager.changeScreenTo(USERINFORMATION_SCREEN)
+	
 	pass # replace with function body
 
 func _on_Networking_enteredInvalidHostCode():

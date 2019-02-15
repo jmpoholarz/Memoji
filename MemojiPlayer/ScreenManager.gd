@@ -17,6 +17,11 @@ func changeScreenTo(screen):
 			var titleScreen = load("res://TitleScreen.tscn")
 			add_child(titleScreen.instance())
 			titleScreen.connect("sendMessage", self, "forwardMessage")
+			
+		USERINFORMATION_SCREEN:
+			var userinfoScreen = load("res://UserInformationScreen.tscn")
+			add_child(userinfoScreen.instance())
+			
 
 func forwardMessage(msg):
 	emit_signal("sendMessageToServer", msg)
