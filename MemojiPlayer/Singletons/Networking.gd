@@ -3,6 +3,7 @@ extends Node
 # # # Signals # # #
 signal _connectedToServer
 signal _disconnectedFromServer
+signal enteredValidHostCode
 signal enteredInvalidHostCode
 signal forcedToDisconnect
 signal gameStartedByHost
@@ -119,6 +120,8 @@ func getMessageFromServer():
 	var messageCode = messageDict[messageType]
 	print(messageCode)
 	match messageCode:
+		MESSAGE_TYPES.VALID_SERVER_CODE:
+			emit_signal("enteredValidHostCode")
 		MESSAGE_TYPES.INVALID_SERVER_CODE:
 			emit_signal("enteredInvalidHostCode")
 		MESSAGE_TYPES.SERVER_FORCE_DISCONNECT_CLIENT:

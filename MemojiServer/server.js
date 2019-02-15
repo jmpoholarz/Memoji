@@ -9,29 +9,7 @@ var players = [];
 var audience = [];
 
 const max_players = 8;
-
-/*
-Host data structure
-{
-  code: "ABCD"
-  host: socket object
-  players: [p1 uuid, p2 uuid, ...]
-}
-
-Player data structure
-{
-  code: "ABCD"
-  player: socket object
-  id: uuid
-}
-
-Audience data structure
-{
-  code: "ABCD"
-  audience: socket object
-  id: uuid
-}
-*/
+const max_audience = 100;
 
 const server = net.createServer(socket => {
 
@@ -46,11 +24,32 @@ const server = net.createServer(socket => {
     console.log(data.toString().length);
 
     const json = parseData(data);
+    if(json === -1){
+      console.warn("Error parsing data");
+      const res = {
+        "messageType": 601,
+        "data": data.toString()
+      };
+      send(socket, JSON.stringify(res));
+      return;
+    }
     const message = JSON.parse(json);
     console.log(message);
 
     // See what message type (action)
-    const letterCode = message.letterCode;
+    var letterCode = ""
+    try {
+      letterCode = message.letterCode;
+    } catch(err) {
+      console.warn("Message does not contain letterCode");
+      console.warn(err);
+      const res = {
+        "messageType": 601,
+        "message": data.toString()
+      };
+      send(socket, JSON.stringify(res));
+    }
+
     switch (message.messageType) {
       case 110: // Host requests new room code
         handleHostCodeRequest(socket);
@@ -70,37 +69,67 @@ const server = net.createServer(socket => {
             // Player can join
             handlePlayerConn(letterCode, socket);
           } else {
-            // Player cannot join
-            // Join as audience member
-            const id = uuid();
-            audience.push({
-              code: letterCode,
-              audience: socket,
-              id: id
-            });
+            // Host lobby full, join as audience member
+            handleAudienceConn(letterCode, socket);
           }
         }
-
         break;
       case 402: // Player Disconnecting
         // Remove player from host
         handlePlayerDisConn(letterCode, socket);
         break;
+      case 301: // Host starting game -----> Send to all Players
+      case 302: // Host ending game -------> Send to all Players
+      case 320: // Host round time is up --> Send to all Players
+        sendToAllPlayers(letterCode, message);
+        break;
+      case 311: // Host Sending promtpt ---> Send to Player
+        sendToPlayer(message);
+        break;
+      case 312: // Host sending answers ---> Send to all Players and Audience
+        sendToPlayersAndAudience(letterCode, message);
+        break;
+      case 404: // Invalid username ----------------> Send to Player
+      case 405: // Accepted Username and avatar ----> Send to Player
+        sendToPlayer(message);
+        break;
+      case 403: // Player username and avatar ------> Send to Host
+      case 410: // Player sending prompt response --> Send to Host
+      case 411: // Invalid promtpt response --------> Send to Host
+      case 412: // Accepted prompt response --------> Send to Host
+      case 420: // Player sending single vote ------> Send to Host
+      case 421: // Invalid vote response -----------> Send to Host
+      case 422: // Accepted vote response ----------> Send to Host
+      case 430: // Player sending multi vote -------> Send to Host
+      case 431: // Invalid multi vote --------------> Send to Host
+      case 432: // Accepted multi vote -------------> Send to Host
+        sendToHost(letterCode, message);
+        break;
       default:
-        console.log("Default Forward Message");
+        console.log("Unknown Message Type");
     }
+    console.log("Hosts: ");
     console.log(hosts);
-    console.log(players);
-    console.log(codes);
 
+    // Echo Message back
     // send(socket, data);
   });
 
   server.on('error', (err) => {
     console.log(err);
-    // throw err;
+    throw err;
   });
 });
+
+/*
+Host data structure
+{
+  code: "ABCD"
+  host: socket object
+  players: [p1 uuid, p2 uuid, ...]
+  audience: [a1, a2, a3, ...]
+}
+*/
 
 function handleHostCodeRequest(socket) {
   console.log("Code 110: Host request a room code");
@@ -108,8 +137,9 @@ function handleHostCodeRequest(socket) {
   console.log(letterCode);
   hosts.push({
     code: letterCode,
-    host: socket,
-    players: []
+    socket: socket,
+    players: [],
+    audience: []
   });
   // Send back letter code
   const res = {
@@ -127,22 +157,36 @@ function handleHostDisConn(letterCode) {
   const code = _.remove(codes, (c) => { return c === letterCode;});
   console.log(host);
   console.log(code);
+  console.log("Send players disconnect message.");
   const res = {
     "messageType": 131
   };
   _.forEach(host.players, (player) => {
-    send(player.player, JSON.stringify(res));
+    send(player.socket, JSON.stringify(res));
   });
-  console.log("Removed");
+  _.forEach(host.audience, (audience) => {
+    send(audience.socket, JSON.stringify(res));
+  })
+  console.log("Players removed from host lobby");
 }
+
+/*
+Player data structure
+{
+  code: "ABCD"
+  player: socket object
+  id: uuid
+}
+*/
 
 function handlePlayerConn(letterCode, socket) {
   // Check if letter code exists
   if (!codeCheck(letterCode)) {
+    // Letter Code does not exist
     console.log("Invalid code");
     console.log("Did not handle player connection successfully.");
     const res = {
-      "messageType": 406
+      "messageType": 113
     };
     send(socket, JSON.stringify(res));
     return 0;
@@ -153,13 +197,51 @@ function handlePlayerConn(letterCode, socket) {
   const id = uuid();
   const player = {
     code: letterCode,
-    player: socket,
+    socket: socket,
     id: id
   };
   const host = _.find(hosts, ['code', letterCode]);
   host.players.push(player);
   console.log("Handled player connection successfully.");
+  console.log("Send id to player.");
+  const res = {
+    "messageType": 112,
+    "letterCode": letterCode,
+    "playerId": id,
+    "isPlayer": true
+  }
+  send(host.socket, JSON.stringify(res));
+  send(socket, JSON.stringify(res));
   return 1;
+}
+
+/*
+Audience data structure
+{
+  code: "ABCD"
+  audience: socket object
+  id: uuid
+}
+*/
+
+function handleAudienceConn(letterCode, socket) {
+  const id = uuid();
+  const host = _.find(hosts, ['code', letterCode]);
+  const audience = {
+    code: letterCode,
+    socket: socket,
+    id: id
+  };
+  host.audience.push(audience);
+  audience.push(audience);
+  const res = {
+    "messageType": 112,
+    "letterCode": letterCode,
+    "id": id,
+    "isPlayer": false
+  }
+  send(host)
+  send(socket, JSON.stringify(res));
 }
 
 function handlePlayerDisConn(letterCode, socket) {
@@ -175,31 +257,33 @@ function handlePlayerDisConn(letterCode, socket) {
   return 1;
 }
 
-function codeCheck(code) {
-  if (!codes.includes(letterCode)) {
-    console.log("Code does not exist: " + letterCode);
-    // Send back 112 code : Invalid server codes
-    const res = {
-      "messageType": 112
-    };
-    send(socket, JSON.stringify(res));
-    return false;
-  }
-  return true;
+function sendToAllPlayers(letterCode, message) {
+  const host = _.find(hosts, ['code', letterCode]);
+  _.forEach(host.players, (player) => {
+    send(player.socket, JSON.stringify(message));
+  });
 }
 
-function parseData(data) {
-  // Convert buffer to string
-  const json = JSON.stringify(data);
-  // Convert back to JSON
-  const copy = JSON.parse(json);
-  // Cut off padding
-  const message = copy.data.slice(4);
-  // Place new message in buffer
-  const b = new Buffer.from(message);
-  // Return message without padding
-  return b.toString();
+function sendToPlayer(message) {
+  const player = _.find(players, ['id', message.playerId]);
+  send(player.socket, JSON.stringify(message));
 }
+
+function sendToPlayersAndAudience(letterCode, message) {
+  const host = _.find(hosts, ['code', letterCode]);
+  _.forEach(host.players, (player) => {
+    send(player.socket, JSON.stringify(message));
+  });
+  _.forEach(host.audience, (audience) => {
+    send(audience.socket, JSON.stringify(message));
+  });
+}
+
+function sendToHost(letterCode, message) {
+  const host = _.find(hosts, ['code', letterCode]);
+  send(host.socket, JSON.stringify(message));
+}
+
 
 function send(socket, data) {
   // Convert length to 32bit integer
@@ -224,6 +308,38 @@ function toBytesInt32(num) {
   return arr;
 }
 
+function codeCheck(code) {
+  if (!codes.includes(letterCode)) {
+    console.log("Code does not exist: " + letterCode);
+    // Send back 112 code : Invalid server codes
+    const res = {
+      "messageType": 112
+    };
+    send(socket, JSON.stringify(res));
+    return false;
+  }
+  return true;
+}
+
+function parseData(data) {
+  // Convert buffer to string
+  const json = JSON.stringify(data);
+  // Convert back to JSON
+  var copy = "";
+  try {
+    copy = JSON.parse(json);
+  } catch (err) {
+    console.warn(err);
+    return -1;
+  }
+  // Cut off padding
+  const message = copy.data.slice(4);
+  // Place new message in buffer
+  const b = new Buffer.from(message);
+  // Return message without padding
+  return b.toString();
+}
+
 function generateCode() {
   var code = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -237,4 +353,5 @@ function generateCode() {
   return code;
 }
 
+// Call last
 server.listen(port, '127.0.0.1');
