@@ -32,7 +32,10 @@ func _on_Networking_obtainedLetterCode(letterCode):
 	pass # replace with function body
 
 func _on_Networking_playerConnected(playerID):
-	pass # replace with function body
+	if $ScreenManager.currentScene == $ScreenManager.SCREENS.TITLE_SCREEN:
+		var asdf = $ScreenManager/TitleScreen # debug stuffs
+		pass
+		
 
 func _on_Networking_playerDisconnected(playerID):
 	pass # replace with function body

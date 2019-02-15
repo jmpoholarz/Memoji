@@ -14,6 +14,7 @@ func _ready():
 #	pass
 
 # Change the avatar and name
-func player_update(newName, newAvatar):
+func update_player(newName, newAvatar):
 	name_label.text = newName
+	avatar_pic.texture = newAvatar
 	pass

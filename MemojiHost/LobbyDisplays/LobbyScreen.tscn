@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://LobbyDisplays/LobbyScreen.gd" type="Script" id=1]
 [ext_resource path="res://LobbyDisplays/P_Status.tscn" type="PackedScene" id=2]
@@ -19,6 +19,14 @@ font_data = SubResource( 1 )
 _sections_unfolded = [ "Font", "Font/fallback", "Settings" ]
 
 [sub_resource type="DynamicFont" id=3]
+
+size = 16
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 3 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="DynamicFont" id=4]
 
 size = 45
 use_mipmaps = false
@@ -66,7 +74,6 @@ transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
 [node name="CenterContainer" type="CenterContainer" parent="Foreground" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -102,6 +109,7 @@ size_flags_vertical = 4
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Title Art Here"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -295,8 +303,33 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-alignment = 0
+alignment = 2
 _sections_unfolded = [ "Margin", "Rect" ]
+
+[node name="Audience" type="Label" parent="Foreground/Content/Lines/TopLine/Statuses/AudienceStatus" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 475.0
+margin_top = 20.0
+margin_right = 668.0
+margin_bottom = 39.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Audience Members: ##"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Mouse", "Rect", "custom_constants", "custom_fonts" ]
 
 [node name="BottomLine" type="ReferenceRect" parent="Foreground/Content/Lines" index="2"]
 
@@ -330,9 +363,10 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "ABCD Code"
+align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1

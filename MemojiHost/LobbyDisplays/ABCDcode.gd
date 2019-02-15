@@ -1,7 +1,7 @@
 extends Label
 
 func _ready():
-	self.text = ""
+	self.text = "????"
 	pass
 
 #func _process(delta):
