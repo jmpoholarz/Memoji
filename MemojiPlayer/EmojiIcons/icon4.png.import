@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/icon2.png-2294dfe885793d4711fc20bee13a3760.stex"
+path="res://.import/icon4.png-77dffa17431a2f977b7421ec265dc62f.stex"
 
 [deps]
 
-source_file="res://icon2.png"
-dest_files=[ "res://.import/icon2.png-2294dfe885793d4711fc20bee13a3760.stex" ]
+source_file="res://EmojiIcons/icon4.png"
+dest_files=[ "res://.import/icon4.png-77dffa17431a2f977b7421ec265dc62f.stex" ]
 
 [params]
 
