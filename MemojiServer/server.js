@@ -101,6 +101,7 @@ Host data structure
   code: "ABCD"
   host: socket object
   players: [p1 uuid, p2 uuid, ...]
+  audience: [a1, a2, a3, ...]
 }
 
 Player data structure
@@ -125,7 +126,8 @@ function handleHostCodeRequest(socket) {
   hosts.push({
     code: letterCode,
     host: socket,
-    players: []
+    players: [],
+    audience: []
   });
   // Send back letter code
   const res = {
@@ -143,18 +145,20 @@ function handleHostDisConn(letterCode) {
   const code = _.remove(codes, (c) => { return c === letterCode;});
   console.log(host);
   console.log(code);
+  console.log("Send players disconnect message.");
   const res = {
     "messageType": 131
   };
   _.forEach(host.players, (player) => {
     send(player.player, JSON.stringify(res));
   });
-  console.log("Removed");
+  console.log("Players removed from host lobby");
 }
 
 function handlePlayerConn(letterCode, socket) {
   // Check if letter code exists
   if (!codeCheck(letterCode)) {
+    // Letter Code does not exist
     console.log("Invalid code");
     console.log("Did not handle player connection successfully.");
     const res = {
@@ -186,6 +190,12 @@ function handlePlayerConn(letterCode, socket) {
 
 function handleAudienceConn(letterCode, socket) {
   const id = uuid();
+  const host = _.find(hosts, ['code', letterCode]);
+  host.audience.push({
+    code: letterCode,
+    audience: socket,
+    id: id
+  });
   audience.push({
     code: letterCode,
     audience: socket,
@@ -281,4 +291,5 @@ function generateCode() {
   return code;
 }
 
+// Call last
 server.listen(port, '127.0.0.1');
