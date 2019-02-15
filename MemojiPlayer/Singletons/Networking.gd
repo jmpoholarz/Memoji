@@ -32,7 +32,7 @@ func _ready():
 func ___test():
 	if startedTest == true:
 		pass
-	
+
 	startedTest = true
 	if socket.get_status() == socket.STATUS_NONE:
 		connectHostToServer(defaultServerIP, defaultServerPort)
@@ -112,7 +112,7 @@ func getMessageFromServer():
 	print(messageLen)
 	var messageJson = socket.get_utf8_string(messageLen)
 	print(messageJson)
-	
+
 	# Convert message to dictionary
 	var messageDict = $Parser.decodeMessage(messageJson)
 	# Decode message purpose and send appropriate signal
@@ -149,4 +149,4 @@ func getMessageFromServer():
 		MESSAGE_TYPES.ACCEPTED_MULTI_VOTE:
 			emit_signal("enteredInvalidMultiVote")
 		_:
-			print("Unrecognized message code " + str(messageCode)) 
+			print("Unrecognized message code " + str(messageCode))

@@ -29,7 +29,7 @@ func _ready():
 func ___test():
 	if startedTest == true:
 		pass
-	
+
 	startedTest = true
 	if socket.get_status() == socket.STATUS_NONE:
 		connectHostToServer(defaultServerIP, defaultServerPort)
@@ -118,7 +118,7 @@ func getMessageFromServer():
 	for i in range(messageLen):
 		messageJson += socket.get_utf8_string(1)
 	print(messageJson)
-	
+
 	# Convert message to dictionary
 	var messageDict = $Parser.decodeMessage(messageJson)
 	# Decode message purpose and send appropriate signal
