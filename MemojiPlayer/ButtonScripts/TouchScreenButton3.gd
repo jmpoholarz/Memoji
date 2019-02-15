@@ -1,4 +1,4 @@
-extends TouchScreenButton
+extends Button
 
 signal icon_select(iconId)
 # class member variables go here, for example:

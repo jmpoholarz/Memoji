@@ -1,4 +1,4 @@
-extends TouchScreenButton
+extends Button
 
 # class member variables go here, for example:
 # var a = 2
@@ -18,9 +18,12 @@ func _ready():
 func on_icon_select(iconId):
 	iconNumber = iconId
 
-func _on_TouchScreenButton_pressed():
+func _on_Button_pressed():
 	var network = load("res://Singletons/Networking.gd").new()
 	network.sendMessageToServer(iconNumber + nameGiven)
 
 func _on_name_changed(newName):
 	nameGiven = newName
+
+
+func _on_TouchScreenButton_pressed():
