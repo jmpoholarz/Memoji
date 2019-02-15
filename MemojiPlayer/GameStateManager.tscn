@@ -1,9 +1,45 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://GameStateManager.gd" type="Script" id=1]
+[ext_resource path="res://ScreenManager.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Singletons/Networking.tscn" type="PackedScene" id=3]
 
 [node name="GameStateManager" type="Node" index="0"]
 
 script = ExtResource( 1 )
+
+[node name="ScreenManager" parent="." index="0" instance=ExtResource( 2 )]
+
+[node name="Networking" parent="." index="1" instance=ExtResource( 3 )]
+
+[connection signal="sendMessageToServer" from="ScreenManager" to="." method="_on_ScreenManager_sendMessageToServer"]
+
+[connection signal="answersReceived" from="Networking" to="." method="_on_Networking_answersReceived"]
+
+[connection signal="enteredInvalidAnswer" from="Networking" to="." method="_on_Networking_enteredInvalidAnswer"]
+
+[connection signal="enteredInvalidHostCode" from="Networking" to="." method="_on_Networking_enteredInvalidHostCode"]
+
+[connection signal="enteredInvalidMultiVote" from="Networking" to="." method="_on_Networking_enteredInvalidMultiVote"]
+
+[connection signal="enteredInvalidUsername" from="Networking" to="." method="_on_Networking_enteredInvalidUsername"]
+
+[connection signal="enteredInvalidVote" from="Networking" to="." method="_on_Networking_enteredInvalidVote"]
+
+[connection signal="enteredValidAnswer" from="Networking" to="." method="_on_Networking_enteredValidAnswer"]
+
+[connection signal="enteredValidMultiVote" from="Networking" to="." method="_on_Networking_enteredValidMultiVote"]
+
+[connection signal="enteredValidUsername" from="Networking" to="." method="_on_Networking_enteredValidUsername"]
+
+[connection signal="enteredValidVote" from="Networking" to="." method="_on_Networking_enteredValidVote"]
+
+[connection signal="forcedToDisconnect" from="Networking" to="." method="_on_Networking_forcedToDisconnect"]
+
+[connection signal="gameEndedByHost" from="Networking" to="." method="_on_Networking_gameEndedByHost"]
+
+[connection signal="gameStartedByHost" from="Networking" to="." method="_on_Networking_gameStartedByHost"]
+
+[connection signal="promptsReceived" from="Networking" to="." method="_on_Networking_promptsReceived"]
 
 
