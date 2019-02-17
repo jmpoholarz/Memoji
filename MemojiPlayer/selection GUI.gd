@@ -1,5 +1,6 @@
 extends Container
 
+#signals for when the player's icon or name changes
 signal change_icon(iconId)
 signal change_text(text)
 # class member variables go here, for example:
@@ -9,8 +10,10 @@ signal change_text(text)
 func _ready():
 	# Called when the node is added to the scene for the first time.
 	# Initialization here
+	#get the texture rectangle and the submit button since they need to get signals
 	var textRect = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/TextureRect")
 	var textSubmit = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer3/MarginContainer/TouchScreenButton")
+	#connect signals to texture rectangle and submit button
 	connect("change_icon", textRect, "on_change_icon")
 	connect("change_icon", textSubmit, "on_change_icon")
 	connect("change_text", textSubmit, "on_change_text")
@@ -20,11 +23,11 @@ func _ready():
 #	# Update game logic here.
 #	pass
 
-
+#When an avatar is selected, signal the texture rectangle to update with the id of the avatar
 func _on_Button_pressed(id):
 	emit_signal("change_icon", id)
 
-
+#when the player's name is changed, send that information to the submit button to be stored
 func _on_TextEdit_text_changed():
 	var textBox = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/TextEdit")
 	

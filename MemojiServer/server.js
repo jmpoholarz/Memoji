@@ -406,7 +406,7 @@ function toBytesInt32(num) {
   return arr;
 }
 
-function codeCheck(code) {
+function codeCheck(letterCode) {
   if (!codes.includes(letterCode)) {
     console.log('Code does not exist: ' + letterCode);
     // Send back 112 code : Invalid server codes
