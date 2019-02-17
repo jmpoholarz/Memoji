@@ -22,7 +22,7 @@ func getDateTimeString():
 	var timeDict = OS.get_datetime()
 	var minute = timeDict["minute"]
 	if minute < 10:
-		minute = "0" + minute
+		minute = "0" + str(minute)
 	var timeString = str(timeDict["hour"]) + ":" + str(minute) + " on " +  \
 		str(timeDict["month"]) + "/" + str(timeDict["day"]) + "/" + str(timeDict["year"])
 	return timeString
@@ -31,19 +31,19 @@ func getTimeString():
 	var timeDict = OS.get_datetime()
 	var minute = timeDict["minute"]
 	if minute < 10:
-		minute = "0" + minute
+		minute = "0" + str(minute)
 	var timeString = str(timeDict["hour"]) + ":" + str(minute)
 	return timeString
 
 func writeLine(string):
 	errorFile.open("user://log.txt", File.READ_WRITE)
 	errorFile.seek_end()
-	errorFile.store(string + "\r\n")
+	errorFile.store_string(string + "\r\n")
 	errorFile.close()
 
 func write(string):
 	errorFile.open("user//log.txt", File.READ_WRITE)
 	errorFile.seek_end()
-	errorFile.store(string)
+	errorFile.store_string(string)
 	errorFile.close()
 

@@ -16,13 +16,13 @@ const max_players = 8;
 const max_audience = 100;
 var mtype = '';
 
+const server_log = 'server_log.txt';
+const error_log = 'server_error_log.txt';
+
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
 
   console.log('Server start time: ' + moment().format('HH:mm:ss'));
-
-  const server_log = 'server_log.txt';
-  const error_log = 'server_error_log.txt';
   fs.writeFile(server_log, '# Beginning of server log\n', 'utf8', (err) => {
     if (err) throw err;
     console.log('server_log.txt created successfully.');
@@ -41,6 +41,15 @@ if (cluster.isMaster) {
       send(host.socket, JSON.stringify(res));
     });
   }, 30000);
+  // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
+  setInterval(() => {
+    var hosts_to_remove = _.filter(hosts, (host) => {
+      return (abs(host.lastPing - moment().valueOf()) > 30000);
+    });
+    _.forEach(hosts_to_remove, (host) => {
+      _.remove(hosts, host);
+    });
+  }, 33000);
 
   // Start workers and listen for messages
   const numCPUs = require('os').cpus().length;
@@ -103,7 +112,8 @@ if (cluster.isMaster) {
           break;
         case 121: // Host is still handling games
           console.log('Host is still handling games');
-
+          const host = _.find(hosts, ['code', letterCode]);
+          host.lastPing = moment().valueOf();
           writeToFile(server_log, `${letterCode} Host still handling games`);
           break;
         case 130: // Host shutting down
@@ -213,7 +223,7 @@ function writeToFile(filename, message) {
   fs.appendFile(filename, final_message, 'utf8', (err) => {
     if (err) throw err;
     console.log(`Appended to file ${filename}`);
-  })
+  });
 }
 
 /*
@@ -236,7 +246,7 @@ function handleHostCodeRequest(socket) {
     socket: socket,
     players: [],
     audience: [],
-    lastPing: moment().format('HH:mm:ss');
+    lastPing: moment().valueOf()
   });
   // Send back letter code
   const res = {
@@ -328,7 +338,7 @@ function handleAudienceConn(letterCode, socket) {
     "id": id,
     "isPlayer": false
   }
-  send(host)
+  send(host, JSON.stringify(res));
   send(socket, JSON.stringify(res));
   return id;
 }
@@ -380,7 +390,7 @@ function send(socket, data) {
   const arr = toBytesInt32(n);
   // Store length in Buffer
   const buff = new Buffer.from(arr);
-  // console.log(buff);
+  console.log(buff);
   // Store message in Buffer
   const buff2 = new Buffer.from(data.toString());
   console.log('Message sent: ' + buff2.toString());
@@ -397,14 +407,10 @@ function toBytesInt32(num) {
   return arr;
 }
 
-function codeCheck(code) {
+function codeCheck(letterCode) {
   if (!codes.includes(letterCode)) {
     console.log('Code does not exist: ' + letterCode);
     // Send back 112 code : Invalid server codes
-    const res = {
-      "messageType": 112
-    };
-    send(socket, JSON.stringify(res));
     return false;
   }
   return true;
