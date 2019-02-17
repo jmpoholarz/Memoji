@@ -37,10 +37,19 @@ func _on_Networking_obtainedLetterCode(letterCode):
 
 func _on_Networking_playerConnected(playerID, isPlayer):
 	# Add new player to players array
-	player = playerScene.instance() #might not work
+	var player
+	
+	player = PlayerClass.instance() #might not work
 	player.playerID = playerID
 	player.isPlayer = isPlayer
 	players.append(player)
+	
+	if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
+		# TODO: Update the lobby screen's player displays
+		
+		
+		
+		pass
 
 func _on_Networking_playerDisconnected(playerID):
 	# Remove player from array
