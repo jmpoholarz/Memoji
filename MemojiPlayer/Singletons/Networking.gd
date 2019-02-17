@@ -61,8 +61,10 @@ func connectPlayerToServer(serverIP, serverPort):
 		print(socket.get_status())
 		if response == FAILED:
 			print("Connection attempt failed.")
+			Logger.writeLine("Connection attempt failed.")
 		elif response == OK:
 			print("Connection attempt made on " + defaultServerIP + ":" + str(defaultServerPort))
+			Logger.writeLine("Connection attempt made on " + defaultServerIP + ":" + str(defaultServerPort))
 			emit_signal("_connectedToServer")
 
 func disconnectPlayerFromServer():
@@ -80,39 +82,48 @@ func _on_ConnectingTimer_timeout():
 	if socket.get_status() != socket.STATUS_CONNECTED:
 		print(socket.get_status())
 		print("Connection attempt failed.  Took too long to connect.")
+		Logger.writeLine("Connection attempt failed.  Took too long to connect.")
 		# Force disconnect
 		disconnectPlayerFromServer()
 	else:
 		print(socket.get_status())
 		print("Connection attempt was successful.")
+		Logger.writeLine("Connection attempt was successful.")
 		print("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
-		sendMessageToServer("Test Message from Player")
+		Logger.writeLine("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
 
 func sendMessageToServer(message):
 	# Check if can send message
 	if !socket.is_connected_to_host():
 		print("Failed to send message.  Not connected to server.")
+		Logger.writeLine("Failed to send message (" + str(message) + ").  Not connected to server.")
 		return
 	# Check if valid message
 	if !message.has("messageType"):
 		print("Failed to send message.  Lacking messageType attribute.")
+		Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'messageType' attribute.")
 	if !message.has("letterCode"):
 		print("Failed to send message.  Lacking letterCode attribute.")
+		Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'letterCode' attribute.")
 	# Send message
 	print("Sending player message...")
+	Logger.writeLine("Sending player message...")
 	socket.put_utf8_string(message)
 	print("Player message sent.")
+	Logger.writeLine("Message (" + message + ") sent.")
 
 func getMessageFromServer():
 	# Check if can get message
 	if !socket.is_connected_to_host():
 		print("Failed to get message.  Not connected to server.")
+		Logger.writeLine("Failed to get message.  Not connected to server.")
 		return
 	# Obtain message
 	var messageLen = $Parser.getMessageLength(socket)
 	print(messageLen)
 	var messageJson = socket.get_utf8_string(messageLen)
 	print(messageJson)
+	Logger.writeLine("Obtained message of length " + messageLen + " with text (" + messageJson + ").")
 
 	# Convert message to dictionary
 	var messageDict = $Parser.decodeMessage(messageJson)
@@ -153,3 +164,4 @@ func getMessageFromServer():
 			emit_signal("enteredInvalidMultiVote")
 		_:
 			print("Unrecognized message code " + str(messageCode))
+			Logger.writeLine("Unrecognized message code " + str(messageCode))

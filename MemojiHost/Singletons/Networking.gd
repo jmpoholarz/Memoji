@@ -156,3 +156,4 @@ func getMessageFromServer():
 			emit_signal("receivedPlayerMultiVote", messageDict["playerId"], messageDict["promptId"], messageDict["voteArray"])
 		_:
 			print("Unrecognized message code " + str(messageCode))
+			Logger.writeLine("Unrecognized message code " + str(messageCode))
