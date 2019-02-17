@@ -135,7 +135,7 @@ func getMessageFromServer():
 	# Decode message purpose and send appropriate signal
 	var messageCode = messageDict["messageType"]
 	print(messageCode)
-	match messageCode:
+	match int(messageCode):
 		MESSAGE_TYPES.VALID_SERVER_CODE:
 			letterCode = messageDict["letterCode"]
 			emit_signal("enteredValidHostCode", messageDict["playerID"], messageDict["isPlayer"])
