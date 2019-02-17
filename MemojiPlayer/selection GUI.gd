@@ -17,5 +17,5 @@ func _ready():
 #	pass
 
 
-func _on_Button_pressed():
-	emit_signal("change_icon", 3)
+func _on_Button_pressed(id):
+	emit_signal("change_icon", id)
