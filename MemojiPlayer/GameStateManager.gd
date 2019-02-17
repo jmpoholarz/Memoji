@@ -21,8 +21,11 @@ func _on_Networking_answersReceived(answerArray):
 func _on_Networking_enteredInvalidAnswer():
 	pass # replace with function body
 
-func _on_Networking_enteredValidHostCode():
-	pass # replace with function body
+func _on_Networking_enteredValidHostCode(playerID, isPlayer):
+	var playerScene = load("res://Player.tscn") #might not work
+	player = playerScene.instance() #might not work
+	player.playerID = playerID
+	player.isPlayer = isPlayer
 
 func _on_Networking_enteredInvalidHostCode():
 	pass # replace with function body
@@ -63,6 +66,8 @@ func _on_Networking_promptsReceived(promptArray):
 
 
 func _on_ScreenManager_sendMessageToServer(msg):
+	if player != null:
+		msg["playerID"] = player.playerID
 	$Networking.sendMessageToServer(msg)
 
 
