@@ -3,8 +3,11 @@ extends Button
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
+
+#storage for the avatar id and the player name
 var newId = 0
 var newName = "name"
+
 signal sendMessage(msg)
 
 func _ready():
@@ -16,9 +19,12 @@ func _ready():
 #	# Called every frame. Delta is time since last frame.
 #	# Update game logic here.
 #	pass
+
+#store the new avatar id
 func on_change_icon(id):
 	newId = id
 
+#store the new player name when changed
 func on_change_text(newText):
 	name = newText
 
@@ -38,6 +44,7 @@ func _on_TouchScreenButton_pressed():
 	else:
 		get_node("NameNullPopup").popup()
 	
+	#validate that the correct id and name are stored
 	print(str(newId) + " " + name)
 	
 

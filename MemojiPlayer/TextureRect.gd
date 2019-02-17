@@ -13,6 +13,8 @@ func _ready():
 #	# Called every frame. Delta is time since last frame.
 #	# Update game logic here.
 #	pass
+
+#update the texture that is displayed to the currently selected avatar
 func on_change_icon(id):
 	var newTexture = load("res://EmojiIcons/icon" + str(id) + ".png")
 	self.texture = newTexture

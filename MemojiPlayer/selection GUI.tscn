@@ -9,7 +9,7 @@
 [ext_resource path="res://Assets/DonePlaceholder.png" type="Texture" id=7]
 [ext_resource path="res://TouchScreenButton.gd" type="Script" id=8]
 
-[node name="selection GUI" type="Container"]
+[node name="selection GUI" type="Container" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
