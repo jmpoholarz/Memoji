@@ -27,4 +27,5 @@ func _on_Button_pressed(id):
 
 func _on_TextEdit_text_changed():
 	var textBox = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/TextEdit")
+	
 	emit_signal("change_text", textBox.text)
