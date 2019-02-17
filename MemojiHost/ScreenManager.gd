@@ -1,6 +1,6 @@
 extends Node
 
-var titleScreen = preload("res://FirstTitle.tscn")
+var titleScreenScene = preload("res://FirstTitle.tscn")
 
 signal sendMessageToServer(msg)
 
@@ -14,9 +14,11 @@ func _ready():
 	pass
 
 func changeScreenTo(screen):
+	# TODO - queue_free() before changing scenes
 	match screen:
 		TITLE_SCREEN:
-			add_child(titleScreen.instance())
+			var titleScreen = titleScreenScene.instance()
+			add_child(titleScreen)
 			#titleScreen.connect("signal", self, "forwardMessage")
 
 func forwardMessage(msg):

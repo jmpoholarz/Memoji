@@ -19,6 +19,7 @@ func _ready():
 	pass
 
 func changeScreenTo(screen):
+	# TODO - queue_free() before changing screen
 	match screen:
 		TITLE_SCREEN:
 			var titleScreen = titleScreenScene.instance()

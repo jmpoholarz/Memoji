@@ -126,7 +126,7 @@ func getMessageFromServer():
 	print(messageLen)
 	var messageJson = socket.get_utf8_string(messageLen)
 	print(messageJson)
-	Logger.writeLine("Obtained message of length " + messageLen + " with text (" + messageJson + ").")
+	Logger.writeLine("Obtained message of length " + str(messageLen) + " with text (" + str(messageJson) + ").")
 
 	# Convert message to dictionary
 	var messageDict = $Parser.decodeMessage(messageJson)
