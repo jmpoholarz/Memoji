@@ -395,7 +395,7 @@ function send(socket, data) {
   const buff2 = new Buffer.from(data.toString());
   console.log('Message sent: ' + buff2.toString());
   // Send length
-  socket.write(buff);
+  // socket.write(buff);
   // Send message
   socket.write(buff2);
 }
@@ -410,7 +410,6 @@ function toBytesInt32(num) {
 function codeCheck(letterCode) {
   if (!codes.includes(letterCode)) {
     console.log('Code does not exist: ' + letterCode);
-    // Send back 112 code : Invalid server codes
     return false;
   }
   return true;
