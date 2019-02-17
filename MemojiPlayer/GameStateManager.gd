@@ -30,7 +30,7 @@ func _on_Networking_enteredValidHostCode(playerID, isPlayer):
 	player.playerID = playerID
 	player.isPlayer = isPlayer
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
-		$ScreenManager.changeScreenTo(USERINFORMATION_SCREEN)
+		$ScreenManager.changeScreenTo($ScreenManager.USERINFORMATION_SCREEN)
 
 func _on_Networking_enteredInvalidHostCode():
 	if $ScreenManager.currentScene == $ScreenManager.SCREENS.TITLE_SCREEN:
@@ -56,7 +56,7 @@ func _on_Networking_enteredValidMultiVote():
 
 func _on_Networking_enteredValidUsername():
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
-		$ScreenManager.changeScreenTo(LOBBY_SCREEN)
+		$ScreenManager.changeScreenTo("LOBBY_SCREEN")
 	pass # replace with function body
 
 func _on_Networking_enteredValidVote():

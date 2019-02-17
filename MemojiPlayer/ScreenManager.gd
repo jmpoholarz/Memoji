@@ -3,7 +3,10 @@ extends Node
 signal sendMessageToServer(msg)
 
 enum SCREENS {
-	TITLE_SCREEN = 1
+	TITLE_SCREEN = 1,
+	USERINFORMATION_SCREEN = 2,
+	LOBBY_SCREEN = 3
+	
 }
 
 var currentScreen
