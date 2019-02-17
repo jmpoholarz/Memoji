@@ -38,9 +38,6 @@ func _on_Networking_enteredInvalidHostCode():
 		$ScreenManager/TitleScreen._on_InvalidRoomCode()
 	pass # replace with function body
 
-func _on_Networking_enteredValidUsername():
-	pass # replace with function body
-
 func _on_Networking_enteredInvalidUsername():
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
 		$ScreenManager/UserInformationPanel._on_InvalidName()
@@ -49,13 +46,8 @@ func _on_Networking_enteredInvalidUsername():
 func _on_Networking_promptsReceived(promptArray):
 	pass # replace with function body
 
-func _on_Networking_answersReceived(answerArray):
-	pass # replace with function body
 
 func _on_Networking_enteredValidAnswer():
-	pass # replace with function body
-
-func _on_Networking_enteredInvalidAnswer():
 	pass # replace with function body
 
 func _on_Networking_enteredValidMultiVote():
