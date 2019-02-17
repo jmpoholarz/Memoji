@@ -1,5 +1,7 @@
 extends Node
 
+var playerScene = preload("res://Player.tscn") #might not work
+
 var currentRound
 var currentState
 var player
@@ -24,7 +26,6 @@ func _on_Networking_enteredInvalidAnswer():
 	pass # replace with function body
 
 func _on_Networking_enteredValidHostCode(playerID, isPlayer):
-	var playerScene = load("res://Player.tscn") #might not work
 	player = playerScene.instance() #might not work
 	player.playerID = playerID
 	player.isPlayer = isPlayer
