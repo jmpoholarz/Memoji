@@ -17,4 +17,18 @@ script = ExtResource( 1 )
 
 [connection signal="sendMessageToServer" from="ScreenManager" to="." method="_on_ScreenManager_sendMessageToServer"]
 
+[connection signal="obtainedLetterCode" from="Networking" to="." method="_on_Networking_obtainedLetterCode"]
+
+[connection signal="playerConnected" from="Networking" to="." method="_on_Networking_playerConnected"]
+
+[connection signal="playerDisconnected" from="Networking" to="." method="_on_Networking_playerDisconnected"]
+
+[connection signal="receivedPlayerAnswer" from="Networking" to="." method="_on_Networking_receivedPlayerAnswer"]
+
+[connection signal="receivedPlayerDetails" from="Networking" to="." method="_on_Networking_receivedPlayerDetails"]
+
+[connection signal="receivedPlayerMultiVote" from="Networking" to="." method="_on_Networking_receivedPlayerMultiVote"]
+
+[connection signal="receivedPlayerVote" from="Networking" to="." method="_on_Networking_receivedPlayerVote"]
+
 
