@@ -38,7 +38,7 @@ func ___test():
 
 	startedTest = true
 	if socket.get_status() == socket.STATUS_NONE:
-		connectHostToServer(defaultServerIP, defaultServerPort)
+		connectPlayerToServer(defaultServerIP, defaultServerPort)
 
 
 func _process(delta):

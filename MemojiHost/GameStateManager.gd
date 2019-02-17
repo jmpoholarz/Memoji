@@ -36,7 +36,7 @@ func _on_Networking_obtainedLetterCode(letterCode):
 
 func _on_Networking_playerConnected(playerID, isPlayer):
 	# Add new player to players array
-	player = playerScene.instance() #might not work
+	var player = playerScene.instance() #might not work
 	player.playerID = playerID
 	player.isPlayer = isPlayer
 	players.append(player)

@@ -1,5 +1,7 @@
 extends Node
 
+var titleScreen = preload("res://FirstTitle.tscn")
+
 signal sendMessageToServer(msg)
 
 enum SCREENS {
@@ -14,7 +16,6 @@ func _ready():
 func changeScreenTo(screen):
 	match screen:
 		TITLE_SCREEN:
-			var titleScreen = load("res://TitleScreen.tscn")
 			add_child(titleScreen.instance())
 			#titleScreen.connect("signal", self, "forwardMessage")
 
