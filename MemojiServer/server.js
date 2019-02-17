@@ -16,12 +16,13 @@ const max_players = 8;
 const max_audience = 100;
 var mtype = '';
 
+const server_log = 'server_log.txt';
+const error_log = 'server_error_log.txt';
+
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
 
   console.log('Server start time: ' + moment().format('HH:mm:ss'));
-  const server_log = 'server_log.txt';
-  const error_log = 'server_error_log.txt';
   fs.writeFile(server_log, '# Beginning of server log\n', 'utf8', (err) => {
     if (err) throw err;
     console.log('server_log.txt created successfully.');
