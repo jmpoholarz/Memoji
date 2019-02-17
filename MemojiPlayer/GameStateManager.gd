@@ -24,7 +24,8 @@ func _on_Networking_enteredInvalidAnswer():
 	pass # replace with function body
 
 func _on_Networking_enteredValidHostCode(playerID, isPlayer):
-	player = Player.new()
+	var playerScene = load("res://Player.tscn") #might not work
+	player = playerScene.instance() #might not work
 	player.playerID = playerID
 	player.isPlayer = isPlayer
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
