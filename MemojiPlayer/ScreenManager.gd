@@ -21,6 +21,12 @@ func changeScreenTo(screen):
 		USERINFORMATION_SCREEN:
 			var userinfoScreen = load("res://UserInformationScreen.tscn")
 			add_child(userinfoScreen.instance())
+			userinfoScreen.connect("sendMessage", self, "forwardMessage")
+		
+		LOBBY_SCREEN:
+			var lobbyScreen = load("res://WaitngForGameScreen.tscn")
+			add_child(lobbyScreen.instance())
+			lobbyScreen.connect("sendMessage", self, "forwardMessage")
 			
 
 func forwardMessage(msg):

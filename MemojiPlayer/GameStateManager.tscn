@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://GameStateManager.gd" type="Script" id=1]
 [ext_resource path="res://ScreenManager.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Singletons/Networking.tscn" type="PackedScene" id=3]
+[ext_resource path="res://TitleScreen.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UserInformationScreen.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Singletons/Networking.tscn" type="PackedScene" id=5]
 
 [node name="GameStateManager" type="Node" index="0"]
 
@@ -10,7 +12,11 @@ script = ExtResource( 1 )
 
 [node name="ScreenManager" parent="." index="0" instance=ExtResource( 2 )]
 
-[node name="Networking" parent="." index="1" instance=ExtResource( 3 )]
+[node name="TitleScreen" parent="ScreenManager" index="0" instance=ExtResource( 3 )]
+
+[node name="UserInformationScreen" parent="ScreenManager" index="1" instance=ExtResource( 4 )]
+
+[node name="Networking" parent="." index="1" instance=ExtResource( 5 )]
 
 [connection signal="sendMessageToServer" from="ScreenManager" to="." method="_on_ScreenManager_sendMessageToServer"]
 

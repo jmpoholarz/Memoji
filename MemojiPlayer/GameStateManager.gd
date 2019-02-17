@@ -38,6 +38,8 @@ func _on_Networking_enteredInvalidMultiVote():
 	pass # replace with function body
 
 func _on_Networking_enteredInvalidUsername():
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
+		$ScreenManager/UserInformationPanel._on_InvalidName()
 	pass # replace with function body
 
 func _on_Networking_enteredInvalidVote():
@@ -50,6 +52,8 @@ func _on_Networking_enteredValidMultiVote():
 	pass # replace with function body
 
 func _on_Networking_enteredValidUsername():
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
+		$ScreenManager.changeScreenTo(LOBBY_SCREEN)
 	pass # replace with function body
 
 func _on_Networking_enteredValidVote():
