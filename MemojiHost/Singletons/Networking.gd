@@ -33,10 +33,6 @@ func ___test():
 	startedTest = true
 	if socket.get_status() == socket.STATUS_NONE:
 		connectHostToServer(defaultServerIP, defaultServerPort)
-<<<<<<< HEAD
-=======
-	#testMatch()
->>>>>>> 0f4ede37b59cb8790854569332bffade97613901
 
 
 func _process(delta):
@@ -61,8 +57,10 @@ func connectHostToServer(serverIP, serverPort):
 		print(socket.get_status())
 		if response == FAILED:
 			print("Connection attempt failed.")
+			Logger.writeLine("Connecting attempt failed.")
 		elif response == OK:
 			print("Connection attempt made on " + defaultServerIP + ":" + str(defaultServerPort))
+			Logger.writeLine("Connection attempt made on " + defaultServerIP + ":" + str(defaultServerPort))
 			emit_signal("_connectedToServer")
 
 func disconnectHostFromServer():
@@ -81,39 +79,46 @@ func _on_ConnectingTimer_timeout():
 	if socket.get_status() != socket.STATUS_CONNECTED:
 		print(socket.get_status())
 		print("Connection attempt failed.  Took too long to connect.")
+		Logger.writeLine("Connection attempt failed.  Took too long to connect.")
 		# Force disconnect
 		disconnectHostFromServer()
 	else:
 		# Successfully connected
 		print(socket.get_status())
 		print("Connection attempt was successful.")
+		Logger.writeLine("Connection attempt was successful.")
 		print("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
-		# TODO REMOVE THIS TODO #
-		var msg = {"messageType": MESSAGE_TYPES.HOST_REQUESTING_CODE}
-		sendMessageToServer(msg)
-		# # # # # # # # # # # # #
+		Logger.writeLine("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
+		#var msg = {"messageType": MESSAGE_TYPES.HOST_REQUESTING_CODE}
+		#sendMessageToServer(msg)
 
 func sendMessageToServer(message):
 	# Check if can send message
 	if !socket.is_connected_to_host():
 		print("Failed to send message.  Not connected to server.")
+		Logger.writeLine("Failed to send message (" + str(message) + ").  Not connected to server.")
 		return
 	# Check if valid message
 	if message["messageType"] != MESSAGE_TYPES.HOST_REQUESTING_CODE:
 		if !message.has("messageType"):
 			print("Failed to send message.  Lacking messageType attribute.")
+			Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'messageType' attribute.")
 		if !message.has("letterCode"):
 			print("Failed to send message.  Lacking letterCode attribute.")
+			Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'letterCode' attribute.")
 	# Send message
 	print("Sending message...")
+	Logger.writeLine("Sending message...")
 	message = $Parser.encodeMessage(message)
 	socket.put_utf8_string(message)
 	print("Message sent.")
+	Logger.writeLine("Message (" + message + ") sent.")
 
 func getMessageFromServer():
 	# Check if can get message
 	if !socket.is_connected_to_host():
 		print("Failed to get message.  Not connected to server.")
+		Logger.writeLine("Failed to get message.  Not connected to server.")
 		return
 	# Obtain message
 	var messageLen = $Parser.getMessageLength(socket)
@@ -122,6 +127,7 @@ func getMessageFromServer():
 	for i in range(messageLen):
 		messageJson += socket.get_utf8_string(1)
 	print(messageJson)
+	Logger.writeLine("Obtained message of length " + messageLen + " with text (" + messageJson + ").")
 
 	# Convert message to dictionary
 	var messageDict = $Parser.decodeMessage(messageJson)
