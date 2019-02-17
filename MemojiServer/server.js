@@ -222,7 +222,7 @@ function writeToFile(filename, message) {
   fs.appendFile(filename, final_message, 'utf8', (err) => {
     if (err) throw err;
     console.log(`Appended to file ${filename}`);
-  })
+  });
 }
 
 /*
