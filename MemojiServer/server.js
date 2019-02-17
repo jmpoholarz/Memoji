@@ -20,7 +20,7 @@ if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
 
   console.log('Server start time: ' + moment().format('HH:mm:ss'));
-
+  console.log(moment().valueOf());
   const server_log = 'server_log.txt';
   const error_log = 'server_error_log.txt';
   fs.writeFile(server_log, '# Beginning of server log\n', 'utf8', (err) => {
@@ -41,6 +41,15 @@ if (cluster.isMaster) {
       send(host.socket, JSON.stringify(res));
     });
   }, 30000);
+  // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
+  setInterval(() => {
+    var hosts_to_remove = _.filter(hosts, (host) => {
+      return (abs(host.lastPing - moment().valueOf()) > 30000);
+    });
+    _.forEach(hosts_to_remove, (host) => {
+      _.remove(hosts, host);
+    });
+  }, 33000);
 
   // Start workers and listen for messages
   const numCPUs = require('os').cpus().length;
@@ -103,7 +112,8 @@ if (cluster.isMaster) {
           break;
         case 121: // Host is still handling games
           console.log('Host is still handling games');
-
+          const host = _.find(hosts, ['code', letterCode]);
+          host.lastPing = moment().valueOf();
           writeToFile(server_log, `${letterCode} Host still handling games`);
           break;
         case 130: // Host shutting down
@@ -236,7 +246,7 @@ function handleHostCodeRequest(socket) {
     socket: socket,
     players: [],
     audience: [],
-    lastPing: moment().format('HH:mm:ss');
+    lastPing: moment().valueOf()
   });
   // Send back letter code
   const res = {
@@ -328,7 +338,7 @@ function handleAudienceConn(letterCode, socket) {
     "id": id,
     "isPlayer": false
   }
-  send(host)
+  send(host, JSON.stringify(res));
   send(socket, JSON.stringify(res));
   return id;
 }
