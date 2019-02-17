@@ -121,7 +121,7 @@ if (cluster.isMaster) {
           // Player Codes
         case 401: // Player Connection and Audience connection
           // Check if there is room in the lobby
-          if (codeCheck(letterCode)) {
+          if (codeCheck(letterCode, socket)) {
             const host = _.find(hosts, ['code', letterCode]);
             if (host.players.length < max_players) {
               // Player can join
@@ -344,7 +344,7 @@ function handleAudienceConn(letterCode, socket) {
 
 function handlePlayerDisConn(letterCode, socket) {
   // Remove player from host
-  if (!codeCheck(letterCode)) {
+  if (!codeCheck(letterCode, socket)) {
     console.log('Did not handle player disconnection successfully.');
     return 0;
   }
@@ -406,7 +406,7 @@ function toBytesInt32(num) {
   return arr;
 }
 
-function codeCheck(letterCode) {
+function codeCheck(letterCode, socket) {
   if (!codes.includes(letterCode)) {
     console.log('Code does not exist: ' + letterCode);
     // Send back 112 code : Invalid server codes
