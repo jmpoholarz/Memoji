@@ -20,7 +20,6 @@ if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
 
   console.log('Server start time: ' + moment().format('HH:mm:ss'));
-  console.log(moment().valueOf());
   const server_log = 'server_log.txt';
   const error_log = 'server_error_log.txt';
   fs.writeFile(server_log, '# Beginning of server log\n', 'utf8', (err) => {

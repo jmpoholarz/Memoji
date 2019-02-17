@@ -38,12 +38,12 @@ func getTimeString():
 func writeLine(string):
 	errorFile.open("user://log.txt", File.READ_WRITE)
 	errorFile.seek_end()
-	errorFile.store(string + "\r\n")
+	errorFile.store_string(string + "\r\n")
 	errorFile.close()
 
 func write(string):
 	errorFile.open("user//log.txt", File.READ_WRITE)
 	errorFile.seek_end()
-	errorFile.store(string)
+	errorFile.store_string(string)
 	errorFile.close()
 

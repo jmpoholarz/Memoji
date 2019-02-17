@@ -17,6 +17,7 @@ func sendAnswersForVoting():
 
 
 
+
 func _on_Networking_answersReceived(answerArray):
 	pass # replace with function body
 
@@ -37,7 +38,7 @@ func _on_Networking_enteredInvalidHostCode():
 		$ScreenManager/TitleScreen._on_InvalidRoomCode()
 	pass # replace with function body
 
-func _on_Networking_enteredInvalidMultiVote():
+func _on_Networking_enteredValidUsername():
 	pass # replace with function body
 
 func _on_Networking_enteredInvalidUsername():
@@ -45,21 +46,33 @@ func _on_Networking_enteredInvalidUsername():
 		$ScreenManager/UserInformationPanel._on_InvalidName()
 	pass # replace with function body
 
-func _on_Networking_enteredInvalidVote():
+func _on_Networking_promptsReceived(promptArray):
+	pass # replace with function body
+
+func _on_Networking_answersReceived(answerArray):
 	pass # replace with function body
 
 func _on_Networking_enteredValidAnswer():
 	pass # replace with function body
 
+func _on_Networking_enteredInvalidAnswer():
+	pass # replace with function body
+
 func _on_Networking_enteredValidMultiVote():
 	pass # replace with function body
+
 
 func _on_Networking_enteredValidUsername():
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
 		$ScreenManager.changeScreenTo("LOBBY_SCREEN")
+
+func _on_Networking_enteredInvalidMultiVote():
 	pass # replace with function body
 
 func _on_Networking_enteredValidVote():
+	pass # replace with function body
+
+func _on_Networking_enteredInvalidVote():
 	pass # replace with function body
 
 func _on_Networking_forcedToDisconnect():
@@ -69,9 +82,6 @@ func _on_Networking_gameEndedByHost():
 	pass # replace with function body
 
 func _on_Networking_gameStartedByHost():
-	pass # replace with function body
-
-func _on_Networking_promptsReceived(promptArray):
 	pass # replace with function body
 
 
