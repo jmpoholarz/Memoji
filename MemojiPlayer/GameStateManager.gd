@@ -30,7 +30,8 @@ func _on_Networking_enteredValidHostCode():
 	pass # replace with function body
 
 func _on_Networking_enteredInvalidHostCode():
-#	$ScreenManager.currentScene
+	if $ScreenManager.currentScene == $ScreenManager.SCREENS.TITLE_SCREEN:
+		$ScreenManager/TitleScreen._on_InvalidRoomCode()
 	pass # replace with function body
 
 func _on_Networking_enteredInvalidMultiVote():
