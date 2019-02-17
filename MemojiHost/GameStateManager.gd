@@ -1,6 +1,8 @@
 extends Node
 const PlayerClass = preload("res://Player.gd")
 
+var playerScene = preload("res://Player.tscn") #might not work
+
 var currentRound
 var currentState
 var players = []
@@ -8,6 +10,7 @@ var audiencePlayers = []
 
 func _ready():
 	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
+	players = []
 
 func setupGame():
 	pass
@@ -32,17 +35,18 @@ func quitHosting():
 func _on_Networking_obtainedLetterCode(letterCode):
 	pass # replace with function body
 
-func _on_Networking_playerConnected(playerID):
-	if $ScreenManager.currentScene == $ScreenManager.SCREENS.TITLE_SCREEN:
-		var asdf = $ScreenManager/TitleScreen # debug stuffs
-		
-		
-		
-		pass
-		
+func _on_Networking_playerConnected(playerID, isPlayer):
+	# Add new player to players array
+	player = playerScene.instance() #might not work
+	player.playerID = playerID
+	player.isPlayer = isPlayer
+	players.append(player)
 
 func _on_Networking_playerDisconnected(playerID):
-	pass # replace with function body
+	# Remove player from array
+	for player in players:
+		if player.playerID == playerID:
+			players.remove(player)
 
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	pass # replace with function body

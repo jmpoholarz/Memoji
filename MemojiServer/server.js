@@ -1,6 +1,10 @@
 const net = require('net');
 const _ = require('lodash');
 const uuid = require('uuid/v1');
+const moment = require('moment');
+const fs = require('fs');
+const cluster = require('cluster');
+
 const port = 7575;
 
 var codes = [];
@@ -10,116 +14,207 @@ var audience = [];
 
 const max_players = 8;
 const max_audience = 100;
+var mtype = '';
 
-const server = net.createServer(socket => {
+if (cluster.isMaster) {
+  console.log(`Master ${process.pid} is running`);
 
-  console.log('client connected');
+  console.log('Server start time: ' + moment().format('HH:mm:ss'));
 
-  socket.on('end', () => {
-    console.log('client disconnected');
+  const server_log = 'server_log.txt';
+  const error_log = 'server_error_log.txt';
+  fs.writeFile(server_log, '# Beginning of server log\n', 'utf8', (err) => {
+    if (err) throw err;
+    console.log('server_log.txt created successfully.');
+  });
+  fs.writeFile(error_log, '# Beginning of error log\n', 'utf8', (err) => {
+    if (err) throw err;
+    console.log('server_error_log.txt created successfully.');
   });
 
-  socket.on('data', (data) => {
-    console.log(data.toString());
-    console.log(data.toString().length);
-
-    const json = parseData(data);
-    if(json === -1){
-      console.warn("Error parsing data");
+  // Send a ping to each host every 5 minutes to check if the game is still active
+  setInterval(() => {
+    _.forEach(hosts, (host) => {
       const res = {
-        "messageType": 601,
-        "data": data.toString()
+        "messageType": 120
       };
-      send(socket, JSON.stringify(res));
-      return;
-    }
-    const message = JSON.parse(json);
-    console.log(message);
+      send(host.socket, JSON.stringify(res));
+    });
+  }, 30000);
 
-    // See what message type (action)
-    var letterCode = ""
-    try {
-      letterCode = message.letterCode;
-    } catch(err) {
-      console.warn("Message does not contain letterCode");
-      console.warn(err);
-      const res = {
-        "messageType": 601,
-        "message": data.toString()
-      };
-      send(socket, JSON.stringify(res));
-    }
+  // Start workers and listen for messages
+  const numCPUs = require('os').cpus().length;
+  for (var i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
 
-    switch (message.messageType) {
-      case 110: // Host requests new room code
-        handleHostCodeRequest(socket);
-        break;
-      case 121: // Host is still handling games
-        console.log("Host is still handling games");
-        break;
-      case 130: // Host shutting down
-        handleHostDisConn(letterCode);
-        break;
-      // Player Codes
-      case 401: // Player Connection and Audience connection
-        // Check if there is room in the lobby
-        if(codeCheck(letterCode)){
-          const host = _.find(hosts, ['code', letterCode]);
-          if(host.players.length < max_players){
-            // Player can join
-            handlePlayerConn(letterCode, socket);
+  cluster.on('exit', (worker, code, signal) => {
+    console.log('worker %d died (%s). restarting...',
+                  worker.process.pid, signal || code);
+    cluster.fork();
+  });
+
+} else {
+  // Workers can share any TCP connection
+
+  const server = net.createServer(socket => {
+
+    console.log('client connected');
+
+    socket.on('end', () => {
+      console.log('client disconnected');
+    });
+
+    socket.on('data', (data) => {
+      console.log(data.toString());
+      console.log(data.toString().length);
+
+      const json = parseData(data);
+      if (json === -1) {
+        console.warn('Error parsing data');
+        const res = {
+          "messageType": 601,
+          "data": data.toString()
+        };
+        send(socket, JSON.stringify(res));
+        return;
+      }
+      const message = JSON.parse(json);
+      console.log(message);
+
+      // See what message type (action)
+      var letterCode = ""
+      try {
+        letterCode = message.letterCode;
+      } catch (err) {
+        console.warn('Message does not contain letterCode');
+        console.warn(err);
+        const res = {
+          "messageType": 601,
+          "message": data.toString()
+        };
+        send(socket, JSON.stringify(res));
+      }
+
+      switch (message.messageType) {
+        case 110: // Host requests new room code
+          handleHostCodeRequest(socket);
+          writeToFile(server_log, 'Host requested code');
+          break;
+        case 121: // Host is still handling games
+          console.log('Host is still handling games');
+
+          writeToFile(server_log, `${letterCode} Host still handling games`);
+          break;
+        case 130: // Host shutting down
+          handleHostDisConn(letterCode);
+          break;
+          // Player Codes
+        case 401: // Player Connection and Audience connection
+          // Check if there is room in the lobby
+          if (codeCheck(letterCode)) {
+            const host = _.find(hosts, ['code', letterCode]);
+            if (host.players.length < max_players) {
+              // Player can join
+              var id = handlePlayerConn(letterCode, socket);
+              writeToFile(server_log, `Player: [${id}] joined Host - ${letterCode}`);
+            } else {
+              // Host lobby full, join as audience member
+              var id = handleAudienceConn(letterCode, socket);
+              writeToFile(server_log, `Audience: [${id}] joined Host - ${letterCode}`);
+            }
           } else {
-            // Host lobby full, join as audience member
-            handleAudienceConn(letterCode, socket);
+            console.log('Invalid code');
+            console.log('Did not handle player connection successfully.');
+            const res = {
+              "messageType": 113
+            };
+            send(socket, JSON.stringify(res));
+            writeToFile(server_log, 'Player could not join. Invalid letter code.');
           }
-        }
-        break;
-      case 402: // Player Disconnecting
-        // Remove player from host
-        handlePlayerDisConn(letterCode, socket);
-        break;
-      case 301: // Host starting game -----> Send to all Players
-      case 302: // Host ending game -------> Send to all Players
-      case 320: // Host round time is up --> Send to all Players
-        sendToAllPlayers(letterCode, message);
-        break;
-      case 311: // Host Sending promtpt ---> Send to Player
-        sendToPlayer(message);
-        break;
-      case 312: // Host sending answers ---> Send to all Players and Audience
-        sendToPlayersAndAudience(letterCode, message);
-        break;
-      case 404: // Invalid username ----------------> Send to Player
-      case 405: // Accepted Username and avatar ----> Send to Player
-        sendToPlayer(message);
-        break;
-      case 403: // Player username and avatar ------> Send to Host
-      case 410: // Player sending prompt response --> Send to Host
-      case 411: // Invalid promtpt response --------> Send to Host
-      case 412: // Accepted prompt response --------> Send to Host
-      case 420: // Player sending single vote ------> Send to Host
-      case 421: // Invalid vote response -----------> Send to Host
-      case 422: // Accepted vote response ----------> Send to Host
-      case 430: // Player sending multi vote -------> Send to Host
-      case 431: // Invalid multi vote --------------> Send to Host
-      case 432: // Accepted multi vote -------------> Send to Host
-        sendToHost(letterCode, message);
-        break;
-      default:
-        console.log("Unknown Message Type");
-    }
-    console.log("Hosts: ");
-    console.log(hosts);
+          break;
+        case 402: // Player Disconnecting
+          // Remove player from host
+          handlePlayerDisConn(letterCode, socket);
+          writeToFile(server_log, `Player disconnecting from host - ${letterCode}`);
+          break;
+        case 301: // Host starting game -----> Send to all Players
+        case 302: // Host ending game -------> Send to all Players
+        case 320: // Host round time is up --> Send to all Players
+          sendToAllPlayers(letterCode, message);
+          if (message.messageType === 301) mtype = 'Host starting game.';
+          if (message.messageType === 302) mtype = 'Host ending game.';
+          if (message.messageType === 320) mtype = 'Round timer is over.';
+          writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to all Players`);
+          break;
+        case 311: // Host Sending promtpt ---> Send to Player
+          sendToPlayer(message);
+          writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending prompt.] Sending to Player: ${message.playerId}`);
+          break;
+        case 312: // Host sending answers ---> Send to all Players and Audience
+          sendToPlayersAndAudience(letterCode, message);
+          writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending answers.] Sending to all Players and Audience`);
+          break;
+        case 404: // Invalid username ----------------> Send to Player
+        case 405: // Accepted Username and avatar ----> Send to Player
+          sendToPlayer(message);
+          if (message.messageType === 404) mtype = 'Invalid username.';
+          if (message.messageType === 405) mtype = 'Host starting game.';
+          writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Player: ${message.playerId}`);
+          break;
+        case 403: // Player username and avatar ------> Send to Host
+        case 410: // Player sending prompt response --> Send to Host
+        case 411: // Invalid prompt response --------> Send to Host
+        case 412: // Accepted prompt response --------> Send to Host
+        case 420: // Player sending single vote ------> Send to Host
+        case 421: // Invalid vote response -----------> Send to Host
+        case 422: // Accepted vote response ----------> Send to Host
+        case 430: // Player sending multi vote -------> Send to Host
+        case 431: // Invalid multi vote --------------> Send to Host
+        case 432: // Accepted multi vote -------------> Send to Host
+          sendToHost(letterCode, message);
+          if (message.messageType === 403) mtype = 'Player username and avatar.';
+          if (message.messageType === 410) mtype = 'Player sending prompt response.';
+          if (message.messageType === 411) mtype = 'Invalid prompt response.';
+          if (message.messageType === 412) mtype = 'Accepted prompt response.';
+          if (message.messageType === 420) mtype = 'Player sending single vote.';
+          if (message.messageType === 421) mtype = 'Invalid vote response.';
+          if (message.messageType === 422) mtype = 'Accepted vote response.';
+          if (message.messageType === 430) mtype = 'Player sending multi vote.';
+          if (message.messageType === 431) mtype = 'Invalid multi vote.';
+          if (message.messageType === 432) mtype = 'Accepted multi vote.';
+          writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Host - ${letterCode}`);
+          break;
+        default:
+          console.log("Unknown Message Type");
+      }
+      console.log("Hosts: ");
+      console.log(hosts);
 
-    // Echo Message back
-    // send(socket, data);
+      // Echo Message back
+      // send(socket, data);
+    });
+
+    server.on('error', (err) => {
+      writeToFile(error_log, err.name);
+      writeToFile(error_log, err.message);
+      writeToFile(error_log, "\n");
+      throw err;
+    });
   });
 
-  server.on('error', (err) => {
-    console.log(err);
-    throw err;
-  });
-});
+  server.listen(port, '127.0.0.1');
+  console.log(`Worker ${process.pid} started`);
+}
+
+function writeToFile(filename, message) {
+  const timestamp = moment().format('HH:mm:ss');
+  const final_message = `[${timestamp}]: ${message}\n`;
+  fs.appendFile(filename, final_message, 'utf8', (err) => {
+    if (err) throw err;
+    console.log(`Appended to file ${filename}`);
+  })
+}
 
 /*
 Host data structure
@@ -128,6 +223,7 @@ Host data structure
   host: socket object
   players: [p1 uuid, p2 uuid, ...]
   audience: [a1, a2, a3, ...]
+  lastPing: timestamp
 }
 */
 
@@ -139,7 +235,8 @@ function handleHostCodeRequest(socket) {
     code: letterCode,
     socket: socket,
     players: [],
-    audience: []
+    audience: [],
+    lastPing: moment().format('HH:mm:ss');
   });
   // Send back letter code
   const res = {
@@ -154,10 +251,12 @@ function handleHostDisConn(letterCode) {
   // Find host via matching socket
   // Send force disonnect message to clients connected to host
   const host = _.remove(hosts, ['code', letterCode]);
-  const code = _.remove(codes, (c) => { return c === letterCode;});
+  const code = _.remove(codes, (c) => {
+    return c === letterCode;
+  });
   console.log(host);
   console.log(code);
-  console.log("Send players disconnect message.");
+  console.log('Send players disconnect message.');
   const res = {
     "messageType": 131
   };
@@ -167,7 +266,7 @@ function handleHostDisConn(letterCode) {
   _.forEach(host.audience, (audience) => {
     send(audience.socket, JSON.stringify(res));
   })
-  console.log("Players removed from host lobby");
+  console.log('Players removed from host lobby');
 }
 
 /*
@@ -180,17 +279,6 @@ Player data structure
 */
 
 function handlePlayerConn(letterCode, socket) {
-  // Check if letter code exists
-  if (!codeCheck(letterCode)) {
-    // Letter Code does not exist
-    console.log("Invalid code");
-    console.log("Did not handle player connection successfully.");
-    const res = {
-      "messageType": 113
-    };
-    send(socket, JSON.stringify(res));
-    return 0;
-  }
   // Code exists
   console.log("Code exists: " + letterCode);
   // Add player to host
@@ -202,8 +290,8 @@ function handlePlayerConn(letterCode, socket) {
   };
   const host = _.find(hosts, ['code', letterCode]);
   host.players.push(player);
-  console.log("Handled player connection successfully.");
-  console.log("Send id to player.");
+  console.log('Handled player connection successfully.');
+  console.log('Send id to player.');
   const res = {
     "messageType": 112,
     "letterCode": letterCode,
@@ -212,7 +300,7 @@ function handlePlayerConn(letterCode, socket) {
   }
   send(host.socket, JSON.stringify(res));
   send(socket, JSON.stringify(res));
-  return 1;
+  return id;
 }
 
 /*
@@ -242,18 +330,19 @@ function handleAudienceConn(letterCode, socket) {
   }
   send(host)
   send(socket, JSON.stringify(res));
+  return id;
 }
 
 function handlePlayerDisConn(letterCode, socket) {
   // Remove player from host
   if (!codeCheck(letterCode)) {
-    console.log("Did not handle player disconnection successfully.");
+    console.log('Did not handle player disconnection successfully.');
     return 0;
   }
   const host = _.find(hosts, ['code', letterCode]);
   const player = _.remove(host.players, ['player', socket]);
-  console.log("Removing player: " + player.id);
-  console.log("Handled player disconnection successfully.");
+  console.log('Removing player: ' + player.id);
+  console.log('Handled player disconnection successfully.');
   return 1;
 }
 
@@ -294,7 +383,7 @@ function send(socket, data) {
   // console.log(buff);
   // Store message in Buffer
   const buff2 = new Buffer.from(data.toString());
-  console.log("Message sent: " + buff2.toString());
+  console.log('Message sent: ' + buff2.toString());
   // Send length
   socket.write(buff);
   // Send message
@@ -310,7 +399,7 @@ function toBytesInt32(num) {
 
 function codeCheck(code) {
   if (!codes.includes(letterCode)) {
-    console.log("Code does not exist: " + letterCode);
+    console.log('Code does not exist: ' + letterCode);
     // Send back 112 code : Invalid server codes
     const res = {
       "messageType": 112
@@ -352,6 +441,3 @@ function generateCode() {
   codes.push(code);
   return code;
 }
-
-// Call last
-server.listen(port, '127.0.0.1');
