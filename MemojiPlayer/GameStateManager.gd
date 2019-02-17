@@ -23,11 +23,12 @@ func _on_Networking_enteredInvalidAnswer():
 		
 	pass # replace with function body
 
-func _on_Networking_enteredValidHostCode():
+func _on_Networking_enteredValidHostCode(playerID, isPlayer):
+	player = Player.new()
+	player.playerID = playerID
+	player.isPlayer = isPlayer
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
 		$ScreenManager.changeScreenTo(USERINFORMATION_SCREEN)
-	
-	pass # replace with function body
 
 func _on_Networking_enteredInvalidHostCode():
 	if $ScreenManager.currentScene == $ScreenManager.SCREENS.TITLE_SCREEN:
@@ -74,6 +75,8 @@ func _on_Networking_promptsReceived(promptArray):
 
 
 func _on_ScreenManager_sendMessageToServer(msg):
+	if player != null:
+		msg["playerID"] = player.playerID
 	$Networking.sendMessageToServer(msg)
 
 

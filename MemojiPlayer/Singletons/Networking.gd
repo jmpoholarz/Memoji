@@ -3,7 +3,7 @@ extends Node
 # # # Signals # # #
 signal _connectedToServer
 signal _disconnectedFromServer
-signal enteredValidHostCode
+signal enteredValidHostCode(playerID, isPlayer)
 signal enteredInvalidHostCode
 signal forcedToDisconnect
 signal gameStartedByHost
@@ -105,8 +105,9 @@ func sendMessageToServer(message):
 		print("Failed to send message.  Lacking messageType attribute.")
 		Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'messageType' attribute.")
 	if !message.has("letterCode"):
-		print("Failed to send message.  Lacking letterCode attribute.")
-		Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'letterCode' attribute.")
+		#print("Failed to send message.  Lacking letterCode attribute.")
+		#Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'letterCode' attribute.")
+		message["letterCode"] = letterCode
 	# Send message
 	print("Sending player message...")
 	Logger.writeLine("Sending player message...")
@@ -130,11 +131,12 @@ func getMessageFromServer():
 	# Convert message to dictionary
 	var messageDict = $Parser.decodeMessage(messageJson)
 	# Decode message purpose and send appropriate signal
-	var messageCode = messageDict[messageType]
+	var messageCode = messageDict["messageType"]
 	print(messageCode)
 	match messageCode:
 		MESSAGE_TYPES.VALID_SERVER_CODE:
-			emit_signal("enteredValidHostCode")
+			letterCode = messageDict["letterCode"]
+			emit_signal("enteredValidHostCode", messageDict["playerID"], messageDict["isPlayer"])
 		MESSAGE_TYPES.INVALID_SERVER_CODE:
 			emit_signal("enteredInvalidHostCode")
 		MESSAGE_TYPES.SERVER_FORCE_DISCONNECT_CLIENT:
