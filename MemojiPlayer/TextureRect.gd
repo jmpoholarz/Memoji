@@ -1,6 +1,5 @@
-extends Container
+extends TextureRect
 
-signal change_icon(iconId)
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
@@ -8,14 +7,12 @@ signal change_icon(iconId)
 func _ready():
 	# Called when the node is added to the scene for the first time.
 	# Initialization here
-	var textRect = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/TextureRect")
-	connect("change_icon", textRect, "on_change_icon")
+	pass
 
 #func _process(delta):
 #	# Called every frame. Delta is time since last frame.
 #	# Update game logic here.
 #	pass
-
-
-func _on_Button_pressed():
-	emit_signal("change_icon", 3)
+func on_change_icon(id):
+	var newTexture = load("res://EmojiIcons/icon" + str(id) + ".png")
+	self.texture = newTexture
