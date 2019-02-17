@@ -139,7 +139,6 @@ if (cluster.isMaster) {
             const res = {
               "messageType": 113
             };
-            console.log(socket);
             send(socket, JSON.stringify(res));
             writeToFile(server_log, 'Player could not join. Invalid letter code.');
           }
@@ -391,7 +390,7 @@ function send(socket, data) {
   const arr = toBytesInt32(n);
   // Store length in Buffer
   const buff = new Buffer.from(arr);
-  // console.log(buff);
+  console.log(buff);
   // Store message in Buffer
   const buff2 = new Buffer.from(data.toString());
   console.log('Message sent: ' + buff2.toString());
