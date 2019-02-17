@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://selection GUI.gd" type="Script" id=1]
-[ext_resource path="res://EmojiIcons/icon2.png" type="Texture" id=2]
+[ext_resource path="res://EmojiIcons/icon0.png" type="Texture" id=2]
 [ext_resource path="res://TextureRect.gd" type="Script" id=3]
-[ext_resource path="res://EmojiIcons/icon3.png" type="Texture" id=4]
-[ext_resource path="res://EmojiIcons/icon4.png" type="Texture" id=5]
-[ext_resource path="res://EmojiIcons/icon5.png" type="Texture" id=6]
+[ext_resource path="res://EmojiIcons/icon1.png" type="Texture" id=4]
+[ext_resource path="res://EmojiIcons/icon2.png" type="Texture" id=5]
+[ext_resource path="res://EmojiIcons/icon3.png" type="Texture" id=6]
 [ext_resource path="res://Assets/DonePlaceholder.png" type="Texture" id=7]
 
 [node name="selection GUI" type="Container" index="0"]
@@ -551,9 +551,9 @@ icon = ExtResource( 7 )
 flat = true
 align = 1
 
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer3/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer3/Button" to="." method="_on_Button_pressed" binds= [ 2 ]]
 
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer4/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer4/Button" to="." method="_on_Button_pressed" binds= [ 1 ]]
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer5/Button" to="." method="_on_Button_pressed"]
 
