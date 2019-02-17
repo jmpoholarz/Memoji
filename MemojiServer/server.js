@@ -1,6 +1,8 @@
 const net = require('net');
 const _ = require('lodash');
 const uuid = require('uuid/v1');
+const moment = require('moment');
+const fs = require('fs');
 const port = 7575;
 
 var codes = [];
@@ -10,6 +12,27 @@ var audience = [];
 
 const max_players = 8;
 const max_audience = 100;
+
+const server_log = 'server_log.txt';
+const error_log = 'server_error_log.txt';
+
+fs.writeFile(server_log, '# Beginning of server log', 'utf8', (err) => {
+  if(err) throw err;
+  console.log("server_log.txt created successfully.");
+});
+fs.writeFile(error_log, '# Beginning of error log', 'utf8', (err) => {
+  if(err) throw err;
+  console.log("server_error_log.txt created successfully.");
+});
+
+setTimeout(() => {
+  _.forEach(hosts, (host) => {
+    const res = {
+      "messageType": 120
+    };
+    send(host.socket, JSON.stringify(res));
+  });
+}, 30000);
 
 const server = net.createServer(socket => {
 
@@ -53,9 +76,11 @@ const server = net.createServer(socket => {
     switch (message.messageType) {
       case 110: // Host requests new room code
         handleHostCodeRequest(socket);
+        writeToFile(server_log, 'Host requested code');
         break;
       case 121: // Host is still handling games
         console.log("Host is still handling games");
+        writeToFile(server_log, letterCode + 'Host still handling games');
         break;
       case 130: // Host shutting down
         handleHostDisConn(letterCode);
@@ -113,13 +138,23 @@ const server = net.createServer(socket => {
 
     // Echo Message back
     // send(socket, data);
+    // const data = new Uint8Array(Buffer.from('Message sent'));
   });
 
   server.on('error', (err) => {
-    console.log(err);
-    throw err;
+    writeToFile(error_log, err.name);
+    writeToFile(error_log, err.message);
+    writeToFile(error_log, "\n");
+    // throw err;
   });
 });
+
+function writeToFile(filename, message) {
+  fs.appendFile(filename, message, 'utf8', (err) => {
+    if(err) throw err;
+    console.log('The file has been saved');
+  })
+}
 
 /*
 Host data structure
