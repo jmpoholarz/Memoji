@@ -1,9 +1,10 @@
 extends Node
+const PlayerClass = preload("res://Player.gd")
 
 var currentRound
 var currentState
-var players
-var audiencePlayers
+var players = []
+var audiencePlayers = []
 
 func _ready():
 	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
@@ -34,6 +35,9 @@ func _on_Networking_obtainedLetterCode(letterCode):
 func _on_Networking_playerConnected(playerID):
 	if $ScreenManager.currentScene == $ScreenManager.SCREENS.TITLE_SCREEN:
 		var asdf = $ScreenManager/TitleScreen # debug stuffs
+		
+		
+		
 		pass
 		
 

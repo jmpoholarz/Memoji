@@ -4,6 +4,8 @@ signal sendMessageToServer(msg)
 
 enum SCREENS {
 	TITLE_SCREEN = 1
+	SETUP_SCREEN = 2
+	LOBBY_SCREEN = 3
 }
 
 var currentScreen
@@ -18,6 +20,8 @@ func changeScreenTo(screen):
 			var titleScreen = load("res://TitleScreen.tscn")
 			add_child(titleScreen.instance())
 			#titleScreen.connect("signal", self, "forwardMessage")
+		LOBBY_SCREEN:
+			var lobbyScreen = load("res://LobbyDisplays/LobbyScreen.tscn")
 
 func forwardMessage(msg):
 	emit_signal("sendMessageToServer", msg)
