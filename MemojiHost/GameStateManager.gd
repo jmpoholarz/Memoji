@@ -47,17 +47,18 @@ func _on_Networking_playerDisconnected(playerID):
 		if player.playerID == playerID:
 			players.remove(player)
 
+func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
+	pass # replace with function body
+
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	pass # replace with function body
 
-func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
+func _on_Networking_receivedPlayerVote(playerID, promptID, voteID):
 	pass # replace with function body
 
 func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
 	pass # replace with function body
 
-func _on_Networking_receivedPlayerVote(playerID, promptID, voteID):
-	pass # replace with function body
 
 
 
