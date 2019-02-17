@@ -21,23 +21,47 @@ func _debug():
 	var ids = [400025, 2111079, 90001]
 	
 	randomize()
-	"""
+	
 	for x in ids:
 		add_player_id(x)
 		update_player_status2(x, "%d" % x, randi() % 8)
 		pass
 	for y in range(3, 8):
 		add_player_id(0)
-	"""
+	
 	
 	var sample1 = PlayerClass.new()
 	sample1.playerID = 2005
 	sample1.username = "Archie"
 	sample1.avatarID = 6
 	sample1.isPlayer = 1
+	var sample2 = PlayerClass.new()
+	sample2.playerID = 1996
+	sample2.username = "Lyra"
+	sample2.avatarID = 7
+	sample2.isPlayer = 1
+	var sample3 = PlayerClass.new()
+	sample3.playerID = 2017
+	sample3.username = "Larry"
+	sample3.avatarID = 1
+	sample3.isPlayer = 1
+	var sample4 = PlayerClass.new()
+	sample4.playerID = 2012
+	sample4.username = "Alex"
+	sample4.avatarID = 0
+	sample4.isPlayer = 1
+	var sample5 = PlayerClass.new()
+	sample5.playerID = 9001
+	sample5.username = "Goku"
+	sample5.avatarID = 2
+	sample5.isPlayer = 1
+	
+	var players = [sample1, sample2, sample3, sample4, sample5]
 	
 	add_player_id(sample1.playerID)
 	update_player_status(sample1)
+	
+	update_from_list(players)
 	
 	return
 
@@ -62,10 +86,9 @@ func avatarSetup(): # loads the avatars in use
 	avatarList.resize(8)
 	for x in range (8):
 		avatarList[x] = load("res://Assets/m%d.png" % x)
-	
-	#avatarList[2] = preload("res://Assets/m2.png")
-	pass
-	
+	return
+
+# Old function
 func update_player_status2(playerID, username, avatarID):
 	
 	# find player
@@ -102,13 +125,18 @@ func add_player_id(playerID):
 	return 0
 	
 # Updates the entire line of player status based on an array
-func players_from_list(players): # takes an array of Player Objects
+func update_from_list(players): # takes an array of Player Objects
 	linkedIDs.clear()
 	
-	for index in range (players.size()):
-		linkedIDs.append(players[index].playerID)
+	var playerCount = players.size()
+	if (playerCount > 8): playerCount = 8
+	
+	for index in range(playerCount):
+		add_player_id(players[index].playerID)
 		update_display(index, players[index])
 		pass
+	for index in range(playerCount, 8):
+		pDisplays[index].hide()
 	
 	return
 
