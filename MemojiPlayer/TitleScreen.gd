@@ -32,7 +32,7 @@ func _on_JoinMeButton_pressed():
 			emit_signal("sendMessage", msg)
 			
 			
-			get_tree().change_scene("res://UserInformationScreen.tscn")
+			#get_tree().change_scene("res://UserInformationScreen.tscn")
 		else:
 			get_node("RoomCodeInvalidCharacters").popup()
 	else:

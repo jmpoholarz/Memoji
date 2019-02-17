@@ -22,7 +22,7 @@ func getDateTimeString():
 	var timeDict = OS.get_datetime()
 	var minute = timeDict["minute"]
 	if minute < 10:
-		minute = "0" + minute
+		minute = "0" + str(minute)
 	var timeString = str(timeDict["hour"]) + ":" + str(minute) + " on " +  \
 		str(timeDict["month"]) + "/" + str(timeDict["day"]) + "/" + str(timeDict["year"])
 	return timeString
@@ -31,7 +31,7 @@ func getTimeString():
 	var timeDict = OS.get_datetime()
 	var minute = timeDict["minute"]
 	if minute < 10:
-		minute = "0" + minute
+		minute = "0" + str(minute)
 	var timeString = str(timeDict["hour"]) + ":" + str(minute)
 	return timeString
 

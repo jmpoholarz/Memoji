@@ -79,6 +79,7 @@ func _on_Networking_gameStartedByHost():
 
 
 func _on_ScreenManager_sendMessageToServer(msg):
+	print("in GSM with message " + str(msg))
 	if player != null:
 		msg["playerID"] = player.playerID
 	$Networking.sendMessageToServer(msg)

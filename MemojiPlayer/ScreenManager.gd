@@ -1,5 +1,9 @@
 extends Node
 
+var titleScreenScene = preload("res://TitleScreen.tscn")
+var userinfoScreenScene = preload("res://UserInformationScreen.tscn")
+var lobbyScreenScene = preload("res://WaitngForGameScreen.tscn")
+
 signal sendMessageToServer(msg)
 
 enum SCREENS {
@@ -17,20 +21,21 @@ func _ready():
 func changeScreenTo(screen):
 	match screen:
 		TITLE_SCREEN:
-			var titleScreen = load("res://TitleScreen.tscn")
-			add_child(titleScreen.instance())
+			var titleScreen = titleScreenScene.instance()
+			add_child(titleScreen)
 			titleScreen.connect("sendMessage", self, "forwardMessage")
 			
 		USERINFORMATION_SCREEN:
-			var userinfoScreen = load("res://UserInformationScreen.tscn")
-			add_child(userinfoScreen.instance())
+			var userinfoScreen = userinfoScreenScene.instance()
+			add_child(userinfoScreen)
 			userinfoScreen.connect("sendMessage", self, "forwardMessage")
 		
 		LOBBY_SCREEN:
-			var lobbyScreen = load("res://WaitngForGameScreen.tscn")
-			add_child(lobbyScreen.instance())
+			var lobbyScreen = lobbyScreenScene.instance()
+			add_child(lobbyScreen)
 			lobbyScreen.connect("sendMessage", self, "forwardMessage")
 			
 
 func forwardMessage(msg):
+	print("in forward message with message " + str(msg))
 	emit_signal("sendMessageToServer", msg)

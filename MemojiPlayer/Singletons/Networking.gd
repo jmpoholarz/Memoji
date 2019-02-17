@@ -111,9 +111,9 @@ func sendMessageToServer(message):
 	# Send message
 	print("Sending player message...")
 	Logger.writeLine("Sending player message...")
-	socket.put_utf8_string(message)
+	socket.put_utf8_string($Parser.encodeMessage(message))
 	print("Player message sent.")
-	Logger.writeLine("Message (" + message + ") sent.")
+	Logger.writeLine("Message (" + str(message) + ") sent.")
 
 func getMessageFromServer():
 	# Check if can get message
