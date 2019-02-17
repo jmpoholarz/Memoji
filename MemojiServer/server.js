@@ -139,6 +139,7 @@ if (cluster.isMaster) {
             const res = {
               "messageType": 113
             };
+            console.log(socket);
             send(socket, JSON.stringify(res));
             writeToFile(server_log, 'Player could not join. Invalid letter code.');
           }
