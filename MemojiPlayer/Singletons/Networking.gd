@@ -163,5 +163,6 @@ func getMessageFromServer():
 		MESSAGE_TYPES.ACCEPTED_MULTI_VOTE:
 			emit_signal("enteredInvalidMultiVote")
 		_:
+
 			print("Unrecognized message code " + str(messageCode))
 			Logger.writeLine("Unrecognized message code " + str(messageCode))
