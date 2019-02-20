@@ -197,7 +197,8 @@ if (cluster.isMaster) {
           writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Host - ${letterCode}`);
           break;
         default:
-          console.log("Unknown Message Type");
+          console.log('Unknown Message Type');
+          writeToFile(error_log, '[MessageType]: Unknown MessageType. No action performed.');
       }
       console.log("Hosts: ");
       console.log(hosts);
@@ -209,7 +210,6 @@ if (cluster.isMaster) {
     server.on('error', (err) => {
       writeToFile(error_log, err.name);
       writeToFile(error_log, err.message);
-      writeToFile(error_log, "\n");
       throw err;
     });
   });
