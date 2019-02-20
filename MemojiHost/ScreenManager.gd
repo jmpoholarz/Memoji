@@ -25,7 +25,7 @@ func changeScreenTo(screen):
 			#titleScreen.connect("signal", self, "forwardMessage")
 		LOBBY_SCREEN:
 			var lobbyScreen = lobbyScreenScene.instance()
-			# add_child(lobbyScreen) # disabled for debug
+			add_child(lobbyScreen) # disabled for debug
 	
 	currentScreen = screen
 

@@ -10,6 +10,8 @@ onready var p5 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P5
 onready var p6 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P6
 onready var p7 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P7
 onready var p8 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P8
+onready var audienceDisplay = $Foreground/Content/Lines/TopLine/Statuses/AudienceStatus/Audience
+onready var codeDisplay = $Foreground/Content/Lines/BottomLine/ABCDcode # audience number
 
 onready var pDisplays = [p1, p2, p3, p4, p5, p6, p7, p8] # GUI representing each player
 
@@ -144,5 +146,5 @@ func update_display(index, playerObj):
 	return
 
 func update_lettercode(code):
-	
+	codeDisplay.text = code
 	return

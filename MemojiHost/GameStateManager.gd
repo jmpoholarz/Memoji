@@ -35,7 +35,9 @@ func quitHosting():
 
 
 func _on_Networking_obtainedLetterCode(letterCode):
-	pass # replace with function body
+	if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
+		$ScreenManager/LobbyScreen.update_lettercode(letterCode)
+		pass
 
 func _on_Networking_playerConnected(playerID, isPlayer):
 	# Add new player to players array
@@ -49,7 +51,7 @@ func _on_Networking_playerConnected(playerID, isPlayer):
 	
 	if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
 		# TODO: Update the lobby screen's player displays
-		$LobbyScreen.add_player_id(playerID)
+		$ScreenManager/LobbyScreen.add_player_id(playerID)
 
 func _on_Networking_playerDisconnected(playerID):
 	# Remove player from array
@@ -67,7 +69,7 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 			player.avatarID = avatarIndex
 			
 			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
-				$LobbyScreen.update_player_status(player)
+				$ScreenManager/LobbyScreen.update_player_status(player)
 	
 	
 	
