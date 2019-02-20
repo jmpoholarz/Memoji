@@ -1,7 +1,7 @@
 extends Node
 
 var titleScreenScene = preload("res://FirstTitle.tscn")
-
+var lobbyScreenScene = preload("res://LobbyDisplays/LobbyScreen.tscn")
 signal sendMessageToServer(msg)
 
 enum SCREENS {
@@ -24,7 +24,10 @@ func changeScreenTo(screen):
 			add_child(titleScreen)
 			#titleScreen.connect("signal", self, "forwardMessage")
 		LOBBY_SCREEN:
-			var lobbyScreen = load("res://LobbyDisplays/LobbyScreen.tscn")
+			var lobbyScreen = lobbyScreenScene.instance()
+			# add_child(lobbyScreen) # disabled for debug
+	
+	currentScreen = screen
 
 func forwardMessage(msg):
 	emit_signal("sendMessageToServer", msg)

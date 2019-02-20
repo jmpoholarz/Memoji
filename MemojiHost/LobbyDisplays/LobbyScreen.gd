@@ -68,13 +68,11 @@ func _debug():
 func _ready():
 	avatarSetup()
 	
-	p1.get_node("Name").text = "Octosquid"
-	
 	#for x in range(0, 8):
 	#	pDisplays[x].update_player("Player %d" % (x + 1), avatarList[x])
 		
 	### DEBUG ###
-	_debug()
+	#_debug()
 	
 	return
 
@@ -129,7 +127,7 @@ func update_from_list(players): # takes an array of Player Objects
 	linkedIDs.clear()
 	
 	var playerCount = players.size()
-	if (playerCount > 8): playerCount = 8
+	if (playerCount > 8): playerCount = 8 # make within bounds
 	
 	for index in range(playerCount):
 		add_player_id(players[index].playerID)
@@ -143,4 +141,8 @@ func update_from_list(players): # takes an array of Player Objects
 # Makes the display at index show info about the provided player object
 func update_display(index, playerObj):
 	pDisplays[index].update_player(playerObj.username, avatarList[playerObj.avatarID])
+	return
+
+func update_lettercode(code):
+	
 	return

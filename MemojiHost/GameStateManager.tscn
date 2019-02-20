@@ -6,7 +6,7 @@
 [ext_resource path="res://Singletons/Networking.tscn" type="PackedScene" id=4]
 [ext_resource path="res://LobbyDisplays/LobbyScreen.tscn" type="PackedScene" id=5]
 
-[node name="GameStateManager" type="Node" index="0"]
+[node name="GameStateManager" type="Node"]
 
 script = ExtResource( 1 )
 
@@ -19,5 +19,15 @@ script = ExtResource( 1 )
 [node name="LobbyScreen" parent="." index="3" instance=ExtResource( 5 )]
 
 [connection signal="sendMessageToServer" from="ScreenManager" to="." method="_on_ScreenManager_sendMessageToServer"]
+
+[connection signal="obtainedLetterCode" from="Networking" to="." method="_on_Networking_obtainedLetterCode"]
+
+[connection signal="playerConnected" from="Networking" to="." method="_on_Networking_playerConnected"]
+
+[connection signal="playerDisconnected" from="Networking" to="." method="_on_Networking_playerDisconnected"]
+
+[connection signal="receivedPlayerAnswer" from="Networking" to="." method="_on_Networking_receivedPlayerAnswer"]
+
+[connection signal="receivedPlayerDetails" from="Networking" to="." method="_on_Networking_receivedPlayerDetails"]
 
 
