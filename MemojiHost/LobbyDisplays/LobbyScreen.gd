@@ -1,5 +1,7 @@
 extends Node2D
 
+signal forwardMessage(msg)
+
 const PlayerClass = preload("res://Player.gd")
 
 onready var p1 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P1
@@ -148,3 +150,6 @@ func update_display(index, playerObj):
 func update_lettercode(code):
 	codeDisplay.text = code
 	return
+
+func _on_StartButton_pressed():
+	pass # replace with function body
