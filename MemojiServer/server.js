@@ -21,13 +21,13 @@ const error_log = 'server_error_log.txt';
 
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
-
-  console.log('Server start time: ' + moment().format('HH:mm:ss'));
-  fs.writeFile(server_log, '# Beginning of server log\n', 'utf8', (err) => {
+  const start_time = moment().format('YYYY-MM-DD hh:mm:ss A')
+  console.log(`Server start time: ${start_time}`);
+  fs.writeFile(server_log, `[${start_time}]: # Beginning of server log\n`, 'utf8', (err) => {
     if (err) throw err;
     console.log('server_log.txt created successfully.');
   });
-  fs.writeFile(error_log, '# Beginning of error log\n', 'utf8', (err) => {
+  fs.writeFile(error_log, `[${start_time}]: # Beginning of error log\n`, 'utf8', (err) => {
     if (err) throw err;
     console.log('server_error_log.txt created successfully.');
   });
@@ -57,6 +57,7 @@ if (cluster.isMaster) {
     cluster.fork();
   }
 
+  // Restart a worker if it dies (e.i. on an error)
   cluster.on('exit', (worker, code, signal) => {
     console.log('worker %d died (%s). restarting...',
                   worker.process.pid, signal || code);
@@ -218,7 +219,7 @@ if (cluster.isMaster) {
 }
 
 function writeToFile(filename, message) {
-  const timestamp = moment().format('HH:mm:ss');
+  const timestamp = moment().format('YYYY-MM-DD hh:mm:ss A');
   const final_message = `[${timestamp}]: ${message}\n`;
   fs.appendFile(filename, final_message, 'utf8', (err) => {
     if (err) throw err;
