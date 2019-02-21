@@ -76,7 +76,12 @@ const server = net.createServer(socket => {
   socket.on('data', (data) => {
     console.log(data);
     console.log(data.toString());
-    console.log(data.toString().length);
+    console.log(data.length);
+
+    if(data.length < 2){
+      console.log('Ignore message. Length too short.');
+      return;
+    }
 
     const json = parseData(data);
     if (json === -1) {
