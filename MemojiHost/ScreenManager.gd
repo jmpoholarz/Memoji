@@ -14,7 +14,7 @@ var currentScreen
 
 func _ready():
 	var node = get_node("MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer4/HBoxContainer/ScreenManager")
-	this.connect("sendMessageToServer", self, "forwardMessage")
+	node.connect("sendMessageToServer", self, "forwardMessage")
 
 
 # TODO: Free the previous screeen when switching to a different one
