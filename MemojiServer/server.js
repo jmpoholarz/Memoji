@@ -225,6 +225,11 @@ if (cluster.isMaster) {
     server.on('error', (err) => {
       writeToFile(error_log, err.name);
       writeToFile(error_log, err.message);
+      const res = {
+        "messageType": 100
+      };
+      writeToFile(error_log, 'Error. Send 100 back to server. Requesting message again.');
+      send(socket, JSON.stringify(res));
       throw err;
     });
   });
