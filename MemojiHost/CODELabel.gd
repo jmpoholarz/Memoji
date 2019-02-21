@@ -16,6 +16,5 @@ func _ready():
 
 
 func _on_Button_pressed():
-	var msg = {"messageType":MESSAGE_TYPES.HOST_REQUESTING_CODE
-				"letterCode":""}
+	var msg = {"messageType":MESSAGE_TYPES.HOST_REQUESTING_CODE, "letterCode":""}
 	
