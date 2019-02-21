@@ -5,7 +5,7 @@
 [ext_resource path="res://ScreenManager.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Singletons/Networking.tscn" type="PackedScene" id=4]
 
-[node name="GameStateManager" type="Node"]
+[node name="GameStateManager" type="Node" index="0"]
 
 script = ExtResource( 1 )
 
@@ -14,6 +14,8 @@ script = ExtResource( 1 )
 [node name="ScreenManager" parent="." index="1" instance=ExtResource( 3 )]
 
 [node name="Networking" parent="." index="2" instance=ExtResource( 4 )]
+
+[connection signal="sendMessageToServer" from="ScreenManager" to="." method="_on_ScreenManager_sendMessageToServer"]
 
 [connection signal="obtainedLetterCode" from="Networking" to="." method="_on_Networking_obtainedLetterCode"]
 
