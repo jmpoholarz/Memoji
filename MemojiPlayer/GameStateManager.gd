@@ -26,7 +26,7 @@ func connectToServer():
 func _on_Networking_connectionTimeout():
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
 		print("on_Networking_connectionTimeout")
-		$ScreenManager/TitleScreen.show_serverErrorPopup("Could not connect to server.  Connection Timeout.")
+		$ScreenManager.currentScreenInstance.show_ServerErrorPopup("Could not connect to server.  Connection Timeout.")
 
 
 func _on_Networking_answersReceived(answerArray):
