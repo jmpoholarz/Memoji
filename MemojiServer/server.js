@@ -42,7 +42,7 @@ if (cluster.isMaster) {
       };
       send(host.socket, JSON.stringify(res));
     });
-  }, 30000);
+  }, 300000);
   // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
   setInterval(() => {
     console.log("Remove unresponsive Host(s)");
@@ -54,7 +54,7 @@ if (cluster.isMaster) {
       host.socket.destroy();
       _.remove(hosts, host);
     });
-  }, 33000);
+  }, 330000);
 
   // Start workers and listen for messages
   const numCPUs = require('os').cpus().length;
