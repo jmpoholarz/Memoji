@@ -10,7 +10,7 @@ const port = 7575;
 var codes = [];
 var hosts = [];
 var players = [];
-var audience = [];
+var audience_members = [];
 
 const max_players = 2;
 const max_audience = 100;
@@ -354,7 +354,7 @@ function handleAudienceConn(letterCode, socket) {
     id: id
   };
   host.audience.push(audience);
-  audience.push(audience);
+  audience_members.push(audience);
   var res = {
     "messageType": 112,
     "letterCode": letterCode,
