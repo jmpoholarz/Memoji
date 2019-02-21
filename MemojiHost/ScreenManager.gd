@@ -13,8 +13,7 @@ enum SCREENS {
 var currentScreen
 
 func _ready():
-	var node = get_node("MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer4/HBoxContainer/ScreenManager")
-	node.connect("sendMessageToServer", self, "forwardMessage")
+	pass
 
 
 # TODO: Free the previous screeen when switching to a different one

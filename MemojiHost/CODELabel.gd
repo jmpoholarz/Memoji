@@ -17,5 +17,4 @@ func _ready():
 
 func _on_Button_pressed():
 	var msg = {"messageType":MESSAGE_TYPES.HOST_REQUESTING_CODE, "letterCode":""}
-	var screenManager = get_node("MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer4/HBoxContainer/ScreenManager")
 	emit_signal("sendMessageToServer", msg)
