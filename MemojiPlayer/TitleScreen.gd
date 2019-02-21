@@ -3,7 +3,9 @@ extends Panel
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
+signal connectToServer()
 signal sendMessage(msg)
+
 
 func _ready():
 	get_node("JoinButton").connect("pressed", self, "_on_JoinMeButton_pressed")
@@ -29,6 +31,9 @@ func _on_JoinMeButton_pressed():
 				"letterCode": roomCode
 			}
 #			Networking.sendMessageToServer(msg)
+			emit_signal("connectToServer")
+			yield(get_tree().create_timer(2), "timeout")
+			# TODO have some sort of connect message
 			emit_signal("sendMessage", msg)
 			
 			
@@ -41,6 +46,9 @@ func _on_JoinMeButton_pressed():
 func _on_InvalidRoomCode():
 	get_node("RoomCodeInvalidCharacters").popup()
 	
-	
+func show_ServerErrorPopup(text):
+	print("in thing")
+	$ServerErrorPopup/Label.text = text
+	$ServerErrorPopup.popup()
 	
 	

@@ -33,12 +33,13 @@ func _ready():
 	___test()
 
 func ___test():
-	if startedTest == true:
-		pass
+	#if startedTest == true:
+	#	pass
 
-	startedTest = true
-	if socket.get_status() == socket.STATUS_NONE:
-		connectPlayerToServer(defaultServerIP, defaultServerPort)
+	#startedTest = true
+	#if socket.get_status() == socket.STATUS_NONE:
+	#	connectPlayerToServer(defaultServerIP, defaultServerPort)
+	pass
 
 
 func _process(delta):
@@ -57,6 +58,10 @@ func connectPlayerToServer(serverIP, serverPort):
 	Returns:
 		none
 	"""
+	print("in networking ConnectToServer")
+	if !(socket.get_status() == socket.STATUS_NONE):
+		print("socket not in NONE status")
+		return
 	if !socket.is_connected_to_host():
 		$ConnectingTimer.start()
 		var response = socket.connect_to_host(serverIP, serverPort)
@@ -116,6 +121,7 @@ func sendMessageToServer(message):
 	Logger.writeLine("Message (" + str(message) + ") sent.")
 
 func getMessageFromServer():
+	print("GET MESSAGE FROM SERVER")
 	# Check if can get message
 	if !socket.is_connected_to_host():
 		print("Failed to get message.  Not connected to server.")
