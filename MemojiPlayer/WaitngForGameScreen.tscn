@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://WaitngForGameScreen.gd" type="Script" id=1]
+[ext_resource path="res://BackButton2.gd" type="Script" id=2]
 
 [node name="WaitngForGamePanel" type="Panel" index="0"]
 
@@ -95,6 +96,34 @@ text = "Disconnect"
 flat = false
 align = 1
 
+[node name="BackButton2" type="Button" parent="." index="3"]
+
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 159.0
+margin_top = 179.0
+margin_right = 280.0
+margin_bottom = 216.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Back"
+flat = false
+align = 1
+script = ExtResource( 2 )
+
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
+
+[connection signal="pressed" from="BackButton2" to="BackButton2" method="_on_BackButton2_pressed"]
 
 
