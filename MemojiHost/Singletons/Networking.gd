@@ -149,17 +149,17 @@ func getMessageFromServer():
 				"letterCode": letterCode}
 			sendMessageToServer($Parser.encodeMessage(msg))
 		MESSAGE_TYPES.PLAYER_CONNECTED:
-			emit_signal("playerConnected", messageDict["playerId"], messageDict["isPlayer"])
+			emit_signal("playerConnected", messageDict["playerID"], messageDict["isPlayer"])
 		MESSAGE_TYPES.PLAYER_DISCONNECTED:
-			emit_signal("playerDisconnected", messageDict["playerId"])
+			emit_signal("playerDisconnected", messageDict["playerID"])
 		MESSAGE_TYPES.PLAYER_USERNAME_AND_AVATAR:
-			emit_signal("receivedPlayerDetails", messageDict["playerId"], messageDict["username"], messageDict["avatarIndex"])
+			emit_signal("receivedPlayerDetails", messageDict["playerID"], messageDict["username"], messageDict["avatarIndex"])
 		MESSAGE_TYPES.PLAYER_SENDING_PROMPT_RESPONSE:
-			emit_signal("receivedPlayerAnswer", messageDict["playerId"], messageDict["promptId"], messageDict["emojiArray"])
+			emit_signal("receivedPlayerAnswer", messageDict["playerID"], messageDict["promptID"], messageDict["emojiArray"])
 		MESSAGE_TYPES.PLAYER_SENDING_SINGLE_VOTE:
-			emit_signal("receivedPlayerVote", messageDict["playerId"], messageDict["promptId"], messageDict["voteID"])
+			emit_signal("receivedPlayerVote", messageDict["playerID"], messageDict["promptID"], messageDict["voteID"])
 		MESSAGE_TYPES.PLAYER_SENDING_MULTI_VOTE:
-			emit_signal("receivedPlayerMultiVote", messageDict["playerId"], messageDict["promptId"], messageDict["voteArray"])
+			emit_signal("receivedPlayerMultiVote", messageDict["playerID"], messageDict["promptID"], messageDict["voteArray"])
 		_:
 			print("Unrecognized message code " + str(messageCode))
 			Logger.writeLine("Unrecognized message code " + str(messageCode))
