@@ -1,7 +1,7 @@
 extends Node
 
-var setupScreenScene = preload("res://Setup.tscn")
 var titleScreenScene = preload("res://FirstTitle.tscn")
+var setupScreenScene = preload("res://Setup.tscn")
 var lobbyScreenScene = preload("res://LobbyDisplays/LobbyScreen.tscn")
 
 signal sendMessageToServer(msg)

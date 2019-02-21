@@ -145,7 +145,6 @@ func getMessageFromServer():
 	print(messageCode)
 	match int(messageCode):
 		MESSAGE_TYPES.SERVER_MESSAGE_ERROR:
-			print("Resending message to server.")
 			sendMessageToServer(mostRecentMessage)
 		MESSAGE_TYPES.VALID_SERVER_CODE:
 			letterCode = messageDict["letterCode"]
