@@ -340,6 +340,7 @@ function handlePlayerConn(letterCode, socket) {
     return -1;
   }
   host.players.push(player);
+  players.push(player);
   console.log('Handled player connection successfully.');
   console.log('Send id to player.');
   var res = {
