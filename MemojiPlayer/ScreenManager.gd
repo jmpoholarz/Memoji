@@ -15,6 +15,7 @@ enum SCREENS {
 }
 
 var currentScreen
+var currentScreenInstance
 
 func _ready():
 	pass
@@ -23,24 +24,21 @@ func changeScreenTo(screen):
 	# TODO - queue_free() before changing screen
 	match screen:
 		TITLE_SCREEN:
-			currentScreen = SCREENS.TITLE_SCREEN
-			var TitleScreen = titleScreenScene.instance()
-			add_child(TitleScreen)
-			TitleScreen.connect("connectToServer", self, "connectToServer")
-			TitleScreen.connect("sendMessage", self, "forwardMessage")
+			currentScreenInstance = titleScreenScene.instance()
+			add_child(currentScreenInstance)
+			currentScreenInstance.connect("connectToServer", self, "connectToServer")
+			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
 			
 		USERINFORMATION_SCREEN:
-			currentScreen = SCREENS.USERINFORMATION_SCREEN
-			var userinfoScreen = userinfoScreenScene.instance()
-			add_child(userinfoScreen)
-			userinfoScreen.connect("sendMessage", self, "forwardMessage")
+			var currentScreenInstance = userinfoScreenScene.instance()
+			add_child(currentScreenInstance)
+			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
 		
 		LOBBY_SCREEN:
-			currentScreen = SCREENS.LOBBY_SCREEN
-			var lobbyScreen = lobbyScreenScene.instance()
-			add_child(lobbyScreen)
-			lobbyScreen.connect("sendMessage", self, "forwardMessage")
-			
+			var currentScreenInstance = lobbyScreenScene.instance()
+			add_child(currentScreenInstance)
+			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
+	currentScreen = screen
 
 func forwardMessage(msg):
 	print("in forward message with message " + str(msg))

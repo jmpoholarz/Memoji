@@ -48,14 +48,11 @@ func _on_Networking_enteredInvalidHostCode():
 	#if $ScreenManager.currentScene == $ScreenManager.SCREENS.TITLE_SCREEN:
 	#	$ScreenManager/TitleScreen._on_InvalidRoomCode()
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
-		print("going to show popup")
-		print($ScreenManager.get_child_count())
-		var n = get_node("ScreenManager/TitleScreen")
-		n.show_ServerErrorPopup("Entered code does not exist.  Check spelling and retry.")
+		$ScreenManager.currentScreenInstance.show_ServerErrorPopup("Entered code does not exist.  Check spelling and retry.")
 
 func _on_Networking_enteredInvalidUsername():
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
-		$ScreenManager/UserInformationPanel._on_InvalidName()
+		$ScreenManager/currentScreenInstance._on_InvalidName()
 	pass # replace with function body
 
 func _on_Networking_promptsReceived(promptArray):

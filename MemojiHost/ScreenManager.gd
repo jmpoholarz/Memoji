@@ -12,6 +12,7 @@ enum SCREENS {
 }
 
 var currentScreen
+var currentScreenInstance
 
 func _ready():
 	pass
@@ -26,13 +27,13 @@ func changeScreenTo(screen):
 			add_child(titleScreen)
 			#titleScreen.connect("signal", self, "forwardMessage")
 		SETUP_SCREEN:
-			var setupScreen = setupScreenScene.instance()
-			add_child(setupScreen)
-			setupScreen.connect("sendMessageToServer", self, "forwardMessage")
+			var currentScreenInstance = setupScreenScene.instance()
+			add_child(currentScreenInstance)
+			currentScreenInstance.connect("sendMessageToServer", self, "forwardMessage")
 		LOBBY_SCREEN:
-			var lobbyScreen = lobbyScreenScene.instance()
-			add_child(lobbyScreen) # disabled for debug
-			lobbyScreen.connect("signal", self, "forwardMessage")
+			var currentScreenInstance = lobbyScreenScene.instance()
+			add_child(currentScreenInstance) # disabled for debug
+			currentScreenInstance.connect("signal", self, "forwardMessage")
 	currentScreen = screen
 
 func forwardMessage(msg):
