@@ -96,9 +96,9 @@ if (cluster.isMaster) {
       if (json === -1) {
         console.warn('Error parsing data');
         const res = {
-          "messageType": 601,
-          "data": data.toString()
+          "messageType": 100
         };
+        writeToFile(error_log, 'Error parsing data received. Server needs message to be sent again');
         send(socket, JSON.stringify(res));
         return;
       }
@@ -113,10 +113,12 @@ if (cluster.isMaster) {
         console.warn('Message does not contain letterCode');
         console.warn(err);
         const res = {
-          "messageType": 601,
+          "messageType": 100,
           "message": data.toString()
         };
+        writeToFile(error_log, 'Message does not contain letterCode');
         send(socket, JSON.stringify(res));
+        return;
       }
 
       switch (message.messageType) {
@@ -221,7 +223,6 @@ if (cluster.isMaster) {
     });
 
     server.on('error', (err) => {
-
       writeToFile(error_log, err.name);
       writeToFile(error_log, err.message);
       throw err;
