@@ -70,7 +70,7 @@ func _on_Networking_enteredValidMultiVote():
 
 func _on_Networking_enteredValidUsername():
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
-		$ScreenManager.changeScreenTo("LOBBY_SCREEN")
+		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.LOBBY_SCREEN)
 		$ScreenManager.currentScreenInstance.new_room_code(lobbyCode)
 
 func _on_Networking_enteredInvalidMultiVote():
