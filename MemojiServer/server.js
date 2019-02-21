@@ -322,14 +322,15 @@ function handlePlayerConn(letterCode, socket) {
   host.players.push(player);
   console.log('Handled player connection successfully.');
   console.log('Send id to player.');
-  const res = {
+  var res = {
     "messageType": 112,
     "letterCode": letterCode,
     "playerID": id,
     "isPlayer": true
-  }
-  send(host.socket, JSON.stringify(res));
+  };
   send(socket, JSON.stringify(res));
+  res.messageType = 401;
+  send(host.socket, JSON.stringify(res));
   return id;
 }
 
@@ -352,14 +353,15 @@ function handleAudienceConn(letterCode, socket) {
   };
   host.audience.push(audience);
   audience.push(audience);
-  const res = {
+  var res = {
     "messageType": 112,
     "letterCode": letterCode,
-    "id": id,
+    "playerID": id,
     "isPlayer": false
-  }
-  send(host, JSON.stringify(res));
+  };
   send(socket, JSON.stringify(res));
+  res.messageType = 401;
+  send(host.socket, JSON.stringify(res));
   return id;
 }
 
