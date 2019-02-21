@@ -78,14 +78,14 @@ if (cluster.isMaster) {
 
     socket.on('end', () => {
       console.log('client disconnected');
-      socket.destroy();
-      if(socket.destroyed){
-        console.log('Socket destroyed on disconnect successfully.');
-        writeToFile(server_log, 'Socket destroyed on disconnect successfully.');
-      } else {
-        console.log('Socket not destroyed on disconnect successfully.');
-        writeToFile(error_log, 'Socket not destroyed on disconnect successfully.');
-      }
+      // socket.destroy();
+      // if(socket.destroyed){
+      //   console.log('Socket destroyed on disconnect successfully.');
+      //   writeToFile(server_log, 'Socket destroyed on disconnect successfully.');
+      // } else {
+      //   console.log('Socket not destroyed on disconnect successfully.');
+      //   writeToFile(error_log, 'Socket not destroyed on disconnect successfully.');
+      // }
     });
 
     socket.on('data', (data) => {
