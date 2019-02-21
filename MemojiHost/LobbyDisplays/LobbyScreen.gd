@@ -74,7 +74,6 @@ func _debug():
 func _ready():
 	avatarSetup()
 	emit_signal("updateGameState", "code")
-	
 	return
 
 func _process(delta):

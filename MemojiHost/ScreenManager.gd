@@ -25,34 +25,33 @@ func changeScreenTo(screen):
 		remove_child(currentScreenNode)
 		#currentScreenNode.queue_free()
 	
+	currentScreen = screen
 	match screen:
 		TITLE_SCREEN:
 			var titleScreen = titleScreenScene.instance()
-			add_child(titleScreen)
 			titleScreen.connect("messageServer", self, "forwardMessage")
 			titleScreen.connect("changeScreen", self, "changeScreenTo")			
 			currentScreenNode = titleScreen
+			add_child(titleScreen)
 		SETUP_SCREEN:
 			var setupScreen = setupScreenScene.instance()
-			add_child(setupScreen)
 			setupScreen.connect("messageServer", self, "forwardMessage")
 			setupScreen.connect("changeScreen", self, "changeScreenTo")			
 			setupScreen.connect("updateGameState", self, "forwardGameState")
 			currentScreenNode = setupScreen
+			add_child(setupScreen)
 		LOBBY_SCREEN:
 			var lobbyScreen = lobbyScreenScene.instance()
-			add_child(lobbyScreen) # disabled for debug
 			lobbyScreen.connect("messageServer", self, "forwardMessage")
 			lobbyScreen.connect("changeScreen", self, "changeScreenTo")
 			lobbyScreen.connect("updateGameState", self, "forwardGameState")
 			currentScreenNode = lobbyScreen
-	
-	currentScreen = screen
+			add_child(lobbyScreen)
 
 func forwardMessage(msg):
 	emit_signal("sendMessageToServer", msg)
 	
 # Allows GUI to communicate with GameStateManager
 func forwardGameState(msg):
-	print("******** HIIIII *******")
+	print("Hi!!")
 	emit_signal("handleGameState", msg)

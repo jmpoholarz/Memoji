@@ -3,7 +3,7 @@
 [ext_resource path="res://testing/LobbyTest.gd" type="Script" id=1]
 [ext_resource path="res://GameStateManager.tscn" type="PackedScene" id=2]
 
-[node name="LobbyTest" type="Node"]
+[node name="LobbyTest" type="Node" index="0"]
 
 script = ExtResource( 1 )
 

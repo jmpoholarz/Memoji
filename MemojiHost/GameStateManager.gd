@@ -7,7 +7,7 @@ var currentState
 var players = []
 var audiencePlayers = []
 
-var lobbyCode = ""
+var lobbyCode = null
 
 func debug_to_lobby():
 	$ScreenManager.changeScreenTo($ScreenManager.LOBBY_SCREEN)
@@ -98,3 +98,11 @@ func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
 func _on_ScreenManager_sendMessageToServer(msg):
 	print("DEBUG MESSAGE: Message Sending")
 	$Networking.sendMessageToServer(msg)
+
+
+func _on_ScreenManager_handleGameState(msg):
+	if $ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN:
+		if (msg == "code" && lobbyCode != null):
+			$ScreenManager/LobbyScreen.update_lettercode(lobbyCode)
+			pass
+
