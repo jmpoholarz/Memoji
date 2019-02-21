@@ -218,13 +218,13 @@ const server = net.createServer(socket => {
         writeToFile(error_log, '[MessageType]: Unknown MessageType. No action performed.');
     }
     console.log("Hosts: ");
-    console.log(hosts);
+    // console.log(hosts);
     console.log(codes);
-    _.forEach(hosts, (host) => {
-      _.forEach(host.players, (p) => {
-        console.log(p);
-      });
-    });
+    // _.forEach(hosts, (host) => {
+    //   _.forEach(host.players, (p) => {
+    //     console.log(p);
+    //   });
+    // });
     // Echo Message back
     // send(socket, data);
   });
