@@ -100,10 +100,16 @@ func _on_Networking_playerDisconnected(playerID):
 					$ScreenManager.currentScreenInstance.update_audience(audiencePlayers.size())
 
 func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
+	# TODO - check that no duplicate username or icon
 	for player in players:
 		if player.playerID == playerID:
 			player.username = username
 			player.avatarID = avatarIndex
+			
+			var message = {"messageType":MESSAGE_TYPES.ACCEPTED_USERNAME_AND_AVATAR, 
+				"letterCode" : lobbyCode,
+				"playerID" : playerID}
+			$Networking.sendMessageToServer(message)
 			
 			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
 				$ScreenManager.currentScreenInstance.update_player_status(player)

@@ -78,7 +78,7 @@ const server = net.createServer(socket => {
     console.log(data.toString());
     console.log(data.length);
 
-    if(data.length < 2){
+    if(data.length <= 4){
       console.log('Ignore message. Length too short.');
       return;
     }
@@ -340,6 +340,7 @@ function handlePlayerConn(letterCode, socket) {
     return -1;
   }
   host.players.push(player);
+  players.push(player);
   console.log('Handled player connection successfully.');
   console.log('Send id to player.');
   var res = {
@@ -472,8 +473,18 @@ function parseData(data) {
     console.warn(err);
     return -1;
   }
-  // Cut off padding
-  const message = copy.data.slice(4);
+  // Check if data has length buffer at the beginning of buffer.
+  var message = ""
+  console.log(copy.data[0]);
+  if(copy.data[0] === '{'){
+    // No padding to cut
+    console.log('DO NOT CUT PADDING');
+    message = copy.data;
+  } else {
+    // Cut off padding
+    console.log('CUT PADDING');
+    message = copy.data.slice(4);
+  }
   // Place new message in buffer
   const b = new Buffer.from(message);
   // Return message without padding

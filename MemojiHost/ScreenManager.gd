@@ -38,11 +38,11 @@ func changeScreenTo(screen):
 			currentScreenInstance = setupScreenScene.instance()
 		LOBBY_SCREEN:
 			currentScreenInstance = lobbyScreenScene.instance()
+			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 	
 	if (currentScreenInstance != null):
 		currentScreenInstance.connect("messageServer", self, "forwardMessage")
 		currentScreenInstance.connect("changeScreen", self, "changeScreenTo")
-		currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		add_child(currentScreenInstance)
 
 
