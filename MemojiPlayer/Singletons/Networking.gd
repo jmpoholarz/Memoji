@@ -24,6 +24,7 @@ var defaultServerIP = "127.0.0.1"
 var defaultServerPort = 7575
 
 var letterCode = "????"
+var mostRecentMessage = ""
 
 var socket = null
 var startedTest = false
@@ -114,6 +115,7 @@ func sendMessageToServer(message):
 		#Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'letterCode' attribute.")
 		message["letterCode"] = letterCode
 	# Send message
+	mostRecentMessage = message
 	print("Sending player message...")
 	Logger.writeLine("Sending player message...")
 	socket.put_utf8_string($Parser.encodeMessage(message))
@@ -142,6 +144,8 @@ func getMessageFromServer():
 	var messageCode = messageDict["messageType"]
 	print(messageCode)
 	match int(messageCode):
+		MESSAGE_TYPES.SERVER_MESSAGE_ERROR:
+			sendMessageToServer(mostRecentMessage)
 		MESSAGE_TYPES.VALID_SERVER_CODE:
 			letterCode = messageDict["letterCode"]
 			emit_signal("enteredValidHostCode", messageDict["playerID"], messageDict["isPlayer"])

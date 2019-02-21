@@ -2,6 +2,8 @@ extends Node
 
 enum MESSAGE_TYPES {
 	#CONNECTED_TO_SERVER = 600,
+	
+	SERVER_MESSAGE_ERROR = 100,				# Sent from server when error parsing
 
 	HOST_REQUESTING_CODE = 110,				# Sent from host when setting up server
 	SERVER_SENDING_CODE = 111,				# Sent when first delivering ABCD code

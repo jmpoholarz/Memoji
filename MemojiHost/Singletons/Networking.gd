@@ -18,6 +18,7 @@ var defaultServerIP = "127.0.0.1"
 var defaultServerPort = 7575
 
 var letterCode = "????"
+var mostRecentMessage = ""
 
 var socket = null
 var startedTest = false
@@ -107,6 +108,7 @@ func sendMessageToServer(message):
 			print("Failed to send message.  Lacking letterCode attribute.")
 			Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'letterCode' attribute.")
 	# Send message
+	mostRecentMessage = message
 	print("Sending message...")
 	Logger.writeLine("Sending message...")
 	message = $Parser.encodeMessage(message)
@@ -135,6 +137,9 @@ func getMessageFromServer():
 	var messageCode = messageDict["messageType"]
 	print(messageCode)
 	match int(messageCode):
+		MESSAGE_TYPES.SERVER_MESSAGE_ERROR:
+			print("Resending message to server.")
+			sendMessageToServer(mostRecentMessage)
 		MESSAGE_TYPES.SERVER_SENDING_CODE:
 			emit_signal("obtainedLetterCode", messageDict["letterCode"])
 			print(messageDict["letterCode"])
