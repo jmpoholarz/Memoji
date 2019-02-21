@@ -34,6 +34,8 @@ if (cluster.isMaster) {
 
   // Send a ping to each host every 5 minutes to check if the game is still active
   setInterval(() => {
+    console.log("Send Ping to Host(s)");
+    writeToFile(server_log, 'Sending Ping to Host(s).');
     _.forEach(hosts, (host) => {
       const res = {
         "messageType": 120
@@ -43,10 +45,13 @@ if (cluster.isMaster) {
   }, 30000);
   // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
   setInterval(() => {
+    console.log("Remove unresponsive Host(s)");
+    writeToFile(server_log, 'Removing unresponsive Host(s)');
     var hosts_to_remove = _.filter(hosts, (host) => {
       return (abs(host.lastPing - moment().valueOf()) > 30000);
     });
     _.forEach(hosts_to_remove, (host) => {
+      host.socket.destroy();
       _.remove(hosts, host);
     });
   }, 33000);
