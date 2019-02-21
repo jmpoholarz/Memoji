@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://LobbyDisplays/LobbyScreen.gd" type="Script" id=1]
 [ext_resource path="res://LobbyDisplays/P_Status.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/font/Comfortaa-Bold.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://LobbyDisplays/ABCDcode.gd" type="Script" id=4]
+[ext_resource path="res://LobbyDisplays/Audience.gd" type="Script" id=4]
+[ext_resource path="res://LobbyDisplays/ABCDcode.gd" type="Script" id=5]
 
 [sub_resource type="DynamicFontData" id=1]
 
@@ -245,7 +246,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 710.0
 margin_bottom = 124.0
-rect_min_size = Vector2( 0, 60 )
+rect_min_size = Vector2( 0, 124 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -314,7 +315,7 @@ anchor_bottom = 0.0
 margin_top = 128.0
 margin_right = 710.0
 margin_bottom = 188.0
-rect_min_size = Vector2( 0, 60 )
+rect_min_size = Vector2( 710, 60 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -330,7 +331,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 517.0
+margin_left = 547.0
 margin_top = 20.0
 margin_right = 710.0
 margin_bottom = 39.0
@@ -342,11 +343,12 @@ size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "Audience Members: ##"
+text = "Audience Members"
 align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+script = ExtResource( 4 )
 _sections_unfolded = [ "Mouse", "Rect", "custom_constants", "custom_fonts" ]
 
 [node name="BottomLine" type="ReferenceRect" parent="Foreground/Content/Lines" index="2"]
@@ -388,7 +390,7 @@ align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-script = ExtResource( 4 )
+script = ExtResource( 5 )
 _sections_unfolded = [ "Mouse", "Rect", "custom_constants", "custom_fonts" ]
 
 [node name="Instructions" type="Label" parent="Foreground/Content/Lines/BottomLine" index="1"]
