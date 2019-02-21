@@ -70,24 +70,35 @@ func _on_Networking_obtainedLetterCode(letterCode):
 
 func _on_Networking_playerConnected(playerID, isPlayer):
 	# Add new player to players array
+	# TODO: Add audience
 	var player
 	player = PlayerClass.new()
 	player.playerID = playerID
 	player.isPlayer = isPlayer
-	players.append(player)
 	
-	if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
-		# TODO: Update the lobby screen's player displays
-		$ScreenManager.currentScreenInstance.add_player_id(playerID)
-
+	if (isPlayer):
+		players.append(player)
+		
+		if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
+			$ScreenManager.currentScreenInstance.add_player_id(playerID)
+	else:
+		audiencePlayers.append(player)
+		if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
+			$ScreenManager.currentScreenInstance.update_audience(audiencePlayers.size())
+	
 func _on_Networking_playerDisconnected(playerID):
 	# Remove player from array
 	for player in players:
-		if player.playerID == playerID:
-			players.remove(player)
+		if (player.playerID == playerID):
+			players.erase(player)
 			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
-				pass # TODO: update the lobby screen's info
-			
+				$ScreenManager.currentScreenInstance.update_from_list(players)
+	
+	for member in audiencePlayers:
+		if (member.playerID == playerID):
+			audiencePlayers.erase(member)
+			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
+					$ScreenManager.currentScreenInstance.update_audience(audiencePlayers.size())
 
 func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 	for player in players:
@@ -97,8 +108,6 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 			
 			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
 				$ScreenManager.currentScreenInstance.update_player_status(player)
-	
-	pass # replace with function body
 
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	pass # replace with function body
