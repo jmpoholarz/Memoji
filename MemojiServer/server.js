@@ -7,6 +7,7 @@ const cluster = require('cluster');
 
 const port = 7575;
 
+// Put these in master
 var codes = [];
 var hosts = [];
 var players = [];
@@ -57,10 +58,10 @@ if (cluster.isMaster) {
   }, 330000);
 
   // Start workers and listen for messages
-  const numCPUs = require('os').cpus().length;
-  for (var i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
+  // const numCPUs = require('os').cpus().length;
+  // for (var i = 0; i < numCPUs; i++) {
+  cluster.fork();
+  // }
 
   // Restart a worker if it dies (e.i. on an error)
   cluster.on('exit', (worker, code, signal) => {
@@ -437,17 +438,9 @@ function toBytesInt32(num) {
 }
 
 function codeCheck(letterCode) {
-  flag = false;
   console.log("PRINT CODES");
   console.log(codes);
-  _.forEach(codes, (code) => {
-    console.log(code);
-    console.log(letterCode);
-    if(letterCode.localCompare(code)){
-      flag = true;
-    }
-  });
-  if (!flag) {
+  if (!codes.includes(letterCode)) {
     console.log('Code does not exist: ' + letterCode);
     return false;
   }
