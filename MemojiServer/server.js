@@ -475,11 +475,14 @@ function parseData(data) {
   }
   // Check if data has length buffer at the beginning of buffer.
   var message = ""
+  console.log(copy.data[0]);
   if(copy.data[0] === '{'){
     // No padding to cut
+    console.log('DO NOT CUT PADDING');
     message = copy.data;
   } else {
     // Cut off padding
+    console.log('CUT PADDING');
     message = copy.data.slice(4);
   }
   // Place new message in buffer
