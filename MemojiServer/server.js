@@ -78,7 +78,7 @@ const server = net.createServer(socket => {
     console.log(data.toString());
     console.log(data.length);
 
-    if(data.length < 2){
+    if(data.length <= 4){
       console.log('Ignore message. Length too short.');
       return;
     }
@@ -473,8 +473,15 @@ function parseData(data) {
     console.warn(err);
     return -1;
   }
-  // Cut off padding
-  const message = copy.data.slice(4);
+  // Check if data has length buffer at the beginning of buffer.
+  var message = ""
+  if(copy[0] === '{'){
+    // No padding to cut
+    message = copy.data;
+  } else {
+    // Cut off padding
+    message = copy.data.slice(4);
+  }
   // Place new message in buffer
   const b = new Buffer.from(message);
   // Return message without padding
