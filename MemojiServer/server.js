@@ -141,6 +141,11 @@ const server = net.createServer(socket => {
           if (host.players.length < max_players) {
             // Player can join
             var id = handlePlayerConn(letterCode, socket);
+            if(id === -1){
+              console.log('Player already connected to host.');
+              writeToFile(error_log, `Player has already connected to host. Do not add to host again.`);
+              return;
+            }
             writeToFile(server_log, `Player: [${id}] joined Host - ${letterCode}`);
           } else {
             // Host lobby full, join as audience member
@@ -216,7 +221,11 @@ const server = net.createServer(socket => {
     console.log("Hosts: ");
     console.log(hosts);
     console.log(codes);
-
+    _.forEach(hosts, (host) => {
+      _.forEach(host.players, (p) => {
+        console.log(p);
+      });
+    });
     // Echo Message back
     // send(socket, data);
   });
@@ -321,6 +330,12 @@ function handlePlayerConn(letterCode, socket) {
     id: id
   };
   const host = _.find(hosts, ['code', letterCode]);
+  const p = _.find(host.players, (p) => {
+    return p.socket === socket;
+  });
+  if(p !== undefined){
+    return -1;
+  }
   host.players.push(player);
   console.log('Handled player connection successfully.');
   console.log('Send id to player.');
