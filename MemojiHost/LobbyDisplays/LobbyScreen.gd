@@ -1,6 +1,7 @@
 extends Node2D
 
-signal forwardMessage(msg)
+signal messageServer(msg)
+signal changeScreen(screen)
 
 const PlayerClass = preload("res://Player.gd")
 

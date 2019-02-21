@@ -20,7 +20,7 @@ func _ready():
 	
 	players = []
 	
-	debug_to_lobby()
+	#debug_to_lobby()
 
 func setupGame():
 	pass
@@ -79,8 +79,6 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
 				$ScreenManager/LobbyScreen.update_player_status(player)
 	
-	
-	
 	pass # replace with function body
 
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
@@ -91,8 +89,6 @@ func _on_Networking_receivedPlayerVote(playerID, promptID, voteID):
 
 func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
 	pass # replace with function body
-
-
 
 
 func _on_ScreenManager_sendMessageToServer(msg):

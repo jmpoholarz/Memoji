@@ -1,6 +1,7 @@
 extends Node
 
 var titleScreenScene = preload("res://FirstTitle.tscn")
+var setupScreenScene = preload("res://Setup.tscn")
 var lobbyScreenScene = preload("res://LobbyDisplays/LobbyScreen.tscn")
 signal sendMessageToServer(msg)
 
@@ -27,15 +28,20 @@ func changeScreenTo(screen):
 		TITLE_SCREEN:
 			var titleScreen = titleScreenScene.instance()
 			add_child(titleScreen)
-			titleScreen.connect("signal", self, "forwardMessage")
-			titleScreen.connect("signal", self, "changeScreenTo")			
+			titleScreen.connect("messageServer", self, "forwardMessage")
+			titleScreen.connect("changeScreen", self, "changeScreenTo")			
 			currentScreenNode = titleScreen
-
+		SETUP_SCREEN:
+			var setupScreen = setupScreenScene.instance()
+			add_child(setupScreen)
+			setupScreen.connect("messageServer", self, "forwardMessage")
+			setupScreen.connect("changeScreen", self, "changeScreenTo")			
+			currentScreenNode = setupScreen
 		LOBBY_SCREEN:
 			var lobbyScreen = lobbyScreenScene.instance()
 			add_child(lobbyScreen) # disabled for debug
-			lobbyScreen.connect("signal", self, "forwardMessage")
-			lobbyScreen.connect("signal", self, "changeScreenTo")
+			lobbyScreen.connect("messageServer", self, "forwardMessage")
+			lobbyScreen.connect("changeScreen", self, "changeScreenTo")
 			currentScreenNode = lobbyScreen
 	
 	currentScreen = screen
