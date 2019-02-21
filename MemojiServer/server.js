@@ -12,7 +12,7 @@ var hosts = [];
 var players = [];
 var audience = [];
 
-const max_players = 8;
+const max_players = 2;
 const max_audience = 100;
 var mtype = '';
 
@@ -217,6 +217,7 @@ if (cluster.isMaster) {
       }
       console.log("Hosts: ");
       console.log(hosts);
+      console.log(codes);
 
       // Echo Message back
       // send(socket, data);
@@ -436,7 +437,17 @@ function toBytesInt32(num) {
 }
 
 function codeCheck(letterCode) {
-  if (!codes.includes(letterCode)) {
+  flag = false;
+  console.log("PRINT CODES");
+  console.log(codes);
+  _.forEach(codes, (code) => {
+    console.log(code);
+    console.log(letterCode);
+    if(letterCode.localCompare(code)){
+      flag = true;
+    }
+  });
+  if (!flag) {
     console.log('Code does not exist: ' + letterCode);
     return false;
   }
