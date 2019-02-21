@@ -8,6 +8,9 @@ var player
 
 func _ready():
 	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
+	
+	$ScreenManager.connect("connectToServer", self, "connectToServer")
+	$Networking.connect("_disconnectedFromServer", self, "_on_Networking_connectionTimeout")
 
 func sendAnswer():
 	pass
@@ -15,7 +18,15 @@ func sendAnswer():
 func sendAnswersForVoting():
 	pass
 
+func connectToServer():
+	print("in GSM connectToServer")
+	$Networking.connectPlayerToServer($Networking.defaultServerIP, $Networking.defaultServerPort)
 
+
+func _on_Networking_connectionTimeout():
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
+		print("on_Networking_connectionTimeout")
+		$ScreenManager/TitleScreen.show_serverErrorPopup("Could not connect to server.  Connection Timeout.")
 
 
 func _on_Networking_answersReceived(answerArray):
@@ -34,13 +45,14 @@ func _on_Networking_enteredValidHostCode(playerID, isPlayer):
 		$ScreenManager.changeScreenTo($ScreenManager.USERINFORMATION_SCREEN)
 
 func _on_Networking_enteredInvalidHostCode():
-	if $ScreenManager.currentScene == $ScreenManager.SCREENS.TITLE_SCREEN:
-		$ScreenManager/TitleScreen._on_InvalidRoomCode()
-	pass # replace with function body
+	#if $ScreenManager.currentScene == $ScreenManager.SCREENS.TITLE_SCREEN:
+	#	$ScreenManager/TitleScreen._on_InvalidRoomCode()
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
+		$ScreenManager.currentScreenInstance.show_ServerErrorPopup("Entered code does not exist.  Check spelling and retry.")
 
 func _on_Networking_enteredInvalidUsername():
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
-		$ScreenManager/UserInformationPanel._on_InvalidName()
+		$ScreenManager/currentScreenInstance._on_InvalidName()
 	pass # replace with function body
 
 func _on_Networking_promptsReceived(promptArray):

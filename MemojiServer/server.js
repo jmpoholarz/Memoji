@@ -34,22 +34,27 @@ if (cluster.isMaster) {
 
   // Send a ping to each host every 5 minutes to check if the game is still active
   setInterval(() => {
+    console.log("Send Ping to Host(s)");
+    writeToFile(server_log, 'Sending Ping to Host(s).');
     _.forEach(hosts, (host) => {
       const res = {
         "messageType": 120
       };
       send(host.socket, JSON.stringify(res));
     });
-  }, 30000);
+  }, 300000);
   // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
   setInterval(() => {
+    console.log("Remove unresponsive Host(s)");
+    writeToFile(server_log, 'Removing unresponsive Host(s)');
     var hosts_to_remove = _.filter(hosts, (host) => {
       return (abs(host.lastPing - moment().valueOf()) > 30000);
     });
     _.forEach(hosts_to_remove, (host) => {
+      host.socket.destroy();
       _.remove(hosts, host);
     });
-  }, 33000);
+  }, 330000);
 
   // Start workers and listen for messages
   const numCPUs = require('os').cpus().length;
@@ -73,6 +78,14 @@ if (cluster.isMaster) {
 
     socket.on('end', () => {
       console.log('client disconnected');
+      socket.destroy();
+      if(socket.destroyed){
+        console.log('Socket destroyed on disconnect successfully.');
+        writeToFile(server_log, 'Socket destroyed on disconnect successfully.');
+      } else {
+        console.log('Socket not destroyed on disconnect successfully.');
+        writeToFile(error_log, 'Socket not destroyed on disconnect successfully.');
+      }
     });
 
     socket.on('data', (data) => {
@@ -208,6 +221,7 @@ if (cluster.isMaster) {
     });
 
     server.on('error', (err) => {
+
       writeToFile(error_log, err.name);
       writeToFile(error_log, err.message);
       throw err;
@@ -265,6 +279,8 @@ function handleHostDisConn(letterCode) {
   const code = _.remove(codes, (c) => {
     return c === letterCode;
   });
+  // Close host socket
+  host.destroy();
   console.log(host);
   console.log(code);
   console.log('Send players disconnect message.');
@@ -273,9 +289,11 @@ function handleHostDisConn(letterCode) {
   };
   _.forEach(host.players, (player) => {
     send(player.socket, JSON.stringify(res));
+    player.socket.destroy();
   });
   _.forEach(host.audience, (audience) => {
     send(audience.socket, JSON.stringify(res));
+    player.socket.destroy();
   })
   console.log('Players removed from host lobby');
 }
@@ -354,6 +372,7 @@ function handlePlayerDisConn(letterCode, socket) {
   const player = _.remove(host.players, ['player', socket]);
   console.log('Removing player: ' + player.id);
   console.log('Handled player disconnection successfully.');
+  player.socket.destroy();
   return 1;
 }
 
@@ -396,7 +415,7 @@ function send(socket, data) {
   const buff2 = new Buffer.from(data.toString());
   console.log('Message sent: ' + buff2.toString());
   // Send length
-  // socket.write(buff);
+  socket.write(buff);
   // Send message
   socket.write(buff2);
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Setup.gd" type="Script" id=1]
 [ext_resource path="res://Assets/TitlePlaceholder.png" type="Texture" id=2]
@@ -266,6 +266,7 @@ text = "CODE"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+script = ExtResource( 2 )
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer" index="3"]
 

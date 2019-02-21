@@ -1,4 +1,4 @@
-extends Panel
+extends Label
 
 # class member variables go here, for example:
 # var a = 2
@@ -15,7 +15,6 @@ func _ready():
 #	pass
 
 
-func _on_BackButton_pressed():
-	var msg = {"messageType": MESSAGE_TYPES.PLAYER_DISCONNECTED, "letterCode":""}
-	emit_signal("sendMessage", msg)
-	get_tree().change_scene("res://TitleScreen.tscn")
+func _on_Button_pressed():
+	var msg = {"messageType":MESSAGE_TYPES.HOST_REQUESTING_CODE, "letterCode":""}
+	emit_signal("sendMessageToServer", msg)

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://WaitngForGameScreen.gd" type="Script" id=1]
 
-[node name="WaitngForGamePanel" type="Panel"]
+[node name="WaitngForGamePanel" type="Panel" index="0"]
 
 anchor_left = 0.5
 anchor_top = 0.5
@@ -94,5 +94,7 @@ group = null
 text = "Back button"
 flat = false
 align = 1
+
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
 
 

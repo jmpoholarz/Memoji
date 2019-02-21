@@ -47,10 +47,10 @@ func _on_Networking_obtainedLetterCode(letterCode):
 	lobbyCode = letterCode
 	
 	if ($ScreenManager.currentScreen == $ScreenManager.SETUP_SCREEN):
-		$ScreenManager/SetupScreen.update_lettercode(letterCode)
+		$ScreenManager.currentScreenInstance.update_lettercode(letterCode)
 		pass
 	elif ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
-		$ScreenManager/LobbyScreen.update_lettercode(letterCode)
+		$ScreenManager.currentScreenInstance.update_lettercode(letterCode)
 		pass
 
 func _on_Networking_playerConnected(playerID, isPlayer):
@@ -63,8 +63,8 @@ func _on_Networking_playerConnected(playerID, isPlayer):
 	
 	if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
 		# TODO: Update the lobby screen's player displays
-		$ScreenManager/LobbyScreen.add_player_id(playerID)
-	
+		$ScreenManager.currentScreenInstance.add_player_id(playerID)
+
 func _on_Networking_playerDisconnected(playerID):
 	# Remove player from array
 	for player in players:
@@ -81,7 +81,7 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 			player.avatarID = avatarIndex
 			
 			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
-				$ScreenManager/LobbyScreen.update_player_status(player)
+				$ScreenManagercurrentScreenInstance.update_player_status(player)
 	
 	pass # replace with function body
 
