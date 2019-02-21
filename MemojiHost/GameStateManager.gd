@@ -101,6 +101,7 @@ func _on_ScreenManager_sendMessageToServer(msg):
 
 
 func _on_ScreenManager_handleGameState(msg):
+	print("Hey!")
 	if $ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN:
 		if (msg == "code" && lobbyCode != null):
 			$ScreenManager/LobbyScreen.update_lettercode(lobbyCode)
