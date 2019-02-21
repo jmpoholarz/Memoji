@@ -3,6 +3,7 @@ extends Container
 #signals for when the player's icon or name changes
 signal change_icon(iconId)
 signal change_text(text)
+signal sendMessage(message)
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
@@ -17,6 +18,7 @@ func _ready():
 	connect("change_icon", textRect, "on_change_icon")
 	connect("change_icon", textSubmit, "on_change_icon")
 	connect("change_text", textSubmit, "on_change_text")
+	textSubmit.connect("sendMessage", self, "sendMessage")
 
 #func _process(delta):
 #	# Called every frame. Delta is time since last frame.
@@ -32,3 +34,6 @@ func _on_TextEdit_text_changed():
 	var textBox = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/TextEdit")
 	
 	emit_signal("change_text", textBox.text)
+
+func sendMessage(message):
+	emit_signal("sendMessage", message)
