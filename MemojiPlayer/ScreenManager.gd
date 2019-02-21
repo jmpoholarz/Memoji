@@ -32,7 +32,7 @@ func changeScreenTo(screen):
 		USERINFORMATION_SCREEN:
 			currentScreenInstance = userinfoScreenScene.instance()
 			add_child(currentScreenInstance)
-			currentScreenInstance.connect("connectToServer", self, "connectToServer")
+			#currentScreenInstance.connect("connectToServer", self, "connectToServer")
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
 			var GSM = get_node("../")
 			currentScreenInstance.change_name_and_icon(GSM.playerName, GSM.playerIcon)

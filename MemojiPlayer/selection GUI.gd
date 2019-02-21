@@ -41,5 +41,4 @@ func changeText(text):
 	emit_signal("change_text", text)
 
 func textSubmitToServer(message):
-	print("Submitting text to server! . . . " + str(message))
 	emit_signal("sendMessage", message)
