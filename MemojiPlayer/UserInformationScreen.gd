@@ -15,4 +15,3 @@ func _on_InvalidName():
 	
 func sendMessage(message):
 	emit_signal("sendMessage", message)
-	print(message)

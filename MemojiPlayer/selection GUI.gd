@@ -18,7 +18,7 @@ func _ready():
 	connect("change_icon", textRect, "on_change_icon")
 	connect("change_icon", textSubmit, "on_change_icon")
 	connect("change_text", textSubmit, "on_change_text")
-	textSubmit.connect("sendMessage", self, "sendMessage")
+	textSubmit.connect("sendMessage", self, "textSubmitToServer")
 
 #func _process(delta):
 #	# Called every frame. Delta is time since last frame.
@@ -35,5 +35,6 @@ func _on_TextEdit_text_changed():
 	
 	emit_signal("change_text", textBox.text)
 
-func sendMessage(message):
+func textSubmitToServer(message):
+	print("Submitting text to server! . . . " + str(message))
 	emit_signal("sendMessage", message)

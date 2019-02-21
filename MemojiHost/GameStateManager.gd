@@ -96,7 +96,7 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 			player.avatarID = avatarIndex
 			
 			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
-				$ScreenManagercurrentScreenInstance.update_player_status(player)
+				$ScreenManager.currentScreenInstance.update_player_status(player)
 	
 	pass # replace with function body
 

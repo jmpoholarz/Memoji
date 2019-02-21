@@ -122,12 +122,13 @@ func sendMessageToServer(message):
 	Logger.writeLine("Message (" + str(message) + ") sent.")
 
 func getMessageFromServer():
-	print("GET MESSAGE FROM SERVER")
 	# Check if can get message
 	if !socket.is_connected_to_host():
 		print("Failed to get message.  Not connected to server.")
 		Logger.writeLine("Failed to get message.  Not connected to server.")
 		return
+	# Send acknowledgment to try to fix the ' bug
+	socket.put_u8(3);
 	# Obtain message
 	var messageLen = $Parser.getMessageLength(socket)
 	print(messageLen)
