@@ -175,7 +175,7 @@ if (cluster.isMaster) {
           break;
         case 311: // Host Sending promtpt ---> Send to Player
           sendToPlayer(message);
-          writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending prompt.] Sending to Player: ${message.playerId}`);
+          writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending prompt.] Sending to Player: ${message.playerID}`);
           break;
         case 312: // Host sending answers ---> Send to all Players and Audience
           sendToPlayersAndAudience(letterCode, message);
@@ -186,7 +186,7 @@ if (cluster.isMaster) {
           sendToPlayer(message);
           if (message.messageType === 404) mtype = 'Invalid username.';
           if (message.messageType === 405) mtype = 'Host starting game.';
-          writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Player: ${message.playerId}`);
+          writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Player: ${message.playerID}`);
           break;
         case 403: // Player username and avatar ------> Send to Host
         case 410: // Player sending prompt response --> Send to Host
@@ -325,7 +325,7 @@ function handlePlayerConn(letterCode, socket) {
   const res = {
     "messageType": 112,
     "letterCode": letterCode,
-    "playerId": id,
+    "playerID": id,
     "isPlayer": true
   }
   send(host.socket, JSON.stringify(res));
@@ -385,7 +385,7 @@ function sendToAllPlayers(letterCode, message) {
 }
 
 function sendToPlayer(message) {
-  const player = _.find(players, ['id', message.playerId]);
+  const player = _.find(players, ['id', message.playerID]);
   send(player.socket, JSON.stringify(message));
 }
 
