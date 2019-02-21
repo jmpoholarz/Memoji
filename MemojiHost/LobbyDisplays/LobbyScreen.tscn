@@ -43,7 +43,7 @@ use_filter = false
 font_data = ExtResource( 3 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[node name="LobbyScreen" type="Node2D" index="0"]
+[node name="LobbyScreen" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -246,7 +246,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 710.0
 margin_bottom = 124.0
-rect_min_size = Vector2( 0, 60 )
+rect_min_size = Vector2( 0, 124 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -315,7 +315,7 @@ anchor_bottom = 0.0
 margin_top = 128.0
 margin_right = 710.0
 margin_bottom = 188.0
-rect_min_size = Vector2( 0, 60 )
+rect_min_size = Vector2( 710, 60 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1

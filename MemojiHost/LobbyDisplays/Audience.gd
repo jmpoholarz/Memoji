@@ -9,7 +9,7 @@ func reset():
 	self.show()
 	return
 
-func update_count(num):
-	self.text = "%d Audience Members" % num
+func update_count(count):
+	self.text = "%d Audience Members" % count
 	self.show()
 	return

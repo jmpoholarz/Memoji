@@ -75,24 +75,30 @@ func _on_Networking_playerConnected(playerID, isPlayer):
 	player = PlayerClass.new()
 	player.playerID = playerID
 	player.isPlayer = isPlayer
-	players.append(player)
 	
-	if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
-		$ScreenManager.currentScreenInstance.add_player_id(playerID)
-
+	if (isPlayer):
+		players.append(player)
+		
+		if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
+			$ScreenManager.currentScreenInstance.add_player_id(playerID)
+	else:
+		audiencePlayers.append(player)
+		if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
+			$ScreenManager.currentScreenInstance.update_audience(audiencePlayers.size())
+	
 func _on_Networking_playerDisconnected(playerID):
 	# Remove player from array
 	for player in players:
 		if (player.playerID == playerID):
-			players.remove(player)
+			players.erase(player)
 			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
 				$ScreenManager.currentScreenInstance.update_from_list(players)
 	
 	for member in audiencePlayers:
 		if (member.playerID == playerID):
-			audiencePlayers.remove(member)
+			audiencePlayers.erase(member)
 			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
-					pass # TODO: call a function to update audience count
+					$ScreenManager.currentScreenInstance.update_audience(audiencePlayers.size())
 
 func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 	for player in players:
@@ -102,8 +108,6 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 			
 			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
 				$ScreenManager.currentScreenInstance.update_player_status(player)
-	
-	pass # replace with function body
 
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	pass # replace with function body
