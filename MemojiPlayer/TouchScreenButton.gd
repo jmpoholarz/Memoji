@@ -9,6 +9,7 @@ var newId = 0
 var newName = "name"
 
 signal sendMessage(msg)
+signal connectToServer()
 
 func _ready():
 	# Called when the node is added to the scene for the first time.
@@ -40,6 +41,8 @@ func _on_TouchScreenButton_pressed():
 			"username": name,
 			"avatarIndex": newId
 		}
+		emit_signal("connectToServer")
+		yield(get_tree().create_timer(2), "timeout")
 		emit_signal("sendMessage",msg)
 	else:
 		get_node("NameNullPopup").popup()
