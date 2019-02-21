@@ -2,6 +2,7 @@ extends Node2D
 
 signal messageServer(msg)
 signal changeScreen(screen)
+signal updateGameState(msg)
 
 const PlayerClass = preload("res://Player.gd")
 
@@ -13,8 +14,8 @@ onready var p5 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P5
 onready var p6 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P6
 onready var p7 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P7
 onready var p8 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P8
-onready var audienceDisplay = $Foreground/Content/Lines/TopLine/Statuses/AudienceStatus/Audience
-onready var codeDisplay = $Foreground/Content/Lines/BottomLine/ABCDcode # audience number
+onready var audienceLabel = $Foreground/Content/Lines/TopLine/Statuses/AudienceStatus/Audience
+onready var codeLabel = $Foreground/Content/Lines/BottomLine/ABCDcode # audience number
 
 onready var pDisplays = [p1, p2, p3, p4, p5, p6, p7, p8] # GUI representing each player
 
@@ -72,12 +73,7 @@ func _debug():
 
 func _ready():
 	avatarSetup()
-	
-	#for x in range(0, 8):
-	#	pDisplays[x].update_player("Player %d" % (x + 1), avatarList[x])
-		
-	### DEBUG ###
-	#_debug()
+	emit_signal("updateGameState", "code")
 	
 	return
 
@@ -149,7 +145,7 @@ func update_display(index, playerObj):
 	return
 
 func update_lettercode(code):
-	codeDisplay.text = code
+	codeLabel.text = code
 	return
 
 func _on_StartButton_pressed():

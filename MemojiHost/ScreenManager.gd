@@ -4,6 +4,7 @@ var titleScreenScene = preload("res://FirstTitle.tscn")
 var setupScreenScene = preload("res://Setup.tscn")
 var lobbyScreenScene = preload("res://LobbyDisplays/LobbyScreen.tscn")
 signal sendMessageToServer(msg)
+signal handleGameState(msg)			# for GameStateManager
 
 enum SCREENS {
 	TITLE_SCREEN = 1
@@ -36,15 +37,22 @@ func changeScreenTo(screen):
 			add_child(setupScreen)
 			setupScreen.connect("messageServer", self, "forwardMessage")
 			setupScreen.connect("changeScreen", self, "changeScreenTo")			
+			setupScreen.connect("updateGameState", self, "forwardGameState")
 			currentScreenNode = setupScreen
 		LOBBY_SCREEN:
 			var lobbyScreen = lobbyScreenScene.instance()
 			add_child(lobbyScreen) # disabled for debug
 			lobbyScreen.connect("messageServer", self, "forwardMessage")
 			lobbyScreen.connect("changeScreen", self, "changeScreenTo")
+			lobbyScreen.connect("updateGameState", self, "forwardGameState")
 			currentScreenNode = lobbyScreen
 	
 	currentScreen = screen
 
 func forwardMessage(msg):
 	emit_signal("sendMessageToServer", msg)
+	
+# Allows GUI to communicate with GameStateManager
+func forwardGameState(msg):
+	print("******** HIIIII *******")
+	emit_signal("handleGameState", msg)
