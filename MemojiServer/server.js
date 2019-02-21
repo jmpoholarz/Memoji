@@ -100,6 +100,7 @@ if (cluster.isMaster) {
           "data": data.toString()
         };
         send(socket, JSON.stringify(res));
+        writeToFile(error_log, 'Error parsing data received.');
         return;
       }
       const message = JSON.parse(json);
@@ -221,7 +222,6 @@ if (cluster.isMaster) {
     });
 
     server.on('error', (err) => {
-
       writeToFile(error_log, err.name);
       writeToFile(error_log, err.message);
       throw err;
