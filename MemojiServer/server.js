@@ -451,6 +451,7 @@ function parseData(data) {
   try {
     copy = JSON.parse(json);
   } catch (err) {
+    console.log("THERE HAS BEEN AN ERROR PARSING THE DATA RECEIVED.");
     console.warn(err);
     return -1;
   }
