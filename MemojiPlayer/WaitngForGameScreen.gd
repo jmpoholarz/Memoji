@@ -1,5 +1,6 @@
 extends Panel
 
+signal sendMessage(msg)
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
@@ -18,4 +19,4 @@ func _ready():
 func _on_BackButton_pressed():
 	var msg = {"messageType": MESSAGE_TYPES.PLAYER_DISCONNECTED, "letterCode":""}
 	emit_signal("sendMessage", msg)
-	get_tree().change_scene("res://TitleScreen.tscn")
+	emit_signal("changeScreen", 1)
