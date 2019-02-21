@@ -7,5 +7,5 @@ func _ready():
 #func _process(delta):
 	
 func update_code(var newCode):
-	
+	self.text = newCode
 	pass
