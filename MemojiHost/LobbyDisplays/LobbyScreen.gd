@@ -95,3 +95,6 @@ func update_audience(count):
 
 func _on_StartButton_pressed():
 	pass # replace with function body
+
+func _on_ExitButton_pressed():
+	emit_signal("updateGameState", "disconnectLobby")

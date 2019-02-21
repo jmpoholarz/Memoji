@@ -21,11 +21,6 @@ func _ready():
 	$Networking.connect("connectedSuccessfully", self, "on_Networking_successful")
 	
 	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
-	
-	
-	players = []
-	
-	#debug_to_lobby()
 
 func setupGame():
 	pass
@@ -45,7 +40,11 @@ func advanceGame():
 func quitHosting():
 	pass
 
-
+# Goes to the title screen and resets variables
+func toTitle():
+	
+	pass
+	
 func connectToServer():
 	$Networking.connectHostToServer($Networking.defaultServerIP, $Networking.defaultServerPort)
 
@@ -125,9 +124,13 @@ func _on_ScreenManager_sendMessageToServer(msg):
 
 
 func _on_ScreenManager_handleGameState(msg):
-	print("Hey!")
 	if $ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN:
 		if (msg == "code" && lobbyCode != null):
-			$ScreenManager/LobbyScreen.update_lettercode(lobbyCode)
+			$ScreenManager.currentScreenInstance.update_lettercode(lobbyCode)
+			pass
+		elif (msg == "disconnectLobby"):
+			#$ScreenManager.currentScreenInstance
+			var endRequest = { "messageType": MESSAGE_TYPES.HOST_ENDING_GAME, "letterCode": lobbyCode }
+			$Networking.sendMessageToServer(endRequest)
 			pass
 
