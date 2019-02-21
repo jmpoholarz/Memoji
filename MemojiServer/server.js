@@ -47,7 +47,7 @@ setInterval(() => {
   console.log("Remove unresponsive Host(s)");
   writeToFile(server_log, 'Removing unresponsive Host(s)');
   var hosts_to_remove = _.filter(hosts, (host) => {
-    return (abs(host.lastPing - moment().valueOf()) > 30000);
+    return (Math.abs(host.lastPing - moment().valueOf()) > 30000);
   });
   _.forEach(hosts_to_remove, (host) => {
     host.socket.destroy();
