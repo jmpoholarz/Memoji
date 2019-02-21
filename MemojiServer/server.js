@@ -111,8 +111,7 @@ const server = net.createServer(socket => {
       console.warn('Message does not contain letterCode');
       console.warn(err);
       const res = {
-        "messageType": 100,
-        "message": data.toString()
+        "messageType": 100
       };
       writeToFile(error_log, 'Message does not contain letterCode');
       send(socket, JSON.stringify(res));
@@ -144,9 +143,9 @@ const server = net.createServer(socket => {
             if(id === -1){
               console.log('Player already connected to host.');
               writeToFile(error_log, `Player has already connected to host. Do not add to host again.`);
-              return;
+            } else {
+              writeToFile(server_log, `Player: [${id}] joined Host - ${letterCode}`);
             }
-            writeToFile(server_log, `Player: [${id}] joined Host - ${letterCode}`);
           } else {
             // Host lobby full, join as audience member
             var id = handleAudienceConn(letterCode, socket);
@@ -219,13 +218,13 @@ const server = net.createServer(socket => {
         writeToFile(error_log, '[MessageType]: Unknown MessageType. No action performed.');
     }
     console.log("Hosts: ");
-    console.log(hosts);
+    // console.log(hosts);
     console.log(codes);
-    _.forEach(hosts, (host) => {
-      _.forEach(host.players, (p) => {
-        console.log(p);
-      });
-    });
+    // _.forEach(hosts, (host) => {
+    //   _.forEach(host.players, (p) => {
+    //     console.log(p);
+    //   });
+    // });
     // Echo Message back
     // send(socket, data);
   });
@@ -238,7 +237,6 @@ const server = net.createServer(socket => {
     };
     writeToFile(error_log, 'Error. Send 100 back to server. Requesting message again.');
     send(socket, JSON.stringify(res));
-    server.listen(port, '127.0.0.1');
   });
 });
 

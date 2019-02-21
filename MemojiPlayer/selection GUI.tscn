@@ -9,7 +9,7 @@
 [ext_resource path="res://Assets/DonePlaceholder.png" type="Texture" id=7]
 [ext_resource path="res://TouchScreenButton.gd" type="Script" id=8]
 
-[node name="selection GUI" type="Container" index="0"]
+[node name="selection GUI" type="Container"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -559,6 +559,6 @@ script = ExtResource( 8 )
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/HBoxContainer/VBoxContainer6/Button" to="." method="_on_Button_pressed" binds= [ 3 ]]
 
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer3/MarginContainer/TouchScreenButton" to="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer3/MarginContainer/TouchScreenButton" method="_on_TouchScreenButton_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer3/MarginContainer/TouchScreenButton" to="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer3/MarginContainer/TouchScreenButton" method="_on_Button_pressed"]
 
 
