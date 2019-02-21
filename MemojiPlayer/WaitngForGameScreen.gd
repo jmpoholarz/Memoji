@@ -16,4 +16,6 @@ func _ready():
 
 
 func _on_BackButton_pressed():
+	var msg = {"messageType": MESSAGE_TYPES.PLAYER_DISCONNECTED, "letterCode":""}
+	emit_signal("sendMessage", msg)
 	get_tree().change_scene("res://TitleScreen.tscn")
