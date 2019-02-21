@@ -29,9 +29,9 @@ func on_change_text(newText):
 	name = newText
 
 
-func _on_TouchScreenButton_pressed():
+func _on_Button_pressed():
 	if name.length() > 0:
-		name = name.to_upper()
+		#name = name.to_upper()
 		print(name)
 #		get_node("TestLabel").text = name
 

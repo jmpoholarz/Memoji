@@ -6,7 +6,7 @@ enum MESSAGE_TYPES {
 	SERVER_MESSAGE_ERROR = 100,				# Sent from server when error parsing
 
 	HOST_REQUESTING_CODE = 110,				# Sent from host when setting up server
-	SERVER_SENDING_CODE = 111,				# Sent when first delivering ABCD code
+	SERVER_SENDING_CODE = 111,				# Sent from server when first delivering ABCD code
 	VALID_SERVER_CODE = 112,				# Sent when player enters a valid code
 	INVALID_SERVER_CODE = 113,				# Sent when player enters an invalid code
 
