@@ -74,12 +74,13 @@ const server = net.createServer(socket => {
   });
 
   socket.on('data', (data) => {
+    console.log(data);
     console.log(data.toString());
     console.log(data.toString().length);
 
     const json = parseData(data);
     if (json === -1) {
-      console.warn('Error parsing data');
+      console.log('Error parsing data');
       const res = {
         "messageType": 100
       };
@@ -87,7 +88,19 @@ const server = net.createServer(socket => {
       send(socket, JSON.stringify(res));
       return;
     }
-    const message = JSON.parse(json);
+    var message = "";
+    try {
+      message = JSON.parse(json);
+    } catch(err) {
+      console.log(err);
+      const res = {
+        "messageType": 100
+      };
+      writeToFile(error_log, 'Error parsing json.');
+      send(socket, JSON.stringify(res));
+      return;
+    }
+
     console.log(message);
 
     // See what message type (action)

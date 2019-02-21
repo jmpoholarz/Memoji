@@ -4,6 +4,7 @@ const uuid = require('uuid/v1');
 const moment = require('moment');
 const fs = require('fs');
 const cluster = require('cluster');
+const mysql = require('mysql');
 
 const port = 7575;
 
@@ -19,6 +20,17 @@ var mtype = '';
 
 const server_log = 'server_log.txt';
 const error_log = 'server_error_log.txt';
+
+const con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "r00tpa55"
+});
+
+con.connect((err) => {
+  if(err) throw err;
+  console.log("Connected!");
+});
 
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
