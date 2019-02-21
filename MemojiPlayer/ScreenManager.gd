@@ -34,11 +34,14 @@ func changeScreenTo(screen):
 			add_child(currentScreenInstance)
 			currentScreenInstance.connect("connectToServer", self, "connectToServer")
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
+			var GSM = get_node("../")
+			currentScreenInstance.change_name_and_icon(GSM.playerName, GSM.playerIcon)
 		
 		LOBBY_SCREEN:
 			currentScreenInstance = lobbyScreenScene.instance()
 			add_child(currentScreenInstance)
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
+			currentScreenInstance.connect("changeScreen", self, "changeScreenTo")
 	currentScreen = screen
 
 func forwardMessage(msg):

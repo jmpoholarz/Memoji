@@ -6,8 +6,8 @@ var currentRound
 var currentState
 var player
 var lobbyCode
-var playerName
-var playerIcon
+var playerName = name
+var playerIcon = 00
 
 func _ready():
 	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
