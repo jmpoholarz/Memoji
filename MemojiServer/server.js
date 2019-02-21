@@ -265,6 +265,8 @@ function handleHostDisConn(letterCode) {
   const code = _.remove(codes, (c) => {
     return c === letterCode;
   });
+  // Close host socket
+  host.destroy();
   console.log(host);
   console.log(code);
   console.log('Send players disconnect message.');
@@ -273,9 +275,11 @@ function handleHostDisConn(letterCode) {
   };
   _.forEach(host.players, (player) => {
     send(player.socket, JSON.stringify(res));
+    player.socket.destroy();
   });
   _.forEach(host.audience, (audience) => {
     send(audience.socket, JSON.stringify(res));
+    player.socket.destroy();
   })
   console.log('Players removed from host lobby');
 }
@@ -354,6 +358,7 @@ function handlePlayerDisConn(letterCode, socket) {
   const player = _.remove(host.players, ['player', socket]);
   console.log('Removing player: ' + player.id);
   console.log('Handled player disconnection successfully.');
+  player.socket.destroy();
   return 1;
 }
 
