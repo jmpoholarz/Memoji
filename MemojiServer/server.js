@@ -475,7 +475,7 @@ function parseData(data) {
   }
   // Check if data has length buffer at the beginning of buffer.
   var message = ""
-  if(copy[0] === '{'){
+  if(copy.data[0] === '{'){
     // No padding to cut
     message = copy.data;
   } else {
