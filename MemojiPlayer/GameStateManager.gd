@@ -5,6 +5,7 @@ var playerScene = preload("res://Player.tscn") #might not work
 var currentRound
 var currentState
 var player
+var lobbyCode
 
 func _ready():
 	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
@@ -37,7 +38,8 @@ func _on_Networking_enteredInvalidAnswer():
 		
 	pass # replace with function body
 
-func _on_Networking_enteredValidHostCode(playerID, isPlayer):
+func _on_Networking_enteredValidHostCode(playerID, isPlayer, code):
+	lobbyCode = code
 	player = playerScene.instance() #might not work
 	player.playerID = playerID
 	player.isPlayer = isPlayer

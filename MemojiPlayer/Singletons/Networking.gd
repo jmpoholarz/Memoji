@@ -147,7 +147,7 @@ func getMessageFromServer():
 			sendMessageToServer(mostRecentMessage)
 		MESSAGE_TYPES.VALID_SERVER_CODE:
 			letterCode = messageDict["letterCode"]
-			emit_signal("enteredValidHostCode", messageDict["playerID"], messageDict["isPlayer"])
+			emit_signal("enteredValidHostCode", messageDict["playerID"], messageDict["isPlayer"], messageDict["letterCode"])
 		MESSAGE_TYPES.INVALID_SERVER_CODE:
 			emit_signal("enteredInvalidHostCode")
 		MESSAGE_TYPES.SERVER_FORCE_DISCONNECT_CLIENT:

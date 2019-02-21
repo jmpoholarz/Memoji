@@ -10,7 +10,6 @@ func _ready():
 
 #
 func _on_DoneButton_pressed():
-	get_tree().change_scene("res://WaitngForGameScreen.tscn")
 #	var name = get_node("NameLineEdit").text
 #
 #	if name.length() > 0:
