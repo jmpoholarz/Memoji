@@ -30,8 +30,10 @@ func _on_JoinMeButton_pressed():
 				"messageType": MESSAGE_TYPES.PLAYER_CONNECTED,
 				"letterCode": roomCode
 			}
-#			Networking.sendMessageToServer(msg)
+
 			emit_signal("connectToServer")
+			$ConnectingLabel.visible = true
+			$JoinButton.disabled = true
 			yield(get_tree().create_timer(2), "timeout")
 			# TODO have some sort of connect message
 			emit_signal("sendMessage", msg)
@@ -44,10 +46,13 @@ func _on_JoinMeButton_pressed():
 		get_node("RoomCodeInvalidLengthPopup").popup()
 		
 func _on_InvalidRoomCode():
+	$ConnectingLabel.visible = false
+	$JoinButton.disabled = false
 	get_node("RoomCodeInvalidCharacters").popup()
 	
 func show_ServerErrorPopup(text):
-	print("in thing")
+	$ConnectingLabel.visible = false
+	$JoinButton.disabled = false
 	$ServerErrorPopup/Label.text = text
 	$ServerErrorPopup.popup()
 	

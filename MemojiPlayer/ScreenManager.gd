@@ -30,20 +30,20 @@ func changeScreenTo(screen):
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
 			
 		USERINFORMATION_SCREEN:
-			var currentScreenInstance = userinfoScreenScene.instance()
+			currentScreenInstance = userinfoScreenScene.instance()
 			add_child(currentScreenInstance)
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
 		
 		LOBBY_SCREEN:
-			var currentScreenInstance = lobbyScreenScene.instance()
+			currentScreenInstance = lobbyScreenScene.instance()
 			add_child(currentScreenInstance)
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
 	currentScreen = screen
 
 func forwardMessage(msg):
-	print("in forward message with message " + str(msg))
+	#print("in forward message with message " + str(msg))
 	emit_signal("sendMessageToServer", msg)
 
 func connectToServer():
-	print("in ScreenManager connectToServer")
+	#print("in ScreenManager connectToServer")
 	emit_signal("connectToServer")

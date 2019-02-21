@@ -19,7 +19,7 @@ func sendAnswersForVoting():
 	pass
 
 func connectToServer():
-	print("in GSM connectToServer")
+	#Sprint("in GSM connectToServer")
 	$Networking.connectPlayerToServer($Networking.defaultServerIP, $Networking.defaultServerPort)
 
 

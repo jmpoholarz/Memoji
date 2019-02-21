@@ -16,8 +16,12 @@ func debug_to_lobby():
 	_on_ScreenManager_sendMessageToServer(request)
 	
 func _ready():
+	$ScreenManager.connect("connectToServer", self, "connectToServer")
+	$Networking.connect("_disconnectedFromServer", self, "on_Networking_connectionTimeout")
+	$Networking.connect("connectedSuccessfully", self, "on_Networking_successful")
 	
 	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
+	
 	
 	players = []
 	
@@ -42,6 +46,17 @@ func quitHosting():
 	pass
 
 
+func connectToServer():
+	$Networking.connectHostToServer($Networking.defaultServerIP, $Networking.defaultServerPort)
+
+func on_Networking_connectionTimeout():
+	if $ScreenManager.currentScreen == $ScreenManager.TITLE_SCREEN:
+		$ScreenManager.currentScreenInstance.show_connection_error()
+
+func on_Networking_successful():
+	print("Networking returned successful")
+	if $ScreenManager.currentScreen == $ScreenManager.TITLE_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.SETUP_SCREEN)
 
 func _on_Networking_obtainedLetterCode(letterCode):
 	lobbyCode = letterCode

@@ -3,15 +3,15 @@
 [ext_resource path="res://TitleScreen.gd" type="Script" id=1]
 [ext_resource path="res://UserInformationScreen.tscn" type="PackedScene" id=2]
 
-[node name="Panel" type="Panel"]
+[node name="Panel" type="Panel" index="0"]
 
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -450.0
+margin_left = -449.0
 margin_top = -330.0
-margin_right = 406.0
+margin_right = 407.0
 margin_bottom = 324.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -22,7 +22,28 @@ size_flags_vertical = 1
 script = ExtResource( 1 )
 _sections_unfolded = [ "Margin" ]
 
-[node name="InstructionsLabel" type="Label" parent="." index="0"]
+[node name="TitleLabel" type="Label" parent="." index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 405.0
+margin_top = 112.0
+margin_right = 454.0
+margin_bottom = 126.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "Memoji"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="InstructionsLabel" type="Label" parent="." index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -46,7 +67,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="JoinButton" type="Button" parent="." index="1"]
+[node name="JoinButton" type="Button" parent="." index="2"]
 
 anchor_left = 0.5
 anchor_top = 0.5
@@ -71,7 +92,7 @@ text = "Join!"
 flat = false
 align = 1
 
-[node name="RoomCodeLineEdit" type="LineEdit" parent="." index="2"]
+[node name="RoomCodeLineEdit" type="LineEdit" parent="." index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -96,24 +117,24 @@ caret_blink = false
 caret_blink_speed = 0.65
 caret_position = 0
 
-[node name="UserInformationPanel" parent="." index="3" instance=ExtResource( 2 )]
+[node name="UserInformationPanel" parent="." index="4" instance=ExtResource( 2 )]
 
 margin_left = 537.0
 margin_top = -332.0
 margin_right = 1393.0
 margin_bottom = 322.0
 
-[node name="RoomCodeInvalidLengthPopup" type="PopupPanel" parent="." index="4"]
+[node name="RoomCodeInvalidLengthPopup" type="PopupPanel" parent="." index="5"]
 
 visible = false
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 289.0
-margin_top = 247.0
-margin_right = 713.0
-margin_bottom = 466.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -212.0
+margin_top = -109.5
+margin_right = 212.0
+margin_bottom = 109.5
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -139,24 +160,24 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-text = "Room Code must be 4 Character Only"
+text = "Room Code must be 4 letters."
 align = 1
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="RoomCodeInvalidCharacters" type="PopupPanel" parent="." index="5"]
+[node name="RoomCodeInvalidCharacters" type="PopupPanel" parent="." index="6"]
 
 visible = false
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 289.0
-margin_top = 247.0
-margin_right = 713.0
-margin_bottom = 466.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -212.0
+margin_top = -109.5
+margin_right = 212.0
+margin_bottom = 109.5
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -188,17 +209,17 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="ServerErrorPopup" type="PopupPanel" parent="." index="6"]
+[node name="ServerErrorPopup" type="PopupPanel" parent="." index="7"]
 
 visible = false
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 289.0
-margin_top = 247.0
-margin_right = 713.0
-margin_bottom = 466.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -212.0
+margin_top = -109.5
+margin_right = 212.0
+margin_bottom = 109.5
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -209,23 +230,46 @@ popup_exclusive = false
 
 [node name="Label" type="Label" parent="ServerErrorPopup" index="0"]
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 89.0
-margin_top = 60.0
-margin_right = 329.0
-margin_bottom = 158.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = -49.0
+margin_right = 161.0
+margin_bottom = 49.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-text = "Room Code may only contain letters."
+text = "Could not connect to server.  Connection Timeout."
 align = 1
 valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ConnectingLabel" type="Label" parent="." index="8"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 358.0
+margin_top = 368.0
+margin_right = 502.0
+margin_bottom = 382.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "Connecting to server..."
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1

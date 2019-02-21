@@ -4,6 +4,7 @@ var titleScreenScene = preload("res://FirstTitle.tscn")
 var setupScreenScene = preload("res://Setup.tscn")
 var lobbyScreenScene = preload("res://LobbyDisplays/LobbyScreen.tscn")
 
+signal connectToServer()
 signal sendMessageToServer(msg)
 signal handleGameState(msg)			# for GameStateManager
 
@@ -32,6 +33,7 @@ func changeScreenTo(screen):
 	match screen:
 		TITLE_SCREEN:
 			currentScreenInstance = titleScreenScene.instance()
+			currentScreenInstance.connect("connectToServer", self, "connectToServer")
 		SETUP_SCREEN:
 			currentScreenInstance = setupScreenScene.instance()
 		LOBBY_SCREEN:
@@ -42,6 +44,10 @@ func changeScreenTo(screen):
 		currentScreenInstance.connect("changeScreen", self, "changeScreenTo")
 		currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		add_child(currentScreenInstance)
+
+
+func connectToServer():
+	emit_signal("connectToServer")
 
 func forwardMessage(msg):
 	emit_signal("sendMessageToServer", msg)

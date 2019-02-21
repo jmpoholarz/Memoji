@@ -31,7 +31,7 @@ var startedTest = false
 
 func _ready():
 	socket = StreamPeerTCP.new()
-	___test()
+	#___test()
 
 func ___test():
 	#if startedTest == true:
@@ -59,9 +59,7 @@ func connectPlayerToServer(serverIP, serverPort):
 	Returns:
 		none
 	"""
-	print("in networking ConnectToServer")
 	if !(socket.get_status() == socket.STATUS_NONE):
-		print("socket not in NONE status")
 		return
 	if !socket.is_connected_to_host():
 		$ConnectingTimer.start()
@@ -107,7 +105,7 @@ func sendMessageToServer(message):
 		Logger.writeLine("Failed to send message (" + str(message) + ").  Not connected to server.")
 		return
 	# Check if valid message
-	if !message.has("messageType"):
+	if message["messageType"] != MESSAGE_TYPES.HOST_REQUESTING_CODE:
 		print("Failed to send message.  Lacking messageType attribute.")
 		Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'messageType' attribute.")
 	if !message.has("letterCode"):
@@ -118,7 +116,8 @@ func sendMessageToServer(message):
 	mostRecentMessage = message
 	print("Sending player message...")
 	Logger.writeLine("Sending player message...")
-	socket.put_utf8_string($Parser.encodeMessage(message))
+	message = $Parser.encodeMessage(message)
+	socket.put_utf8_string(message)
 	print("Player message sent.")
 	Logger.writeLine("Message (" + str(message) + ") sent.")
 

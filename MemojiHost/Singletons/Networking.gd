@@ -3,6 +3,7 @@ extends Node
 # # # Signals # # #
 signal _connectedToServer
 signal _disconnectedFromServer
+signal connectedSuccessfully
 signal obtainedLetterCode(letterCode)
 signal playerConnected(playerID)
 signal playerDisconnected(playerID)
@@ -25,7 +26,7 @@ var startedTest = false
 
 func _ready():
 	socket = StreamPeerTCP.new()
-	___test()
+	#___test()
 
 func ___test():
 	if startedTest == true:
@@ -52,6 +53,8 @@ func connectHostToServer(serverIP, serverPort):
 	Returns:
 		none
 	"""
+	if !(socket.get_status() == socket.STATUS_NONE):
+		return
 	if !socket.is_connected_to_host():
 		$ConnectingTimer.start()
 		var response = socket.connect_to_host(serverIP, serverPort)
@@ -85,11 +88,13 @@ func _on_ConnectingTimer_timeout():
 		disconnectHostFromServer()
 	else:
 		# Successfully connected
+		
 		print(socket.get_status())
 		print("Connection attempt was successful.")
 		Logger.writeLine("Connection attempt was successful.")
 		print("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
 		Logger.writeLine("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
+		emit_signal("connectedSuccessfully")
 		#var msg = {"messageType": MESSAGE_TYPES.HOST_REQUESTING_CODE}
 		#sendMessageToServer(msg)
 
@@ -114,7 +119,7 @@ func sendMessageToServer(message):
 	message = $Parser.encodeMessage(message)
 	socket.put_utf8_string(message)
 	print("Message sent.")
-	Logger.writeLine("Message (" + message + ") sent.")
+	Logger.writeLine("Message (" + str(message) + ") sent.")
 
 func getMessageFromServer():
 	# Check if can get message
