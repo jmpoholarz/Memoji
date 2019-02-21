@@ -8,11 +8,19 @@ var currentState
 var players = []
 var audiencePlayers = []
 
-func _ready():
-	#### Temporarily commented out for testing ####
-	# $ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
+func debug_to_lobby():
 	$ScreenManager.changeScreenTo($ScreenManager.LOBBY_SCREEN)
+	
+	var request = { "messageType": MESSAGE_TYPES.HOST_REQUESTING_CODE, "letterCode": "????" }
+	_on_ScreenManager_sendMessageToServer(request)
+	
+func _ready():
+	
+	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
+	
 	players = []
+	
+	debug_to_lobby()
 
 func setupGame():
 	pass
