@@ -168,7 +168,7 @@ const server = net.createServer(socket => {
         break;
       case 402: // Player Disconnecting
         // Remove player from host
-        handlePlayerDisConn(letterCode, socket);
+        handlePlayerDisConn(letterCode, message.playerID);
         writeToFile(server_log, `Player disconnecting from host - ${letterCode}`);
         break;
       case 301: // Host starting game -----> Send to all Players
@@ -386,15 +386,16 @@ function handleAudienceConn(letterCode, socket) {
   return id;
 }
 
-function handlePlayerDisConn(letterCode, socket) {
+function handlePlayerDisConn(letterCode, id) {
   // Remove player from host
   if (!codeCheck(letterCode)) {
     console.log('Did not handle player disconnection successfully.');
     return 0;
   }
-  const host = _.find(hosts, ['code', letterCode]);
-  const player = _.remove(host.players, ['player', socket]);
+  // const host = _.find(hosts, ['code', letterCode]);
+  var player = _.find(players, ['id', id]);
   console.log('Removing player: ' + player.id);
+  _.remove(players, ['id', id]);
   console.log('Handled player disconnection successfully.');
   player.socket.destroy();
   return 1;
@@ -463,7 +464,7 @@ function codeCheck(letterCode) {
 
 function parseData(data) {
   // Convert buffer to string
-  const json = JSON.stringify(data);
+  var json = JSON.stringify(data);
   // Convert back to JSON
   var copy = "";
   try {
@@ -476,7 +477,8 @@ function parseData(data) {
   // Check if data has length buffer at the beginning of buffer.
   var message = ""
   console.log(copy.data[0]);
-  if(copy.data[0] === '{'){
+  console.log(data[0]);
+  if(data[0] == "{"){
     // No padding to cut
     console.log('DO NOT CUT PADDING');
     message = copy.data;
