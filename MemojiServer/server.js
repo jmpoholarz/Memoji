@@ -309,6 +309,7 @@ function handleHostDisConn(letterCode) {
     console.log(`Send Player: ${player.id} disconnect message.`);
     send(player.socket, JSON.stringify(res));
     writeToFile(server_log, `Send Player: ${player.id} disconnect message.`);
+    player.socket.end();
     player.socket.destroy();
     if(player.socket.destroyed){
       console.log(`Player: ${player.id} socket destroyed successfully`);
@@ -325,6 +326,7 @@ function handleHostDisConn(letterCode) {
     console.log(`Send Audience: ${audience.id} disconnect message.`);
     send(audience.socket, JSON.stringify(res));
     writeToFile(server_log, `Send Audience: ${audience.id} disconnect message.`);
+    audience.socket.end();
     audience.socket.destroy();
     if(audience.socket.destroyed){
       console.log(`Audience member: ${audience.id} socket destroyed successfully`);
@@ -473,6 +475,8 @@ function handlePlayerDisConn(letterCode, id) {
     console.log('Handled player removal from player list unsuccessfully.');
     writeToFile(error_log, 'Handled player removal from player list unsuccessfully.');
   }
+  player.socket.end();
+
   player.socket.destroy();
   if(player.socket.destroyed){
     console.log(`Player: ${player.id} socket destroyed successfully`);
@@ -560,15 +564,17 @@ function parseData(data) {
   // Check if data has length buffer at the beginning of buffer.
   var message = ""
   console.log(copy.data[0]);
-  console.log(data[0]);
+  console.log(data[0] == "{");
   if(data[0] == "{"){
     // No padding to cut
     console.log('DO NOT CUT PADDING');
     message = copy.data;
+    console.log(message);
   } else {
     // Cut off padding
     console.log('CUT PADDING');
     message = copy.data.slice(4);
+    console.log(message);
   }
   // Place new message in buffer
   const b = new Buffer.from(message);
