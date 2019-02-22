@@ -35,5 +35,10 @@ func _on_TextEdit_text_changed():
 	
 	emit_signal("change_text", textBox.text)
 
+func changeText(text):
+	var textBox = get_node("MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/TextEdit")
+	textBox.text = text
+	emit_signal("change_text", text)
+
 func textSubmitToServer(message):
 	emit_signal("sendMessage", message)

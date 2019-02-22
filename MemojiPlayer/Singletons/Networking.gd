@@ -165,7 +165,7 @@ func getMessageFromServer():
 		MESSAGE_TYPES.INVALID_USERNAME:
 			emit_signal("enteredInvalidUsername")
 		MESSAGE_TYPES.ACCEPTED_USERNAME_AND_AVATAR:
-			emit_signal("enteredValidUsername")
+			emit_signal("enteredValidUsername", messageDict["username"], messageDict["avatarIndex"])
 		MESSAGE_TYPES.INVALID_PROMPT_RESPONSE:
 			emit_signal("enteredInvalidAnswer")
 		MESSAGE_TYPES.ACCEPTED_PROMPT_RESPONSE:

@@ -101,6 +101,7 @@ caret_position = 0
 
 [node name="Panel" type="Panel" parent="." index="3"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0

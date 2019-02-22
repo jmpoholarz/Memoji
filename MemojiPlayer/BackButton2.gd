@@ -1,5 +1,6 @@
 extends Button
 
+signal changeScreen(screen)
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
@@ -16,4 +17,4 @@ func _ready():
 
 
 func _on_BackButton2_pressed():
-	get_tree().change_scene("res://UserInformationScreen.tscn")
+	emit_signal("changeScreen", 2)

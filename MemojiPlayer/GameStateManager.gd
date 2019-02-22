@@ -6,6 +6,8 @@ var currentRound
 var currentState
 var player
 var lobbyCode
+var playerName = name
+var playerIcon = 00
 
 func _ready():
 	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
@@ -68,7 +70,9 @@ func _on_Networking_enteredValidMultiVote():
 	pass # replace with function body
 
 
-func _on_Networking_enteredValidUsername():
+func _on_Networking_enteredValidUsername(pName, pIcon):
+	playerName = pName
+	playerIcon = pIcon
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
 		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.LOBBY_SCREEN)
 		$ScreenManager.currentScreenInstance.new_room_code(lobbyCode)

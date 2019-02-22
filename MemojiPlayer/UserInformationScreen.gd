@@ -15,3 +15,8 @@ func _on_InvalidName():
 	
 func sendMessage(message):
 	emit_signal("sendMessage", message)
+
+func change_name_and_icon(pName, icon):
+	var gui = get_node("Panel/selection GUI")
+	gui._on_Button_pressed(icon)
+	gui.changeText(pName)
