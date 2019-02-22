@@ -45,6 +45,7 @@ func toTitle():
 	if (lobbyCode != null):
 		var endRequest = { "messageType": MESSAGE_TYPES.HOST_SHUTTING_DOWN, "letterCode": lobbyCode }
 		$Networking.sendMessageToServer(endRequest)
+		$Networking.disconnectHostFromServer()
 		
 	players.clear()
 	audiencePlayers.clear()

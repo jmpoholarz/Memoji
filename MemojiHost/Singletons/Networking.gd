@@ -17,6 +17,7 @@ signal receivedPlayerMultiVote(playerID, promptID, voteArray)
 
 var defaultServerIP = "127.0.0.1"
 var defaultServerPort = 7575
+var portOffset = 0
 
 var letterCode = "????"
 var mostRecentMessage = ""
@@ -40,7 +41,6 @@ func ___test():
 func _process(delta):
 	# if connected, check for message
 	if socket.get_status() == socket.STATUS_CONNECTED:
-		#pass
 		if socket.get_available_bytes() > 0:
 			getMessageFromServer()
 
@@ -76,6 +76,8 @@ func disconnectHostFromServer():
 		none
 	"""
 	socket.disconnect_from_host()
+	print("DisconnectHostFromServer function")
+	print(socket.get_status())
 	emit_signal("_disconnectedFromServer")
 
 func _on_ConnectingTimer_timeout():

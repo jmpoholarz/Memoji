@@ -82,7 +82,7 @@ func disconnectPlayerFromServer():
 		none
 	"""
 	socket.disconnect_from_host()
-	emit_signal("_disconnectedFromServer")
+
 
 func _on_ConnectingTimer_timeout():
 	if socket.get_status() != socket.STATUS_CONNECTED:
