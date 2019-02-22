@@ -374,7 +374,7 @@ function handleHostDisConn(letterCode) {
       writeToFile(error_log, `Audience member: ${audience.id} socket destroyed unsuccessfully`);
     }
   });
-  
+
   console.log('Audience removed from host lobby');
   writeToFile(server_log, 'Audience removed from host lobby');
 
@@ -601,19 +601,17 @@ function parseData(data) {
     return -1;
   }
   // Check if data has length buffer at the beginning of buffer.
-  var message = ""
-  console.log(copy.data[0]);
-  console.log(data[0] == "{".charCodeAt(0));
-  if(data[0] == 123){
+  var message = "";
+  if(data[0] == "{".charCodeAt(0)){
     // No padding to cut
     console.log('DO NOT CUT PADDING');
     message = copy.data;
-    console.log(message);
+    // console.log(message);
   } else {
     // Cut off padding
     console.log('CUT PADDING');
     message = copy.data.slice(4);
-    console.log(message);
+    // console.log(message);
   }
   // Place new message in buffer
   const b = new Buffer.from(message);
