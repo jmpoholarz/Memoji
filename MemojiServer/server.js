@@ -274,6 +274,17 @@ Host data structure
 */
 
 function handleHostCodeRequest(socket) {
+  // Check if Host already has a code
+  // Handle on Godot side
+  // const host = _.find(hosts, ['socket', socket]);
+  // if(host !== undefined) {
+  //   // Host exists -> remove previous code from codes array
+  //   // And remove host from hosts array
+  //   _.remove(hosts, host);
+  //
+  // } else {
+  //
+  // }
   console.log("Code 110: Host request a room code");
   const letterCode = generateCode();
   console.log(letterCode);
@@ -565,7 +576,7 @@ function parseData(data) {
   var message = ""
   console.log(copy.data[0]);
   console.log(data[0] == "{");
-  if(data[0] == "{"){
+  if(data[0] == 123){
     // No padding to cut
     console.log('DO NOT CUT PADDING');
     message = copy.data;
