@@ -17,4 +17,3 @@ func _ready():
 
 
 func _on_BackButton2_pressed():
-	emit_signal("changeScreen", 2)

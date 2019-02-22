@@ -124,6 +124,6 @@ script = ExtResource( 2 )
 
 [connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]
 
-[connection signal="pressed" from="BackButton2" to="BackButton2" method="_on_BackButton2_pressed"]
+[connection signal="pressed" from="BackButton2" to="." method="_on_BackButton2_pressed"]
 
 
