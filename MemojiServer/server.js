@@ -308,7 +308,7 @@ function handleHostDisConn(letterCode) {
   });
   _.forEach(host.audience, (audience) => {
     send(audience.socket, JSON.stringify(res));
-    player.socket.destroy();
+    audience.socket.destroy();
   })
   console.log('Players removed from host lobby');
 }
