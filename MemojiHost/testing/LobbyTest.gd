@@ -83,3 +83,4 @@ func _ready():
 
 func _on_Timer_timeout():
 	net.emit_signal("playerDisconnected", 2016)
+	$GameStateManager/ScreenManager.currentScreenInstance.emit_signal("updateGameState", "disconnectLobby")
