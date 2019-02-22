@@ -170,6 +170,8 @@ const server = net.createServer(socket => {
         // Remove player from host
         handlePlayerDisConn(letterCode, message.playerID);
         writeToFile(server_log, `Player disconnecting from host - ${letterCode}`);
+        sendToHost(letterCode, message);
+        writeToFile(server_log, `Forward Player disconnection to host - ${letterCode}`);
         break;
       case 301: // Host starting game -----> Send to all Players
       case 302: // Host ending game -------> Send to all Players
@@ -291,11 +293,9 @@ function handleHostDisConn(letterCode) {
   // Find host via matching socket
   // Send force disonnect message to clients connected to host
   const host = _.remove(hosts, ['code', letterCode]);
-  const code = _.remove(codes, (c) => {
-    return c === letterCode;
-  });
+  const code = _.pull(codes, letterCode);
   // Close host socket
-  host.destroy();
+  host.socket.destroy();
   console.log(host);
   console.log(code);
   console.log('Send players disconnect message.');
@@ -392,10 +392,14 @@ function handlePlayerDisConn(letterCode, id) {
     console.log('Did not handle player disconnection successfully.');
     return 0;
   }
-  // const host = _.find(hosts, ['code', letterCode]);
-  var player = _.find(players, ['id', id]);
-  console.log('Removing player: ' + player.id);
-  _.remove(players, ['id', id]);
+  const host = _.find(hosts, ['code', letterCode]);
+  const player = _.find(players, ['id', id]);
+  console.log(`Removing player: ${player.id} from host: ${letterCode}`);
+  writeToFile(server_log, `Removing player: ${player.id} from host: ${letterCode}`);
+  _.remove(host.players, player);
+  console.log(`Removing player: ${player.id} from player list`);
+  writeToFile(server_log, `Removing player: ${player.id} from player list`);
+  _.remove(players, player);
   console.log('Handled player disconnection successfully.');
   player.socket.destroy();
   return 1;
