@@ -292,7 +292,7 @@ function handleHostDisConn(letterCode) {
   console.log("Host is shutting down");
   // Find host via matching socket
   // Send force disonnect message to clients connected to host
-  const host = _.find(hosts, ['code', letterCode]);
+  var host = _.find(hosts, ['code', letterCode]);
   const code = _.pull(codes, letterCode);
   console.log(host);
   console.log(code);
@@ -309,8 +309,8 @@ function handleHostDisConn(letterCode) {
     audience.socket.destroy();
   });
   // Close host socket
-  _.remove(hosts, host);
   host.socket.destroy();
+  _.remove(hosts, host);
   console.log('Players removed from host lobby');
 }
 
