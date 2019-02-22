@@ -82,6 +82,7 @@ func disconnectPlayerFromServer():
 		none
 	"""
 	socket.disconnect_from_host()
+	print("disconnectPlayerFromServer runs")
 
 
 func _on_ConnectingTimer_timeout():
