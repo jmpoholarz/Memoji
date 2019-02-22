@@ -139,6 +139,10 @@ func getMessageFromServer():
 	print(messageJson)
 	Logger.writeLine("Obtained message of length " + str(messageLen) + " with text (" + str(messageJson) + ").")
 
+	# Handle error reading message
+	if messageLen <= 0:
+		return
+
 	# Convert message to dictionary
 	var messageDict = $Parser.decodeMessage(messageJson)
 	# Decode message purpose and send appropriate signal
@@ -154,6 +158,7 @@ func getMessageFromServer():
 			emit_signal("enteredInvalidHostCode")
 		MESSAGE_TYPES.SERVER_FORCE_DISCONNECT_CLIENT:
 			print("Forcibly disconnected from Host by Server.")
+			emit_signal("forcedToDisconnect")
 			disconnectPlayerFromServer()
 		MESSAGE_TYPES.HOST_STARTING_GAME:
 			emit_signal("gameStartedByHost")
