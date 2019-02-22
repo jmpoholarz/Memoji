@@ -142,4 +142,3 @@ func _on_ScreenManager_handleGameState(msg):
 			$ScreenManager.currentScreenInstance.update_lettercode(lobbyCode)
 		elif (msg == "disconnectLobby"):
 			toTitle()
-
