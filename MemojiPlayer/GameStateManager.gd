@@ -87,7 +87,9 @@ func _on_Networking_enteredInvalidVote():
 	pass # replace with function body
 
 func _on_Networking_forcedToDisconnect():
-	pass # replace with function body
+	$Networking.disconnectPlayerFromServer()
+	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.TITLE_SCREEN)
+	lobbyCode = "????"
 
 func _on_Networking_gameEndedByHost():
 	pass # replace with function body
