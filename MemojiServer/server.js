@@ -320,6 +320,20 @@ function handleHostDisConn(letterCode) {
     console.log(`Send Player: ${player.id} disconnect message.`);
     send(player.socket, JSON.stringify(res));
     writeToFile(server_log, `Send Player: ${player.id} disconnect message.`);
+    // player.socket.end();
+    // player.socket.destroy();
+    // if(player.socket.destroyed){
+    //   console.log(`Player: ${player.id} socket destroyed successfully`);
+    //   writeToFile(server_log, `Player: ${player.id} socket destroyed successfully`);
+    // } else {
+    //   console.log(`Player: ${player.id} socket destroyed unsuccessfully`);
+    //   writeToFile(error_log, `Player: ${player.id} socket destroyed unsuccessfully`);
+    // }
+  });
+  console.log('Players removed from host lobby');
+  writeToFile(server_log, 'Players removed from host lobby');
+
+  _.forEach(host.players, (player) => {
     player.socket.end();
     player.socket.destroy();
     if(player.socket.destroyed){
@@ -330,8 +344,6 @@ function handleHostDisConn(letterCode) {
       writeToFile(error_log, `Player: ${player.id} socket destroyed unsuccessfully`);
     }
   });
-  console.log('Players removed from host lobby');
-  writeToFile(server_log, 'Players removed from host lobby');
 
   _.forEach(host.audience, (audience) => {
     console.log(`Send Audience: ${audience.id} disconnect message.`);
@@ -575,7 +587,7 @@ function parseData(data) {
   // Check if data has length buffer at the beginning of buffer.
   var message = ""
   console.log(copy.data[0]);
-  console.log(data[0] == "{");
+  console.log(data[0] == "{".charCodeAt(0));
   if(data[0] == 123){
     // No padding to cut
     console.log('DO NOT CUT PADDING');
