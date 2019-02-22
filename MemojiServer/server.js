@@ -168,7 +168,11 @@ const server = net.createServer(socket => {
         break;
       case 402: // Player Disconnecting
         // Remove player from host
-        handlePlayerDisConn(letterCode, message.playerID);
+        var r = handlePlayerDisConn(letterCode, message.playerID);
+        if(r == -1){
+          console.log("Error handling player disconnection.");
+          return;
+        }
         writeToFile(server_log, `Player disconnecting from host - ${letterCode}`);
         sendToHost(letterCode, message);
         writeToFile(server_log, `Forward Player disconnection to host - ${letterCode}`);
@@ -224,9 +228,9 @@ const server = net.createServer(socket => {
         console.log('Unknown Message Type');
         writeToFile(error_log, '[MessageType]: Unknown MessageType. No action performed.');
     }
-    console.log("Hosts: ");
+    // console.log("Hosts: ");
     // console.log(hosts);
-    console.log(codes);
+    // console.log(codes);
     // _.forEach(hosts, (host) => {
     //   _.forEach(host.players, (p) => {
     //     console.log(p);
@@ -292,25 +296,63 @@ function handleHostDisConn(letterCode) {
   console.log("Host is shutting down");
   // Find host via matching socket
   // Send force disonnect message to clients connected to host
-  const host = _.remove(hosts, ['code', letterCode]);
-  const code = _.pull(codes, letterCode);
-  // Close host socket
-  host.socket.destroy();
+  var host = _.find(hosts, ['code', letterCode]);
+  _.pull(codes, letterCode);
   console.log(host);
-  console.log(code);
   console.log('Send players disconnect message.');
+
   const res = {
     "messageType": 131
   };
+
   _.forEach(host.players, (player) => {
+    console.log(`Send Player: ${player.id} disconnect message.`);
     send(player.socket, JSON.stringify(res));
+    writeToFile(server_log, `Send Player: ${player.id} disconnect message.`);
     player.socket.destroy();
+    if(player.socket.destroyed){
+      console.log(`Player: ${player.id} socket destroyed successfully`);
+      writeToFile(server_log, `Player: ${player.id} socket destroyed successfully`);
+    } else {
+      console.log(`Player: ${player.id} socket destroyed unsuccessfully`);
+      writeToFile(error_log, `Player: ${player.id} socket destroyed unsuccessfully`);
+    }
   });
-  _.forEach(host.audience, (audience) => {
-    send(audience.socket, JSON.stringify(res));
-    player.socket.destroy();
-  })
   console.log('Players removed from host lobby');
+  writeToFile(server_log, 'Players removed from host lobby');
+
+  _.forEach(host.audience, (audience) => {
+    console.log(`Send Audience: ${audience.id} disconnect message.`);
+    send(audience.socket, JSON.stringify(res));
+    writeToFile(server_log, `Send Audience: ${audience.id} disconnect message.`);
+    audience.socket.destroy();
+    if(audience.socket.destroyed){
+      console.log(`Audience member: ${audience.id} socket destroyed successfully`);
+      writeToFile(server_log, `Audience member: ${audience.id} socket destroyed successfully`);
+    } else {
+      console.log(`Audience member: ${audience.id} socket destroyed unsuccessfully`);
+      writeToFile(error_log, `Audience member: ${audience.id} socket destroyed unsuccessfully`);
+    }
+  });
+  console.log('Audience removed from host lobby');
+  writeToFile(server_log, 'Audience removed from host lobby');
+
+  // Close host socket
+  console.log('Destroy Host socket');
+  host.socket.destroy();
+  if(host.socket.destroyed){
+    console.log('Host socket destroyed successfully.');
+    writeToFile(server_log, 'Host socket destroyed successfully.');
+  } else {
+    console.log('Host socket destroyed unsuccessfully.');
+    writeToFile(error_log, 'Host socket destroyed unsuccessfully.');
+  }
+  _.remove(hosts, host);
+  console.log('Host removed from host list');
+  writeToFile(server_log, 'Host removed from host list');
+  console.log("PRINT HOSTS:");
+  console.log(hosts);
+  console.log(codes);
 }
 
 /*
@@ -393,15 +435,49 @@ function handlePlayerDisConn(letterCode, id) {
     return 0;
   }
   const host = _.find(hosts, ['code', letterCode]);
+  if(host === undefined){
+    console.log(`[ERROR]: Could not find Host - ${letterCode}`);
+    writeToFile(error_log, `[ERROR]: Could not find Host - ${letterCode}`);
+    // return -1;
+  }
   const player = _.find(players, ['id', id]);
-  console.log(`Removing player: ${player.id} from host: ${letterCode}`);
-  writeToFile(server_log, `Removing player: ${player.id} from host: ${letterCode}`);
-  _.remove(host.players, player);
-  console.log(`Removing player: ${player.id} from player list`);
-  writeToFile(server_log, `Removing player: ${player.id} from player list`);
-  _.remove(players, player);
-  console.log('Handled player disconnection successfully.');
+  if(player === undefined){
+    console.log(`[ERROR]: Could not find Player: ${id}`);
+    writeToFile(error_log, `[ERROR]: Could not find Player: ${id}`);
+    return -1;
+  }
+  var removed_player = _.remove(host.players, player);
+  if(removed_player !== undefined){
+    console.log(`Removing player: ${player.id} from host: ${letterCode}`);
+    writeToFile(server_log, `Removing player: ${player.id} from host: ${letterCode}`);
+    console.log('Handled player removal from host successfully.');
+    writeToFile(server_log, 'Handled player removal from host successfully.');
+  } else {
+    console.log(`[ERROR]: Removing player: ${player.id} from host: ${letterCode}`);
+    writeToFile(error_log, `[ERROR]: Removing player: ${player.id} from host: ${letterCode}`);
+    console.log('Handled player removal from host unsuccessfully.');
+    writeToFile(error_log, 'Handled player removal from host unsuccessfully.');
+  }
+  removed_player = _.remove(players, player);
+  if(removed_player !== undefined){
+    console.log(`Removing player: ${player.id} from player list`);
+    writeToFile(server_log, `Removing player: ${player.id} from player list`);
+    console.log('Handled player removal from player list successfully.');
+    writeToFile(server_log, 'Handled player removal from player list successfully.');
+  } else {
+    console.log(`Removing player: ${player.id} from player list`);
+    writeToFile(error_log, `[ERROR]: Removing player: ${player.id} from player list`);
+    console.log('Handled player removal from player list unsuccessfully.');
+    writeToFile(error_log, 'Handled player removal from player list unsuccessfully.');
+  }
   player.socket.destroy();
+  if(player.socket.destroyed){
+    console.log(`Player: ${player.id} socket destroyed successfully`);
+    writeToFile(server_log, `Player: ${player.id} socket destroyed successfully`);
+  } else {
+    console.log(`Player: ${player.id} socket destroyed successfully`);
+    writeToFile(error_log, `Player: ${player.id} socket destroyed unsuccessfully`);
+  }
   return 1;
 }
 
