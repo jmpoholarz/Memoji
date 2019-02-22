@@ -115,7 +115,9 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 			
 			var message = {"messageType":MESSAGE_TYPES.ACCEPTED_USERNAME_AND_AVATAR, 
 				"letterCode" : lobbyCode,
-				"playerID" : playerID}
+				"playerID" : playerID,
+				"username" : username,
+				"avatarIndex" : avatarIndex}
 			$Networking.sendMessageToServer(message)
 			
 			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
