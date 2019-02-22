@@ -92,6 +92,7 @@ func _on_ConnectingTimer_timeout():
 		Logger.writeLine("Connection attempt failed.  Took too long to connect.")
 		# Force disconnect
 		disconnectPlayerFromServer()
+		emit_signal("_disconnectedFromServer")
 	else:
 		print(socket.get_status())
 		print("Connection attempt was successful.")
