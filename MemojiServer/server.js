@@ -349,6 +349,21 @@ function handleHostDisConn(letterCode) {
     console.log(`Send Audience: ${audience.id} disconnect message.`);
     send(audience.socket, JSON.stringify(res));
     writeToFile(server_log, `Send Audience: ${audience.id} disconnect message.`);
+    // audience.socket.end();
+    // audience.socket.destroy();
+    // if(audience.socket.destroyed){
+    //   console.log(`Audience member: ${audience.id} socket destroyed successfully`);
+    //   writeToFile(server_log, `Audience member: ${audience.id} socket destroyed successfully`);
+    // } else {
+    //   console.log(`Audience member: ${audience.id} socket destroyed unsuccessfully`);
+    //   writeToFile(error_log, `Audience member: ${audience.id} socket destroyed unsuccessfully`);
+    // }
+  });
+
+  console.log('Audience removed from host lobby');
+  writeToFile(server_log, 'Audience removed from host lobby');
+
+  _.forEach(host.audience, (audience) => {
     audience.socket.end();
     audience.socket.destroy();
     if(audience.socket.destroyed){
@@ -359,6 +374,7 @@ function handleHostDisConn(letterCode) {
       writeToFile(error_log, `Audience member: ${audience.id} socket destroyed unsuccessfully`);
     }
   });
+  
   console.log('Audience removed from host lobby');
   writeToFile(server_log, 'Audience removed from host lobby');
 
