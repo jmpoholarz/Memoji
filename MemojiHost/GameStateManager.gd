@@ -43,7 +43,7 @@ func quitHosting():
 # Goes to the title screen and resets variables
 func toTitle():
 	if (lobbyCode != null):
-		var endRequest = { "messageType": MESSAGE_TYPES.HOST_ENDING_GAME, "letterCode": lobbyCode }
+		var endRequest = { "messageType": MESSAGE_TYPES.HOST_SHUTTING_DOWN, "letterCode": lobbyCode }
 		$Networking.sendMessageToServer(endRequest)
 		
 	players.clear()
