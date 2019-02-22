@@ -337,6 +337,9 @@ function handleHostDisConn(letterCode) {
   console.log('Audience removed from host lobby');
   writeToFile(server_log, 'Audience removed from host lobby');
 
+  // Send 'disconnect' to host socket once finished
+  host.socket.disconnect();
+
   // Close host socket
   console.log('Destroy Host socket');
   host.socket.destroy();
