@@ -309,6 +309,7 @@ function handleHostDisConn(letterCode) {
     console.log(`Send Player: ${player.id} disconnect message.`);
     send(player.socket, JSON.stringify(res));
     writeToFile(server_log, `Send Player: ${player.id} disconnect message.`);
+    player.socket.end();
     player.socket.destroy();
     if(player.socket.destroyed){
       console.log(`Player: ${player.id} socket destroyed successfully`);
@@ -325,6 +326,7 @@ function handleHostDisConn(letterCode) {
     console.log(`Send Audience: ${audience.id} disconnect message.`);
     send(audience.socket, JSON.stringify(res));
     writeToFile(server_log, `Send Audience: ${audience.id} disconnect message.`);
+    audience.socket.end();
     audience.socket.destroy();
     if(audience.socket.destroyed){
       console.log(`Audience member: ${audience.id} socket destroyed successfully`);
@@ -473,6 +475,8 @@ function handlePlayerDisConn(letterCode, id) {
     console.log('Handled player removal from player list unsuccessfully.');
     writeToFile(error_log, 'Handled player removal from player list unsuccessfully.');
   }
+  player.socket.end();
+
   player.socket.destroy();
   if(player.socket.destroyed){
     console.log(`Player: ${player.id} socket destroyed successfully`);
