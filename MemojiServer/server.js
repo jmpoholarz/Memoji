@@ -320,6 +320,20 @@ function handleHostDisConn(letterCode) {
     console.log(`Send Player: ${player.id} disconnect message.`);
     send(player.socket, JSON.stringify(res));
     writeToFile(server_log, `Send Player: ${player.id} disconnect message.`);
+    // player.socket.end();
+    // player.socket.destroy();
+    // if(player.socket.destroyed){
+    //   console.log(`Player: ${player.id} socket destroyed successfully`);
+    //   writeToFile(server_log, `Player: ${player.id} socket destroyed successfully`);
+    // } else {
+    //   console.log(`Player: ${player.id} socket destroyed unsuccessfully`);
+    //   writeToFile(error_log, `Player: ${player.id} socket destroyed unsuccessfully`);
+    // }
+  });
+  console.log('Players removed from host lobby');
+  writeToFile(server_log, 'Players removed from host lobby');
+
+  _.forEach(host.players, (player) => {
     player.socket.end();
     player.socket.destroy();
     if(player.socket.destroyed){
@@ -330,13 +344,26 @@ function handleHostDisConn(letterCode) {
       writeToFile(error_log, `Player: ${player.id} socket destroyed unsuccessfully`);
     }
   });
-  console.log('Players removed from host lobby');
-  writeToFile(server_log, 'Players removed from host lobby');
 
   _.forEach(host.audience, (audience) => {
     console.log(`Send Audience: ${audience.id} disconnect message.`);
     send(audience.socket, JSON.stringify(res));
     writeToFile(server_log, `Send Audience: ${audience.id} disconnect message.`);
+    // audience.socket.end();
+    // audience.socket.destroy();
+    // if(audience.socket.destroyed){
+    //   console.log(`Audience member: ${audience.id} socket destroyed successfully`);
+    //   writeToFile(server_log, `Audience member: ${audience.id} socket destroyed successfully`);
+    // } else {
+    //   console.log(`Audience member: ${audience.id} socket destroyed unsuccessfully`);
+    //   writeToFile(error_log, `Audience member: ${audience.id} socket destroyed unsuccessfully`);
+    // }
+  });
+
+  console.log('Audience removed from host lobby');
+  writeToFile(server_log, 'Audience removed from host lobby');
+
+  _.forEach(host.audience, (audience) => {
     audience.socket.end();
     audience.socket.destroy();
     if(audience.socket.destroyed){
@@ -347,6 +374,7 @@ function handleHostDisConn(letterCode) {
       writeToFile(error_log, `Audience member: ${audience.id} socket destroyed unsuccessfully`);
     }
   });
+
   console.log('Audience removed from host lobby');
   writeToFile(server_log, 'Audience removed from host lobby');
 
@@ -573,19 +601,17 @@ function parseData(data) {
     return -1;
   }
   // Check if data has length buffer at the beginning of buffer.
-  var message = ""
-  console.log(copy.data[0]);
-  console.log(data[0] == "{");
-  if(data[0] == 123){
+  var message = "";
+  if(data[0] == "{".charCodeAt(0)){
     // No padding to cut
     console.log('DO NOT CUT PADDING');
     message = copy.data;
-    console.log(message);
+    // console.log(message);
   } else {
     // Cut off padding
     console.log('CUT PADDING');
     message = copy.data.slice(4);
-    console.log(message);
+    // console.log(message);
   }
   // Place new message in buffer
   const b = new Buffer.from(message);
