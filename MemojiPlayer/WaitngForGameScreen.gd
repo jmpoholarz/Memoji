@@ -23,3 +23,6 @@ func _on_BackButton_pressed():
 	var msg = {"messageType": MESSAGE_TYPES.PLAYER_DISCONNECTED, "letterCode":roomCode}
 	emit_signal("sendMessage", msg)
 	emit_signal("changeScreen", 1)
+
+func _on_BackButton2_pressed():
+	emit_signal("changeScreen", 2)
