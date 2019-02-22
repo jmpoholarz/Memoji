@@ -164,54 +164,14 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="Container" type="Container" parent="Foreground/Content/Lines" index="0"]
+[node name="TopLine" type="HBoxContainer" parent="Foreground/Content/Lines" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 964.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-
-[node name="StartButton" type="Button" parent="Foreground/Content/Lines/Container" index="0"]
-
-anchor_left = 1.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 0.0
-margin_left = -80.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 80, 80 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-text = "Start"
-flat = false
-align = 1
-_sections_unfolded = [ "Anchor", "Rect", "Textures", "custom_fonts" ]
-
-[node name="TopLine" type="HBoxContainer" parent="Foreground/Content/Lines" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 4.0
-margin_right = 964.0
-margin_bottom = 192.0
+margin_bottom = 188.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -351,15 +311,15 @@ max_lines_visible = -1
 script = ExtResource( 4 )
 _sections_unfolded = [ "Mouse", "Rect", "custom_constants", "custom_fonts" ]
 
-[node name="BottomLine" type="ReferenceRect" parent="Foreground/Content/Lines" index="2"]
+[node name="BottomLine" type="ReferenceRect" parent="Foreground/Content/Lines" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 196.0
+margin_top = 192.0
 margin_right = 964.0
-margin_bottom = 266.0
+margin_bottom = 262.0
 rect_min_size = Vector2( 0, 70 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -415,6 +375,62 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Mouse", "Rect", "custom_constants", "custom_fonts" ]
 
-[connection signal="pressed" from="Foreground/Content/Lines/Container/StartButton" to="." method="_on_StartButton_pressed"]
+[node name="StartButton" type="Button" parent="Foreground" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 884.0
+margin_top = 293.0
+margin_right = 964.0
+margin_bottom = 373.0
+rect_min_size = Vector2( 80, 80 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Start"
+flat = false
+align = 1
+_sections_unfolded = [ "Rect", "Textures", "custom_fonts" ]
+
+[node name="ExitButton" type="Button" parent="Foreground" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 884.0
+margin_top = 383.0
+margin_right = 964.0
+margin_bottom = 463.0
+rect_min_size = Vector2( 80, 80 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Exit"
+flat = false
+align = 1
+_sections_unfolded = [ "Anchor", "Rect", "Textures", "custom_fonts" ]
+
+[connection signal="pressed" from="Foreground/StartButton" to="." method="_on_StartButton_pressed"]
+
+[connection signal="pressed" from="Foreground/ExitButton" to="." method="_on_ExitButton_pressed"]
 
 

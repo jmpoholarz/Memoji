@@ -54,5 +54,4 @@ func forwardMessage(msg):
 	
 # Allows GUI to communicate with GameStateManager
 func forwardGameState(msg):
-	print("Hi!!")
 	emit_signal("handleGameState", msg)
