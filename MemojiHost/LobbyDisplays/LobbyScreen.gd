@@ -30,8 +30,18 @@ func _ready():
 
 func avatarSetup(): # loads the avatars in use
 	avatarList.resize(8)
-	for x in range (8):
-		avatarList[x] = load("res://Assets/m%d.png" % x)
+	#for x in range (8):
+	#	avatarList[x] = load("res://Assets/m%d.png" % x)
+	# TODO: replace placeholders
+	## Temporarily used to match client placeholder ##
+	avatarList[0] = preload("res://Assets/m1.png")
+	avatarList[1] = preload("res://Assets/m3.png")
+	avatarList[2] = preload("res://Assets/m7.png")
+	avatarList[3] = preload("res://Assets/m0.png")
+	avatarList[4] = preload("res://Assets/m2.png")
+	avatarList[5] = preload("res://Assets/m4.png")
+	avatarList[6] = preload("res://Assets/m5.png")
+	avatarList[7] = preload("res://Assets/m6.png")
 
 # Old function
 func update_player_status2(playerID, username, avatarID):
