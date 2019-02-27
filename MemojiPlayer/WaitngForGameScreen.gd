@@ -1,6 +1,7 @@
 extends Panel
 
 signal sendMessage(msg)
+signal disconnectFromHost()
 signal changeScreen(screen)
 # class member variables go here, for example:
 # var a = 2
@@ -24,6 +25,7 @@ func _on_BackButton_pressed():
 	var msg = {"messageType": MESSAGE_TYPES.PLAYER_DISCONNECTED, "letterCode":roomCode}
 	emit_signal("sendMessage", msg)
 	emit_signal("changeScreen", 1)
+	emit_signal("disconnectFromHost")
 
 func _on_BackButton2_pressed():
 	emit_signal("changeScreen", 2)

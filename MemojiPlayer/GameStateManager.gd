@@ -13,6 +13,7 @@ func _ready():
 	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
 	
 	$ScreenManager.connect("connectToServer", self, "connectToServer")
+	$ScreenManager.connect("disconnectFromServer", self, "disconnectFromServer")
 	$Networking.connect("_disconnectedFromServer", self, "_on_Networking_connectionTimeout")
 
 func sendAnswer():
@@ -25,6 +26,8 @@ func connectToServer():
 	#Sprint("in GSM connectToServer")
 	$Networking.connectPlayerToServer($Networking.defaultServerIP, $Networking.defaultServerPort)
 
+func disconnectFromServer():
+	$Networking.disconnectPlayerFromServer()
 
 func _on_Networking_connectionTimeout():
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
@@ -87,6 +90,7 @@ func _on_Networking_enteredInvalidVote():
 	pass # replace with function body
 
 func _on_Networking_forcedToDisconnect():
+	print("in GSM force disconnect")
 	$Networking.disconnectPlayerFromServer()
 	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.TITLE_SCREEN)
 	lobbyCode = "????"

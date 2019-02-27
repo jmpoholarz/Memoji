@@ -82,7 +82,8 @@ func disconnectPlayerFromServer():
 		none
 	"""
 	socket.disconnect_from_host()
-	emit_signal("_disconnectedFromServer")
+	print("disconnectPlayerFromServer runs")
+
 
 func _on_ConnectingTimer_timeout():
 	if socket.get_status() != socket.STATUS_CONNECTED:
@@ -91,6 +92,7 @@ func _on_ConnectingTimer_timeout():
 		Logger.writeLine("Connection attempt failed.  Took too long to connect.")
 		# Force disconnect
 		disconnectPlayerFromServer()
+		emit_signal("_disconnectedFromServer")
 	else:
 		print(socket.get_status())
 		print("Connection attempt was successful.")
@@ -138,6 +140,10 @@ func getMessageFromServer():
 	print(messageJson)
 	Logger.writeLine("Obtained message of length " + str(messageLen) + " with text (" + str(messageJson) + ").")
 
+	# Handle error reading message
+	if messageLen <= 0:
+		return
+
 	# Convert message to dictionary
 	var messageDict = $Parser.decodeMessage(messageJson)
 	# Decode message purpose and send appropriate signal
@@ -153,6 +159,7 @@ func getMessageFromServer():
 			emit_signal("enteredInvalidHostCode")
 		MESSAGE_TYPES.SERVER_FORCE_DISCONNECT_CLIENT:
 			print("Forcibly disconnected from Host by Server.")
+			emit_signal("forcedToDisconnect")
 			disconnectPlayerFromServer()
 		MESSAGE_TYPES.HOST_STARTING_GAME:
 			emit_signal("gameStartedByHost")

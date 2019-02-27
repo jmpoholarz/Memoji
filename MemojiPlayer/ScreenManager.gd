@@ -6,6 +6,7 @@ var lobbyScreenScene = preload("res://WaitngForGameScreen.tscn")
 
 signal sendMessageToServer(msg)
 signal connectToServer()
+signal disconnectFromServer()
 
 enum SCREENS {
 	TITLE_SCREEN = 1,
@@ -42,6 +43,7 @@ func changeScreenTo(screen):
 			add_child(currentScreenInstance)
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
 			currentScreenInstance.connect("changeScreen", self, "changeScreenTo")
+			currentScreenInstance.connect("disconnectFromHost", self, "disconnectFromServer")
 	currentScreen = screen
 
 func forwardMessage(msg):
@@ -51,3 +53,6 @@ func forwardMessage(msg):
 func connectToServer():
 	#print("in ScreenManager connectToServer")
 	emit_signal("connectToServer")
+
+func disconnectFromServer():
+	emit_signal("disconnectFromServer")
