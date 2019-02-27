@@ -92,6 +92,12 @@ func _on_Networking_forcedToDisconnect():
 	lobbyCode = "????"
 
 func _on_Networking_gameEndedByHost():
+	$Networking.disconnectPlayerFromServer()
+	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.TITLE_SCREEN)
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
+		$ScreenManager.currentScreenInstance.show_ServerErrorPopup("Player Disconnected from Host")
+	
+	lobbyCode = "????"
 	pass # replace with function body
 
 func _on_Networking_gameStartedByHost():
