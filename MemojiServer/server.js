@@ -5,7 +5,7 @@ const moment = require('moment');
 const fs = require('fs');
 const cluster = require('cluster');
 
-const port = 7575;
+const port = 3000;
 
 var codes = [];
 var hosts = [];
@@ -18,6 +18,36 @@ var mtype = '';
 
 const server_log = 'server_log.txt';
 const error_log = 'server_error_log.txt';
+
+// Initialize Firebase
+// var config = {
+//   apiKey: "AIzaSyAozLICINRi9dgCaURme6U1K7F4Tjy8Ogw",
+//   authDomain: "memoji-server.firebaseapp.com",
+//   databaseURL: "https://memoji-server.firebaseio.com",
+//   projectId: "memoji-server",
+//   storageBucket: "memoji-server.appspot.com",
+//   messagingSenderId: "208212528540"
+// };
+// var myapp = firebase.initializeApp(config);
+
+// console.log(myapp.name);
+
+// var firebase = require("firebase-admin");
+//
+// var serviceAccount = require("./serviceAccountKey.json");
+//
+// firebase.initializeApp({
+//   credential: firebase.credential.cert(serviceAccount),
+//   databaseURL: "https://memoji-server.firebaseio.com"
+// });
+//
+// var db = firebase.database();
+// var ref = db.ref("vars");
+//
+// var codesRef = ref.child("codes");
+// var hostsRef = ref.child("hosts");
+// var playersRef = ref.child("players");
+// var audienceMembersRef = ref.child("audience_members");
 
 // console.log(`Master ${process.pid} is running`);
 const start_time = moment().format('YYYY-MM-DD hh:mm:ss A')
@@ -251,7 +281,7 @@ const server = net.createServer(socket => {
   });
 });
 
-server.listen(port, '127.0.0.1');
+server.listen(port, () => console.log(`Listening on port ${port}`));
 
 function writeToFile(filename, message) {
   const timestamp = moment().format('YYYY-MM-DD hh:mm:ss A');
