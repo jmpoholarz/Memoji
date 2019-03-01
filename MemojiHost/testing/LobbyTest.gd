@@ -61,7 +61,7 @@ func _ready():
 	print("Running LobbyTest...")
 
 	net.emit_signal("obtainedLetterCode", "WARP")
-	$GameStateManager/ScreenManager.changeScreenTo(3)
+	$GameStateManager/ScreenManager.changeScreenTo(GlobalVars.LOBBY_SCREEN)
 		
 	net.emit_signal("playerConnected", 2005, true)
 	net.emit_signal("receivedPlayerDetails", 2005, "Oliver", 0)
