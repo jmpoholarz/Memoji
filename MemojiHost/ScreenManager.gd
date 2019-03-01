@@ -8,12 +8,6 @@ signal connectToServer()
 signal sendMessageToServer(msg)
 signal handleGameState(msg)			# for GameStateManager
 
-enum SCREENS {
-	TITLE_SCREEN = 1
-	SETUP_SCREEN = 2
-	LOBBY_SCREEN = 3
-}
-
 var currentScreen
 var currentScreenInstance
 
@@ -31,12 +25,12 @@ func changeScreenTo(screen):
 	currentScreenInstance == null
 	currentScreen = screen
 	match screen:
-		TITLE_SCREEN:
+		GlobalVars.TITLE_SCREEN:
 			currentScreenInstance = titleScreenScene.instance()
 			currentScreenInstance.connect("connectToServer", self, "connectToServer")
-		SETUP_SCREEN:
+		GlobalVars.SETUP_SCREEN:
 			currentScreenInstance = setupScreenScene.instance()
-		LOBBY_SCREEN:
+		GlobalVars.LOBBY_SCREEN:
 			currentScreenInstance = lobbyScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 	

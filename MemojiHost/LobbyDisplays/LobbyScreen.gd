@@ -4,8 +4,6 @@ signal messageServer(msg)
 signal changeScreen(screen)
 signal updateGameState(msg)
 
-const PlayerClass = preload("res://Player.gd")
-
 onready var p1 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P1
 onready var p2 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P2
 onready var p3 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P3
@@ -30,8 +28,6 @@ func _ready():
 
 func avatarSetup(): # loads the avatars in use
 	avatarList.resize(8)
-	#for x in range (8):
-	#	avatarList[x] = load("res://Assets/m%d.png" % x)
 	# TODO: replace placeholders
 	## Temporarily used to match client placeholder ##
 	avatarList[0] = preload("res://Assets/m1.png")
