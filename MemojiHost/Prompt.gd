@@ -14,7 +14,7 @@ class Vote:
 	var voteID
 
 func getPlayers():
-	players = []
+	var players = []
 	
 	for ans in playerAnswers:
 		players.append(ans.playerID)
@@ -23,7 +23,7 @@ func getPlayers():
 	return players
 	
 func insertAnswer(playerID, emojiArray):
-	ans = Answer.new()
+	var ans = Answer.new()
 	ans.playerID = playerID
 	ans.emojis = emojiArray
 	
