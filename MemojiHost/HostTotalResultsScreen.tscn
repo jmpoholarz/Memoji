@@ -83,9 +83,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 85.0
+margin_top = 132.0
 margin_right = 1006.0
-margin_bottom = 99.0
+margin_bottom = 146.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -104,9 +104,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 149.0
+margin_top = 196.0
 margin_right = 1006.0
-margin_bottom = 495.0
+margin_bottom = 448.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -122,9 +122,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 253.0
-margin_right = 404.0
-margin_bottom = 346.0
+margin_left = 327.0
+margin_right = 478.0
+margin_bottom = 252.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -377,6 +377,7 @@ _sections_unfolded = [ "custom_fonts" ]
 [node name="FourthPlace" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsLeft" index="3"]
 
 editor/display_folded = true
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -460,9 +461,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 604.0
-margin_right = 752.0
-margin_bottom = 346.0
+margin_left = 678.0
+margin_right = 678.0
+margin_bottom = 252.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -476,6 +477,7 @@ _sections_unfolded = [ "custom_constants" ]
 [node name="FifthPlace" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsRight" index="0"]
 
 editor/display_folded = true
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -555,6 +557,7 @@ _sections_unfolded = [ "custom_fonts" ]
 [node name="SixthPlace" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsRight" index="1"]
 
 editor/display_folded = true
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -635,6 +638,7 @@ _sections_unfolded = [ "custom_fonts" ]
 [node name="SeventhPlace" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsRight" index="2"]
 
 editor/display_folded = true
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -715,6 +719,7 @@ _sections_unfolded = [ "custom_fonts" ]
 [node name="EighthPlace" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsRight" index="3"]
 
 editor/display_folded = true
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
