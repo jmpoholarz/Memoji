@@ -3,13 +3,13 @@
 [ext_resource path="res://HostResultsScreen.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 
-[node name="ResultsUI" type="Container"]
+[node name="ResultsUI" type="Container" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1024.0
+margin_right = 1026.0
 margin_bottom = 600.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
