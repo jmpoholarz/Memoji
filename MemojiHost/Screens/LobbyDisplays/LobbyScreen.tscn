@@ -1,0 +1,437 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Screens/LobbyDisplays/LobbyScreen.gd" type="Script" id=1]
+[ext_resource path="res://Screens/LobbyDisplays/P_Status.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/font/Comfortaa-Bold.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Screens/LobbyDisplays/Audience.gd" type="Script" id=4]
+[ext_resource path="res://Screens/LobbyDisplays/ABCDcode.gd" type="Script" id=5]
+
+
+[sub_resource type="DynamicFontData" id=1]
+
+hinting = 2
+font_path = "res://Assets/font/Comfortaa-Bold.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+
+size = 70
+use_mipmaps = false
+use_filter = false
+font_data = SubResource( 1 )
+_sections_unfolded = [ "Font", "Font/fallback", "Settings" ]
+
+[sub_resource type="DynamicFont" id=3]
+
+size = 16
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 3 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="DynamicFont" id=4]
+
+size = 45
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 3 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="DynamicFont" id=5]
+
+size = 30
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 3 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[node name="LobbyScreen" type="Node2D"]
+
+script = ExtResource( 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="." index="0"]
+
+layer = 0
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="ColorRect" type="ColorRect" parent="BackgroundLayer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1024.0
+margin_bottom = 600.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 0.597173, 0.847398, 0.945312, 1 )
+_sections_unfolded = [ "Rect", "Visibility" ]
+
+[node name="Foreground" type="CanvasLayer" parent="." index="1"]
+
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="CenterContainer" type="CenterContainer" parent="Foreground" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 30.0
+margin_right = 1024.0
+margin_bottom = 247.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+use_top_left = false
+_sections_unfolded = [ "Rect" ]
+
+[node name="Title" type="Label" parent="Foreground/CenterContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 265.0
+margin_top = 69.0
+margin_right = 758.0
+margin_bottom = 148.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Title Art Here"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Mouse", "Rect", "custom_constants", "custom_fonts" ]
+
+[node name="Content" type="MarginContainer" parent="Foreground" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 283.0
+margin_right = 1024.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 1024, 0 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+custom_constants/margin_right = 30
+custom_constants/margin_top = 10
+custom_constants/margin_left = 30
+custom_constants/margin_bottom = 10
+_sections_unfolded = [ "Margin", "custom_constants" ]
+
+[node name="Lines" type="VBoxContainer" parent="Foreground/Content" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 30.0
+margin_top = 10.0
+margin_right = 994.0
+margin_bottom = 307.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="TopLine" type="HBoxContainer" parent="Foreground/Content/Lines" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 964.0
+margin_bottom = 188.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+_sections_unfolded = [ "Anchor" ]
+
+[node name="Statuses" type="VBoxContainer" parent="Foreground/Content/Lines/TopLine" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 710.0
+margin_bottom = 188.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="PlayerStatus" type="HBoxContainer" parent="Foreground/Content/Lines/TopLine/Statuses" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 710.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 0, 124 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+custom_constants/separation = 10
+alignment = 0
+_sections_unfolded = [ "Rect", "custom_constants" ]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="P1" parent="Foreground/Content/Lines/TopLine/Statuses/PlayerStatus" index="0" instance=ExtResource( 2 )]
+
+margin_bottom = 124.0
+
+[node name="P2" parent="Foreground/Content/Lines/TopLine/Statuses/PlayerStatus" index="1" instance=ExtResource( 2 )]
+
+margin_left = 90.0
+margin_right = 170.0
+margin_bottom = 124.0
+
+[node name="P3" parent="Foreground/Content/Lines/TopLine/Statuses/PlayerStatus" index="2" instance=ExtResource( 2 )]
+
+margin_left = 180.0
+margin_right = 260.0
+margin_bottom = 124.0
+
+[node name="P4" parent="Foreground/Content/Lines/TopLine/Statuses/PlayerStatus" index="3" instance=ExtResource( 2 )]
+
+margin_left = 270.0
+margin_right = 350.0
+margin_bottom = 124.0
+
+[node name="P5" parent="Foreground/Content/Lines/TopLine/Statuses/PlayerStatus" index="4" instance=ExtResource( 2 )]
+
+margin_left = 360.0
+margin_right = 440.0
+margin_bottom = 124.0
+
+[node name="P6" parent="Foreground/Content/Lines/TopLine/Statuses/PlayerStatus" index="5" instance=ExtResource( 2 )]
+
+margin_left = 450.0
+margin_right = 530.0
+margin_bottom = 124.0
+
+[node name="P7" parent="Foreground/Content/Lines/TopLine/Statuses/PlayerStatus" index="6" instance=ExtResource( 2 )]
+
+margin_left = 540.0
+margin_right = 620.0
+margin_bottom = 124.0
+
+[node name="P8" parent="Foreground/Content/Lines/TopLine/Statuses/PlayerStatus" index="7" instance=ExtResource( 2 )]
+
+margin_left = 630.0
+margin_right = 710.0
+margin_bottom = 124.0
+
+[node name="AudienceStatus" type="HBoxContainer" parent="Foreground/Content/Lines/TopLine/Statuses" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 128.0
+margin_right = 710.0
+margin_bottom = 188.0
+rect_min_size = Vector2( 710, 60 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 2
+_sections_unfolded = [ "Margin", "Rect" ]
+
+[node name="Audience" type="Label" parent="Foreground/Content/Lines/TopLine/Statuses/AudienceStatus" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 547.0
+margin_top = 20.0
+margin_right = 710.0
+margin_bottom = 39.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Audience Members"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+script = ExtResource( 4 )
+_sections_unfolded = [ "Mouse", "Rect", "custom_constants", "custom_fonts" ]
+
+[node name="BottomLine" type="ReferenceRect" parent="Foreground/Content/Lines" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 192.0
+margin_right = 964.0
+margin_bottom = 262.0
+rect_min_size = Vector2( 0, 70 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="ABCDcode" type="Label" parent="Foreground/Content/Lines/BottomLine" index="0"]
+
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -273.0
+margin_bottom = 51.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "ABCD"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+script = ExtResource( 5 )
+_sections_unfolded = [ "Mouse", "Rect", "custom_constants", "custom_fonts" ]
+
+[node name="Instructions" type="Label" parent="Foreground/Content/Lines/BottomLine" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 273.0
+margin_bottom = 51.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Instructions to join here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Mouse", "Rect", "custom_constants", "custom_fonts" ]
+
+[node name="StartButton" type="Button" parent="Foreground" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 884.0
+margin_top = 293.0
+margin_right = 964.0
+margin_bottom = 373.0
+rect_min_size = Vector2( 80, 80 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Start"
+flat = false
+align = 1
+_sections_unfolded = [ "Rect", "Textures", "custom_fonts" ]
+
+[node name="ExitButton" type="Button" parent="Foreground" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 884.0
+margin_top = 383.0
+margin_right = 964.0
+margin_bottom = 463.0
+rect_min_size = Vector2( 80, 80 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Exit"
+flat = false
+align = 1
+_sections_unfolded = [ "Anchor", "Rect", "Textures", "custom_fonts" ]
+
+[connection signal="pressed" from="Foreground/StartButton" to="." method="_on_StartButton_pressed"]
+
+[connection signal="pressed" from="Foreground/ExitButton" to="." method="_on_ExitButton_pressed"]
+
+

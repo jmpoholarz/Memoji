@@ -5,6 +5,8 @@ var currentState
 var players = []
 var audiencePlayers = []
 
+var prompts = []
+
 var lobbyCode = null
 
 func debug_to_lobby():
@@ -76,7 +78,6 @@ func _on_Networking_obtainedLetterCode(letterCode):
 
 func _on_Networking_playerConnected(playerID, isPlayer):
 	# Add new player to players array
-	# TODO: Add audience
 	var player
 	player = GlobalVars.PlayerClass.new()
 	player.playerID = playerID
@@ -126,7 +127,12 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 				$ScreenManager.currentScreenInstance.update_player_status(player)
 
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
-	pass # replace with function body
+	# TODO: find corresponding prompt and add the player's answer to it
+	for prompt in prompts:
+		if (promptID == prompt.promptID):
+			prompt.insertAnswer(playerID, emojiArray)
+	
+	return
 
 func _on_Networking_receivedPlayerVote(playerID, promptID, voteID):
 	pass # replace with function body
