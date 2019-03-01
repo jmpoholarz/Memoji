@@ -20,7 +20,7 @@ func calculateTotals(votes, audiencePercent):
 	var totalPoints
 	#number of votes are multiplied by 100
 	#audience percent is added as a percent of 100 points, a perfect audience score
-	#is equal to that of one player
-	totalPoints = (votes * 100) + audiencePercent
+	#is equal to that of two players
+	totalPoints = (votes * 100) + (audiencePercent * 2)
 	return totalPoints
 	
