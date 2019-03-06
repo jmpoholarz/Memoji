@@ -4,6 +4,7 @@ const uuid = require('uuid/v1');
 const moment = require('moment');
 const fs = require('fs');
 const cluster = require('cluster');
+const mysql = require('mysql');
 
 const port = 3000;
 
@@ -19,269 +20,261 @@ var mtype = '';
 const server_log = 'server_log.txt';
 const error_log = 'server_error_log.txt';
 
-// Initialize Firebase
-// var config = {
-//   apiKey: "AIzaSyAozLICINRi9dgCaURme6U1K7F4Tjy8Ogw",
-//   authDomain: "memoji-server.firebaseapp.com",
-//   databaseURL: "https://memoji-server.firebaseio.com",
-//   projectId: "memoji-server",
-//   storageBucket: "memoji-server.appspot.com",
-//   messagingSenderId: "208212528540"
-// };
-// var myapp = firebase.initializeApp(config);
+// TODO:
+// Work with data locally, if run into error, push all local data to database
+// that is new (search for mysql if that is easy) or pull and compare
+// -----------------------------
+// Write function to pull all data from database on start of worker process
+// -----------------------------
+// Write functionality to push new data to database on creation such as
+// --Host code request
+// --Player connection
+// --audience connection
+// -----------------------------
+// Write functionality to remove data from database on:
+// --Host disconnection
+// --Removal of inactive Host
+// --Player disconnection
+// --Audience disconnection
+// -----------------------------
 
-// console.log(myapp.name);
 
-// var firebase = require("firebase-admin");
-//
-// var serviceAccount = require("./serviceAccountKey.json");
-//
-// firebase.initializeApp({
-//   credential: firebase.credential.cert(serviceAccount),
-//   databaseURL: "https://memoji-server.firebaseio.com"
-// });
-//
-// var db = firebase.database();
-// var ref = db.ref("vars");
-//
-// var codesRef = ref.child("codes");
-// var hostsRef = ref.child("hosts");
-// var playersRef = ref.child("players");
-// var audienceMembersRef = ref.child("audience_members");
-
-// console.log(`Master ${process.pid} is running`);
-const start_time = moment().format('YYYY-MM-DD hh:mm:ss A')
-console.log(`Server start time: ${start_time}`);
-fs.writeFile(server_log, `[${start_time}]: # Beginning of server log\n`, 'utf8', (err) => {
-  if (err) throw err;
-  console.log('server_log.txt created successfully.');
-});
-fs.writeFile(error_log, `[${start_time}]: # Beginning of error log\n`, 'utf8', (err) => {
-  if (err) throw err;
-  console.log('server_error_log.txt created successfully.');
-});
-
-// Send a ping to each host every 5 minutes to check if the game is still active
-setInterval(() => {
-  console.log("Send Ping to Host(s)");
-  writeToFile(server_log, 'Sending Ping to Host(s).');
-  _.forEach(hosts, (host) => {
-    const res = {
-      "messageType": 120
-    };
-    send(host.socket, JSON.stringify(res));
+if (cluster.isMaster) {
+  console.log(`Master ${process.pid} is running`);
+  const start_time = moment().format('YYYY-MM-DD hh:mm:ss A')
+  console.log(`Server start time: ${start_time}`);
+  fs.writeFile(server_log, `[${start_time}]: # Beginning of server log\n`, 'utf8', (err) => {
+    if (err) throw err;
+    console.log('server_log.txt created successfully.');
   });
-}, 300000);
-// Check every 5:30 minutes for lastPing > 30000. Remove host if true.
-setInterval(() => {
-  console.log("Remove unresponsive Host(s)");
-  writeToFile(server_log, 'Removing unresponsive Host(s)');
-  var hosts_to_remove = _.filter(hosts, (host) => {
-    return (Math.abs(host.lastPing - moment().valueOf()) > 30000);
-  });
-  _.forEach(hosts_to_remove, (host) => {
-    host.socket.destroy();
-    _.remove(hosts, host);
-  });
-}, 330000);
-
-// Workers can share any TCP connection
-
-const server = net.createServer(socket => {
-
-  console.log('client connected');
-
-  socket.on('end', () => {
-    console.log('client disconnected');
-    // socket.destroy();
-    // if(socket.destroyed){
-    //   console.log('Socket destroyed on disconnect successfully.');
-    //   writeToFile(server_log, 'Socket destroyed on disconnect successfully.');
-    // } else {
-    //   console.log('Socket not destroyed on disconnect successfully.');
-    //   writeToFile(error_log, 'Socket not destroyed on disconnect successfully.');
-    // }
+  fs.writeFile(error_log, `[${start_time}]: # Beginning of error log\n`, 'utf8', (err) => {
+    if (err) throw err;
+    console.log('server_error_log.txt created successfully.');
   });
 
-  socket.on('data', (data) => {
-    console.log(data);
-    console.log(data.toString());
-    console.log(data.length);
-
-    if(data.length <= 4){
-      console.log('Ignore message. Length too short.');
-      return;
-    }
-
-    const json = parseData(data);
-    if (json === -1) {
-      console.log('Error parsing data');
+  // Send a ping to each host every 5 minutes to check if the game is still active
+  setInterval(() => {
+    console.log("Send Ping to Host(s)");
+    writeToFile(server_log, 'Sending Ping to Host(s).');
+    _.forEach(hosts, (host) => {
       const res = {
-        "messageType": 100
+        "messageType": 120
       };
-      writeToFile(error_log, 'Error parsing data received. Server needs message to be sent again');
-      send(socket, JSON.stringify(res));
-      return;
-    }
-    var message = "";
-    try {
-      message = JSON.parse(json);
-    } catch(err) {
-      console.log(err);
-      const res = {
-        "messageType": 100
-      };
-      writeToFile(error_log, 'Error parsing json.');
-      send(socket, JSON.stringify(res));
-      return;
-    }
+      send(host.socket, JSON.stringify(res));
+    });
+  }, 300000);
+  // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
+  setInterval(() => {
+    console.log("Remove unresponsive Host(s)");
+    writeToFile(server_log, 'Removing unresponsive Host(s)');
+    var hosts_to_remove = _.filter(hosts, (host) => {
+      return (Math.abs(host.lastPing - moment().valueOf()) > 30000);
+    });
+    _.forEach(hosts_to_remove, (host) => {
+      host.socket.destroy();
+      _.remove(hosts, host);
+    });
+  }, 330000);
 
-    console.log(message);
+  // const numCPUs = require('os').cpus().length;
+  // for (var i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  // }
 
-    // See what message type (action)
-    var letterCode = ""
-    try {
-      letterCode = message.letterCode;
-    } catch (err) {
-      console.warn('Message does not contain letterCode');
-      console.warn(err);
-      const res = {
-        "messageType": 100
-      };
-      writeToFile(error_log, 'Message does not contain letterCode');
-      send(socket, JSON.stringify(res));
-      return;
-    }
+  // Restart a worker if it dies (e.i. on an error)
+  cluster.on('exit', (worker, code, signal) => {
+    console.log('worker %d died (%s). restarting...',
+      worker.process.pid, signal || code);
+    cluster.fork();
+  });
 
-    switch (message.messageType) {
-      case 110: // Host requests new room code
-        handleHostCodeRequest(socket);
-        writeToFile(server_log, 'Host requested code');
-        break;
-      case 121: // Host is still handling games
-        console.log('Host is still handling games');
-        const host = _.find(hosts, ['code', letterCode]);
-        host.lastPing = moment().valueOf();
-        writeToFile(server_log, `${letterCode} Host still handling games`);
-        break;
-      case 130: // Host shutting down
-        handleHostDisConn(letterCode);
-        break;
-        // Player Codes
-      case 401: // Player Connection and Audience connection
-        // Check if there is room in the lobby
-        if (codeCheck(letterCode)) {
+} else {
+  // Workers can share any TCP connection
+
+  // DO NOT PUSH THIS SECTION
+  
+
+  // POPULATE ARRAYS
+
+  const server = net.createServer(socket => {
+
+    console.log('client connected');
+
+    socket.on('end', () => {
+      console.log('client disconnected');
+    });
+
+    socket.on('data', (data) => {
+      console.log(data);
+      console.log(data.toString());
+      console.log(data.length);
+
+      if (data.length <= 4) {
+        console.log('Ignore message. Length too short.');
+        return;
+      }
+
+      const json = parseData(data);
+      if (json === -1) {
+        console.log('Error parsing data');
+        const res = {
+          "messageType": 100
+        };
+        writeToFile(error_log, 'Error parsing data received. Server needs message to be sent again');
+        send(socket, JSON.stringify(res));
+        return;
+      }
+      var message = "";
+      try {
+        message = JSON.parse(json);
+      } catch (err) {
+        console.log(err);
+        const res = {
+          "messageType": 100
+        };
+        writeToFile(error_log, 'Error parsing json.');
+        send(socket, JSON.stringify(res));
+        return;
+      }
+
+      console.log(message);
+
+      // See what message type (action)
+      var letterCode = ""
+      try {
+        letterCode = message.letterCode;
+      } catch (err) {
+        console.warn('Message does not contain letterCode');
+        console.warn(err);
+        const res = {
+          "messageType": 100
+        };
+        writeToFile(error_log, 'Message does not contain letterCode');
+        send(socket, JSON.stringify(res));
+        return;
+      }
+
+      switch (message.messageType) {
+        case 110: // Host requests new room code
+          handleHostCodeRequest(socket);
+          writeToFile(server_log, 'Host requested code');
+          break;
+        case 121: // Host is still handling games
+          console.log('Host is still handling games');
           const host = _.find(hosts, ['code', letterCode]);
-          if (host.players.length < max_players) {
-            // Player can join
-            var id = handlePlayerConn(letterCode, socket);
-            if(id === -1){
-              console.log('Player already connected to host.');
-              writeToFile(error_log, `Player has already connected to host. Do not add to host again.`);
+          host.lastPing = moment().valueOf();
+          writeToFile(server_log, `${letterCode} Host still handling games`);
+          break;
+        case 130: // Host shutting down
+          handleHostDisConn(letterCode);
+          break;
+          // Player Codes
+        case 401: // Player Connection and Audience connection
+          // Check if there is room in the lobby
+          if (codeCheck(letterCode)) {
+            const host = _.find(hosts, ['code', letterCode]);
+            if (host.players.length < max_players) {
+              // Player can join
+              var id = handlePlayerConn(letterCode, socket);
+              if (id === -1) {
+                console.log('Player already connected to host.');
+                writeToFile(error_log, `Player has already connected to host. Do not add to host again.`);
+              } else {
+                writeToFile(server_log, `Player: [${id}] joined Host - ${letterCode}`);
+              }
             } else {
-              writeToFile(server_log, `Player: [${id}] joined Host - ${letterCode}`);
+              // Host lobby full, join as audience member
+              var id = handleAudienceConn(letterCode, socket);
+              writeToFile(server_log, `Audience: [${id}] joined Host - ${letterCode}`);
             }
           } else {
-            // Host lobby full, join as audience member
-            var id = handleAudienceConn(letterCode, socket);
-            writeToFile(server_log, `Audience: [${id}] joined Host - ${letterCode}`);
+            console.log('Invalid code');
+            console.log('Did not handle player connection successfully.');
+            const res = {
+              "messageType": 113
+            };
+            send(socket, JSON.stringify(res));
+            writeToFile(server_log, 'Player could not join. Invalid letter code.');
           }
-        } else {
-          console.log('Invalid code');
-          console.log('Did not handle player connection successfully.');
-          const res = {
-            "messageType": 113
-          };
-          send(socket, JSON.stringify(res));
-          writeToFile(server_log, 'Player could not join. Invalid letter code.');
-        }
-        break;
-      case 402: // Player Disconnecting
-        // Remove player from host
-        var r = handlePlayerDisConn(letterCode, message.playerID);
-        if(r == -1){
-          console.log("Error handling player disconnection.");
-          return;
-        }
-        writeToFile(server_log, `Player disconnecting from host - ${letterCode}`);
-        sendToHost(letterCode, message);
-        writeToFile(server_log, `Forward Player disconnection to host - ${letterCode}`);
-        break;
-      case 301: // Host starting game -----> Send to all Players
-      case 302: // Host ending game -------> Send to all Players
-      case 320: // Host round time is up --> Send to all Players
-        sendToAllPlayers(letterCode, message);
-        if (message.messageType === 301) mtype = 'Host starting game.';
-        if (message.messageType === 302) mtype = 'Host ending game.';
-        if (message.messageType === 320) mtype = 'Round timer is over.';
-        writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to all Players`);
-        break;
-      case 311: // Host Sending promtpt ---> Send to Player
-        sendToPlayer(message);
-        writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending prompt.] Sending to Player: ${message.playerID}`);
-        break;
-      case 312: // Host sending answers ---> Send to all Players and Audience
-        sendToPlayersAndAudience(letterCode, message);
-        writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending answers.] Sending to all Players and Audience`);
-        break;
-      case 404: // Invalid username ----------------> Send to Player
-      case 405: // Accepted Username and avatar ----> Send to Player
-        sendToPlayer(message);
-        if (message.messageType === 404) mtype = 'Invalid username.';
-        if (message.messageType === 405) mtype = 'Host starting game.';
-        writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Player: ${message.playerID}`);
-        break;
-      case 403: // Player username and avatar ------> Send to Host
-      case 410: // Player sending prompt response --> Send to Host
-      case 411: // Invalid prompt response --------> Send to Host
-      case 412: // Accepted prompt response --------> Send to Host
-      case 420: // Player sending single vote ------> Send to Host
-      case 421: // Invalid vote response -----------> Send to Host
-      case 422: // Accepted vote response ----------> Send to Host
-      case 430: // Player sending multi vote -------> Send to Host
-      case 431: // Invalid multi vote --------------> Send to Host
-      case 432: // Accepted multi vote -------------> Send to Host
-        sendToHost(letterCode, message);
-        if (message.messageType === 403) mtype = 'Player username and avatar.';
-        if (message.messageType === 410) mtype = 'Player sending prompt response.';
-        if (message.messageType === 411) mtype = 'Invalid prompt response.';
-        if (message.messageType === 412) mtype = 'Accepted prompt response.';
-        if (message.messageType === 420) mtype = 'Player sending single vote.';
-        if (message.messageType === 421) mtype = 'Invalid vote response.';
-        if (message.messageType === 422) mtype = 'Accepted vote response.';
-        if (message.messageType === 430) mtype = 'Player sending multi vote.';
-        if (message.messageType === 431) mtype = 'Invalid multi vote.';
-        if (message.messageType === 432) mtype = 'Accepted multi vote.';
-        writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Host - ${letterCode}`);
-        break;
-      default:
-        console.log('Unknown Message Type');
-        writeToFile(error_log, '[MessageType]: Unknown MessageType. No action performed.');
-    }
-    // console.log("Hosts: ");
-    // console.log(hosts);
-    // console.log(codes);
-    // _.forEach(hosts, (host) => {
-    //   _.forEach(host.players, (p) => {
-    //     console.log(p);
-    //   });
-    // });
-    // Echo Message back
-    // send(socket, data);
+          break;
+        case 402: // Player Disconnecting
+          // Remove player from host
+          var r = handlePlayerDisConn(letterCode, message.playerID);
+          if (r == -1) {
+            console.log("Error handling player disconnection.");
+            return;
+          }
+          writeToFile(server_log, `Player disconnecting from host - ${letterCode}`);
+          sendToHost(letterCode, message);
+          writeToFile(server_log, `Forward Player disconnection to host - ${letterCode}`);
+          break;
+        case 301: // Host starting game -----> Send to all Players
+        case 302: // Host ending game -------> Send to all Players
+        case 320: // Host round time is up --> Send to all Players
+          sendToAllPlayers(letterCode, message);
+          if (message.messageType === 301) mtype = 'Host starting game.';
+          if (message.messageType === 302) mtype = 'Host ending game.';
+          if (message.messageType === 320) mtype = 'Round timer is over.';
+          writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to all Players`);
+          break;
+        case 311: // Host Sending promtpt ---> Send to Player
+          sendToPlayer(message);
+          writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending prompt.] Sending to Player: ${message.playerID}`);
+          break;
+        case 312: // Host sending answers ---> Send to all Players and Audience
+          sendToPlayersAndAudience(letterCode, message);
+          writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending answers.] Sending to all Players and Audience`);
+          break;
+        case 404: // Invalid username ----------------> Send to Player
+        case 405: // Accepted Username and avatar ----> Send to Player
+          sendToPlayer(message);
+          if (message.messageType === 404) mtype = 'Invalid username.';
+          if (message.messageType === 405) mtype = 'Host starting game.';
+          writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Player: ${message.playerID}`);
+          break;
+        case 403: // Player username and avatar ------> Send to Host
+        case 410: // Player sending prompt response --> Send to Host
+        case 411: // Invalid prompt response --------> Send to Host
+        case 412: // Accepted prompt response --------> Send to Host
+        case 420: // Player sending single vote ------> Send to Host
+        case 421: // Invalid vote response -----------> Send to Host
+        case 422: // Accepted vote response ----------> Send to Host
+        case 430: // Player sending multi vote -------> Send to Host
+        case 431: // Invalid multi vote --------------> Send to Host
+        case 432: // Accepted multi vote -------------> Send to Host
+          sendToHost(letterCode, message);
+          if (message.messageType === 403) mtype = 'Player username and avatar.';
+          if (message.messageType === 410) mtype = 'Player sending prompt response.';
+          if (message.messageType === 411) mtype = 'Invalid prompt response.';
+          if (message.messageType === 412) mtype = 'Accepted prompt response.';
+          if (message.messageType === 420) mtype = 'Player sending single vote.';
+          if (message.messageType === 421) mtype = 'Invalid vote response.';
+          if (message.messageType === 422) mtype = 'Accepted vote response.';
+          if (message.messageType === 430) mtype = 'Player sending multi vote.';
+          if (message.messageType === 431) mtype = 'Invalid multi vote.';
+          if (message.messageType === 432) mtype = 'Accepted multi vote.';
+          writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Host - ${letterCode}`);
+          break;
+        default:
+          console.log('Unknown Message Type');
+          writeToFile(error_log, '[MessageType]: Unknown MessageType. No action performed.');
+      }
+    });
+
+    server.on('error', (err) => {
+      writeToFile(error_log, err.name);
+      writeToFile(error_log, err.message);
+      const res = {
+        "messageType": 100
+      };
+      writeToFile(error_log, 'Error. Send 100 back to server. Requesting message again.');
+      send(socket, JSON.stringify(res));
+    });
   });
 
-  server.on('error', (err) => {
-    writeToFile(error_log, err.name);
-    writeToFile(error_log, err.message);
-    const res = {
-      "messageType": 100
-    };
-    writeToFile(error_log, 'Error. Send 100 back to server. Requesting message again.');
-    send(socket, JSON.stringify(res));
-  });
-});
-
-server.listen(port, () => console.log(`Listening on port ${port}`));
+  server.listen(port, () => console.log(`Listening on port ${port}`));
+  console.log(`Worker ${process.pid} started`);
+}
 
 function writeToFile(filename, message) {
   const timestamp = moment().format('YYYY-MM-DD hh:mm:ss A');
@@ -318,12 +311,29 @@ function handleHostCodeRequest(socket) {
   console.log("Code 110: Host request a room code");
   const letterCode = generateCode();
   console.log(letterCode);
-  hosts.push({
+  var host = {
     code: letterCode,
     socket: socket,
     players: [],
     audience: [],
     lastPing: moment().valueOf()
+  };
+  hosts.push(host);
+  // Host object is created
+  // INSERT code into codes table
+  var sql = `INSERT INTO codes (code) VALUE ('${letterCode}')`;
+  con.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log("1 record inserted");
+    console.log(result);
+  });
+  // INSERT host into hosts table
+  const host_socket = JSON.stringify(host.socket);
+  sql = `INSERT INTO hosts (code, host, lastping) VALUES ('${host.code}', '${host_socket}', '${host.lastPing}')`;
+  con.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log("1 record inserted");
+    console.log(result);
   });
   // Send back letter code
   const res = {
@@ -350,15 +360,6 @@ function handleHostDisConn(letterCode) {
     console.log(`Send Player: ${player.id} disconnect message.`);
     send(player.socket, JSON.stringify(res));
     writeToFile(server_log, `Send Player: ${player.id} disconnect message.`);
-    // player.socket.end();
-    // player.socket.destroy();
-    // if(player.socket.destroyed){
-    //   console.log(`Player: ${player.id} socket destroyed successfully`);
-    //   writeToFile(server_log, `Player: ${player.id} socket destroyed successfully`);
-    // } else {
-    //   console.log(`Player: ${player.id} socket destroyed unsuccessfully`);
-    //   writeToFile(error_log, `Player: ${player.id} socket destroyed unsuccessfully`);
-    // }
   });
   console.log('Players removed from host lobby');
   writeToFile(server_log, 'Players removed from host lobby');
@@ -366,7 +367,7 @@ function handleHostDisConn(letterCode) {
   _.forEach(host.players, (player) => {
     player.socket.end();
     player.socket.destroy();
-    if(player.socket.destroyed){
+    if (player.socket.destroyed) {
       console.log(`Player: ${player.id} socket destroyed successfully`);
       writeToFile(server_log, `Player: ${player.id} socket destroyed successfully`);
     } else {
@@ -379,15 +380,6 @@ function handleHostDisConn(letterCode) {
     console.log(`Send Audience: ${audience.id} disconnect message.`);
     send(audience.socket, JSON.stringify(res));
     writeToFile(server_log, `Send Audience: ${audience.id} disconnect message.`);
-    // audience.socket.end();
-    // audience.socket.destroy();
-    // if(audience.socket.destroyed){
-    //   console.log(`Audience member: ${audience.id} socket destroyed successfully`);
-    //   writeToFile(server_log, `Audience member: ${audience.id} socket destroyed successfully`);
-    // } else {
-    //   console.log(`Audience member: ${audience.id} socket destroyed unsuccessfully`);
-    //   writeToFile(error_log, `Audience member: ${audience.id} socket destroyed unsuccessfully`);
-    // }
   });
 
   console.log('Audience removed from host lobby');
@@ -396,7 +388,7 @@ function handleHostDisConn(letterCode) {
   _.forEach(host.audience, (audience) => {
     audience.socket.end();
     audience.socket.destroy();
-    if(audience.socket.destroyed){
+    if (audience.socket.destroyed) {
       console.log(`Audience member: ${audience.id} socket destroyed successfully`);
       writeToFile(server_log, `Audience member: ${audience.id} socket destroyed successfully`);
     } else {
@@ -414,7 +406,7 @@ function handleHostDisConn(letterCode) {
   // Close host socket
   console.log('Destroy Host socket');
   host.socket.destroy();
-  if(host.socket.destroyed){
+  if (host.socket.destroyed) {
     console.log('Host socket destroyed successfully.');
     writeToFile(server_log, 'Host socket destroyed successfully.');
   } else {
@@ -452,7 +444,7 @@ function handlePlayerConn(letterCode, socket) {
   const p = _.find(host.players, (p) => {
     return p.socket === socket;
   });
-  if(p !== undefined){
+  if (p !== undefined) {
     return -1;
   }
   host.players.push(player);
@@ -509,19 +501,19 @@ function handlePlayerDisConn(letterCode, id) {
     return 0;
   }
   const host = _.find(hosts, ['code', letterCode]);
-  if(host === undefined){
+  if (host === undefined) {
     console.log(`[ERROR]: Could not find Host - ${letterCode}`);
     writeToFile(error_log, `[ERROR]: Could not find Host - ${letterCode}`);
     // return -1;
   }
   const player = _.find(players, ['id', id]);
-  if(player === undefined){
+  if (player === undefined) {
     console.log(`[ERROR]: Could not find Player: ${id}`);
     writeToFile(error_log, `[ERROR]: Could not find Player: ${id}`);
     return -1;
   }
   var removed_player = _.remove(host.players, player);
-  if(removed_player !== undefined){
+  if (removed_player !== undefined) {
     console.log(`Removing player: ${player.id} from host: ${letterCode}`);
     writeToFile(server_log, `Removing player: ${player.id} from host: ${letterCode}`);
     console.log('Handled player removal from host successfully.');
@@ -533,7 +525,7 @@ function handlePlayerDisConn(letterCode, id) {
     writeToFile(error_log, 'Handled player removal from host unsuccessfully.');
   }
   removed_player = _.remove(players, player);
-  if(removed_player !== undefined){
+  if (removed_player !== undefined) {
     console.log(`Removing player: ${player.id} from player list`);
     writeToFile(server_log, `Removing player: ${player.id} from player list`);
     console.log('Handled player removal from player list successfully.');
@@ -547,7 +539,7 @@ function handlePlayerDisConn(letterCode, id) {
   player.socket.end();
 
   player.socket.destroy();
-  if(player.socket.destroyed){
+  if (player.socket.destroyed) {
     console.log(`Player: ${player.id} socket destroyed successfully`);
     writeToFile(server_log, `Player: ${player.id} socket destroyed successfully`);
   } else {
@@ -632,7 +624,7 @@ function parseData(data) {
   }
   // Check if data has length buffer at the beginning of buffer.
   var message = "";
-  if(data[0] == "{".charCodeAt(0)){
+  if (data[0] == "{".charCodeAt(0)) {
     // No padding to cut
     console.log('DO NOT CUT PADDING');
     message = copy.data;
