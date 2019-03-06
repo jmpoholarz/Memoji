@@ -5,7 +5,7 @@ var currentState
 var players = []
 var audiencePlayers = []
 
-var prompts = []
+#var prompts = [] # Handled in PromptManager child
 
 var lobbyCode = null
 
@@ -23,9 +23,11 @@ func _ready():
 	toTitle()
 
 func setupGame():
+	# TODO logic creating enough prompts based on amount of players for this round
 	pass
 
 func sendPrompts():
+	#
 	pass
 
 func sendAnswersForVoting():
