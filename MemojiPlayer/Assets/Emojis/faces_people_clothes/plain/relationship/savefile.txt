@@ -1,0 +1,8 @@
+"res://Assets/Emojis/faces_people_clothes/plain/relationship/1f468-200d-2764-fe0f-200d-1f468.png" : 13060,
+"res://Assets/Emojis/faces_people_clothes/plain/relationship/1f468-200d-2764-fe0f-200d-1f48b-200d-1f468.png" : 13070,
+"res://Assets/Emojis/faces_people_clothes/plain/relationship/1f469-200d-2764-fe0f-200d-1f468.png" : 13080,
+"res://Assets/Emojis/faces_people_clothes/plain/relationship/1f469-200d-2764-fe0f-200d-1f469.png" : 13090,
+"res://Assets/Emojis/faces_people_clothes/plain/relationship/1f469-200d-2764-fe0f-200d-1f48b-200d-1f468.png" : 13100,
+"res://Assets/Emojis/faces_people_clothes/plain/relationship/1f469-200d-2764-fe0f-200d-1f48b-200d-1f469.png" : 13110,
+"res://Assets/Emojis/faces_people_clothes/plain/relationship/1f48f.png" : 13120,
+"res://Assets/Emojis/faces_people_clothes/plain/relationship/1f491.png" : 13130,

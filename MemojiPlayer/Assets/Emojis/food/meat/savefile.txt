@@ -1,0 +1,5 @@
+"res://Assets/Emojis/food/meat/1f356.png" : 30380,
+"res://Assets/Emojis/food/meat/1f357.png" : 30390,
+"res://Assets/Emojis/food/meat/1f95c.png" : 30400,
+"res://Assets/Emojis/food/meat/1f969.png" : 30410,
+"res://Assets/Emojis/food/meat/1f9b4.png" : 30420,

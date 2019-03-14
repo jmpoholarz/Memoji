@@ -12,25 +12,34 @@
 [ext_resource path="res://Assets/FlagIcon.png" type="Texture" id=10]
 [ext_resource path="res://Screens/Elements/EmojiCanvasButtonContainer.gd" type="Script" id=11]
 
-[node name="EmojiPalette" type="Node" index="0"]
+[node name="EmojiPalette" type="Panel" index="0"]
 
-[node name="Panel" type="Panel" parent="." index="0"]
-
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -512.0
-margin_top = -300.0
-margin_right = 512.0
-margin_bottom = 300.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Panel" type="Panel" parent="." index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource( 1 )
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel" index="0"]
 
@@ -45,6 +54,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
+_sections_unfolded = [ "Rect" ]
 
 [node name="ButtonContainer" type="HBoxContainer" parent="Panel/VBoxContainer" index="0"]
 
@@ -374,7 +384,7 @@ scroll_horizontal = 0
 scroll_vertical_enabled = true
 scroll_vertical = 0
 scroll_deadzone = 0
-_sections_unfolded = [ "Scroll" ]
+_sections_unfolded = [ "Rect", "Scroll" ]
 
 [node name="PeopleContainer" type="GridContainer" parent="Panel/VBoxContainer/TabContainer/ScrollContainer" index="0"]
 
@@ -394,6 +404,7 @@ columns = 1
 script = ExtResource( 11 )
 _sections_unfolded = [ "Size Flags" ]
 emoji_directories = [ "res://Assets/Emojis/faces_people_clothes/plain/emojis", "res://Assets/Emojis/faces_people_clothes/plain/animal", "res://Assets/Emojis/faces_people_clothes/plain/people", "res://Assets/Emojis/faces_people_clothes/plain/activity", "res://Assets/Emojis/faces_people_clothes/plain/profession", "res://Assets/Emojis/faces_people_clothes/plain/family", "res://Assets/Emojis/faces_people_clothes/plain/relationship", "res://Assets/Emojis/faces_people_clothes/plain/body", "res://Assets/Emojis/faces_people_clothes/plain/hand", "res://Assets/Emojis/faces_people_clothes/plain/clothing" ]
+emoji_id = 10010
 
 [node name="ScrollContainer5" type="ScrollContainer" parent="Panel/VBoxContainer/TabContainer" index="1"]
 
@@ -417,7 +428,6 @@ scroll_horizontal = 0
 scroll_vertical_enabled = true
 scroll_vertical = 0
 scroll_deadzone = 0
-_sections_unfolded = [ "Scroll" ]
 
 [node name="NatureContainer" type="GridContainer" parent="Panel/VBoxContainer/TabContainer/ScrollContainer5" index="0"]
 
@@ -437,6 +447,7 @@ columns = 1
 script = ExtResource( 11 )
 _sections_unfolded = [ "Size Flags" ]
 emoji_directories = [ "res://Assets/Emojis/nature_animals/animals", "res://Assets/Emojis/nature_animals/plants", "res://Assets/Emojis/nature_animals/weather" ]
+emoji_id = 20010
 
 [node name="ScrollContainer8" type="ScrollContainer" parent="Panel/VBoxContainer/TabContainer" index="2"]
 
@@ -479,6 +490,7 @@ columns = 1
 script = ExtResource( 11 )
 _sections_unfolded = [ "Size Flags" ]
 emoji_directories = [ "res://Assets/Emojis/food/fruits_and_veggies", "res://Assets/Emojis/food/breakfast", "res://Assets/Emojis/food/breads", "res://Assets/Emojis/food/meat", "res://Assets/Emojis/food/entree", "res://Assets/Emojis/food/asian_or_seafood", "res://Assets/Emojis/food/sweets", "res://Assets/Emojis/food/beverages", "res://Assets/Emojis/food/dishware" ]
+emoji_id = 30010
 
 [node name="ScrollContainer3" type="ScrollContainer" parent="Panel/VBoxContainer/TabContainer" index="3"]
 
@@ -521,6 +533,7 @@ columns = 1
 script = ExtResource( 11 )
 _sections_unfolded = [ "Size Flags" ]
 emoji_directories = [ "res://Assets/Emojis/sports_and_activities/equipment", "res://Assets/Emojis/sports_and_activities/arts", "res://Assets/Emojis/sports_and_activities/action_plain" ]
+emoji_id = 40010
 
 [node name="ScrollContainer4" type="ScrollContainer" parent="Panel/VBoxContainer/TabContainer" index="4"]
 
@@ -563,6 +576,7 @@ columns = 1
 script = ExtResource( 11 )
 _sections_unfolded = [ "Size Flags" ]
 emoji_directories = [ "res://Assets/Emojis/travel/vehicles", "res://Assets/Emojis/travel/buildings", "res://Assets/Emojis/travel/locations", "res://Assets/Emojis/travel/other" ]
+emoji_id = 50010
 
 [node name="ScrollContainer6" type="ScrollContainer" parent="Panel/VBoxContainer/TabContainer" index="5"]
 
@@ -605,6 +619,7 @@ columns = 1
 script = ExtResource( 11 )
 _sections_unfolded = [ "Size Flags" ]
 emoji_directories = [ "res://Assets/Emojis/objects/plain/office", "res://Assets/Emojis/objects/plain/science", "res://Assets/Emojis/objects/plain/tech", "res://Assets/Emojis/objects/plain/tools", "res://Assets/Emojis/objects/plain/currency", "res://Assets/Emojis/objects/plain/cultural", "res://Assets/Emojis/objects/plain/home", "res://Assets/Emojis/objects/plain/bath" ]
+emoji_id = 60010
 
 [node name="ScrollContainer7" type="ScrollContainer" parent="Panel/VBoxContainer/TabContainer" index="6"]
 
@@ -647,6 +662,7 @@ columns = 1
 script = ExtResource( 11 )
 _sections_unfolded = [ "Size Flags" ]
 emoji_directories = [ "res://Assets/Emojis/symbols/hearts", "res://Assets/Emojis/symbols/directions", "res://Assets/Emojis/symbols/purple_background", "res://Assets/Emojis/symbols/blood_types", "res://Assets/Emojis/symbols/english", "res://Assets/Emojis/symbols/kanji", "res://Assets/Emojis/symbols/signs", "res://Assets/Emojis/symbols/texting", "res://Assets/Emojis/symbols/media_controls", "res://Assets/Emojis/symbols/currency", "res://Assets/Emojis/symbols/punctuation", "res://Assets/Emojis/symbols/shapes", "res://Assets/Emojis/symbols/clock_faces", "res://Assets/Emojis/symbols" ]
+emoji_id = 70010
 
 [node name="ScrollContainer2" type="ScrollContainer" parent="Panel/VBoxContainer/TabContainer" index="7"]
 
@@ -689,6 +705,7 @@ columns = 1
 script = ExtResource( 11 )
 _sections_unfolded = [ "Size Flags" ]
 emoji_directories = [ "res://Assets/Emojis/flags" ]
+emoji_id = 80010
 
 [connection signal="pressed" from="Panel/VBoxContainer/ButtonContainer/PeopleButton" to="Panel" method="_on_PeopleButton_pressed"]
 
