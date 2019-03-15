@@ -2,6 +2,7 @@ extends Node
 
 var EmojiFilenameToIdDict = {
 # Begin Emojis and People #
+"res://Assets/Emojis/blank.png" : 10000,
 "res://Assets/Emojis/faces_people_clothes/plain/emojis/1f383.png" : 10010,
 "res://Assets/Emojis/faces_people_clothes/plain/emojis/1f479.png" : 10020,
 "res://Assets/Emojis/faces_people_clothes/plain/emojis/1f47a.png" : 10030,

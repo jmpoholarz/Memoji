@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Screens/Elements/EmojiCanvasContainerPanel.gd" type="Script" id=1]
 [ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Assets/FacesIcon.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Emojis/blank.png" type="Texture" id=3]
 [ext_resource path="res://Screens/Elements/EmojiCanvasEditorToolButtonGroup.tres" type="ButtonGroup" id=4]
 [ext_resource path="res://Assets/ObjectIcon.png" type="Texture" id=5]
 [ext_resource path="res://Assets/MoveIcon.png" type="Texture" id=6]
@@ -84,7 +84,6 @@ alignment = 0
 
 [node name="CenterContainer" type="CenterContainer" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -256,5 +255,11 @@ margin_top = 7.0
 margin_right = 1017.0
 margin_bottom = 254.0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
+
+[connection signal="pressed" from="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer/AddButton" to="EmojiCanvasContainerPanel" method="_on_tool_changed" binds= [ "add" ]]
+
+[connection signal="pressed" from="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer/MoveButton" to="EmojiCanvasContainerPanel" method="_on_tool_changed" binds= [ "move" ]]
+
+[connection signal="pressed" from="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer/DeleteButton" to="EmojiCanvasContainerPanel" method="_on_tool_changed" binds= [ "delete" ]]
 
 

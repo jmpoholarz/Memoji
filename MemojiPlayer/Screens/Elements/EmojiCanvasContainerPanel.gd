@@ -4,17 +4,30 @@ var _EmojiPalette
 var _CurrentEmojiSelectedPreview
 var _EmojiCanvas
 
-var current_emoji_id = -1
+var current_tool_selected = "add"
+var current_emoji_id = 10000
 
 func _ready():
 	_EmojiPalette = $VBoxContainer/MarginContainer/EmojiPalette
 	_CurrentEmojiSelectedPreview = $VBoxContainer/HBoxContainer/VBoxContainer/CenterContainer/CurrentEmojiSelectedPreview
 	_EmojiCanvas = $VBoxContainer/HBoxContainer/EmojiCanvas
 	
-	_EmojiPalette.connect("emoji_selected", self, "_update_emoji_preview")
+	_EmojiPalette.connect("emoji_selected", self, "_on_new_emoji_selected")
+	_EmojiCanvas.connect("emoji_grabbed", self, "_on_new_emoji_selected")
 
 func _update_emoji_preview(new_id):
 	current_emoji_id = new_id
 	_EmojiCanvas.update_emoji_selected(new_id)
+	# Update preview
 	var path = EmojiIdToFilename.EmojiIdToFilenameDict[new_id]
 	_CurrentEmojiSelectedPreview.texture = load(path)
+
+func _on_new_emoji_selected(new_id):
+	_update_emoji_preview(new_id)
+	# Force back to add tool
+	_on_tool_changed("add")
+	$VBoxContainer/HBoxContainer/VBoxContainer/AddButton.pressed = true
+
+func _on_tool_changed(new_tool):
+	current_tool_selected = new_tool
+	_EmojiCanvas.update_tool_selected(new_tool)
