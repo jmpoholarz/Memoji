@@ -13,6 +13,8 @@ var grid_dict = {}
 var currently_selected_emoji_id = 10000
 var currently_selected_tool = "add"
 
+var saved_encoding = []
+
 func _ready():
 	_GridContainer = $GridContainer
 	_CanvasTileMap = $CanvasTileMap
@@ -34,7 +36,31 @@ func setup_grid():
 			cell.rect_min_size = Vector2(64,64)
 			cell.add_child(spr)
 			_GridContainer.add_child(cell)
-			grid_dict[Vector2(i,j)] = [cell, spr, filename]
+			grid_dict[Vector2(i,j)] = [cell, spr, id]
+
+func clear_grid():
+	for i in range(5):
+		for j in range(5):
+			grid_dict[Vector2(i,j)][1].texture = load(EmojiIdToFilename.EmojiIdToFilenameDict[10000])
+			grid_dict[Vector2(i,j)][2] = 10000
+
+func encode_emojis():
+	var encoding = []
+	for i in range(5):
+		for j in range(5):
+			if grid_dict[Vector2(i,j)][2] == 10000:
+				continue
+			encoding.append([i, j, grid_dict[Vector2(i,j)][2]])
+	return encoding
+
+func decode_emojis(encoding):
+	clear_grid()
+	for i in range(encoding.size()):
+		var x = encoding[i][0]
+		var y = encoding[i][1]
+		var id = encoding[i][2]
+		grid_dict[Vector2(x,y)][1].texture = load(EmojiIdToFilename.EmojiIdToFilenameDict[id])
+		grid_dict[Vector2(x,y)][2] = id
 
 func handle_canvas_click(row, column):
 	# Check error cases
@@ -50,15 +76,15 @@ func handle_canvas_click(row, column):
 		"add":
 			var path = EmojiIdToFilename.EmojiIdToFilenameDict[currently_selected_emoji_id]
 			grid_dict[Vector2(row, column)][1].texture = load(path)
-			grid_dict[Vector2(row, column)][2] = path
+			grid_dict[Vector2(row, column)][2] = currently_selected_emoji_id
 		"delete":
 			var path = EmojiIdToFilename.EmojiIdToFilenameDict[currently_selected_emoji_id]
 			grid_dict[Vector2(row, column)][1].texture = load(EmojiIdToFilename.EmojiIdToFilenameDict[10000])
-			grid_dict[Vector2(row, column)][2] = path
+			grid_dict[Vector2(row, column)][2] = currently_selected_emoji_id
 		"move":
-			var path = grid_dict[Vector2(row, column)][2]
-			emit_signal("emoji_grabbed", EmojiFilenameToId.EmojiFilenameToIdDict[path])
-			path = EmojiIdToFilename.EmojiIdToFilenameDict[10000]
+			var id = grid_dict[Vector2(row, column)][2]
+			emit_signal("emoji_grabbed", id)
+			var path = EmojiIdToFilename.EmojiIdToFilenameDict[10000]
 			grid_dict[Vector2(row, column)][1].texture = load(path)
 			
 
