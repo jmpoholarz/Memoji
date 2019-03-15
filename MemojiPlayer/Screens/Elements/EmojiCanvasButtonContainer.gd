@@ -1,9 +1,12 @@
 extends GridContainer
 
-var CREATING_ID_FILES = false
-var BUTTON_SIZE = 50
 export(Array, String) var emoji_directories = [""]
 export(int) var emoji_id = -1
+
+signal emoji_button_pressed(id)
+
+var CREATING_ID_FILES = false
+var BUTTON_SIZE = 50
 
 var screen_width = 0
 
@@ -45,9 +48,7 @@ func _ready():
 				b.add_child(icon)
 				b.set_emoji_id(emoji_id)
 				#b.rect_min_size = Vector2(44,44)
-				
-				#b.icon = icon_texture
-				#b.icon.set_scale(Vector2(0.5, 0.5))
+				b.connect("emoji_button_pressed", self, "_child_emoji_button_pressed")
 				add_child(b)
 				
 				if CREATING_ID_FILES:
@@ -62,3 +63,6 @@ func _ready():
 	if columns < 1:
 		columns = 1
 
+func _child_emoji_button_pressed(id):
+	emit_signal("emoji_button_pressed", id)
+	#print("signal of id " + str(id) + " received in Palette")

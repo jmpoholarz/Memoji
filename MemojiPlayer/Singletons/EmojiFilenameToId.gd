@@ -1,6 +1,6 @@
 extends Node
 
-var EmojiFilenameToId = {
+var EmojiFilenameToIdDict = {
 # Begin Emojis and People #
 "res://Assets/Emojis/faces_people_clothes/plain/emojis/1f383.png" : 10010,
 "res://Assets/Emojis/faces_people_clothes/plain/emojis/1f479.png" : 10020,
@@ -1371,6 +1371,6 @@ var EmojiFilenameToId = {
 "res://Assets/Emojis/symbols/2747.png" : 72590,
 "res://Assets/Emojis/symbols/3030.png" : 72600,
 "res://Assets/Emojis/symbols/a9.png" : 72610,
-"res://Assets/Emojis/symbols/ae.png" : 72620,
+"res://Assets/Emojis/symbols/ae.png" : 72620
 
 }

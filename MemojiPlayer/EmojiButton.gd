@@ -9,4 +9,4 @@ func set_emoji_id(id):
 
 func _on_EmojiButton_pressed():
 	emit_signal("emoji_button_pressed", _emoji_id)
-	print(_emoji_id)
+	#print(_emoji_id)
