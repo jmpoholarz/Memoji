@@ -1,0 +1,7 @@
+"res://Assets/Emojis/objects/plain/currency/1f4b0.png" : 61530,
+"res://Assets/Emojis/objects/plain/currency/1f4b3.png" : 61540,
+"res://Assets/Emojis/objects/plain/currency/1f4b4.png" : 61550,
+"res://Assets/Emojis/objects/plain/currency/1f4b5.png" : 61560,
+"res://Assets/Emojis/objects/plain/currency/1f4b6.png" : 61570,
+"res://Assets/Emojis/objects/plain/currency/1f4b7.png" : 61580,
+"res://Assets/Emojis/objects/plain/currency/1f4b8.png" : 61590,
