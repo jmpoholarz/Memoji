@@ -1,0 +1,283 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Screens/Elements/EmojiCanvasEditor.gd" type="Script" id=1]
+[ext_resource path="res://Screens/Elements/EmojiCanvasSubElements/EmojiCanvasContainerPanel.gd" type="Script" id=2]
+[ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Emojis/blank.png" type="Texture" id=4]
+[ext_resource path="res://Screens/Elements/EmojiCanvasSubElements/EmojiCanvasEditorToolButtonGroup.tres" type="ButtonGroup" id=5]
+[ext_resource path="res://Assets/ObjectIcon.png" type="Texture" id=6]
+[ext_resource path="res://Assets/MoveIcon.png" type="Texture" id=7]
+[ext_resource path="res://Assets/TrashIcon.png" type="Texture" id=8]
+[ext_resource path="res://Screens/Elements/EmojiPalette.tscn" type="PackedScene" id=9]
+
+[node name="EmojiCanvasContainer" type="Control"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = ExtResource( 1 )
+_sections_unfolded = [ "Rect" ]
+
+[node name="EmojiCanvasContainerPanel" type="Panel" parent="." index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = ExtResource( 2 )
+_sections_unfolded = [ "Rect" ]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EmojiCanvasContainerPanel" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EmojiCanvasContainerPanel/VBoxContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 480.0
+margin_bottom = 335.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 1
+_sections_unfolded = [ "Rect", "Size Flags" ]
+
+[node name="EmojiCanvas" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer" index="0" instance=ExtResource( 3 )]
+
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 27.0
+margin_right = 360.0
+margin_bottom = 335.0
+is_editable = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer" index="1"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 364.0
+margin_right = 452.0
+margin_bottom = 335.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="CenterContainer" type="CenterContainer" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 88.0
+margin_bottom = 88.0
+rect_min_size = Vector2( 88, 88 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+use_top_left = false
+_sections_unfolded = [ "Rect" ]
+
+[node name="CurrentEmojiSelectedPreview" type="Sprite" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer/CenterContainer" index="0"]
+
+texture = ExtResource( 4 )
+centered = false
+offset = Vector2( 8, 8 )
+_sections_unfolded = [ "Offset", "Transform" ]
+
+[node name="VSplitContainer" type="VSplitContainer" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 92.0
+margin_right = 88.0
+margin_bottom = 92.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+split_offset = 0
+collapsed = false
+dragger_visibility = 0
+
+[node name="AddButton" type="Button" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer" index="2"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 96.0
+margin_right = 44.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 44, 44 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 0
+size_flags_vertical = 1
+toggle_mode = true
+pressed = true
+enabled_focus_mode = 2
+shortcut = null
+group = ExtResource( 5 )
+flat = false
+align = 1
+_sections_unfolded = [ "Size Flags" ]
+
+[node name="Sprite" type="Sprite" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer/AddButton" index="0"]
+
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 6 )
+centered = false
+offset = Vector2( 8, 8 )
+_sections_unfolded = [ "Offset", "Transform" ]
+
+[node name="MoveButton" type="Button" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer" index="3"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 144.0
+margin_right = 44.0
+margin_bottom = 188.0
+rect_min_size = Vector2( 44, 44 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 0
+size_flags_vertical = 1
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+group = ExtResource( 5 )
+flat = false
+align = 1
+_sections_unfolded = [ "Rect", "Size Flags" ]
+
+[node name="Sprite" type="Sprite" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer/MoveButton" index="0"]
+
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 7 )
+centered = false
+offset = Vector2( 8, 8 )
+_sections_unfolded = [ "Offset", "Transform" ]
+
+[node name="DeleteButton" type="Button" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer" index="4"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 192.0
+margin_right = 44.0
+margin_bottom = 236.0
+rect_min_size = Vector2( 44, 44 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 0
+size_flags_vertical = 1
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+group = ExtResource( 5 )
+flat = false
+align = 1
+_sections_unfolded = [ "Rect", "Size Flags" ]
+
+[node name="Sprite" type="Sprite" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer/DeleteButton" index="0"]
+
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 8 )
+centered = false
+offset = Vector2( 8, 8 )
+_sections_unfolded = [ "Offset", "Transform" ]
+
+[node name="MarginContainer" type="PanelContainer" parent="EmojiCanvasContainerPanel/VBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 339.0
+margin_right = 480.0
+margin_bottom = 800.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+_sections_unfolded = [ "Rect", "Size Flags" ]
+
+[node name="EmojiPalette" parent="EmojiCanvasContainerPanel/VBoxContainer/MarginContainer" index="0" instance=ExtResource( 9 )]
+
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 473.0
+margin_bottom = 454.0
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
+
+[connection signal="pressed" from="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer/AddButton" to="EmojiCanvasContainerPanel" method="_on_tool_changed" binds= [ "add" ]]
+
+[connection signal="pressed" from="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer/MoveButton" to="EmojiCanvasContainerPanel" method="_on_tool_changed" binds= [ "move" ]]
+
+[connection signal="pressed" from="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer/DeleteButton" to="EmojiCanvasContainerPanel" method="_on_tool_changed" binds= [ "delete" ]]
+
+

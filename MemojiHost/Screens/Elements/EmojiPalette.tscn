@@ -1,0 +1,743 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Screens/Elements/EmojiPalette.gd" type="Script" id=1]
+[ext_resource path="res://Screens/Elements/EmojiCanvasSubElements/EmojiPalettePanel.gd" type="Script" id=2]
+[ext_resource path="res://Screens/Elements/EmojiCanvasSubElements/TabButtonGroup.tres" type="ButtonGroup" id=3]
+[ext_resource path="res://Assets/FacesIcon.png" type="Texture" id=4]
+[ext_resource path="res://Assets/NatureIcon.png" type="Texture" id=5]
+[ext_resource path="res://Assets/FoodIcon.png" type="Texture" id=6]
+[ext_resource path="res://Assets/SportIcon.png" type="Texture" id=7]
+[ext_resource path="res://Assets/TravelIcon.png" type="Texture" id=8]
+[ext_resource path="res://Assets/ObjectIcon.png" type="Texture" id=9]
+[ext_resource path="res://Assets/SymbolIcon.png" type="Texture" id=10]
+[ext_resource path="res://Assets/FlagIcon.png" type="Texture" id=11]
+[ext_resource path="res://Screens/Elements/EmojiCanvasSubElements/EmojiCanvasButtonContainer.gd" type="Script" id=12]
+
+[node name="EmojiPalette" type="Panel"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = ExtResource( 1 )
+_sections_unfolded = [ "Rect" ]
+
+[node name="EmojiPalettePanel" type="Panel" parent="." index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 2 )
+_sections_unfolded = [ "Size Flags" ]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EmojiPalettePanel" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="ButtonContainer" type="HBoxContainer" parent="EmojiPalettePanel/VBoxContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 480.0
+margin_bottom = 44.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PeopleButton" type="Button" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer" index="0"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 44.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 44, 44 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = true
+pressed = true
+enabled_focus_mode = 2
+shortcut = null
+group = ExtResource( 3 )
+flat = false
+align = 1
+
+[node name="Sprite" type="Sprite" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer/PeopleButton" index="0"]
+
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+centered = false
+offset = Vector2( 8, 8 )
+_sections_unfolded = [ "Offset", "Transform" ]
+
+[node name="NatureButton" type="Button" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer" index="1"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 48.0
+margin_right = 92.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 44, 44 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+group = ExtResource( 3 )
+flat = false
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Sprite" type="Sprite" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer/NatureButton" index="0"]
+
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 5 )
+centered = false
+offset = Vector2( 8, 8 )
+_sections_unfolded = [ "Offset", "Transform" ]
+
+[node name="FoodButton" type="Button" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer" index="2"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 96.0
+margin_right = 140.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 44, 44 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+group = ExtResource( 3 )
+flat = false
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Sprite" type="Sprite" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer/FoodButton" index="0"]
+
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 6 )
+centered = false
+offset = Vector2( 8, 8 )
+_sections_unfolded = [ "Offset", "Transform" ]
+
+[node name="ActivityButton" type="Button" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer" index="3"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 144.0
+margin_right = 188.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 44, 44 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+group = ExtResource( 3 )
+flat = false
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Sprite" type="Sprite" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer/ActivityButton" index="0"]
+
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 7 )
+centered = false
+offset = Vector2( 8, 8 )
+_sections_unfolded = [ "Offset", "Transform" ]
+
+[node name="TravelButton" type="Button" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer" index="4"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 192.0
+margin_right = 236.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 44, 44 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+group = ExtResource( 3 )
+flat = false
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Sprite" type="Sprite" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer/TravelButton" index="0"]
+
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 8 )
+centered = false
+offset = Vector2( 8, 8 )
+_sections_unfolded = [ "Offset" ]
+
+[node name="ObjectButton" type="Button" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer" index="5"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 240.0
+margin_right = 284.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 44, 44 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+group = ExtResource( 3 )
+flat = false
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Sprite" type="Sprite" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer/ObjectButton" index="0"]
+
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 9 )
+centered = false
+offset = Vector2( 8, 8 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="SymbolButton" type="Button" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer" index="6"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 288.0
+margin_right = 332.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 44, 44 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+group = ExtResource( 3 )
+flat = false
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Sprite" type="Sprite" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer/SymbolButton" index="0"]
+
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 10 )
+centered = false
+offset = Vector2( 8, 8 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="FlagButton" type="Button" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer" index="7"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 336.0
+margin_right = 380.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 44, 44 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+group = ExtResource( 3 )
+flat = false
+align = 1
+_sections_unfolded = [ "Rect" ]
+
+[node name="Sprite" type="Sprite" parent="EmojiPalettePanel/VBoxContainer/ButtonContainer/FlagButton" index="0"]
+
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 11 )
+centered = false
+offset = Vector2( 8, 8 )
+_sections_unfolded = [ "Offset", "Transform" ]
+
+[node name="TabContainer" type="TabContainer" parent="EmojiPalettePanel/VBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 48.0
+margin_right = 480.0
+margin_bottom = 800.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 3
+tab_align = 1
+tabs_visible = false
+_sections_unfolded = [ "Size Flags" ]
+
+[node name="ScrollContainer" type="ScrollContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 8.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+scroll_horizontal_enabled = false
+scroll_horizontal = 0
+scroll_vertical_enabled = true
+scroll_vertical = 0
+scroll_deadzone = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="PeopleContainer" type="GridContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 472.0
+margin_bottom = 740.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 1
+script = ExtResource( 12 )
+_sections_unfolded = [ "Size Flags" ]
+emoji_directories = [ "res://Assets/Emojis/faces_people_clothes/plain/emojis", "res://Assets/Emojis/faces_people_clothes/plain/animal", "res://Assets/Emojis/faces_people_clothes/plain/people", "res://Assets/Emojis/faces_people_clothes/plain/activity", "res://Assets/Emojis/faces_people_clothes/plain/profession", "res://Assets/Emojis/faces_people_clothes/plain/family", "res://Assets/Emojis/faces_people_clothes/plain/relationship", "res://Assets/Emojis/faces_people_clothes/plain/body", "res://Assets/Emojis/faces_people_clothes/plain/hand", "res://Assets/Emojis/faces_people_clothes/plain/clothing" ]
+emoji_id = 10010
+
+[node name="ScrollContainer5" type="ScrollContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer" index="1"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 8.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+scroll_horizontal_enabled = true
+scroll_horizontal = 0
+scroll_vertical_enabled = true
+scroll_vertical = 0
+scroll_deadzone = 0
+
+[node name="NatureContainer" type="GridContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer5" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 472.0
+margin_bottom = 740.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 1
+script = ExtResource( 12 )
+_sections_unfolded = [ "Size Flags" ]
+emoji_directories = [ "res://Assets/Emojis/nature_animals/animals", "res://Assets/Emojis/nature_animals/plants", "res://Assets/Emojis/nature_animals/weather" ]
+emoji_id = 20010
+
+[node name="ScrollContainer8" type="ScrollContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer" index="2"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 8.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+scroll_horizontal_enabled = true
+scroll_horizontal = 0
+scroll_vertical_enabled = true
+scroll_vertical = 0
+scroll_deadzone = 0
+
+[node name="FoodContainer" type="GridContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer8" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 472.0
+margin_bottom = 740.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 1
+script = ExtResource( 12 )
+_sections_unfolded = [ "Size Flags" ]
+emoji_directories = [ "res://Assets/Emojis/food/fruits_and_veggies", "res://Assets/Emojis/food/breakfast", "res://Assets/Emojis/food/breads", "res://Assets/Emojis/food/meat", "res://Assets/Emojis/food/entree", "res://Assets/Emojis/food/asian_or_seafood", "res://Assets/Emojis/food/sweets", "res://Assets/Emojis/food/beverages", "res://Assets/Emojis/food/dishware" ]
+emoji_id = 30010
+
+[node name="ScrollContainer3" type="ScrollContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer" index="3"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 8.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+scroll_horizontal_enabled = true
+scroll_horizontal = 0
+scroll_vertical_enabled = true
+scroll_vertical = 0
+scroll_deadzone = 0
+
+[node name="ActivityContainer" type="GridContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer3" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 472.0
+margin_bottom = 740.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 1
+script = ExtResource( 12 )
+_sections_unfolded = [ "Size Flags" ]
+emoji_directories = [ "res://Assets/Emojis/sports_and_activities/equipment", "res://Assets/Emojis/sports_and_activities/arts", "res://Assets/Emojis/sports_and_activities/action_plain" ]
+emoji_id = 40010
+
+[node name="ScrollContainer4" type="ScrollContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer" index="4"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 8.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+scroll_horizontal_enabled = true
+scroll_horizontal = 0
+scroll_vertical_enabled = true
+scroll_vertical = 0
+scroll_deadzone = 0
+
+[node name="TravelContainer" type="GridContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer4" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 472.0
+margin_bottom = 740.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 1
+script = ExtResource( 12 )
+_sections_unfolded = [ "Size Flags" ]
+emoji_directories = [ "res://Assets/Emojis/travel/vehicles", "res://Assets/Emojis/travel/buildings", "res://Assets/Emojis/travel/locations", "res://Assets/Emojis/travel/other" ]
+emoji_id = 50010
+
+[node name="ScrollContainer6" type="ScrollContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer" index="5"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 8.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+scroll_horizontal_enabled = true
+scroll_horizontal = 0
+scroll_vertical_enabled = true
+scroll_vertical = 0
+scroll_deadzone = 0
+
+[node name="ObjectContainer" type="GridContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer6" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 472.0
+margin_bottom = 740.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 1
+script = ExtResource( 12 )
+_sections_unfolded = [ "Size Flags" ]
+emoji_directories = [ "res://Assets/Emojis/objects/plain/office", "res://Assets/Emojis/objects/plain/science", "res://Assets/Emojis/objects/plain/tech", "res://Assets/Emojis/objects/plain/tools", "res://Assets/Emojis/objects/plain/currency", "res://Assets/Emojis/objects/plain/cultural", "res://Assets/Emojis/objects/plain/home", "res://Assets/Emojis/objects/plain/bath" ]
+emoji_id = 60010
+
+[node name="ScrollContainer7" type="ScrollContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer" index="6"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 8.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+scroll_horizontal_enabled = true
+scroll_horizontal = 0
+scroll_vertical_enabled = true
+scroll_vertical = 0
+scroll_deadzone = 0
+
+[node name="SymbolContainer" type="GridContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer7" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 472.0
+margin_bottom = 740.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 1
+script = ExtResource( 12 )
+_sections_unfolded = [ "Size Flags" ]
+emoji_directories = [ "res://Assets/Emojis/symbols/hearts", "res://Assets/Emojis/symbols/directions", "res://Assets/Emojis/symbols/purple_background", "res://Assets/Emojis/symbols/blood_types", "res://Assets/Emojis/symbols/english", "res://Assets/Emojis/symbols/kanji", "res://Assets/Emojis/symbols/signs", "res://Assets/Emojis/symbols/texting", "res://Assets/Emojis/symbols/media_controls", "res://Assets/Emojis/symbols/currency", "res://Assets/Emojis/symbols/punctuation", "res://Assets/Emojis/symbols/shapes", "res://Assets/Emojis/symbols/clock_faces", "res://Assets/Emojis/symbols" ]
+emoji_id = 70010
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer" index="7"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 8.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+scroll_horizontal_enabled = true
+scroll_horizontal = 0
+scroll_vertical_enabled = true
+scroll_vertical = 0
+scroll_deadzone = 0
+
+[node name="FlagContainer" type="GridContainer" parent="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer2" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 472.0
+margin_bottom = 740.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 1
+script = ExtResource( 12 )
+_sections_unfolded = [ "Size Flags" ]
+emoji_directories = [ "res://Assets/Emojis/flags" ]
+emoji_id = 80010
+
+[connection signal="pressed" from="EmojiPalettePanel/VBoxContainer/ButtonContainer/PeopleButton" to="EmojiPalettePanel" method="_on_PeopleButton_pressed"]
+
+[connection signal="pressed" from="EmojiPalettePanel/VBoxContainer/ButtonContainer/NatureButton" to="EmojiPalettePanel" method="_on_NatureButton_pressed"]
+
+[connection signal="pressed" from="EmojiPalettePanel/VBoxContainer/ButtonContainer/FoodButton" to="EmojiPalettePanel" method="_on_FoodButton_pressed"]
+
+[connection signal="pressed" from="EmojiPalettePanel/VBoxContainer/ButtonContainer/ActivityButton" to="EmojiPalettePanel" method="_on_ActivityButton_pressed"]
+
+[connection signal="pressed" from="EmojiPalettePanel/VBoxContainer/ButtonContainer/TravelButton" to="EmojiPalettePanel" method="_on_TravelButton_pressed"]
+
+[connection signal="pressed" from="EmojiPalettePanel/VBoxContainer/ButtonContainer/ObjectButton" to="EmojiPalettePanel" method="_on_ObjectButton_pressed"]
+
+[connection signal="pressed" from="EmojiPalettePanel/VBoxContainer/ButtonContainer/SymbolButton" to="EmojiPalettePanel" method="_on_SymbolButton_pressed"]
+
+[connection signal="pressed" from="EmojiPalettePanel/VBoxContainer/ButtonContainer/FlagButton" to="EmojiPalettePanel" method="_on_FlagButton_pressed"]
+
+[connection signal="emoji_button_pressed" from="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer/PeopleContainer" to="." method="_on_ButtonContainer_emoji_button_pressed"]
+
+[connection signal="emoji_button_pressed" from="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer5/NatureContainer" to="." method="_on_ButtonContainer_emoji_button_pressed"]
+
+[connection signal="emoji_button_pressed" from="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer8/FoodContainer" to="." method="_on_ButtonContainer_emoji_button_pressed"]
+
+[connection signal="emoji_button_pressed" from="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer3/ActivityContainer" to="." method="_on_ButtonContainer_emoji_button_pressed"]
+
+[connection signal="emoji_button_pressed" from="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer4/TravelContainer" to="." method="_on_ButtonContainer_emoji_button_pressed"]
+
+[connection signal="emoji_button_pressed" from="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer6/ObjectContainer" to="." method="_on_ButtonContainer_emoji_button_pressed"]
+
+[connection signal="emoji_button_pressed" from="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer7/SymbolContainer" to="." method="_on_ButtonContainer_emoji_button_pressed"]
+
+[connection signal="emoji_button_pressed" from="EmojiPalettePanel/VBoxContainer/TabContainer/ScrollContainer2/FlagContainer" to="." method="_on_ButtonContainer_emoji_button_pressed"]
+
+
