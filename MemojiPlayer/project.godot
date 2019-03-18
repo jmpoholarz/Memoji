@@ -17,9 +17,14 @@ config/icon="res://icon.png"
 [autoload]
 
 MESSAGE_TYPES="*res://Singletons/MESSAGE_TYPES.gd"
-Logger="*res://Logger.gd"
+Logger="*res://Singletons/Logger.gd"
 EmojiFilenameToId="*res://Singletons/EmojiFilenameToId.gd"
 EmojiIdToFilename="*res://Singletons/EmojiIdToFilename.gd"
+
+[display]
+
+window/size/width=480
+window/size/height=800
 
 [input]
 

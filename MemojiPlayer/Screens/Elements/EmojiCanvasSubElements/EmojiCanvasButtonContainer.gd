@@ -10,7 +10,8 @@ var BUTTON_SIZE = 50
 
 var screen_width = 0
 
-var EmojiButton = preload("res://Screens/Elements/EmojiButton.tscn")
+var EmojiButton = preload("res://Screens/Elements/EmojiCanvasSubElements/EmojiButton.tscn")
+var EmojiButtonGroup = preload("res://Screens/Elements/EmojiCanvasSubElements/EmojiPaletteButtonGroup.tres")
 
 func _ready():
 	for dir_path in emoji_directories:
@@ -25,6 +26,7 @@ func _ready():
 		var dir = Directory.new()
 		if dir.open(dir_path) != OK:
 			print("An error occurred when trying to access path " + dir_path)
+			Logger.writeLine("An error occurred when trying to access path " + dir_path)
 			continue
 		# initialize iterator
 		dir.list_dir_begin()
@@ -48,6 +50,8 @@ func _ready():
 				b.add_child(icon)
 				b.set_emoji_id(emoji_id)
 				#b.rect_min_size = Vector2(44,44)
+				b.group = EmojiButtonGroup
+				#b.toggle_mode = true
 				b.connect("emoji_button_pressed", self, "_child_emoji_button_pressed")
 				add_child(b)
 				
@@ -60,6 +64,7 @@ func _ready():
 	
 	# Setup grid layout
 	columns = rect_size.x / BUTTON_SIZE
+	print(str(columns) + " " + str(rect_size.x) + " " + str(BUTTON_SIZE))
 	if columns < 1:
 		columns = 1
 

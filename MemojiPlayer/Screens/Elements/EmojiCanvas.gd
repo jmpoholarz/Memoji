@@ -71,7 +71,7 @@ func handle_canvas_click(row, column):
 	if !EmojiIdToFilename.EmojiIdToFilenameDict.has(currently_selected_emoji_id):
 		return
 	# Handle actual click
-	print("current tool is " + currently_selected_tool)
+	#print("current tool is " + currently_selected_tool)
 	match currently_selected_tool:
 		"add":
 			var path = EmojiIdToFilename.EmojiIdToFilenameDict[currently_selected_emoji_id]
