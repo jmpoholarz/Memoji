@@ -111,6 +111,7 @@ func _on_StartButton_pressed():
 	# Create message dictionary
 	# emit_signal("sendMessage", msg) to server
 	# emit_signal("changeScreen", GlobalVars.WAIT_SCREEN)
+	emit_signal("startGame")
 	pass # replace with function body
 
 func _on_ExitButton_pressed():

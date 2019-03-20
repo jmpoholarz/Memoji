@@ -10,6 +10,7 @@ var totalResultsScreenScene = preload("res://Screens/HostTotalResultsScreen.tscn
 signal connectToServer()
 signal sendMessageToServer(msg)
 signal handleGameState(msg)			# for GameStateManager
+signal startGame()
 
 var currentScreen
 var currentScreenInstance
@@ -36,6 +37,7 @@ func changeScreenTo(screen):
 		GlobalVars.LOBBY_SCREEN:
 			currentScreenInstance = lobbyScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
+			currentScreenInstance.connect("startGame", self, "startGame")
 		GlobalVars.WAIT_SCREEN:
 			currentScreenInstance = waitScreenScene.instance()
 		GlobalVars.RESULTS_SCREEN:
@@ -58,3 +60,6 @@ func forwardMessage(msg):
 # Allows GUI to communicate with GameStateManager
 func forwardGameState(msg):
 	emit_signal("handleGameState", msg)
+
+func startGame():
+	emit_signal("startGame")

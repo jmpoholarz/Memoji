@@ -21,12 +21,55 @@ func _ready():
 	$ScreenManager.connect("connectToServer", self, "connectToServer")
 	$Networking.connect("_disconnectedFromServer", self, "on_Networking_connectionTimeout")
 	$Networking.connect("connectedSuccessfully", self, "on_Networking_successful")
+	$ScreenManager.connect("startGame", self, "on_startGame")
 	
 	toTitle()
 
+func on_startGame():
+	setupGame()
+
 func setupGame():
 	# TODO logic creating enough prompts based on amount of players for this round
-	pass
+
+	# Check for if there are enough players joined
+	var numPlayers = players.length()
+	if numPlayers <= 2:
+		# Not enough players are joined
+		print("Not enough players joined")
+		return
+	# Check for players are connected but no avatar is selected
+	for player in players:
+		if player.avatarID == null || player.username == null:
+			# Not all players have an avatar selected
+			print("Not all players have username/avatar")
+			return
+	
+	# Create message to send to players that game is starting
+	var message = {"messageType":MESSAGE_TYPES.HOST_STARTING_GAME, 
+				"letterCode" : lobbyCode}
+	# Send message to server
+	$Networking.sendMessageToServer(message)
+	
+	# Get prompts -> PromptManager, PromptGenerator
+	var numberOfPrompts = numPromptsGenerator(numPlayers, 2)
+	var prompts_to_send = []
+	for i in range(numberOfPrompts):
+		prompts_to_send.append($PromptManager._get_new_prompt())
+	# Create message dictionary
+	
+	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
+
+func numPromptsGenerator(numPlayers, promptsPerPlayer):
+	var n_fac = 1
+	var r_fac = 1
+	var n_r_fac = 1
+	for i in range(1, numPlayers+1):
+		n_fac *= i
+	for i in range(1, promptsPerPlayer+1):
+		r_fac *= i
+	for i in range(1, numPlayers - promptsPerPlayer + 1):
+		n_r_fac *= i
+	return (n_fac / (r_fac * n_r_fac))
 
 func sendPrompts():
 	#
@@ -146,9 +189,9 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	# TODO: find corresponding prompt and add the player's answer to it
-	for prompt in prompts:
-		if (promptID == prompt.promptID):
-			prompt.insertAnswer(playerID, emojiArray)
+	#for prompt in prompts:
+	#	if (promptID == prompt.promptID):
+	#		prompt.insertAnswer(playerID, emojiArray)
 	
 	return
 

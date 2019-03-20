@@ -82,6 +82,6 @@ func __unit_test_get_new_prompt():
 	
 	var prompt_obj = create_prompt()
 	prompt_obj.add_player_answer(333, "abcd")
-	print(str(prompt_obj.get_players()[0]))
+#	print(str(prompt_obj.get_players()[0]))
 	
 	## TODO test more getters

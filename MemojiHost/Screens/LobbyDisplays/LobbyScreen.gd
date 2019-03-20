@@ -3,6 +3,7 @@ extends Node2D
 signal messageServer(msg)
 signal changeScreen(screen)
 signal updateGameState(msg)
+signal startGame()
 
 onready var p1 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P1
 onready var p2 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P2
@@ -100,6 +101,18 @@ func update_audience(count):
 	audienceLabel.update_count(count)
 
 func _on_StartButton_pressed():
+	# Do logic in GameStateManager
+	# Check for if there are enough players joined
+	# Check for players are connected but no avatar is selected
+	
+	# Create message to send to players that game is starting
+	# Send message to server
+	
+	# Get prompts -> PromptManager, PromptGenerator
+	# Create message dictionary
+	# emit_signal("sendMessage", msg) to server
+	# emit_signal("changeScreen", GlobalVars.WAIT_SCREEN)
+	emit_signal("startGame")
 	pass # replace with function body
 
 func _on_ExitButton_pressed():
