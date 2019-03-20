@@ -36,6 +36,8 @@ func _on_Networking_connectionTimeout():
 
 
 func _on_Networking_answersReceived(answerArray):
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
+		$ScreenManager/currentScreenInstance.receive_PromptArray(answerArray)
 	pass # replace with function body
 
 func _on_Networking_enteredInvalidAnswer():
@@ -63,6 +65,7 @@ func _on_Networking_enteredInvalidUsername():
 	pass # replace with function body
 
 func _on_Networking_promptsReceived(promptArray):
+	
 	pass # replace with function body
 
 

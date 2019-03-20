@@ -3,6 +3,7 @@ extends Node
 var titleScreenScene = preload("res://TitleScreen.tscn")
 var userinfoScreenScene = preload("res://UserInformationScreen.tscn")
 var lobbyScreenScene = preload("res://WaitngForGameScreen.tscn")
+var playerVotingScene = preload("res://PlayerVoting.tscn")
 
 signal sendMessageToServer(msg)
 signal connectToServer()
@@ -12,7 +13,8 @@ enum SCREENS {
 	TITLE_SCREEN = 1,
 	USERINFORMATION_SCREEN = 2,
 	LOBBY_SCREEN = 3
-	
+	PLAYER_VOTING_SCREEN = 4
+	PLAYER_WAITING_AFTER_VOTING_SCREEN = 5
 }
 
 var currentScreen
@@ -44,6 +46,12 @@ func changeScreenTo(screen):
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
 			currentScreenInstance.connect("changeScreen", self, "changeScreenTo")
 			currentScreenInstance.connect("disconnectFromHost", self, "disconnectFromServer")
+		
+		PLAYER_VOTING_SCREEN:
+			currentScreenInstance = playerVotingScene.instance()
+			add_child(currentScreenInstance)
+			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
+			
 	currentScreen = screen
 
 func forwardMessage(msg):
