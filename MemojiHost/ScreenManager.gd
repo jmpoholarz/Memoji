@@ -1,18 +1,15 @@
 extends Node
 
-var titleScreenScene = preload("res://FirstTitle.tscn")
-var setupScreenScene = preload("res://Setup.tscn")
-var lobbyScreenScene = preload("res://LobbyDisplays/LobbyScreen.tscn")
+var titleScreenScene = preload("res://Screens/FirstTitle.tscn")
+var setupScreenScene = preload("res://Screens/Setup.tscn")
+var lobbyScreenScene = preload("res://Screens/LobbyDisplays/LobbyScreen.tscn")
+var waitScreenScene = preload("res://Screens/WaitScreen.tscn")
+var resultsScreenScene = preload("res://Screens/HostResultsScreen.tscn")
+var totalResultsScreenScene = preload("res://Screens/HostTotalResultsScreen.tscn")
 
 signal connectToServer()
 signal sendMessageToServer(msg)
 signal handleGameState(msg)			# for GameStateManager
-
-enum SCREENS {
-	TITLE_SCREEN = 1
-	SETUP_SCREEN = 2
-	LOBBY_SCREEN = 3
-}
 
 var currentScreen
 var currentScreenInstance
@@ -31,14 +28,20 @@ func changeScreenTo(screen):
 	currentScreenInstance == null
 	currentScreen = screen
 	match screen:
-		TITLE_SCREEN:
+		GlobalVars.TITLE_SCREEN:
 			currentScreenInstance = titleScreenScene.instance()
 			currentScreenInstance.connect("connectToServer", self, "connectToServer")
-		SETUP_SCREEN:
+		GlobalVars.SETUP_SCREEN:
 			currentScreenInstance = setupScreenScene.instance()
-		LOBBY_SCREEN:
+		GlobalVars.LOBBY_SCREEN:
 			currentScreenInstance = lobbyScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
+		GlobalVars.WAIT_SCREEN:
+			currentScreenInstance = waitScreenScene.instance()
+		GlobalVars.RESULTS_SCREEN:
+			currentScreenInstance = resultsScreenScene.instance()
+		GlobalVars.TOTAL_SCREEN:
+			currentScreenInstance = resultsScreenScene.instance()
 	
 	if (currentScreenInstance != null):
 		currentScreenInstance.connect("messageServer", self, "forwardMessage")

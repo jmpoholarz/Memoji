@@ -1,16 +1,18 @@
 extends Node
 
-const PlayerClass = preload("res://Player.gd")
-
 var currentRound
 var currentState
 var players = []
 var audiencePlayers = []
+var currentPlayerVotes = [8]
+var totalScoreTally = [8]
+
+#var prompts = [] # Handled in PromptManager child
 
 var lobbyCode = null
 
 func debug_to_lobby():
-	$ScreenManager.changeScreenTo($ScreenManager.LOBBY_SCREEN)
+	$ScreenManager.changeScreenTo(GlobalVars.LOBBY_SCREEN)
 	
 	var request = { "messageType": MESSAGE_TYPES.HOST_REQUESTING_CODE, "letterCode": "????" }
 	_on_ScreenManager_sendMessageToServer(request)
@@ -23,16 +25,30 @@ func _ready():
 	toTitle()
 
 func setupGame():
+	# TODO logic creating enough prompts based on amount of players for this round
 	pass
 
 func sendPrompts():
+	#
 	pass
 
 func sendAnswersForVoting():
 	pass
 
 func showResults():
-	pass
+	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
+	var results1 = 0
+	var results2 = 0
+	for vote in currentPlayerVotes:
+		if vote == 1:
+			results1 = results1 + 1
+		elif vote == 2:
+			results2 = results2 + 1
+	$ScreenManager.currentScreenInstance.calculateTotals(1, results1, 0)
+	$ScreenManager.currentScreenInstance.calculateTotals(2, results2, 0)
+	for vote in currentPlayerVotes:
+		vote = 0
+	#TODO totalScoreTally[idOfEachVotedPlayer] += total calculated score
 
 func advanceGame():
 	pass
@@ -45,52 +61,52 @@ func toTitle():
 	if (lobbyCode != null):
 		var endRequest = { "messageType": MESSAGE_TYPES.HOST_SHUTTING_DOWN, "letterCode": lobbyCode }
 		$Networking.sendMessageToServer(endRequest)
-		$Networking.disconnectHostFromServer()
+	# Disconnect even if lobby code hasn't been requested yet
+	$Networking.disconnectHostFromServer()
 		
 	players.clear()
 	audiencePlayers.clear()
 	lobbyCode = null
 	# TODO Sprint 2: handle currentState, currentRound
-	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
+	$ScreenManager.changeScreenTo(GlobalVars.TITLE_SCREEN)
 	
 func connectToServer():
 	$Networking.connectHostToServer($Networking.defaultServerIP, $Networking.defaultServerPort)
 
 func on_Networking_connectionTimeout():
-	if $ScreenManager.currentScreen == $ScreenManager.TITLE_SCREEN:
+	if $ScreenManager.currentScreen == GlobalVars.TITLE_SCREEN:
 		$ScreenManager.currentScreenInstance.show_connection_error()
 
 func on_Networking_successful():
 	print("Networking returned successful")
-	if $ScreenManager.currentScreen == $ScreenManager.TITLE_SCREEN:
-		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.SETUP_SCREEN)
+	if $ScreenManager.currentScreen == GlobalVars.TITLE_SCREEN:
+		$ScreenManager.changeScreenTo(GlobalVars.SETUP_SCREEN)
 
 func _on_Networking_obtainedLetterCode(letterCode):
 	lobbyCode = letterCode
 	
-	if ($ScreenManager.currentScreen == $ScreenManager.SETUP_SCREEN):
+	if ($ScreenManager.currentScreen == GlobalVars.SETUP_SCREEN):
 		$ScreenManager.currentScreenInstance.update_lettercode(letterCode)
 		pass
-	elif ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
+	elif ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 		$ScreenManager.currentScreenInstance.update_lettercode(letterCode)
 		pass
 
 func _on_Networking_playerConnected(playerID, isPlayer):
 	# Add new player to players array
-	# TODO: Add audience
 	var player
-	player = PlayerClass.new()
+	player = GlobalVars.PlayerClass.new()
 	player.playerID = playerID
 	player.isPlayer = isPlayer
 	
 	if (isPlayer):
 		players.append(player)
 		
-		if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
+		if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 			$ScreenManager.currentScreenInstance.add_player_id(playerID)
 	else:
 		audiencePlayers.append(player)
-		if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
+		if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 			$ScreenManager.currentScreenInstance.update_audience(audiencePlayers.size())
 	
 func _on_Networking_playerDisconnected(playerID):
@@ -98,14 +114,16 @@ func _on_Networking_playerDisconnected(playerID):
 	for player in players:
 		if (player.playerID == playerID):
 			players.erase(player)
-			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
+			if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 				$ScreenManager.currentScreenInstance.update_from_list(players)
+			return # unecessary to check audience since player already found
 	
 	for member in audiencePlayers:
 		if (member.playerID == playerID):
 			audiencePlayers.erase(member)
-			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
+			if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 					$ScreenManager.currentScreenInstance.update_audience(audiencePlayers.size())
+			return
 
 func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 	# TODO - check that no duplicate username or icon
@@ -121,14 +139,19 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 				"avatarIndex" : avatarIndex}
 			$Networking.sendMessageToServer(message)
 			
-			if ($ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN):
+			if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 				$ScreenManager.currentScreenInstance.update_player_status(player)
 
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
-	pass # replace with function body
+	# TODO: find corresponding prompt and add the player's answer to it
+	for prompt in prompts:
+		if (promptID == prompt.promptID):
+			prompt.insertAnswer(playerID, emojiArray)
+	
+	return
 
 func _on_Networking_receivedPlayerVote(playerID, promptID, voteID):
-	pass # replace with function body
+	currentPlayerVotes[playerID] = voteID
 
 func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
 	pass # replace with function body
@@ -140,7 +163,7 @@ func _on_ScreenManager_sendMessageToServer(msg):
 
 
 func _on_ScreenManager_handleGameState(msg):
-	if $ScreenManager.currentScreen == $ScreenManager.LOBBY_SCREEN:
+	if $ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN:
 		if (msg == "code" && lobbyCode != null):
 			$ScreenManager.currentScreenInstance.update_lettercode(lobbyCode)
 		elif (msg == "disconnectLobby"):

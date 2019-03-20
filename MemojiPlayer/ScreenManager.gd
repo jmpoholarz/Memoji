@@ -4,10 +4,13 @@ var titleScreenScene = preload("res://TitleScreen.tscn")
 var userinfoScreenScene = preload("res://UserInformationScreen.tscn")
 var lobbyScreenScene = preload("res://WaitngForGameScreen.tscn")
 var playerVotingScene = preload("res://PlayerVoting.tscn")
+var prompt_answering_screen_scene = preload("res://Screens/PlayerPromptScreen.tscn")
+var wait_screen = preload("res://Screens/WaitingScreen.tscn")
 
 signal sendMessageToServer(msg)
 signal connectToServer()
 signal disconnectFromServer()
+signal screen_change_completed()
 
 enum SCREENS {
 	TITLE_SCREEN = 1,
@@ -15,6 +18,10 @@ enum SCREENS {
 	LOBBY_SCREEN = 3
 	PLAYER_VOTING_SCREEN = 4
 	PLAYER_WAITING_AFTER_VOTING_SCREEN = 5
+	LOBBY_SCREEN = 3,
+	WAITING_SCREEN = 4,
+	PROMPT_ANSWERING_SCREEN = 5
+	
 }
 
 var currentScreen
@@ -52,7 +59,18 @@ func changeScreenTo(screen):
 			add_child(currentScreenInstance)
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
 			
+		PROMPT_ANSWERING_SCREEN:
+			currentScreenInstance = prompt_answering_screen_scene.instance()
+			add_child(currentScreenInstance)
+			currentScreenInstance.connect("send_message", self, "forwardMessage")
+			currentScreenInstance.connect("out_of_prompts", self, "go_to_waiting_screen")
+			
+		WAITING_SCREEN:
+			currentScreenInstance = wait_screen.instance()
+			add_child(currentScreenInstance)
+		
 	currentScreen = screen
+	emit_signal("screen_change_completed")
 
 func forwardMessage(msg):
 	#print("in forward message with message " + str(msg))
@@ -64,3 +82,6 @@ func connectToServer():
 
 func disconnectFromServer():
 	emit_signal("disconnectFromServer")
+
+func go_to_waiting_screen():
+	changeScreenTo(SCREENS.WAITING_SCREEN)

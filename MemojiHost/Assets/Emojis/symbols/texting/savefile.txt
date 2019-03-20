@@ -1,0 +1,4 @@
+"res://Assets/Emojis/symbols/texting/1f4ac.png" : 71320,
+"res://Assets/Emojis/symbols/texting/1f4ad.png" : 71330,
+"res://Assets/Emojis/symbols/texting/1f5e8.png" : 71340,
+"res://Assets/Emojis/symbols/texting/1f5ef.png" : 71350,

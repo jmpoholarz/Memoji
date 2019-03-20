@@ -1,6 +1,6 @@
 extends Node
 
-var playerScene = preload("res://Player.tscn") #might not work
+var playerScene = preload("res://Player.tscn") 
 
 var currentRound
 var currentState
@@ -8,6 +8,8 @@ var player
 var lobbyCode
 var playerName = "name"
 var playerIcon = 0
+
+var current_prompts = []
 
 func _ready():
 	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
@@ -65,8 +67,18 @@ func _on_Networking_enteredInvalidUsername():
 	pass # replace with function body
 
 func _on_Networking_promptsReceived(promptArray):
+
 	
 	pass # replace with function body
+
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN)
+		# Wait for the screen to change to the Prompt Screen before continuing
+		yield($ScreenManager, "screen_change_completed") # Needs testing
+		current_prompts = promptArray
+		$ScreenManager.currentScreen.set_prompts(promptArray)
+		$ScreenManager.currentScreen.get_next_prompt()
+		
 
 
 func _on_Networking_enteredValidAnswer():

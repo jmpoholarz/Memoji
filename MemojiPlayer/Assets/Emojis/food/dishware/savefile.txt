@@ -1,0 +1,6 @@
+"res://Assets/Emojis/food/dishware/1f374.png" : 31000,
+"res://Assets/Emojis/food/dishware/1f37c.png" : 31010,
+"res://Assets/Emojis/food/dishware/1f37d.png" : 31020,
+"res://Assets/Emojis/food/dishware/1f944.png" : 31030,
+"res://Assets/Emojis/food/dishware/1f963.png" : 31040,
+"res://Assets/Emojis/food/dishware/1f9c2.png" : 31050,

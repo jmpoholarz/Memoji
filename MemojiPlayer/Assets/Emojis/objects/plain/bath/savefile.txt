@@ -1,0 +1,7 @@
+"res://Assets/Emojis/objects/plain/bath/1f6bd.png" : 61870,
+"res://Assets/Emojis/objects/plain/bath/1f6bf.png" : 61880,
+"res://Assets/Emojis/objects/plain/bath/1f6c0.png" : 61890,
+"res://Assets/Emojis/objects/plain/bath/1f6c1.png" : 61900,
+"res://Assets/Emojis/objects/plain/bath/1f9fb.png" : 61910,
+"res://Assets/Emojis/objects/plain/bath/1f9fc.png" : 61920,
+"res://Assets/Emojis/objects/plain/bath/1f9fd.png" : 61930,
