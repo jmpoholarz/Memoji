@@ -20,13 +20,18 @@ func calculateTotals(ID, votes, audiencePercent):
 	#calculate how many points are to be awarded to the player based on
 	#the number of votes received and the percent of the audience won over
 	var totalPoints
+	var scoreToUpdate
 	#number of votes are multiplied by 100
 	#audience percent is added as a percent of 100 points, a perfect audience score
 	#is equal to that of two players
 	totalPoints = (votes * 100) + (audiencePercent * 2)
 	if ID == 1:
 		score1 = totalPoints
+		scoreToUpdate = get_node("MarginContainer/Rows/Results/ScoreLeft")
+		scoreToUpdate.text = str(totalPoints)
 	else:
 		score2 = totalPoints
+		scoreToUpdate = get_node("MarginContainer/Rows/Results/ScoreLeft")
+		scoreToUpdate.text = str(totalPoints)
 	return totalPoints
 	
