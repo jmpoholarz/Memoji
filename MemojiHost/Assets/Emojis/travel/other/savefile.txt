@@ -1,0 +1,4 @@
+"res://Assets/Emojis/travel/other/1f320.png" : 51150,
+"res://Assets/Emojis/travel/other/1f386.png" : 51160,
+"res://Assets/Emojis/travel/other/1f387.png" : 51170,
+"res://Assets/Emojis/travel/other/1f391.png" : 51180,

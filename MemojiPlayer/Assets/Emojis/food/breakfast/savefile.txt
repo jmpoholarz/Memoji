@@ -1,0 +1,5 @@
+"res://Assets/Emojis/food/breakfast/1f373.png" : 30280,
+"res://Assets/Emojis/food/breakfast/1f953.png" : 30290,
+"res://Assets/Emojis/food/breakfast/1f95a.png" : 30300,
+"res://Assets/Emojis/food/breakfast/1f95e.png" : 30310,
+"res://Assets/Emojis/food/breakfast/1f9c0.png" : 30320,

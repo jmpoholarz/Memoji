@@ -38,7 +38,7 @@ func get_vote_from_player(player_id):
 			return vote.vote_index
 
 func get_number_of_votes_for_answer(answer_index):
-	counter = 0
+	var counter = 0
 	for vote in player_votes:
 		if vote.vote_index == answer_index:
 			counter += 1
@@ -47,7 +47,7 @@ func get_number_of_votes_for_answer(answer_index):
 func get_players_who_answered():
 	var players = []
 	for answer in player_answers:
-		players.append(ans.player_id)
+		players.append(answer.player_id)
 	return players
 
 func get_players_who_voted():

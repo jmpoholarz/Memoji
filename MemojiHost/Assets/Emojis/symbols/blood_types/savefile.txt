@@ -1,0 +1,4 @@
+"res://Assets/Emojis/symbols/blood_types/1f170.png" : 70640,
+"res://Assets/Emojis/symbols/blood_types/1f171.png" : 70650,
+"res://Assets/Emojis/symbols/blood_types/1f17e.png" : 70660,
+"res://Assets/Emojis/symbols/blood_types/1f18e.png" : 70670,

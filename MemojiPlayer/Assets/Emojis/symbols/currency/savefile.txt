@@ -1,0 +1,3 @@
+"res://Assets/Emojis/symbols/currency/1f4b1.png" : 71650,
+"res://Assets/Emojis/symbols/currency/1f4b2.png" : 71660,
+"res://Assets/Emojis/symbols/currency/1f4b9.png" : 71670,
