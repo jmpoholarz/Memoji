@@ -36,6 +36,18 @@ func sendAnswersForVoting():
 
 func showResults():
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
+	var results1 = 0
+	var results2 = 0
+	for vote in currentPlayerVotes:
+		if vote == 1:
+			results1 = results1 + 1
+		elif vote == 2:
+			results2 = results2 + 1
+	$ScreenManager.currentScreenInstance.calculateTotals(1, results1, 0)
+	$ScreenManager.currentScreenInstance.calculateTotals(2, results2, 0)
+	for vote in currentPlayerVotes:
+		vote = 0
+	
 
 func advanceGame():
 	pass
