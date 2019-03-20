@@ -31,7 +31,7 @@ func calculateTotals(ID, votes, audiencePercent):
 		scoreToUpdate.text = str(totalPoints)
 	else:
 		score2 = totalPoints
-		scoreToUpdate = get_node("MarginContainer/Rows/Results/ScoreLeft")
+		scoreToUpdate = get_node("MarginContainer/Rows/Results/ScoreRight")
 		scoreToUpdate.text = str(totalPoints)
 	return totalPoints
 	
