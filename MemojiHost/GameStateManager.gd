@@ -4,6 +4,7 @@ var currentRound
 var currentState
 var players = []
 var audiencePlayers = []
+var currentPlayerVotes = [8]
 
 #var prompts = [] # Handled in PromptManager child
 
@@ -137,7 +138,7 @@ func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	return
 
 func _on_Networking_receivedPlayerVote(playerID, promptID, voteID):
-	pass # replace with function body
+	currentPlayerVotes[playerID] = voteID
 
 func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
 	pass # replace with function body
