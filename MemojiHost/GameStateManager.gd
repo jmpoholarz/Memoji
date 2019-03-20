@@ -4,8 +4,8 @@ var currentRound
 var currentState
 var players = []
 var audiencePlayers = []
-var currentPlayerVotes = [8]
-var totalScoreTally = [8]
+var currentPlayerVotes = []
+var totalScoreTally = []
 
 #var prompts = [] # Handled in PromptManager child
 
@@ -101,6 +101,8 @@ func _on_Networking_playerConnected(playerID, isPlayer):
 	
 	if (isPlayer):
 		players.append(player)
+		currentPlayerVotes.append(0)
+		totalScoreTally.append(0)
 		
 		if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 			$ScreenManager.currentScreenInstance.add_player_id(playerID)
