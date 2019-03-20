@@ -5,6 +5,7 @@ var currentState
 var players = []
 var audiencePlayers = []
 var currentPlayerVotes = [8]
+var totalScoreTally = [8]
 
 #var prompts = [] # Handled in PromptManager child
 
@@ -47,7 +48,7 @@ func showResults():
 	$ScreenManager.currentScreenInstance.calculateTotals(2, results2, 0)
 	for vote in currentPlayerVotes:
 		vote = 0
-	
+	#TODO totalScoreTally[idOfEachVotedPlayer] += total calculated score
 
 func advanceGame():
 	pass
