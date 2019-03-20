@@ -92,7 +92,7 @@ if (cluster.isMaster) {
   // Workers can share any TCP connection
 
   // DO NOT PUSH THIS SECTION
-  
+
 
   // POPULATE ARRAYS
 
@@ -262,6 +262,24 @@ if (cluster.isMaster) {
     });
 
     server.on('error', (err) => {
+      // INSERT ALL LOCAL DATA TO DB
+
+      // // INSERT code into codes table
+      // var sql = `INSERT INTO codes (code) VALUE ('${letterCode}')`;
+      // con.query(sql, (err, result) => {
+      //   if (err) throw err;
+      //   console.log("1 record inserted");
+      //   console.log(result);
+      // });
+      // // INSERT host into hosts table
+      // const host_socket = JSON.stringify(host.socket);
+      // sql = `INSERT INTO hosts (code, host, lastping) VALUES ('${host.code}', '${host_socket}', '${host.lastPing}')`;
+      // con.query(sql, (err, result) => {
+      //   if (err) throw err;
+      //   console.log("1 record inserted");
+      //   console.log(result);
+      // });
+
       writeToFile(error_log, err.name);
       writeToFile(error_log, err.message);
       const res = {
@@ -320,21 +338,6 @@ function handleHostCodeRequest(socket) {
   };
   hosts.push(host);
   // Host object is created
-  // INSERT code into codes table
-  var sql = `INSERT INTO codes (code) VALUE ('${letterCode}')`;
-  con.query(sql, (err, result) => {
-    if (err) throw err;
-    console.log("1 record inserted");
-    console.log(result);
-  });
-  // INSERT host into hosts table
-  const host_socket = JSON.stringify(host.socket);
-  sql = `INSERT INTO hosts (code, host, lastping) VALUES ('${host.code}', '${host_socket}', '${host.lastPing}')`;
-  con.query(sql, (err, result) => {
-    if (err) throw err;
-    console.log("1 record inserted");
-    console.log(result);
-  });
   // Send back letter code
   const res = {
     "messageType": 111,
