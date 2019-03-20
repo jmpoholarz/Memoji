@@ -4,6 +4,7 @@ var titleScreenScene = preload("res://Screens/FirstTitle.tscn")
 var setupScreenScene = preload("res://Screens/Setup.tscn")
 var lobbyScreenScene = preload("res://Screens/LobbyDisplays/LobbyScreen.tscn")
 var waitScreenScene = preload("res://Screens/WaitScreen.tscn")
+var resultsScreenScene = preload("res://Screens/HostResultsScreen.tscn")
 
 signal connectToServer()
 signal sendMessageToServer(msg)
@@ -36,6 +37,8 @@ func changeScreenTo(screen):
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.WAIT_SCREEN:
 			currentScreenInstance = waitScreenScene.instance()
+		GlobalVars.RESULTS_SCREEN:
+			currentScreenInstance = resultsScreenScene.instance()
 	
 	if (currentScreenInstance != null):
 		currentScreenInstance.connect("messageServer", self, "forwardMessage")
