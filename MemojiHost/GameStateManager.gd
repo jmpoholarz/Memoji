@@ -34,7 +34,7 @@ func sendAnswersForVoting():
 	pass
 
 func showResults():
-	pass
+	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
 
 func advanceGame():
 	pass
