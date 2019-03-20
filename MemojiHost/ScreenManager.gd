@@ -5,6 +5,7 @@ var setupScreenScene = preload("res://Screens/Setup.tscn")
 var lobbyScreenScene = preload("res://Screens/LobbyDisplays/LobbyScreen.tscn")
 var waitScreenScene = preload("res://Screens/WaitScreen.tscn")
 var resultsScreenScene = preload("res://Screens/HostResultsScreen.tscn")
+var totalResultsScreenScene = preload("res://Screens/HostTotalResultsScreen.tscn")
 
 signal connectToServer()
 signal sendMessageToServer(msg)
@@ -38,6 +39,8 @@ func changeScreenTo(screen):
 		GlobalVars.WAIT_SCREEN:
 			currentScreenInstance = waitScreenScene.instance()
 		GlobalVars.RESULTS_SCREEN:
+			currentScreenInstance = resultsScreenScene.instance()
+		GlobalVars.TOTAL_SCREEN:
 			currentScreenInstance = resultsScreenScene.instance()
 	
 	if (currentScreenInstance != null):
