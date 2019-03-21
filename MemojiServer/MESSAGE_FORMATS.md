@@ -180,7 +180,7 @@ _Sent from Server when Player enters a valid code_
 {messageType: 112, letterCode: "ABCD", playerID: "abc-123", isPlayer: true}
 ```
 
-* **INVALID_SERVER_CODE = 113**
+* **INVALID_SERVER_CODE = 113**  
 _Sent from Server when Player enters an invalid code_  
 ```javascript
 {messageType: 113}
