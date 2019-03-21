@@ -227,32 +227,32 @@ if (cluster.isMaster) {
           break;
         case 404: // Invalid username ----------------> Send to Player
         case 405: // Accepted Username and avatar ----> Send to Player
+        case 411: // Invalid prompt response ---------> Send to Player
+        case 412: // Accepted prompt response --------> Send to Player
+        case 421: // Invalid vote response -----------> Send to Player
+        case 422: // Accepted vote response ----------> Send to Player
+        case 431: // Invalid multi vote --------------> Send to Player
+        case 432: // Accepted multi vote -------------> Send to Player
           sendToPlayer(message);
           if (message.messageType === 404) mtype = 'Invalid username.';
           if (message.messageType === 405) mtype = 'Host starting game.';
+          if (message.messageType === 411) mtype = 'Invalid prompt response.';
+          if (message.messageType === 412) mtype = 'Accepted prompt response.';
+          if (message.messageType === 421) mtype = 'Invalid vote response.';
+          if (message.messageType === 422) mtype = 'Accepted vote response.';
+          if (message.messageType === 431) mtype = 'Invalid multi vote.';
+          if (message.messageType === 432) mtype = 'Accepted multi vote.';
           writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Player: ${message.playerID}`);
           break;
         case 403: // Player username and avatar ------> Send to Host
         case 410: // Player sending prompt response --> Send to Host
-        case 411: // Invalid prompt response --------> Send to Host
-        case 412: // Accepted prompt response --------> Send to Host
         case 420: // Player sending single vote ------> Send to Host
-        case 421: // Invalid vote response -----------> Send to Host
-        case 422: // Accepted vote response ----------> Send to Host
         case 430: // Player sending multi vote -------> Send to Host
-        case 431: // Invalid multi vote --------------> Send to Host
-        case 432: // Accepted multi vote -------------> Send to Host
           sendToHost(letterCode, message);
           if (message.messageType === 403) mtype = 'Player username and avatar.';
           if (message.messageType === 410) mtype = 'Player sending prompt response.';
-          if (message.messageType === 411) mtype = 'Invalid prompt response.';
-          if (message.messageType === 412) mtype = 'Accepted prompt response.';
           if (message.messageType === 420) mtype = 'Player sending single vote.';
-          if (message.messageType === 421) mtype = 'Invalid vote response.';
-          if (message.messageType === 422) mtype = 'Accepted vote response.';
           if (message.messageType === 430) mtype = 'Player sending multi vote.';
-          if (message.messageType === 431) mtype = 'Invalid multi vote.';
-          if (message.messageType === 432) mtype = 'Accepted multi vote.';
           writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Host - ${letterCode}`);
           break;
         default:
