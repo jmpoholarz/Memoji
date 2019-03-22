@@ -192,7 +192,7 @@ _Sent to deliver an answer to a prompt to the host_
   messageType: 410,
   letterCode: "ABCD", (Added by Networking.gd)
   playerID: "abc-123", (Added by GameStateManager.gd)
-  answers: [...]
+  emojiArray: [[1,1,40010],[1,3,40020],...]
 }
 ```
 
