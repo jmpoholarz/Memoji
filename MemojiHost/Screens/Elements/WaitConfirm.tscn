@@ -4,7 +4,7 @@
 [ext_resource path="res://Screens/LobbyDisplays/P_Status.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/m7.png" type="Texture" id=3]
 
-[node name="WaitConfirm" type="VBoxContainer"]
+[node name="WaitConfirm" type="VBoxContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
