@@ -3,16 +3,12 @@
 [ext_resource path="res://UserInformationScreen.gd" type="Script" id=1]
 [ext_resource path="res://selection GUI.tscn" type="PackedScene" id=2]
 
-[node name="UserInformationPanel" type="Panel"]
+[node name="UserInformationPanel" type="Panel" index="0"]
 
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -428.0
-margin_top = -327.0
-margin_right = 428.0
-margin_bottom = 327.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -101,14 +97,14 @@ caret_position = 0
 
 [node name="Panel" type="Panel" parent="." index="3"]
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 204.0
-margin_top = 204.0
-margin_right = 688.0
-margin_bottom = 516.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -242.0
+margin_top = -156.0
+margin_right = 242.0
+margin_bottom = 156.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -118,10 +114,14 @@ size_flags_vertical = 1
 
 [node name="selection GUI" parent="Panel" index="0" instance=ExtResource( 2 )]
 
-margin_left = 20.0
-margin_top = -48.0
-margin_right = 420.0
-margin_bottom = 352.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -200.0
+margin_top = -200.0
+margin_right = 200.0
+margin_bottom = 200.0
 
 [node name="NameNullPopup" type="PopupPanel" parent="." index="4"]
 
