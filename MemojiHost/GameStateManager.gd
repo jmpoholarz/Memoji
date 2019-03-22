@@ -22,7 +22,8 @@ func _ready():
 	$Networking.connect("_disconnectedFromServer", self, "on_Networking_connectionTimeout")
 	$Networking.connect("connectedSuccessfully", self, "on_Networking_successful")
 	$ScreenManager.connect("startGame", self, "on_startGame")
-	
+	$ScreenManager.connect("sendMessageToServer", self, "_on_ScreenManager_sendMessageToServer")
+	$ScreenManager.connect("handleGameState", self, "_on_ScreenManager_handleGameState")
 	toTitle()
 
 func on_startGame():
