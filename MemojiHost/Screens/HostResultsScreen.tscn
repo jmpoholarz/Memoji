@@ -121,6 +121,7 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="AnswerBoxes" type="HBoxContainer" parent="MarginContainer/Rows" index="1"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -277,7 +278,6 @@ _sections_unfolded = [ "custom_constants" ]
 
 [node name="VotersLeft" type="HBoxContainer" parent="MarginContainer/Rows/Voters" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0

@@ -35,3 +35,7 @@ func calculateTotals(ID, votes, audiencePercent):
 		scoreToUpdate.text = str(totalPoints)
 	return totalPoints
 	
+func displayVoters(votes):
+	#recieve who voted for each answer and display appropriately
+	
+	return
