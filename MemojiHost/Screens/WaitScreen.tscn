@@ -80,7 +80,7 @@ custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="TimerLabel" type="Label" parent="MarginContainer" index="0"]
+[node name="Timer" type="Label" parent="MarginContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -102,7 +102,6 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-<<<<<<< HEAD
 [node name="ConfirmationRow" parent="." index="3" instance=ExtResource( 2 )]
 
 anchor_left = 0.5
@@ -114,15 +113,5 @@ margin_top = -280.0
 margin_right = 337.0
 margin_bottom = -72.0
 _sections_unfolded = [ "Rect", "custom_constants" ]
-=======
-[node name="Timer" type="Timer" parent="." index="3"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = false
-autostart = true
-
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
->>>>>>> Fix Waiting Screen timer
 
 
