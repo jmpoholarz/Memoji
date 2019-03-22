@@ -8,11 +8,6 @@ const mysql = require('mysql');
 
 const port = 3000;
 
-var codes = [];
-var hosts = [];
-var players = [];
-var audience_members = [];
-
 const max_players = 2;
 const max_audience = 100;
 var mtype = '';
@@ -40,6 +35,11 @@ const error_log = 'server_error_log.txt';
 
 
 if (cluster.isMaster) {
+  global.gCodes = [];
+  global.gHosts = [];
+  global.gPlayers = [];
+  global.gAudience_members = [];
+
   console.log(`Master ${process.pid} is running`);
   const start_time = moment().format('YYYY-MM-DD hh:mm:ss A')
   console.log(`Server start time: ${start_time}`);
@@ -56,7 +56,8 @@ if (cluster.isMaster) {
   setInterval(() => {
     console.log("Send Ping to Host(s)");
     writeToFile(server_log, 'Sending Ping to Host(s).');
-    _.forEach(hosts, (host) => {
+    // _.forEach(hosts, (host) => {
+    _.forEach(global.gHosts, (host) => {
       const res = {
         "messageType": 120
       };
@@ -67,12 +68,14 @@ if (cluster.isMaster) {
   setInterval(() => {
     console.log("Remove unresponsive Host(s)");
     writeToFile(server_log, 'Removing unresponsive Host(s)');
-    var hosts_to_remove = _.filter(hosts, (host) => {
+    // var hosts_to_remove = _.filter(hosts, (host) => {
+    var hosts_to_remove = _.filter(global.gHosts, (host) => {
       return (Math.abs(host.lastPing - moment().valueOf()) > 30000);
     });
     _.forEach(hosts_to_remove, (host) => {
       host.socket.destroy();
-      _.remove(hosts, host);
+      // _.remove(hosts, host);
+      _.remove(global.gHosts, host);
     });
   }, 330000);
 
@@ -161,7 +164,8 @@ if (cluster.isMaster) {
           break;
         case 121: // Host is still handling games
           console.log('Host is still handling games');
-          const host = _.find(hosts, ['code', letterCode]);
+          // const host = _.find(hosts, ['code', letterCode]);
+          const host = _.find(global.gHosts, ['code', letterCode]);
           host.lastPing = moment().valueOf();
           writeToFile(server_log, `${letterCode} Host still handling games`);
           break;
@@ -172,7 +176,8 @@ if (cluster.isMaster) {
         case 401: // Player Connection and Audience connection
           // Check if there is room in the lobby
           if (codeCheck(letterCode)) {
-            const host = _.find(hosts, ['code', letterCode]);
+            // const host = _.find(hosts, ['code', letterCode]);
+            const host = _.find(global.gHosts, ['code', letterCode]);
             if (host.players.length < max_players) {
               // Player can join
               var id = handlePlayerConn(letterCode, socket);
@@ -315,17 +320,6 @@ Host data structure
 */
 
 function handleHostCodeRequest(socket) {
-  // Check if Host already has a code
-  // Handle on Godot side
-  // const host = _.find(hosts, ['socket', socket]);
-  // if(host !== undefined) {
-  //   // Host exists -> remove previous code from codes array
-  //   // And remove host from hosts array
-  //   _.remove(hosts, host);
-  //
-  // } else {
-  //
-  // }
   console.log("Code 110: Host request a room code");
   const letterCode = generateCode();
   console.log(letterCode);
@@ -336,7 +330,8 @@ function handleHostCodeRequest(socket) {
     audience: [],
     lastPing: moment().valueOf()
   };
-  hosts.push(host);
+  // hosts.push(host);
+  global.gHosts.push(host);
   // Host object is created
   // Send back letter code
   const res = {
@@ -350,8 +345,10 @@ function handleHostDisConn(letterCode) {
   console.log("Host is shutting down");
   // Find host via matching socket
   // Send force disonnect message to clients connected to host
-  var host = _.find(hosts, ['code', letterCode]);
-  _.pull(codes, letterCode);
+  // var host = _.find(hosts, ['code', letterCode]);
+  var host = _.find(global.gHosts, ['code', letterCode]);
+  // _.pull(codes, letterCode);
+  _.pull(global.gCodes, letterCode);
   console.log(host);
   console.log('Send players disconnect message.');
 
@@ -416,12 +413,16 @@ function handleHostDisConn(letterCode) {
     console.log('Host socket destroyed unsuccessfully.');
     writeToFile(error_log, 'Host socket destroyed unsuccessfully.');
   }
-  _.remove(hosts, host);
+  // _.remove(hosts, host);
+  _.remove(global.gHosts, host);
   console.log('Host removed from host list');
   writeToFile(server_log, 'Host removed from host list');
   console.log("PRINT HOSTS:");
-  console.log(hosts);
-  console.log(codes);
+  // console.log(hosts);
+  console.log(global.gHosts);
+  // console.log(codes);
+  console.log("PRINT CODES:");
+  console.log(global.gCodes);
 }
 
 /*
@@ -443,7 +444,8 @@ function handlePlayerConn(letterCode, socket) {
     socket: socket,
     id: id
   };
-  const host = _.find(hosts, ['code', letterCode]);
+  // const host = _.find(hosts, ['code', letterCode]);
+  const host = _.find(global.gHosts, ['code', letterCode]);
   const p = _.find(host.players, (p) => {
     return p.socket === socket;
   });
@@ -451,7 +453,8 @@ function handlePlayerConn(letterCode, socket) {
     return -1;
   }
   host.players.push(player);
-  players.push(player);
+  // players.push(player);
+  global.gPlayers.push(player);
   console.log('Handled player connection successfully.');
   console.log('Send id to player.');
   var res = {
@@ -477,14 +480,16 @@ Audience data structure
 
 function handleAudienceConn(letterCode, socket) {
   const id = uuid();
-  const host = _.find(hosts, ['code', letterCode]);
+  // const host = _.find(hosts, ['code', letterCode]);
+  const host = _.find(global.gHosts, ['code', letterCode]);
   const audience = {
     code: letterCode,
     socket: socket,
     id: id
   };
   host.audience.push(audience);
-  audience_members.push(audience);
+  // audience_members.push(audience);
+  global.gAudience_members.push(audience);
   var res = {
     "messageType": 112,
     "letterCode": letterCode,
@@ -503,13 +508,15 @@ function handlePlayerDisConn(letterCode, id) {
     console.log('Did not handle player disconnection successfully.');
     return 0;
   }
-  const host = _.find(hosts, ['code', letterCode]);
+  // const host = _.find(hosts, ['code', letterCode]);
+  const host = _.find(global.gHosts, ['code', letterCode]);
   if (host === undefined) {
     console.log(`[ERROR]: Could not find Host - ${letterCode}`);
     writeToFile(error_log, `[ERROR]: Could not find Host - ${letterCode}`);
     // return -1;
   }
-  const player = _.find(players, ['id', id]);
+  // const player = _.find(players, ['id', id]);
+  const player = _.find(global.gPlayers, ['id', id]);
   if (player === undefined) {
     console.log(`[ERROR]: Could not find Player: ${id}`);
     writeToFile(error_log, `[ERROR]: Could not find Player: ${id}`);
@@ -527,7 +534,8 @@ function handlePlayerDisConn(letterCode, id) {
     console.log('Handled player removal from host unsuccessfully.');
     writeToFile(error_log, 'Handled player removal from host unsuccessfully.');
   }
-  removed_player = _.remove(players, player);
+  // removed_player = _.remove(players, player);
+  removed_player = _.remove(global.gPlayers, player);
   if (removed_player !== undefined) {
     console.log(`Removing player: ${player.id} from player list`);
     writeToFile(server_log, `Removing player: ${player.id} from player list`);
@@ -553,19 +561,22 @@ function handlePlayerDisConn(letterCode, id) {
 }
 
 function sendToAllPlayers(letterCode, message) {
-  const host = _.find(hosts, ['code', letterCode]);
+  // const host = _.find(hosts, ['code', letterCode]);
+  const host = _.find(global.gHosts, ['code', letterCode]);
   _.forEach(host.players, (player) => {
     send(player.socket, JSON.stringify(message));
   });
 }
 
 function sendToPlayer(message) {
-  const player = _.find(players, ['id', message.playerID]);
+  // const player = _.find(players, ['id', message.playerID]);
+  const player = _.find(global.gPlayers, ['id', message.playerID]);
   send(player.socket, JSON.stringify(message));
 }
 
 function sendToPlayersAndAudience(letterCode, message) {
-  const host = _.find(hosts, ['code', letterCode]);
+  // const host = _.find(hosts, ['code', letterCode]);
+  const host = _.find(global.gHosts, ['code', letterCode]);
   _.forEach(host.players, (player) => {
     send(player.socket, JSON.stringify(message));
   });
@@ -575,7 +586,8 @@ function sendToPlayersAndAudience(letterCode, message) {
 }
 
 function sendToHost(letterCode, message) {
-  const host = _.find(hosts, ['code', letterCode]);
+  // const host = _.find(hosts, ['code', letterCode]);
+  const host = _.find(global.gHosts, ['code', letterCode]);
   send(host.socket, JSON.stringify(message));
 }
 
@@ -605,8 +617,8 @@ function toBytesInt32(num) {
 
 function codeCheck(letterCode) {
   console.log("PRINT CODES");
-  console.log(codes);
-  if (!codes.includes(letterCode)) {
+  console.log(global.gCodes);
+  if (!global.gCodes.includes(letterCode)) {
     console.log('Code does not exist: ' + letterCode);
     return false;
   }
@@ -651,8 +663,10 @@ function generateCode() {
     code = "";
     for (var i = 0; i < 4; i++)
       code += possible.charAt(Math.floor(Math.random() * possible.length));
-  } while (codes.includes(code));
+  // } while (codes.includes(code));
+  } while (global.gCodes.includes(code));
 
-  codes.push(code);
+  // codes.push(code);
+  global.gCodes.push(code);
   return code;
 }
