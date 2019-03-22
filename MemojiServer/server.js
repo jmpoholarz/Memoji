@@ -8,7 +8,7 @@ const mysql = require('mysql');
 
 const port = 3000;
 
-const max_players = 2;
+const max_players = 3;
 const max_audience = 100;
 var mtype = '';
 
@@ -218,8 +218,6 @@ if (cluster.isMaster) {
           sendToHost(letterCode, message);
           writeToFile(server_log, `Forward Player disconnection to host - ${letterCode}`);
           break;
-        case 301: // Host starting game -----> Send to all Players
-        case 302: // Host ending game -------> Send to all Players
         case 320: // Host round time is up --> Send to all Players
           sendToAllPlayers(letterCode, message);
           if (message.messageType === 301) mtype = 'Host starting game.';
@@ -231,9 +229,14 @@ if (cluster.isMaster) {
           sendToPlayer(message);
           writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending prompt.] Sending to Player: ${message.playerID}`);
           break;
+        case 301: // Host starting game -----> Send to all Players and Audience
+        case 302: // Host ending game -------> Send to all Players and Audience
         case 312: // Host sending answers ---> Send to all Players and Audience
           sendToPlayersAndAudience(letterCode, message);
-          writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending answers.] Sending to all Players and Audience`);
+          if (message.messageType === 301) mtype = 'Host starting game.';
+          if (message.messageType === 302) mtype = 'Host ending game.';
+          if (message.messageType === 312) mtype = 'Host sending answers.';
+          writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to all Players and Audience`);
           break;
         case 404: // Invalid username ----------------> Send to Player
         case 405: // Accepted Username and avatar ----> Send to Player

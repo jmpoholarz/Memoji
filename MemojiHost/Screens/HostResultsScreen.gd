@@ -25,6 +25,7 @@ func calculateTotals(ID, votes, audiencePercent):
 	#audience percent is added as a percent of 100 points, a perfect audience score
 	#is equal to that of two players
 	totalPoints = (votes * 100) + (audiencePercent * 2)
+	#set the score of whichever was calculated to be shown
 	if ID == 1:
 		score1 = totalPoints
 		scoreToUpdate = get_node("MarginContainer/Rows/Results/ScoreLeft")
@@ -34,4 +35,29 @@ func calculateTotals(ID, votes, audiencePercent):
 		scoreToUpdate = get_node("MarginContainer/Rows/Results/ScoreRight")
 		scoreToUpdate.text = str(totalPoints)
 	return totalPoints
+	
+func displayVoters(votes, players):
+	#recieve who voted for each answer and display appropriately
+	#location of the voter images
+	var voterLoc = "MarginContainer/Rows/Voters/"
+	var currentNode
+	#go through every player vote and decide which side to show them on
+	for x in range(0, votes.size()):
+		if(votes[x] == 1):
+			currentNode = getNode(voterLoc + "VotersLeft/PlayerIcon" + str(x+1))
+			currentNode.visible = true
+		elif(votes[x] == 2):
+			currentNode = getNode(voterLoc + "VotersRight/PlayerIcon" + str(x+1))
+			currentNode.visible = true
+		else:
+			#if a player did not vote make sure they are not visible
+			currentNode = getNode(voterLoc + "VotersLet/PlayerIcon" + str(x+1))
+			currentNode.visible = false
+			currentNode = getNode(voterLoc + "VotersRight/PlayerIcon" + str(x+1))
+			currentNode.visible = false
+	return
+	
+func displayAudience(votes):
+	#TODO
+	return
 	
