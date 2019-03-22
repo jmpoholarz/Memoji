@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Screens/HostResultsScreen.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
 
 [node name="ResultsUI" type="Container" index="0"]
 
@@ -157,26 +157,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/Rows/AnswerBoxes/AnswerLeft" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 64, 64 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 2 )
-stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
-
-[node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/AnswerLeft" index="1" instance=ExtResource( 3 )]
+[node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/AnswerLeft" index="0" instance=ExtResource( 2 )]
 
 [node name="TextureRect" type="Label" parent="MarginContainer/Rows/AnswerBoxes" index="1"]
 
@@ -219,26 +200,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/Rows/AnswerBoxes/AnswerRight" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 64, 64 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 2 )
-stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
-
-[node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/AnswerRight" index="1" instance=ExtResource( 3 )]
+[node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/AnswerRight" index="0" instance=ExtResource( 2 )]
 
 [node name="Label" type="Label" parent="MarginContainer/Rows" index="2"]
 
@@ -313,7 +275,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="PlayerIcon2" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft" index="1"]
@@ -332,7 +294,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="PlayerIcon3" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft" index="2"]
@@ -351,7 +313,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="PlayerIcon4" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft" index="3"]
@@ -370,7 +332,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="PlayerIcon5" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft" index="4"]
@@ -389,7 +351,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 _sections_unfolded = [ "Visibility" ]
 
@@ -409,7 +371,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="PlayerIcon7" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft" index="6"]
@@ -428,7 +390,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="PlayerIcon8" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft" index="7"]
@@ -447,7 +409,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="Divider" type="MarginContainer" parent="MarginContainer/Rows/Voters" index="1"]
@@ -503,7 +465,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 _sections_unfolded = [ "Visibility" ]
 
@@ -522,7 +484,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="PlayerIcon3" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight" index="2"]
@@ -540,7 +502,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="PlayerIcon4" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight" index="3"]
@@ -558,7 +520,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="PlayerIcon5" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight" index="4"]
@@ -576,7 +538,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="PlayerIcon6" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight" index="5"]
@@ -594,7 +556,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="PlayerIcon7" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight" index="6"]
@@ -612,7 +574,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="PlayerIcon8" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight" index="7"]
@@ -630,7 +592,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="AudienceVotes" type="HBoxContainer" parent="MarginContainer/Rows" index="4"]
