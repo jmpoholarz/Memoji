@@ -3,7 +3,7 @@
 [ext_resource path="res://Screens/PlayerPromptScreen.gd" type="Script" id=1]
 [ext_resource path="res://Screens/Elements/EmojiCanvasEditor.tscn" type="PackedScene" id=2]
 
-[node name="PlayerPromptScreen" type="Node" index="0"]
+[node name="PlayerPromptScreen" type="Node"]
 
 script = ExtResource( 1 )
 
