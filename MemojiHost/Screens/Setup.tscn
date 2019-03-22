@@ -1,11 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Screens/Setup.gd" type="Script" id=1]
 [ext_resource path="res://Assets/TitlePlaceholder.png" type="Texture" id=2]
 [ext_resource path="res://Assets/PlayButtonPlaceholder.png" type="Texture" id=3]
 
-
-[node name="SetupScreen" type="Container"]
+[node name="SetupScreen" type="Container" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -267,7 +266,6 @@ text = "CODE"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-script = ExtResource( 2 )
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer2/MarginContainer3/VBoxContainer" index="3"]
 
