@@ -53,11 +53,11 @@ func setupGame():
 	
 	# Get prompts -> PromptManager, PromptGenerator
 	var numPrompts = 0
-	if numPlayers == 3:
-		numPrompts = GlobalVars
+#	if numPlayers == 3:
+#		numPrompts = GlobalVars
 		
 	var prompts_to_send = []
-	for i in range(numberOfPrompts):
+	for i in range(numPrompts):
 		prompts_to_send.append($PromptManager._get_new_prompt())
 	# Create message dictionary
 	
