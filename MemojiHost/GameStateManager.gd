@@ -37,12 +37,16 @@ func setupGame():
 	if numPlayers <= 2:
 		# Not enough players are joined
 		print("Not enough players joined")
+		if $ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN:
+			$ScreenManager.currentScreenInstance.showNotEnoughPlayers()
 		return
 	# Check for players are connected but no avatar is selected
 	for player in players:
 		if player.avatarID == null || player.username == null:
 			# Not all players have an avatar selected
-			print("Not all players have username/avatar")
+			print("Not all players have username or avatar")
+			if $ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN:
+				$ScreenManager.currentScreenInstance.showNotAllPlayersHaveAvatar()
 			return
 	
 	# Create message to send to players that game is starting
