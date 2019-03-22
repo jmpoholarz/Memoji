@@ -17,10 +17,12 @@ func _ready():
 func displayResults(scores):
 	#TODO
 	#duplicate the scores to be sorted into highest to lowest
-	var ordered = [] + scores
+	var ordered = []
 	var highest = 0
 	for score in scores:
 		for score in scores:
 			if(score > highest):
 				highest = score
+		ordered.append(highest)
+		highest = 0
 	return
