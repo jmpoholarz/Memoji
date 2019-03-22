@@ -106,7 +106,7 @@ func showResults():
 			results2 = results2 + 1
 	results1 = $ScreenManager.currentScreenInstance.calculateTotals(1, results1, 0)
 	results2 = $ScreenManager.currentScreenInstance.calculateTotals(2, results2, 0)
-	$ScreenManager.currentScreenInstance.displayVoters(currentPlayerVotes)
+	$ScreenManager.currentScreenInstance.displayVoters(currentPlayerVotes, players)
 	for vote in currentPlayerVotes:
 		vote = 0
 	#TODO totalScoreTally[idOfEachVotedPlayer] += total calculated score
