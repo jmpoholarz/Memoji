@@ -33,16 +33,20 @@ func setupGame():
 	# TODO logic creating enough prompts based on amount of players for this round
 
 	# Check for if there are enough players joined
-	var numPlayers = players.length()
+	var numPlayers = players.size()
 	if numPlayers <= 2:
 		# Not enough players are joined
 		print("Not enough players joined")
+		if $ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN:
+			$ScreenManager.currentScreenInstance.showNotEnoughPlayers()
 		return
 	# Check for players are connected but no avatar is selected
 	for player in players:
 		if player.avatarID == null || player.username == null:
 			# Not all players have an avatar selected
-			print("Not all players have username/avatar")
+			print("Not all players have username or avatar")
+			if $ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN:
+				$ScreenManager.currentScreenInstance.showNotAllPlayersHaveAvatar()
 			return
 	
 	# Create message to send to players that game is starting
@@ -53,13 +57,33 @@ func setupGame():
 	
 	# Get prompts -> PromptManager, PromptGenerator
 	var numPrompts = 0
-#	if numPlayers == 3:
-#		numPrompts = GlobalVars
-		
-	var prompts_to_send = []
-	for i in range(numPrompts):
-		prompts_to_send.append($PromptManager._get_new_prompt())
-	# Create message dictionary
+	var messages_to_send = []
+	match numPlayers:
+		3:
+			numPrompts = GlobalVars.three_players
+			# Create message dictionary
+			for i in range(6):
+				var prompt = $PromptManager.create_prompt()
+				messages_to_send.append({
+					"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
+					"letterCode": lobbyCode,
+					"promptID": prompt.get_prompt_id(),
+					"prompt": prompt.get_prompt_text(),
+					"playerID": players[i % numPlayers].playerID
+				})
+				messages_to_send.append({
+					"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
+					"letterCode": lobbyCode,
+					"promptID": prompt.get_prompt_id(),
+					"prompt": prompt.get_prompt_text(),
+					"playerID": players[(i + 1) % numPlayers].playerID
+				})
+		4:
+			numPrompts = GlobalVars.four_players
+	
+	print(messages_to_send)
+	for m in messages_to_send:
+		$Networking.sendMessageToServer(m)
 	
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 
@@ -80,8 +104,9 @@ func showResults():
 			results1 = results1 + 1
 		elif vote == 2:
 			results2 = results2 + 1
-	$ScreenManager.currentScreenInstance.calculateTotals(1, results1, 0)
-	$ScreenManager.currentScreenInstance.calculateTotals(2, results2, 0)
+	results1 = $ScreenManager.currentScreenInstance.calculateTotals(1, results1, 0)
+	results2 = $ScreenManager.currentScreenInstance.calculateTotals(2, results2, 0)
+	$ScreenManager.currentScreenInstance.displayVoters(currentPlayerVotes)
 	for vote in currentPlayerVotes:
 		vote = 0
 	#TODO totalScoreTally[idOfEachVotedPlayer] += total calculated score
