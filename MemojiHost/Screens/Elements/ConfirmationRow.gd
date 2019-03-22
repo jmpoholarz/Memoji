@@ -8,6 +8,7 @@ func _ready():
 
 # To be connected to the receivedPlayerAnswer signal by GameStateManager
 func on_prompt_answer(playerID, promptID, emojiArray):
+	print("DEBUG: Signal Connected")
 	for index in range(playerCount):
 		if (displays[index].playerID == playerID):
 			displays[index].show_confirmation()

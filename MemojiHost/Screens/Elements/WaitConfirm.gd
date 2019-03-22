@@ -1,8 +1,20 @@
 extends VBoxContainer
 
 var playerID = null
+var avatarList = []
 
 func _ready():
+	# TODO: Replace Placeholder
+	avatarList.resize(8)
+	avatarList[0] = preload("res://Assets/m1.png")
+	avatarList[1] = preload("res://Assets/m3.png")
+	avatarList[2] = preload("res://Assets/m7.png")
+	avatarList[3] = preload("res://Assets/m0.png")
+	avatarList[4] = preload("res://Assets/m2.png")
+	avatarList[5] = preload("res://Assets/m4.png")
+	avatarList[6] = preload("res://Assets/m5.png")
+	avatarList[7] = preload("res://Assets/m6.png")
+	
 	$PlayerDisplay.hide()
 	$Checkmark.hide()
 	pass
@@ -14,7 +26,7 @@ func link_player(player):
 	$Checkmark.hide()
 	
 func update_from_player(player):
-	$Player.update_player(player.username, player.avatarID)
+	$PlayerDisplay.update_player(player.username, avatarList[player.avatarID])
 	
 func show_confirmation():
 	$Checkmark.show()
