@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Screens/WaitScreen.gd" type="Script" id=1]
+[ext_resource path="res://Screens/Elements/ConfirmationRow.tscn" type="PackedScene" id=2]
 
-[node name="WaitScreen" type="Node"]
+[node name="WaitScreen" type="Node" index="0"]
 
 script = ExtResource( 1 )
 
@@ -54,6 +55,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 4
 text = "View your device"
 align = 1
+valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -99,5 +101,17 @@ text = "60"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[node name="ConfirmationRow" parent="." index="3" instance=ExtResource( 2 )]
+
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -338.0
+margin_top = -280.0
+margin_right = 337.0
+margin_bottom = -72.0
+_sections_unfolded = [ "Rect", "custom_constants" ]
 
 
