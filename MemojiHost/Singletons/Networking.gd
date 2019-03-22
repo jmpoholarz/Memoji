@@ -113,8 +113,9 @@ func sendMessageToServer(message):
 			print("Failed to send message.  Lacking messageType attribute.")
 			Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'messageType' attribute.")
 		if !message.has("letterCode"):
-			print("Failed to send message.  Lacking letterCode attribute.")
-			Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'letterCode' attribute.")
+			#print("Failed to send message.  Lacking letterCode attribute.")
+			#Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'letterCode' attribute.")
+			message["letterCode"] = letterCode
 	# Send message
 	mostRecentMessage = message
 	print("Sending message...")

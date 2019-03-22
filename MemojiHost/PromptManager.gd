@@ -11,7 +11,7 @@ func _ready():
 	__unit_test_get_new_prompt()
 	pass
 
-func setAnswer(prompt_id, player_id, answer):
+func set_answer(prompt_id, player_id, answer):
 	active_prompts[prompt_id].add_player_answer(player_id, answer)
 
 func set_vote(prompt_id, player_id, answer_index):
