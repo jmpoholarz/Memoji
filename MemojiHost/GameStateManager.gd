@@ -56,6 +56,9 @@ func setupGame():
 	# Send message to server
 	$Networking.sendMessageToServer(message)
 	
+	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
+	return
+	
 	# Get prompts -> PromptManager, PromptGenerator
 	var numPrompts = 0
 	var messages_to_send = []
