@@ -87,8 +87,8 @@ func showResults():
 			results1 = results1 + 1
 		elif vote == 2:
 			results2 = results2 + 1
-	$ScreenManager.currentScreenInstance.calculateTotals(1, results1, 0)
-	$ScreenManager.currentScreenInstance.calculateTotals(2, results2, 0)
+	results1 = $ScreenManager.currentScreenInstance.calculateTotals(1, results1, 0)
+	results2 = $ScreenManager.currentScreenInstance.calculateTotals(2, results2, 0)
 	$ScreenManager.currentScreenInstance.displayVoters(currentPlayerVotes)
 	for vote in currentPlayerVotes:
 		vote = 0
