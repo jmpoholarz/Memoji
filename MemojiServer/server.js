@@ -27,25 +27,6 @@ let hosts = [];
 let players = [];
 let audience_members = [];
 
-// TODO:
-// Work with data locally, if run into error, push all local data to database
-// that is new (search for mysql if that is easy) or pull and compare
-// -----------------------------
-// Write function to pull all data from database on start of worker process
-// -----------------------------
-// Write functionality to push new data to database on creation such as
-// --Host code request
-// --Player connection
-// --audience connection
-// -----------------------------
-// Write functionality to remove data from database on:
-// --Host disconnection
-// --Removal of inactive Host
-// --Player disconnection
-// --Audience disconnection
-// -----------------------------
-
-
 if (cluster.isMaster) {
 
   console.log(`Master ${process.pid} is running`);
@@ -299,22 +280,6 @@ if (cluster.isMaster) {
     });
 
     server.on('error', (err) => {
-
-      // // INSERT code into codes table
-      // var sql = `INSERT INTO codes (code) VALUE ('${letterCode}')`;
-      // con.query(sql, (err, result) => {
-      //   if (err) throw err;
-      //   console.log("1 record inserted");
-      //   console.log(result);
-      // });
-      // // INSERT host into hosts table
-      // const host_socket = JSON.stringify(host.socket);
-      // sql = `INSERT INTO hosts (code, host, lastping) VALUES ('${host.code}', '${host_socket}', '${host.lastPing}')`;
-      // con.query(sql, (err, result) => {
-      //   if (err) throw err;
-      //   console.log("1 record inserted");
-      //   console.log(result);
-      // });
 
       writeToFile(error_log, 'An error occured: Save local values.');
 
