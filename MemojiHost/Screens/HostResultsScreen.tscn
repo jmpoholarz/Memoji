@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Screens/HostResultsScreen.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=3]
 
 [node name="ResultsUI" type="Container" index="0"]
 
@@ -75,7 +76,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_constants/separation = 50
+custom_constants/separation = 20
 alignment = 1
 _sections_unfolded = [ "Rect", "custom_constants" ]
 
@@ -85,9 +86,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 102.0
+margin_top = 42.0
 margin_right = 1006.0
-margin_bottom = 116.0
+margin_bottom = 56.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -121,21 +122,20 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="AnswerBoxes" type="HBoxContainer" parent="MarginContainer/Rows" index="1"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 166.0
+margin_top = 76.0
 margin_right = 1006.0
-margin_bottom = 230.0
+margin_bottom = 411.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_constants/separation = 30
+custom_constants/separation = 0
 alignment = 1
 _sections_unfolded = [ "custom_constants" ]
 
@@ -145,10 +145,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 401.0
-margin_right = 465.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 64, 64 )
+margin_left = 160.0
+margin_right = 495.0
+margin_bottom = 335.0
+rect_min_size = Vector2( 335, 335 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -176,6 +176,8 @@ texture = ExtResource( 2 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
+[node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/AnswerLeft" index="1" instance=ExtResource( 3 )]
+
 [node name="TextureRect" type="Label" parent="MarginContainer/Rows/AnswerBoxes" index="1"]
 
 anchor_left = 0.0
@@ -183,9 +185,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 495.0
-margin_top = 25.0
+margin_top = 160.0
 margin_right = 510.0
-margin_bottom = 39.0
+margin_bottom = 174.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -205,10 +207,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 540.0
-margin_right = 604.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 64, 64 )
+margin_left = 510.0
+margin_right = 845.0
+margin_bottom = 335.0
+rect_min_size = Vector2( 335, 335 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -236,15 +238,17 @@ texture = ExtResource( 2 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect" ]
 
+[node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/AnswerRight" index="1" instance=ExtResource( 3 )]
+
 [node name="Label" type="Label" parent="MarginContainer/Rows" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 280.0
+margin_top = 431.0
 margin_right = 1006.0
-margin_bottom = 294.0
+margin_bottom = 445.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -263,9 +267,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 344.0
+margin_top = 465.0
 margin_right = 1006.0
-margin_bottom = 349.0
+margin_bottom = 470.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -635,9 +639,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 399.0
+margin_top = 490.0
 margin_right = 1006.0
-margin_bottom = 413.0
+margin_bottom = 504.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -715,9 +719,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 463.0
+margin_top = 524.0
 margin_right = 1006.0
-margin_bottom = 477.0
+margin_bottom = 538.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
