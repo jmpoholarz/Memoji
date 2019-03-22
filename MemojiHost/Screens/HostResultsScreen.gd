@@ -37,12 +37,18 @@ func calculateTotals(ID, votes, audiencePercent):
 	
 func displayVoters(votes):
 	#recieve who voted for each answer and display appropriately
-	var currentNode = getNode("MarginContainer/Rows/Voters/VotersRight/PlayerIcon1")
+	var voterLoc = "MarginContainer/Rows/Voters/"
+	var currentNode
 	for x in range(0, votes.size()):
 		if(votes[x] == 1):
-			currentNode = getNode("MarginContainer/Rows/Voters/VotersLeft/PlayerIcon" + str(x+1))
+			currentNode = getNode(voterLoc + "VotersLeft/PlayerIcon" + str(x+1))
 			currentNode.visible = true
 		elif(votes[x] == 2):
-			currentNode = getNode("MarginContainer/Rows/Voters/VotersRight/PlayerIcon" + str(x+1))
+			currentNode = getNode(voterLoc + "VotersRight/PlayerIcon" + str(x+1))
 			currentNode.visible = true
+		else:
+			currentNode = getNode(voterLoc + "VotersLet/PlayerIcon" + str(x+1))
+			currentNode.visible = false
+			currentNode = getNode(voterLoc + "VotersRight/PlayerIcon" + str(x+1))
+			currentNode.visible = false
 	return
