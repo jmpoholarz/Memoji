@@ -16,6 +16,7 @@ func _ready():
 
 func displayResults(scores, players):
 	#TODO
+	
 	#duplicate the scores to be sorted into highest to lowest
 	var ordered = [] + scores
 	var temp
