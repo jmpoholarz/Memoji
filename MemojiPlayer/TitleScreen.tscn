@@ -5,14 +5,10 @@
 
 [node name="Panel" type="Panel" index="0"]
 
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -449.0
-margin_top = -330.0
-margin_right = 407.0
-margin_bottom = 324.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -119,6 +115,7 @@ caret_position = 0
 
 [node name="UserInformationPanel" parent="." index="4" instance=ExtResource( 2 )]
 
+visible = false
 margin_left = 537.0
 margin_top = -332.0
 margin_right = 1393.0
