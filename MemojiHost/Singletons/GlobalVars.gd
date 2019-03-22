@@ -18,10 +18,10 @@ enum SCREENS {
 #	<2, 3>x2
 
 # 4 players:
-#	prompts = 6 (3 per player)
-#	<1, 2>, <1, 3>, <1, 4>
+#	prompts = 6 (2 per player)
+#	<1, 2>, <1, 3>
 #	<2, 3>, <2, 4>
 #	<3, 4>
 
-const three_players = [6, 1, 2, 1, 3, 2, 3]
-const four_players = [6, 1, 2, 1, 3, 1, 4, 2, 3, 2, 4, 3, 4]
+const three_players = 6
+const four_players = 6

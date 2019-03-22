@@ -33,7 +33,7 @@ func setupGame():
 	# TODO logic creating enough prompts based on amount of players for this round
 
 	# Check for if there are enough players joined
-	var numPlayers = players.length()
+	var numPlayers = players.size()
 	if numPlayers <= 2:
 		# Not enough players are joined
 		print("Not enough players joined")
@@ -53,13 +53,33 @@ func setupGame():
 	
 	# Get prompts -> PromptManager, PromptGenerator
 	var numPrompts = 0
-#	if numPlayers == 3:
-#		numPrompts = GlobalVars
-		
-	var prompts_to_send = []
-	for i in range(numPrompts):
-		prompts_to_send.append($PromptManager._get_new_prompt())
-	# Create message dictionary
+	var messages_to_send = []
+	match numPlayers:
+		3:
+			numPrompts = GlobalVars.three_players
+			# Create message dictionary
+			for i in range(6):
+				var prompt = $PromptManager.create_prompt()
+				messages_to_send.append({
+					"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
+					"letterCode": lobbyCode,
+					"promptID": prompt.get_prompt_id(),
+					"prompt": prompt.get_prompt_text(),
+					"playerID": players[i % numPlayers].playerID
+				})
+				messages_to_send.append({
+					"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
+					"letterCode": lobbyCode,
+					"promptID": prompt.get_prompt_id(),
+					"prompt": prompt.get_prompt_text(),
+					"playerID": players[(i + 1) % numPlayers].playerID
+				})
+		4:
+			numPrompts = GlobalVars.four_players
+	
+	print(messages_to_send)
+	for m in messages_to_send:
+		$Networking.sendMessageToServer(m)
 	
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 
