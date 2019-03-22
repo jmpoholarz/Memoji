@@ -18,8 +18,8 @@ func displayResults(scores):
 	#TODO
 	#duplicate the scores to be sorted into highest to lowest
 	var ordered = [] + scores
-	var highest = 0
 	var temp
+	#sort through the scores to put them in order
 	for x in range(1, ordered.size()):
 		var y = x
 		while(y > 0 && ordered[y-1] > ordered[y]):
@@ -27,4 +27,5 @@ func displayResults(scores):
 			ordered[y-1] = ordered[y]
 			ordered[y] = temp
 			y -= 1
+	
 	return
