@@ -21,7 +21,7 @@ signal enteredValidMultiVote
 # # # # # # # # # #
 
 var defaultServerIP = "127.0.0.1"
-var defaultServerPort = 7575
+var defaultServerPort = 3000
 
 var letterCode = "????"
 var mostRecentMessage = ""

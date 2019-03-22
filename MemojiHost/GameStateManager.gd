@@ -34,7 +34,8 @@ func setupGame():
 
 	# Check for if there are enough players joined
 	var numPlayers = players.size()
-	if numPlayers <= 2:
+#	if numPlayers <= 2:
+	if numPlayers <= 0:
 		# Not enough players are joined
 		print("Not enough players joined")
 		if $ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN:
