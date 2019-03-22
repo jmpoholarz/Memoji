@@ -22,7 +22,8 @@ func _ready():
 	$Networking.connect("_disconnectedFromServer", self, "on_Networking_connectionTimeout")
 	$Networking.connect("connectedSuccessfully", self, "on_Networking_successful")
 	$ScreenManager.connect("startGame", self, "on_startGame")
-	
+	$ScreenManager.connect("sendMessageToServer", self, "_on_ScreenManager_sendMessageToServer")
+	$ScreenManager.connect("handleGameState", self, "_on_ScreenManager_handleGameState")
 	toTitle()
 
 func on_startGame():
@@ -51,25 +52,17 @@ func setupGame():
 	$Networking.sendMessageToServer(message)
 	
 	# Get prompts -> PromptManager, PromptGenerator
-	var numberOfPrompts = numPromptsGenerator(numPlayers, 2)
+	var numPrompts = 0
+#	if numPlayers == 3:
+#		numPrompts = GlobalVars
+		
 	var prompts_to_send = []
-	for i in range(numberOfPrompts):
+	for i in range(numPrompts):
 		prompts_to_send.append($PromptManager._get_new_prompt())
 	# Create message dictionary
 	
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 
-func numPromptsGenerator(numPlayers, promptsPerPlayer):
-	var n_fac = 1
-	var r_fac = 1
-	var n_r_fac = 1
-	for i in range(1, numPlayers+1):
-		n_fac *= i
-	for i in range(1, promptsPerPlayer+1):
-		r_fac *= i
-	for i in range(1, numPlayers - promptsPerPlayer + 1):
-		n_r_fac *= i
-	return (n_fac / (r_fac * n_r_fac))
 
 func sendPrompts():
 	#
