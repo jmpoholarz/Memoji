@@ -37,5 +37,7 @@ func calculateTotals(ID, votes, audiencePercent):
 	
 func displayVoters(votes):
 	#recieve who voted for each answer and display appropriately
-	
+	var currentNode = getNode("MarginContainer/Rows/Voters/VotersRight/PlayerIcon1")
+	for vote in votes:
+		
 	return

@@ -278,6 +278,7 @@ _sections_unfolded = [ "custom_constants" ]
 
 [node name="VotersLeft" type="HBoxContainer" parent="MarginContainer/Rows/Voters" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -468,7 +469,6 @@ _sections_unfolded = [ "Rect", "custom_constants" ]
 
 [node name="VotersRight" type="HBoxContainer" parent="MarginContainer/Rows/Voters" index="2"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
