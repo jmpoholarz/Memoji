@@ -14,6 +14,6 @@ func _ready():
 #	# Update game logic here.
 #	pass
 
-func displayResults(scores)
-
+func displayResults(scores):
+	
 	return
