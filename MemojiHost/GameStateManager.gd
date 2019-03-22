@@ -52,7 +52,10 @@ func setupGame():
 	$Networking.sendMessageToServer(message)
 	
 	# Get prompts -> PromptManager, PromptGenerator
-	var numberOfPrompts = numPromptsGenerator(numPlayers, 2)
+	var numPrompts = 0
+	if numPlayers == 3:
+		numPrompts = GlobalVars
+		
 	var prompts_to_send = []
 	for i in range(numberOfPrompts):
 		prompts_to_send.append($PromptManager._get_new_prompt())
@@ -60,17 +63,6 @@ func setupGame():
 	
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 
-func numPromptsGenerator(numPlayers, promptsPerPlayer):
-	var n_fac = 1
-	var r_fac = 1
-	var n_r_fac = 1
-	for i in range(1, numPlayers+1):
-		n_fac *= i
-	for i in range(1, promptsPerPlayer+1):
-		r_fac *= i
-	for i in range(1, numPlayers - promptsPerPlayer + 1):
-		n_r_fac *= i
-	return (n_fac / (r_fac * n_r_fac))
 
 func sendPrompts():
 	#
