@@ -31,7 +31,7 @@ if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
   const start_time = moment().format('YYYY-MM-DD hh:mm:ss A');
   console.log(`Server start time: ${start_time}`);
-  
+
   fs.access(server_log, fs.F_OK, (err) => {
     if (err) {
       fs.writeFile(server_log, `[${start_time}]: # Server Start | Beginning of server log\n`, 'utf8', (err) => {
@@ -127,7 +127,6 @@ if (cluster.isMaster) {
       gAudience_members = msg.audience_members;
     }
   });
-
 
   // Restart a worker if it dies (e.i. on an error)
   cluster.on('exit', (worker, code, signal) => {
@@ -364,6 +363,21 @@ if (cluster.isMaster) {
       console.log(audience_members);
     }
   });
+
+  process.on('SIGINT', () => {
+    console.log("Caught interrupt signal.");
+
+    try {
+      const message = 'Server Shutdown.';
+      const timestamp = moment().format('YYYY-MM-DD hh:mm:ss A');
+      const final_message = `[${timestamp}]: ${message}\n`;
+      fs.appendFileSync(server_log, final_message);
+    } catch (err) {
+      console.log(err);
+    }
+    process.exit();
+  });
+
 }
 
 function writeToFile(filename, message) {
