@@ -19,7 +19,7 @@ func get_answers_to_prompt(prompt_id):
 	var answers = []
 	for answer in active_prompts[prompt_id].get_answers():
 		answers += answer.emojis
-
+	return answers
 
 
 func create_prompt():
@@ -41,6 +41,7 @@ func _get_new_prompt(prompt_number = -1):
 	if active_prompt_ids.size() == TOTAL_QUESTIONS:
 		print("Failed to generate new prompt as all prompts have been chosen.  Resetting.")
 		active_prompt_ids.clear()
+		active_prompts.clear()
 	# Generate random number
 	while prompt_number < 0 || prompt_number >= TOTAL_QUESTIONS || prompt_number in active_prompt_ids:
 		prompt_number = randi() % TOTAL_QUESTIONS
