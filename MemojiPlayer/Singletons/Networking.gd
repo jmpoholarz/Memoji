@@ -8,7 +8,7 @@ signal enteredInvalidHostCode
 signal forcedToDisconnect
 signal gameStartedByHost
 signal gameEndedByHost
-signal promptsReceived(promptArray)
+signal promptReceived(prompt)
 signal answersReceived(answerArray)
 signal enteredInvalidUsername
 signal enteredValidUsername
@@ -169,7 +169,7 @@ func getMessageFromServer():
 		MESSAGE_TYPES.HOST_ENDING_GAME:
 			emit_signal("gameEndedByHost")
 		MESSAGE_TYPES.HOST_SENDING_PROMPT:
-			emit_signal("promptsReceived", messageDict["promptArray"])
+			emit_signal("promptReceived", messageDict["prompt"])
 		MESSAGE_TYPES.HOST_SENDING_ANSWERS:
 			emit_signal("answersReceived", messageDict["answerArray"])
 		MESSAGE_TYPES.INVALID_USERNAME:
