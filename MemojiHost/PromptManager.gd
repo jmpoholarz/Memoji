@@ -10,10 +10,18 @@ func _ready():
 	pass
 
 func set_answer(prompt_id, player_id, answer):
-	active_prompts[prompt_id].add_player_answer(player_id, answer)
+	if (active_prompts.has(prompt_id)):
+		active_prompts[prompt_id].add_player_answer(player_id, answer)
+		return true
+	else:
+		return false
 
 func set_vote(prompt_id, player_id, answer_index):
-	active_prompts[prompt_id].add_player_vote(player_id, answer_index)
+	if (active_prompts.has(prompt_id)):
+		active_prompts[prompt_id].add_player_vote(player_id, answer_index)
+		return true
+	else:
+		return false
 
 func get_answers_to_prompt(prompt_id):
 	var answers = []
