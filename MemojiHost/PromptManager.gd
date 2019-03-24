@@ -34,9 +34,11 @@ func get_answers_to_prompt(prompt_id):
 	return answers
 
 func check_completion(): # Checks that each prompt has been answered
-#	for prompt in active_prompts
-	return
-
+	for prompt in active_prompts:
+		if (prompt.player_answers.size() < 2):
+			return false
+	
+	return true
 
 func create_prompt():
 	# Get data stored in prompt

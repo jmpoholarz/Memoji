@@ -209,7 +209,9 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	# TODO: Figure out if every prompt has been answered fully
 	$PromptManager.set_answer(promptID, playerID, emojiArray)
-	
+	if ($PromptManager.check_completion()):
+		pass # TODO: move to next phase of game
+		
 	return
 
 func _on_Networking_receivedPlayerVote(playerID, promptID, voteID):
