@@ -70,7 +70,7 @@ func _on_Networking_promptReceived(prompt):
 		# Wait for the screen to change to the Prompt Screen before continuing
 		yield($ScreenManager, "screen_change_completed") # Needs testing
 		current_prompts.append(prompt)
-		$ScreenManager.currentScreen.set_prompts(promptArray)
+		$ScreenManager.currentScreen.add_prompts([prompt])
 		$ScreenManager.currentScreen.get_next_prompt()
 	elif $ScreenManager.currentScreen == $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
 		current_prompts.append(prompt)
