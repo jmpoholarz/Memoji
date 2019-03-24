@@ -108,7 +108,8 @@ func _on_Networking_gameEndedByHost():
 	pass # replace with function body
 
 func _on_Networking_gameStartedByHost():
-	pass # replace with function body
+	# Advance players to waiting for prompt screen
+	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
 
 
 

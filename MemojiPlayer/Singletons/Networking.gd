@@ -33,6 +33,7 @@ var startedTest = false
 
 func _ready():
 	socket = StreamPeerTCP.new()
+	socket.set_no_delay(true)
 	#___test()
 
 func ___test():

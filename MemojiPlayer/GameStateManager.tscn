@@ -4,7 +4,7 @@
 [ext_resource path="res://ScreenManager.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Singletons/Networking.tscn" type="PackedScene" id=3]
 
-[node name="GameStateManager" type="Node"]
+[node name="GameStateManager" type="Node" index="0"]
 
 script = ExtResource( 1 )
 
