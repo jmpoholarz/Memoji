@@ -304,29 +304,12 @@ if (cluster.isMaster) {
           console.log('Unknown Message Type');
           writeToFile(error_log, '[MessageType]: Unknown MessageType. No action performed.');
       }
-      process.send({
-        topic: CODES_UPDATE,
-        codes: codes
-      });
-      process.send({
-        topic: HOSTS_UPDATE,
-        hosts: hosts
-      });
-      process.send({
-        topic: PLAYERS_UPDATE,
-        players: players
-      });
-      process.send({
-        topic: AUDIENCE_MEMBERS_UPDATE,
-        audience_members: audience_members
-      });
+
     });
 
     server.on('error', (err) => {
 
       writeToFile(error_log, 'An error occured: Save local values.');
-
-
 
       writeToFile(error_log, err.name);
       writeToFile(error_log, err.message);
@@ -363,6 +346,31 @@ if (cluster.isMaster) {
       console.log(players);
       console.log(audience_members);
     }
+  });
+
+  process.on('uncaughtException', (err) => {
+    console.log('An error occured: Save local values.');
+    writeToFile(error_log, 'An error occured: Save local values.');
+
+    process.send({
+      topic: CODES_UPDATE,
+      codes: codes
+    });
+    process.send({
+      topic: HOSTS_UPDATE,
+      hosts: hosts
+    });
+    process.send({
+      topic: PLAYERS_UPDATE,
+      players: players
+    });
+    process.send({
+      topic: AUDIENCE_MEMBERS_UPDATE,
+      audience_members: audience_members
+    });
+
+    writeToFile(error_log, err.name);
+    writeToFile(error_log, err.message);
   });
 
   process.on('SIGINT', () => {
