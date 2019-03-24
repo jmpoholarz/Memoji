@@ -208,9 +208,7 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	# TODO: find corresponding prompt and add the player's answer to it
-	#for prompt in prompts:
-	#	if (promptID == prompt.promptID):
-	#		prompt.insertAnswer(playerID, emojiArray)
+	$PromptManager.set_answer(promptID, playerID, emojiArray)
 	
 	return
 
