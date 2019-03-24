@@ -18,43 +18,75 @@ size_flags_vertical = 1
 script = ExtResource( 1 )
 _sections_unfolded = [ "Margin" ]
 
-[node name="TitleLabel" type="Label" parent="." index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="." index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 0
+_sections_unfolded = [ "Size Flags" ]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 405.0
-margin_top = 112.0
-margin_right = 454.0
-margin_bottom = 126.0
+margin_right = 480.0
+margin_bottom = 398.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 3
+alignment = 0
+_sections_unfolded = [ "Size Flags" ]
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer/VBoxContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 87.0
+margin_right = 480.0
+margin_bottom = 101.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
-size_flags_vertical = 4
+size_flags_vertical = 6
 text = "Memoji"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Size Flags" ]
 
-[node name="InstructionsLabel" type="Label" parent="." index="1"]
+[node name="InstructionsLabel" type="Label" parent="VBoxContainer/VBoxContainer" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 310.0
-margin_top = 127.0
-margin_right = 552.0
-margin_bottom = 215.0
+margin_top = 192.0
+margin_right = 480.0
+margin_bottom = 206.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
-size_flags_vertical = 4
+size_flags_vertical = 9
 text = "Enter Room Code below"
 align = 1
 valign = 1
@@ -62,49 +94,26 @@ autowrap = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Size Flags" ]
 
-[node name="JoinButton" type="Button" parent="." index="2"]
-
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -61.0
-margin_top = -18.0
-margin_right = 60.0
-margin_bottom = 19.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-text = "Join!"
-flat = false
-align = 1
-
-[node name="RoomCodeLineEdit" type="LineEdit" parent="." index="3"]
+[node name="RoomCodeLineEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 317.0
-margin_top = 245.0
-margin_right = 544.0
-margin_bottom = 269.0
+margin_left = 176.0
+margin_top = 210.0
+margin_right = 304.0
+margin_bottom = 234.0
+rect_min_size = Vector2( 128, 0 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
+size_flags_horizontal = 4
+size_flags_vertical = 2
 align = 1
 focus_mode = 2
 context_menu_enabled = true
@@ -112,8 +121,36 @@ placeholder_alpha = 0.6
 caret_blink = false
 caret_blink_speed = 0.65
 caret_position = 0
+_sections_unfolded = [ "Rect", "Size Flags" ]
 
-[node name="UserInformationPanel" parent="." index="4" instance=ExtResource( 2 )]
+[node name="JoinButton" type="Button" parent="VBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 176.0
+margin_top = 577.0
+margin_right = 304.0
+margin_bottom = 625.0
+rect_min_size = Vector2( 128, 48 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 4
+size_flags_vertical = 6
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Join!"
+flat = false
+align = 1
+_sections_unfolded = [ "Rect", "Size Flags" ]
+
+[node name="UserInformationPanel" parent="." index="1" instance=ExtResource( 2 )]
 
 visible = false
 margin_left = 537.0
@@ -121,7 +158,7 @@ margin_top = -332.0
 margin_right = 1393.0
 margin_bottom = 322.0
 
-[node name="RoomCodeInvalidLengthPopup" type="PopupPanel" parent="." index="5"]
+[node name="RoomCodeInvalidLengthPopup" type="PopupPanel" parent="." index="2"]
 
 visible = false
 anchor_left = 0.5
@@ -164,7 +201,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="RoomCodeInvalidCharacters" type="PopupPanel" parent="." index="6"]
+[node name="RoomCodeInvalidCharacters" type="PopupPanel" parent="." index="3"]
 
 visible = false
 anchor_left = 0.5
@@ -206,7 +243,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="ServerErrorPopup" type="PopupPanel" parent="." index="7"]
+[node name="ServerErrorPopup" type="PopupPanel" parent="." index="4"]
 
 visible = false
 anchor_left = 0.5
@@ -248,17 +285,17 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="ConnectingLabel" type="Label" parent="." index="8"]
+[node name="ConnectingLabel" type="Label" parent="." index="5"]
 
 visible = false
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 358.0
-margin_top = 368.0
-margin_right = 502.0
-margin_bottom = 382.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -72.0
+margin_top = -7.0
+margin_right = 72.0
+margin_bottom = 7.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -270,5 +307,7 @@ align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[connection signal="pressed" from="VBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
 
 
