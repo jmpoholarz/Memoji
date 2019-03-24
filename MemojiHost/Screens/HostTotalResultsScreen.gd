@@ -29,4 +29,25 @@ func displayResults(scores, players):
 			ordered[y] = temp
 			y -= 1
 	
+	#player.playerID
+	var remainingPlayers = [] + players
+	var currentIndex = 0
+	var currentPlace = 1
+	var placeNode = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place1")
+	while(remainingPlayers.empty() == false):
+		for i in range(0, scores.size()):
+			if(scores[i] == ordered[0]):
+				currentIndex = i
+		if(currentPlace < 5):
+			placeNode = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace) + "/PlayerName")
+			placeNode.text = remainingPlayers[currentIndex].username
+		else:
+			placeNode = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerName")
+			placeNode.text = remainingPlayers[currentIndex].username
+		ordered.remove(0)
+		remainingPlayers.remove(0)
+		scores[currentIndex] = -1
+		currentIndex = 0
+		currentPlace += 1
+	
 	return

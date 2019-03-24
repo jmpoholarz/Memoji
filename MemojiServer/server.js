@@ -15,31 +15,20 @@ var mtype = '';
 const server_log = 'server_log.txt';
 const error_log = 'server_error_log.txt';
 
-codes = [];
-hosts = [];
-players = [];
-audience_members = [];
+const GET_ALL = 'GET_ALL';
+const UPDATE_ALL = 'UPDATE_ALL';
+const CODES_UPDATE = 'CODES_UPDATE';
+const HOSTS_UPDATE = 'HOSTS_UPDATE';
+const PLAYERS_UPDATE = 'PLAYERS_UPDATE';
+const AUDIENCE_MEMBERS_UPDATE = 'AUDIENCE_MEMBERS_UPDATE';
 
-// TODO:
-// Work with data locally, if run into error, push all local data to database
-// that is new (search for mysql if that is easy) or pull and compare
-// -----------------------------
-// Write function to pull all data from database on start of worker process
-// -----------------------------
-// Write functionality to push new data to database on creation such as
-// --Host code request
-// --Player connection
-// --audience connection
-// -----------------------------
-// Write functionality to remove data from database on:
-// --Host disconnection
-// --Removal of inactive Host
-// --Player disconnection
-// --Audience disconnection
-// -----------------------------
-
+let codes = [];
+let hosts = [];
+let players = [];
+let audience_members = [];
 
 if (cluster.isMaster) {
+
   console.log(`Master ${process.pid} is running`);
   const start_time = moment().format('YYYY-MM-DD hh:mm:ss A')
   console.log(`Server start time: ${start_time}`);
@@ -51,6 +40,11 @@ if (cluster.isMaster) {
     if (err) throw err;
     console.log('server_error_log.txt created successfully.');
   });
+
+  let gCodes = [];
+  let gHosts = [];
+  let gPlayers = [];
+  let gAudience_members = [];
 
   // Send a ping to each host every 5 minutes to check if the game is still active
   setInterval(() => {
@@ -76,10 +70,36 @@ if (cluster.isMaster) {
     });
   }, 330000);
 
-  // const numCPUs = require('os').cpus().length;
-  // for (var i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  // }
+  cluster.fork();
+
+  cluster.on('message', (worker, msg, handle) => {
+    console.log("Message received from worker:");
+    console.log(msg);
+    if(msg.topic && msg.topic === GET_ALL){
+      for (const id in cluster.workers){
+        cluster.workers[id].send({
+          topic: UPDATE_ALL,
+          codes: gCodes,
+          hosts: gHosts,
+          players: gPlayers,
+          audience_members: gAudience_members
+        });
+      }
+    }
+    if(msg.topic && msg.topic === CODES_UPDATE){
+      gCodes = msg.codes;
+    }
+    if(msg.topic && msg.topic === HOSTS_UPDATE){
+      gHosts = msg.hosts;
+    }
+    if(msg.topic && msg.topic === PLAYERS_UPDATE){
+      gPlayers = msg.players;
+    }
+    if(msg.topic && msg.topic === AUDIENCE_MEMBERS_UPDATE){
+      gAudience_members = msg.audience_members;
+    }
+  });
+
 
   // Restart a worker if it dies (e.i. on an error)
   cluster.on('exit', (worker, code, signal) => {
@@ -90,11 +110,6 @@ if (cluster.isMaster) {
 
 } else {
   // Workers can share any TCP connection
-
-  // DO NOT PUSH THIS SECTION
-
-
-  // POPULATE ARRAYS
 
   const server = net.createServer(socket => {
 
@@ -265,23 +280,25 @@ if (cluster.isMaster) {
     });
 
     server.on('error', (err) => {
-      // INSERT ALL LOCAL DATA TO DB
 
-      // // INSERT code into codes table
-      // var sql = `INSERT INTO codes (code) VALUE ('${letterCode}')`;
-      // con.query(sql, (err, result) => {
-      //   if (err) throw err;
-      //   console.log("1 record inserted");
-      //   console.log(result);
-      // });
-      // // INSERT host into hosts table
-      // const host_socket = JSON.stringify(host.socket);
-      // sql = `INSERT INTO hosts (code, host, lastping) VALUES ('${host.code}', '${host_socket}', '${host.lastPing}')`;
-      // con.query(sql, (err, result) => {
-      //   if (err) throw err;
-      //   console.log("1 record inserted");
-      //   console.log(result);
-      // });
+      writeToFile(error_log, 'An error occured: Save local values.');
+
+      process.send({
+        topic: CODES_UPDATE,
+        codes: codes
+      });
+      process.send({
+        topic: HOSTS_UPDATE,
+        hosts: hosts
+      });
+      process.send({
+        topic: PLAYERS_UPDATE,
+        players: players
+      });
+      process.send({
+        topic: AUDIENCE_MEMBERS_UPDATE,
+        audience_members: audience_members
+      });
 
       writeToFile(error_log, err.name);
       writeToFile(error_log, err.message);
@@ -295,6 +312,28 @@ if (cluster.isMaster) {
 
   server.listen(port, () => console.log(`Listening on port ${port}`));
   console.log(`Worker ${process.pid} started`);
+
+  // Send message to Master to get values from variables
+  process.send({topic: GET_ALL});
+
+  // Receive message from Master
+  // Populate arrays
+  process.on('message', (msg) => {
+    writeToFile(server_log, `Receive global arrays from Master process.`);
+    console.log("Worker received message from Master:");
+    console.log(msg);
+    if(msg.topic && msg.topic === UPDATE_ALL){
+      codes = msg.codes;
+      hosts = msg.hosts;
+      players = msg.players;
+      audience_members = msg.audience_members;
+      console.log("UDPATE LOCAL VALUES:");
+      console.log(codes);
+      console.log(hosts);
+      console.log(players);
+      console.log(audience_members);
+    }
+  });
 }
 
 function writeToFile(filename, message) {

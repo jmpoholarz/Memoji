@@ -159,6 +159,9 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/AnswerLeft" index="0" instance=ExtResource( 2 )]
 
+margin_right = -2.0
+margin_bottom = 0.0
+
 [node name="TextureRect" type="Label" parent="MarginContainer/Rows/AnswerBoxes" index="1"]
 
 anchor_left = 0.0

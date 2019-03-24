@@ -137,9 +137,8 @@ custom_constants/separation = 30
 alignment = 0
 _sections_unfolded = [ "Rect", "custom_constants" ]
 
-[node name="FirstPlace" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsLeft" index="0"]
+[node name="Place1" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsLeft" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -156,7 +155,7 @@ custom_constants/separation = 10
 alignment = 0
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/FirstPlace" index="0"]
+[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/Place1" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -176,7 +175,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsLeft/FirstPlace" index="1"]
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsLeft/Place1" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -194,7 +193,7 @@ size_flags_vertical = 1
 texture = ExtResource( 2 )
 stretch_mode = 0
 
-[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/FirstPlace" index="2"]
+[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/Place1" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -216,7 +215,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="SecondPlace" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsLeft" index="1"]
+[node name="Place2" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsLeft" index="1"]
 
 editor/display_folded = true
 anchor_left = 0.0
@@ -236,7 +235,7 @@ custom_constants/separation = 10
 alignment = 0
 _sections_unfolded = [ "Margin", "custom_constants" ]
 
-[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/SecondPlace" index="0"]
+[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/Place2" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -256,7 +255,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsLeft/SecondPlace" index="1"]
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsLeft/Place2" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -274,7 +273,7 @@ size_flags_vertical = 1
 texture = ExtResource( 2 )
 stretch_mode = 0
 
-[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/SecondPlace" index="2"]
+[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/Place2" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -296,7 +295,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="ThirdPlace" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsLeft" index="2"]
+[node name="Place3" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsLeft" index="2"]
 
 editor/display_folded = true
 anchor_left = 0.0
@@ -316,7 +315,7 @@ custom_constants/separation = 10
 alignment = 0
 _sections_unfolded = [ "Margin", "custom_constants" ]
 
-[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/ThirdPlace" index="0"]
+[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/Place3" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -336,7 +335,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsLeft/ThirdPlace" index="1"]
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsLeft/Place3" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -354,7 +353,7 @@ size_flags_vertical = 1
 texture = ExtResource( 2 )
 stretch_mode = 0
 
-[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/ThirdPlace" index="2"]
+[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/Place3" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -376,7 +375,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="FourthPlace" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsLeft" index="3"]
+[node name="Place4" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsLeft" index="3"]
 
 editor/display_folded = true
 visible = false
@@ -397,7 +396,7 @@ custom_constants/separation = 10
 alignment = 0
 _sections_unfolded = [ "Margin", "custom_constants" ]
 
-[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/FourthPlace" index="0"]
+[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/Place4" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -417,7 +416,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsLeft/FourthPlace" index="1"]
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsLeft/Place4" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -435,7 +434,7 @@ size_flags_vertical = 1
 texture = ExtResource( 2 )
 stretch_mode = 0
 
-[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/FourthPlace" index="2"]
+[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/Place4" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -476,7 +475,7 @@ custom_constants/separation = 30
 alignment = 0
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="FifthPlace" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsRight" index="0"]
+[node name="Place5" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsRight" index="0"]
 
 editor/display_folded = true
 visible = false
@@ -496,7 +495,7 @@ custom_constants/separation = 10
 alignment = 0
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/FifthPlace" index="0"]
+[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/Place5" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -516,7 +515,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsRight/FifthPlace" index="1"]
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsRight/Place5" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -534,7 +533,7 @@ size_flags_vertical = 1
 texture = ExtResource( 2 )
 stretch_mode = 0
 
-[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/FifthPlace" index="2"]
+[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/Place5" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -556,7 +555,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="SixthPlace" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsRight" index="1"]
+[node name="Place6" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsRight" index="1"]
 
 editor/display_folded = true
 visible = false
@@ -577,7 +576,7 @@ custom_constants/separation = 10
 alignment = 0
 _sections_unfolded = [ "Margin", "custom_constants" ]
 
-[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/SixthPlace" index="0"]
+[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/Place6" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -597,7 +596,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsRight/SixthPlace" index="1"]
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsRight/Place6" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -615,7 +614,7 @@ size_flags_vertical = 1
 texture = ExtResource( 2 )
 stretch_mode = 0
 
-[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/SixthPlace" index="2"]
+[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/Place6" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -637,7 +636,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="SeventhPlace" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsRight" index="2"]
+[node name="Place7" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsRight" index="2"]
 
 editor/display_folded = true
 visible = false
@@ -658,7 +657,7 @@ custom_constants/separation = 10
 alignment = 0
 _sections_unfolded = [ "Margin", "custom_constants" ]
 
-[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/SeventhPlace" index="0"]
+[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/Place7" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -678,7 +677,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsRight/SeventhPlace" index="1"]
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsRight/Place7" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -696,7 +695,7 @@ size_flags_vertical = 1
 texture = ExtResource( 2 )
 stretch_mode = 0
 
-[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/SeventhPlace" index="2"]
+[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/Place7" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -718,7 +717,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="EighthPlace" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsRight" index="3"]
+[node name="Place8" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsRight" index="3"]
 
 editor/display_folded = true
 visible = false
@@ -739,7 +738,7 @@ custom_constants/separation = 10
 alignment = 0
 _sections_unfolded = [ "Grow Direction", "Margin", "custom_constants" ]
 
-[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/EighthPlace" index="0"]
+[node name="PlaceLabel" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/Place8" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -759,7 +758,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsRight/EighthPlace" index="1"]
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Columns/ResultsRight/Place8" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -777,7 +776,7 @@ size_flags_vertical = 1
 texture = ExtResource( 2 )
 stretch_mode = 0
 
-[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/EighthPlace" index="2"]
+[node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/Place8" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
