@@ -8,6 +8,7 @@ signal messageServer(msg)
 
 var _TimerLabel
 var _Timer
+onready var confirmDisplay = $ConfirmationRow
 
 func _ready():
 	# Called when the node is added to the scene for the first time.

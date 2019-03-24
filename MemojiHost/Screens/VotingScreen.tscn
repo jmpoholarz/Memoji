@@ -80,9 +80,9 @@ anchor_left = 0.0
 anchor_top = 1.0
 anchor_right = 0.0
 anchor_bottom = 1.0
-margin_left = 60.0
+margin_left = 90.0
 margin_top = -400.0
-margin_right = 401.0
+margin_right = 393.0
 margin_bottom = -65.0
 rect_scale = Vector2( 0.8, 0.8 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -95,7 +95,7 @@ custom_constants/margin_right = 0
 custom_constants/margin_top = 0
 custom_constants/margin_left = 0
 custom_constants/margin_bottom = 0
-_sections_unfolded = [ "Rect", "custom_constants" ]
+_sections_unfolded = [ "Margin", "Rect", "custom_constants" ]
 __meta__ = {
 "_edit_group_": true
 }
@@ -104,7 +104,7 @@ __meta__ = {
 
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 341.0
+margin_right = 333.0
 margin_bottom = 335.0
 
 [node name="Answer2" type="MarginContainer" parent="Foreground" index="2"]
@@ -113,9 +113,9 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -334.0
+margin_left = -387.0
 margin_top = -100.0
-margin_right = 7.0
+margin_right = -54.0
 margin_bottom = 235.0
 rect_scale = Vector2( 0.8, 0.8 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -137,7 +137,7 @@ __meta__ = {
 
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 341.0
+margin_right = 333.0
 margin_bottom = 335.0
 
 

@@ -81,11 +81,12 @@ func setupGame():
 		4:
 			numPrompts = GlobalVars.four_players
 	
+	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
+	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
+	
 	print(messages_to_send)
 	for m in messages_to_send:
 		$Networking.sendMessageToServer(m)
-	
-	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 
 
 func sendPrompts():
