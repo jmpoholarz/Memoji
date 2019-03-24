@@ -65,14 +65,20 @@ func _on_Networking_enteredInvalidUsername():
 	pass # replace with function body
 
 func _on_Networking_promptReceived(prompt):
+	print("GSM promptReceived(prompt)")
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
 		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN)
 		# Wait for the screen to change to the Prompt Screen before continuing
+		print("about to yeild to screen change")
 		yield($ScreenManager, "screen_change_completed") # Needs testing
+		print("yield has completed")
 		current_prompts.append(prompt)
 		$ScreenManager.currentScreen.add_prompts([prompt])
+		print("prompt added to currentScreen")
 		$ScreenManager.currentScreen.get_next_prompt()
+		print("next prompt got")
 	elif $ScreenManager.currentScreen == $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
+		print("GSM prompt received on PROMPT_ANSWERING_SCREEN")
 		current_prompts.append(prompt)
 
 
