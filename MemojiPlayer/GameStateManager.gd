@@ -74,13 +74,14 @@ func _on_Networking_promptReceived(prompt):
 			yield($ScreenManager, "screen_change_completed") # Needs testing
 		print("yield has completed")
 		current_prompts.append(prompt)
-		$ScreenManager.currentScreen.add_prompts([prompt])
+		$ScreenManager.currentScreenInstance.add_prompts([prompt])
 		print("prompt added to currentScreen")
-		$ScreenManager.currentScreen.get_next_prompt()
+		$ScreenManager.currentScreenInstance.get_next_prompt()
 		print("next prompt got")
 	elif $ScreenManager.currentScreen == $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
 		print("GSM prompt received on PROMPT_ANSWERING_SCREEN")
 		current_prompts.append(prompt)
+		$ScreenManager.currentScreenInstance.add_prompts([prompt])
 
 
 func _on_Networking_enteredValidAnswer():
