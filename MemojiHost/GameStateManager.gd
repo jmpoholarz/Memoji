@@ -109,7 +109,7 @@ func showResults():
 	$ScreenManager.currentScreenInstance.displayVoters(currentPlayerVotes, players)
 	for vote in currentPlayerVotes:
 		vote = 0
-	#TODO totalScoreTally[idOfEachVotedPlayer] += total calculated score
+	#totalScoreTally[idOfEachVotedPlayer] += 
 
 func advanceGame():
 	pass
