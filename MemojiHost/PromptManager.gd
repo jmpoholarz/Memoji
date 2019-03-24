@@ -6,8 +6,12 @@ var active_prompt_ids = []
 var active_prompts = {}
 
 func _ready():
-	__unit_test_get_new_prompt()
+	#__unit_test_get_new_prompt()
 	pass
+	
+func reset():
+	active_prompts.clear()
+	active_prompt_ids.clear()
 
 func set_answer(prompt_id, player_id, answer):
 	if (active_prompts.has(prompt_id)):
@@ -28,6 +32,10 @@ func get_answers_to_prompt(prompt_id):
 	for answer in active_prompts[prompt_id].get_answers():
 		answers += answer.emojis
 	return answers
+
+func check_completion(): # Checks that each prompt has been answered
+#	for prompt in active_prompts
+	return
 
 
 func create_prompt():

@@ -7,8 +7,6 @@ var audiencePlayers = []
 var currentPlayerVotes = []
 var totalScoreTally = []
 
-#var prompts = [] # Handled in PromptManager child
-
 var lobbyCode = null
 
 func debug_to_lobby():
@@ -209,7 +207,7 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 				$ScreenManager.currentScreenInstance.update_player_status(player)
 
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
-	# TODO: find corresponding prompt and add the player's answer to it
+	# TODO: Figure out if every prompt has been answered fully
 	$PromptManager.set_answer(promptID, playerID, emojiArray)
 	
 	return
