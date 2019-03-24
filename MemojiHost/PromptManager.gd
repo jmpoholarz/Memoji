@@ -1,11 +1,13 @@
 extends Node
 
-var prompt_scene = preload("res://Prompt.tscn")
+var prompt_scene = preload("res://Prompt.gd")
 
 const TOTAL_QUESTIONS = 21
 
 var active_prompt_ids = []
 var active_prompts = {}
+
+var temp = []
 
 func _ready():
 	__unit_test_get_new_prompt()
@@ -26,14 +28,15 @@ func get_answers_to_prompt(prompt_id):
 
 func create_prompt():
 	# Get data stored in prompt
-	var prompt_data = _get_new_prompt()
-	var prompt_id = prompt_data[0]
+	var prompt_data = _get_new_prompt().split("%%%")
+	var prompt_id = int(prompt_data[0])
 	var prompt_text = prompt_data[1]
+
 	# Create prompt object and add as child
-	var prompt_obj = prompt_scene.instance()
+	var prompt_obj = prompt_scene.new()
 	prompt_obj.set_prompt_id(prompt_id)
 	prompt_obj.set_prompt_text(prompt_text)
-	add_child(prompt_obj)
+	temp.append(prompt_obj)
 	# Return the prompt object if needed
 	return prompt_obj
 
@@ -83,5 +86,8 @@ func __unit_test_get_new_prompt():
 	var prompt_obj = create_prompt()
 	prompt_obj.add_player_answer(333, "abcd")
 #	print(str(prompt_obj.get_players()[0]))
+	print(prompt_obj.get_prompt_id())
+	print(prompt_obj.get_prompt_text())
+	print(prompt_obj.get_answer_from_player(333))
 	
 	## TODO test more getters
