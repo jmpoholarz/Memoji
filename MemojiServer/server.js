@@ -304,12 +304,6 @@ if (cluster.isMaster) {
           console.log('Unknown Message Type');
           writeToFile(error_log, '[MessageType]: Unknown MessageType. No action performed.');
       }
-    });
-
-    server.on('error', (err) => {
-
-      writeToFile(error_log, 'An error occured: Save local values.');
-
       process.send({
         topic: CODES_UPDATE,
         codes: codes
@@ -326,6 +320,13 @@ if (cluster.isMaster) {
         topic: AUDIENCE_MEMBERS_UPDATE,
         audience_members: audience_members
       });
+    });
+
+    server.on('error', (err) => {
+
+      writeToFile(error_log, 'An error occured: Save local values.');
+
+
 
       writeToFile(error_log, err.name);
       writeToFile(error_log, err.message);
