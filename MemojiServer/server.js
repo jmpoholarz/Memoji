@@ -365,8 +365,7 @@ if (cluster.isMaster) {
   });
 
   process.on('SIGINT', () => {
-    console.log("Caught interrupt signal.");
-
+    console.log("Server Shutting down.");
     try {
       const message = 'Server Shutdown.';
       const timestamp = moment().format('YYYY-MM-DD hh:mm:ss A');
