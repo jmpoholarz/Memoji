@@ -5,7 +5,7 @@ export(int) var emoji_id = -1
 
 signal emoji_button_pressed(id)
 
-var CREATING_ID_FILES = true
+var CREATING_ID_FILES = false
 var BUTTON_SIZE = 50
 
 var screen_width = 0
