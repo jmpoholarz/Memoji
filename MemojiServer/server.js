@@ -4,7 +4,6 @@ const uuid = require('uuid/v1');
 const moment = require('moment');
 const fs = require('fs');
 const cluster = require('cluster');
-const mysql = require('mysql');
 
 const port = 3000;
 
