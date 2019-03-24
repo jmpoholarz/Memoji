@@ -2,7 +2,11 @@
 
 [ext_resource path="res://Screens/Elements/EmojiCanvasSubElements/GetReversedDictionary.gd" type="Script" id=1]
 
+<<<<<<< HEAD
 [node name="Node" type="Node" index="0"]
+=======
+[node name="Node" type="Node"]
+>>>>>>> Fix server data parse error '{{'
 
 script = ExtResource( 1 )
 

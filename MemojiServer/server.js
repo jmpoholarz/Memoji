@@ -698,6 +698,7 @@ function codeCheck(letterCode) {
 }
 
 function parseData(data) {
+  console.log("PARSING DATA RECEIVED");
   // Convert buffer to string
   var json = JSON.stringify(data);
   // Convert back to JSON
@@ -711,17 +712,18 @@ function parseData(data) {
   }
   // Check if data has length buffer at the beginning of buffer.
   var message = "";
-  if (data[0] == "{".charCodeAt(0) && data[1] == "{".charCodeAt(0)) {
+  // console.log(copy.data);
+  if (copy.data[0] == "{".charCodeAt(0) && copy.data[4] == "{".charCodeAt(0)) {
     // Cut off padding
     console.log('CUT PADDING');
     message = copy.data.slice(4);
-  } else if (data[0] == "{".charCodeAt(0)){
+  } else if (copy.data[0] != "{".charCodeAt(0)){
+    console.log('CUT PADDING');
+    message = copy.data.slice(4);
+  } else {
     // No padding to cut
     console.log('DO NOT CUT PADDING');
     message = copy.data;
-  } else {
-    console.log('CUT PADDING');
-    message = copy.data.slice(4);
   }
   // Place new message in buffer
   const b = new Buffer.from(message);
