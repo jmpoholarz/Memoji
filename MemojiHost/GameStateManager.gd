@@ -54,6 +54,7 @@ func setupGame():
 				"letterCode" : lobbyCode}
 	# Send message to server
 	$Networking.sendMessageToServer(message)
+	yield(get_tree().create_timer(1), "timeout")
 	
 	# Get prompts -> PromptManager, PromptGenerator
 	var numPrompts = 0
@@ -62,7 +63,7 @@ func setupGame():
 		3:
 			numPrompts = GlobalVars.three_players
 			# Create message dictionary
-			for i in range(6):
+			for i in range(3):
 				var prompt = $PromptManager.create_prompt()
 				messages_to_send.append({
 					"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
@@ -87,6 +88,7 @@ func setupGame():
 	print(messages_to_send)
 	for m in messages_to_send:
 		$Networking.sendMessageToServer(m)
+		yield(get_tree().create_timer(1), "timeout")
 
 
 func sendPrompts():
