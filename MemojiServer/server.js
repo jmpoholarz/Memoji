@@ -29,15 +29,43 @@ let audience_members = [];
 if (cluster.isMaster) {
 
   console.log(`Master ${process.pid} is running`);
-  const start_time = moment().format('YYYY-MM-DD hh:mm:ss A')
+  const start_time = moment().format('YYYY-MM-DD hh:mm:ss A');
   console.log(`Server start time: ${start_time}`);
-  fs.writeFile(server_log, `[${start_time}]: # Beginning of server log\n`, 'utf8', (err) => {
-    if (err) throw err;
-    console.log('server_log.txt created successfully.');
+  
+  fs.access(server_log, fs.F_OK, (err) => {
+    if (err) {
+      fs.writeFile(server_log, `[${start_time}]: # Server Start | Beginning of server log\n`, 'utf8', (err) => {
+        if (err) throw err;
+        console.log('server_log.txt created successfully.');
+      });
+    } else {
+      // Server log already exists.
+      // Append to Server Log
+      console.log('server_log.txt already exists.');
+      fs.appendFile(server_log, '\r\n\r\n', 'utf8', (err) => {
+        if (err) throw err;
+        console.log(`Appended to file ${server_log}`);
+      });
+      writeToFile(server_log, '# Server Start | Beginning of server log');
+    }
   });
-  fs.writeFile(error_log, `[${start_time}]: # Beginning of error log\n`, 'utf8', (err) => {
-    if (err) throw err;
-    console.log('server_error_log.txt created successfully.');
+
+  fs.access(error_log, fs.F_OK, (err) => {
+    if (err) {
+      fs.writeFile(error_log, `[${start_time}]: # Server Start | Beginning of error log\n`, 'utf8', (err) => {
+        if (err) throw err;
+        console.log('server_error_log.txt created successfully.');
+      });
+    } else {
+      // Server Error Log already exists.
+      // Append to Server Error Log
+      console.log('server_error_log.txt already exists.');
+      fs.appendFile(error_log, '\r\n\r\n', 'utf8', (err) => {
+        if (err) throw err;
+        console.log(`Appended to file ${error_log}`);
+      });
+      writeToFile(error_log, '# Server Start | Beginning of error log');
+    }
   });
 
   let gCodes = [];
@@ -71,11 +99,12 @@ if (cluster.isMaster) {
 
   cluster.fork();
 
+  // Handle local and global variables between Master and Worker processes
   cluster.on('message', (worker, msg, handle) => {
     console.log("Message received from worker:");
     console.log(msg);
-    if(msg.topic && msg.topic === GET_ALL){
-      for (const id in cluster.workers){
+    if (msg.topic && msg.topic === GET_ALL) {
+      for (const id in cluster.workers) {
         cluster.workers[id].send({
           topic: UPDATE_ALL,
           codes: gCodes,
@@ -85,16 +114,16 @@ if (cluster.isMaster) {
         });
       }
     }
-    if(msg.topic && msg.topic === CODES_UPDATE){
+    if (msg.topic && msg.topic === CODES_UPDATE) {
       gCodes = msg.codes;
     }
-    if(msg.topic && msg.topic === HOSTS_UPDATE){
+    if (msg.topic && msg.topic === HOSTS_UPDATE) {
       gHosts = msg.hosts;
     }
-    if(msg.topic && msg.topic === PLAYERS_UPDATE){
+    if (msg.topic && msg.topic === PLAYERS_UPDATE) {
       gPlayers = msg.players;
     }
-    if(msg.topic && msg.topic === AUDIENCE_MEMBERS_UPDATE){
+    if (msg.topic && msg.topic === AUDIENCE_MEMBERS_UPDATE) {
       gAudience_members = msg.audience_members;
     }
   });
@@ -313,7 +342,9 @@ if (cluster.isMaster) {
   console.log(`Worker ${process.pid} started`);
 
   // Send message to Master to get values from variables
-  process.send({topic: GET_ALL});
+  process.send({
+    topic: GET_ALL
+  });
 
   // Receive message from Master
   // Populate arrays
@@ -321,7 +352,7 @@ if (cluster.isMaster) {
     writeToFile(server_log, `Receive global arrays from Master process.`);
     console.log("Worker received message from Master:");
     console.log(msg);
-    if(msg.topic && msg.topic === UPDATE_ALL){
+    if (msg.topic && msg.topic === UPDATE_ALL) {
       codes = msg.codes;
       hosts = msg.hosts;
       players = msg.players;
