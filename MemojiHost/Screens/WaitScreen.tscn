@@ -3,7 +3,7 @@
 [ext_resource path="res://Screens/WaitScreen.gd" type="Script" id=1]
 [ext_resource path="res://Screens/Elements/ConfirmationRow.tscn" type="PackedScene" id=2]
 
-[node name="WaitScreen" type="Node"]
+[node name="WaitScreen" type="Node" index="0"]
 
 script = ExtResource( 1 )
 
@@ -97,7 +97,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-text = "60"
+text = "120"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
