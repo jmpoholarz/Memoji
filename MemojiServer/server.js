@@ -711,7 +711,7 @@ function parseData(data) {
   }
   // Check if data has length buffer at the beginning of buffer.
   var message = "";
-  if (data[0] == "{".charCodeAt(0)) {
+  if (data[0] == "{".charCodeAt(0) && data[1] != "{".charCodeAt(0)) {
     // No padding to cut
     console.log('DO NOT CUT PADDING');
     message = copy.data;
