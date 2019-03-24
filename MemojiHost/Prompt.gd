@@ -1,5 +1,3 @@
-extends Node
-
 var prompt_id
 var prompt_text
 var player_answers = []
