@@ -5,7 +5,7 @@ export(int) var emoji_id = -1
 
 signal emoji_button_pressed(id)
 
-var CREATING_ID_FILES = false
+var CREATING_ID_FILES = true
 var BUTTON_SIZE = 50
 
 var screen_width = 0
@@ -50,7 +50,8 @@ func _ready():
 				icon.centered = false
 				icon.offset = Vector2(8,8)
 				b.add_child(icon)
-				b.set_emoji_id(emoji_id)
+				#b.set_emoji_id(emoji_id)
+				b.set_emoji_id(EmojiFilenameToId.EmojiFilenameToIdDict[dir_path + "/" + file_name])
 				#b.rect_min_size = Vector2(44,44)
 				b.group = EmojiButtonGroup
 				#b.toggle_mode = true
@@ -63,6 +64,9 @@ func _ready():
 				
 			# get next file
 			file_name = dir.get_next()
+		
+		if CREATING_ID_FILES:
+			f.close()
 	
 	# Setup grid layout
 	update_columns()
