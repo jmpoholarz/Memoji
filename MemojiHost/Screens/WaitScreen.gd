@@ -27,7 +27,7 @@ func _ready():
 
 func _on_Timer_timeout():
 	_TimerLabel.text = str(int(_TimerLabel.text)-1)
-	if int(_TimerLabel) == 0:
+	if int(_TimerLabel.text) == 0:
 		_Timer.stop()
 		var message = {"messageType": 320}
 		emit_signal("messageServer", message)
