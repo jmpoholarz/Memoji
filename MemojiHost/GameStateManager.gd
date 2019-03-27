@@ -9,6 +9,11 @@ var totalScoreTally = []
 
 var lobbyCode = null
 
+enum GAME_STATE {
+	PROMPT_PHASE = 1
+	VOTE_PHASE = 2
+}
+
 func debug_to_lobby():
 	$ScreenManager.changeScreenTo(GlobalVars.LOBBY_SCREEN)
 	
@@ -207,9 +212,12 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 				$ScreenManager.currentScreenInstance.update_player_status(player)
 
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
-	# TODO: Figure out if every prompt has been answered fully
+	# TODO: Check for where in the game we currently arer
+	# i.e. if the current screen is on waiting
 	$PromptManager.set_answer(promptID, playerID, emojiArray)
 	if ($PromptManager.check_completion()):
+		currentState = GAME_STATE.VOTE_PHASE
+		$ScreenManager.changeScreenTo(GlobalVars.SCREENS.VOTE_SCREEN)
 		pass # TODO: move to next phase of game
 		
 	return
