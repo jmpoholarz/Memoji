@@ -30,6 +30,7 @@ func displayResults(scores, players):
 			y -= 1
 	
 	#player.playerID
+	#place every player is their correct location, and make them visible
 	var remainingPlayers = [] + players
 	var currentIndex = 0
 	var currentPlace = 1
@@ -41,9 +42,11 @@ func displayResults(scores, players):
 		if(currentPlace < 5):
 			placeNode = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace) + "/PlayerName")
 			placeNode.text = remainingPlayers[currentIndex].username
+			placeNode.visible = true
 		else:
 			placeNode = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerName")
 			placeNode.text = remainingPlayers[currentIndex].username
+			placeNode.visible = true
 		ordered.remove(0)
 		remainingPlayers.remove(0)
 		scores[currentIndex] = -1
