@@ -98,19 +98,23 @@ func sendAnswersForVoting():
 
 func showResults():
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
+	#variables for keeping number of votes and later each calculated player score
 	var results1 = 0
 	var results2 = 0
+	#tally votes for each result
 	for vote in currentPlayerVotes:
 		if vote == 1:
 			results1 = results1 + 1
 		elif vote == 2:
 			results2 = results2 + 1
+	#calculate and display totals of scores
 	results1 = $ScreenManager.currentScreenInstance.calculateTotals(1, results1, 0)
 	results2 = $ScreenManager.currentScreenInstance.calculateTotals(2, results2, 0)
+	#display who voted for each answer
 	$ScreenManager.currentScreenInstance.displayVoters(currentPlayerVotes, players)
+	#reset votes for next round now that they have been displayed
 	for vote in currentPlayerVotes:
 		vote = 0
-	#totalScoreTally[idOfEachVotedPlayer] += 
 
 func advanceGame():
 	pass
