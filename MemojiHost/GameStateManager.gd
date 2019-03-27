@@ -1,7 +1,8 @@
 extends Node
 
 var currentRound
-var currentState
+var currentState = GAME_STATE.NOT_STARTED
+var currentPrompt # Index starting from 0 that refers to the prompt players are currently voting on
 var players = []
 var audiencePlayers = []
 var currentPlayerVotes = []
@@ -10,6 +11,7 @@ var totalScoreTally = []
 var lobbyCode = null
 
 enum GAME_STATE {
+	NOT_STARTED = 0
 	PROMPT_PHASE = 1
 	VOTE_PHASE = 2
 }
@@ -31,13 +33,13 @@ func _ready():
 
 func on_startGame():
 	setupGame()
+	currentRound = 1
 
 func setupGame():
 	# TODO logic creating enough prompts based on amount of players for this round
 
 	# Check for if there are enough players joined
-	var numPlayers = players.size()
-	if numPlayers <= 2:
+	if players.size() <= 2:
 		# Not enough players are joined
 		print("Not enough players joined")
 		if $ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN:
@@ -52,6 +54,11 @@ func setupGame():
 				$ScreenManager.currentScreenInstance.showNotAllPlayersHaveAvatar()
 			return
 	
+	# Everything ok to start
+	currentState = GAME_STATE.PROMPT_PHASE
+	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
+	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
+	
 	# Create message to send to players that game is starting
 	var message = {"messageType":MESSAGE_TYPES.HOST_STARTING_GAME, 
 				"letterCode" : lobbyCode}
@@ -59,46 +66,52 @@ func setupGame():
 	$Networking.sendMessageToServer(message)
 	yield(get_tree().create_timer(1), "timeout")
 	
+	sendPrompts()
+
+func sendPrompts():
 	# Get prompts -> PromptManager, PromptGenerator
 	var numPrompts = 0
 	var messages_to_send = []
-	match numPlayers:
+	var numPlayers = players.size()
+	
+	match (numPlayers):
 		3:
 			numPrompts = GlobalVars.three_players
-			# Create message dictionary
-			for i in range(3):
-				var prompt = $PromptManager.create_prompt()
-				messages_to_send.append({
-					"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
-					"letterCode": lobbyCode,
-					"promptID": prompt.get_prompt_id(),
-					"prompt": prompt.get_prompt_text(),
-					"playerID": players[i % numPlayers].playerID
-				})
-				messages_to_send.append({
-					"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
-					"letterCode": lobbyCode,
-					"promptID": prompt.get_prompt_id(),
-					"prompt": prompt.get_prompt_text(),
-					"playerID": players[(i + 1) % numPlayers].playerID
-				})
 		4:
 			numPrompts = GlobalVars.four_players
 	
-	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
-	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
+	# Create message dictionary
+	for i in range(3):
+		var prompt = $PromptManager.create_prompt()
+		messages_to_send.append({
+			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
+			"letterCode": lobbyCode,
+			"promptID": prompt.get_prompt_id(),
+			"prompt": prompt.get_prompt_text(),
+			"playerID": players[i % numPlayers].playerID
+		})
+		messages_to_send.append({
+			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
+			"letterCode": lobbyCode,
+			"promptID": prompt.get_prompt_id(),
+			"prompt": prompt.get_prompt_text(),
+			"playerID": players[(i + 1) % numPlayers].playerID
+		})
 	
 	print(messages_to_send)
 	for m in messages_to_send:
 		$Networking.sendMessageToServer(m)
 		yield(get_tree().create_timer(1), "timeout")
-
-
-func sendPrompts():
-	#
+	
 	pass
 
-func sendAnswersForVoting():
+# TODO
+# Sends the Answers to Players corresponding to the index given
+func sendAnswersForVoting(promptIndex):
+	
+	$PromptManager.get_answers_to_prompt(currentPrompt)
+	
+	
 	pass
 
 func showResults():
@@ -133,6 +146,7 @@ func toTitle():
 		
 	players.clear()
 	audiencePlayers.clear()
+	currentState = GAME_STATE.NOT_STARTED
 	lobbyCode = null
 	# TODO Sprint 2: handle currentState, currentRound
 	$ScreenManager.changeScreenTo(GlobalVars.TITLE_SCREEN)
@@ -214,12 +228,15 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	# TODO: Check for where in the game we currently arer
 	# i.e. if the current screen is on waiting
-	$PromptManager.set_answer(promptID, playerID, emojiArray)
-	if ($PromptManager.check_completion()):
-		currentState = GAME_STATE.VOTE_PHASE
-		$ScreenManager.changeScreenTo(GlobalVars.SCREENS.VOTE_SCREEN)
-		pass # TODO: move to next phase of game
+	if (currentState == GAME_STATE.PROMPT_PHASE):
 		
+		$PromptManager.set_answer(promptID, playerID, emojiArray)
+		if ($PromptManager.check_completion()):
+			currentState = GAME_STATE.VOTE_PHASE
+			$ScreenManager.changeScreenTo(GlobalVars.SCREENS.VOTE_SCREEN)
+			
+			sendAnswersForVoting(currentPrompt)
+			
 	return
 
 func _on_Networking_receivedPlayerVote(playerID, promptID, voteID):
