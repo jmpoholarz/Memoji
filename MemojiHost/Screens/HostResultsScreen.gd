@@ -35,7 +35,7 @@ func calculateTotals(ID, votes, audiencePercent):
 		scoreToUpdate = get_node("MarginContainer/Rows/Results/ScoreRight")
 		scoreToUpdate.text = str(totalPoints)
 	return totalPoints
-	
+
 func displayVoters(votes, players):
 	#recieve who voted for each answer and display appropriately
 	#location of the voter images
@@ -59,9 +59,9 @@ func displayVoters(votes, players):
 			currentNode = getNode(voterLoc + "VotersRight/PlayerIcon" + str(x+1))
 			currentNode.visible = false
 	return
-	
+
 func displayAudience(votes):
 	#TODO
+	#votes is an array, index 0 contains votes for left, index 1 contains votes for right
 	#display the percent of audience that voted for each answer in text boxes
 	return
-	

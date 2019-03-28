@@ -163,6 +163,10 @@ func showResults():
 	for vote in currentPlayerVotes:
 		vote = 0
 
+func showTotalResults():
+	$ScreenManager.changeScreenTo(GlobalVars.TOTAL_SCREEN)
+	
+
 func advanceGame():
 	print("DEBUG: Advance Game function")
 	match (currentState):
