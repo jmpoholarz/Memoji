@@ -7,6 +7,7 @@ signal connectToServer()
 signal sendMessage(msg)
 signal changeVotingOption(ChoiceId)
 signal voting_has_ended()
+signal change_screen(screen)
 
 var buttonID
 
@@ -111,6 +112,8 @@ func on_SubmitButton_Pressed():
 	}
 	
 	emit_signal("send_message", msg)
+	emit_signal("change_screen", 4)
+	
 
 func receive_Prompt(prompt):
 	get_node("PromptLabel").text = prompt
