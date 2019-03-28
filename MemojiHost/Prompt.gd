@@ -74,7 +74,7 @@ func add_player_answer(player_id, emojis):
 	answer_obj.emojis = emojis
 	# Store answer and add as a child
 	player_answers.append(answer_obj)
-	add_child(answer_obj)
+	
 
 func add_player_vote(player_id, vote_index):
 	for vote in player_votes:
@@ -88,4 +88,3 @@ func add_player_vote(player_id, vote_index):
 	vote_obj.vote_index = vote_index
 	# Store vote and add as a child
 	player_votes.append(vote_obj)
-	add_child(vote_obj)
