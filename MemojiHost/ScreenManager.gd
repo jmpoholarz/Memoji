@@ -3,8 +3,12 @@ extends Node
 var titleScreenScene = preload("res://Screens/FirstTitle.tscn")
 var setupScreenScene = preload("res://Screens/Setup.tscn")
 var lobbyScreenScene = preload("res://Screens/LobbyDisplays/LobbyScreen.tscn")
+<<<<<<< HEAD
+#var waitScreenScene = preload("res://Screens/WaitScreen.tscn")
+=======
 var waitScreenScene = preload("res://Screens/WaitScreen.tscn")
 var voteScreenScene = preload("res://Screens/VotingScreen.tscn")
+>>>>>>> 915ce5dce700d31bde4123539747acdccc456699
 var resultsScreenScene = preload("res://Screens/HostResultsScreen.tscn")
 var totalResultsScreenScene = preload("res://Screens/HostTotalResultsScreen.tscn")
 
@@ -38,11 +42,18 @@ func changeScreenTo(screen):
 		GlobalVars.LOBBY_SCREEN:
 			currentScreenInstance = lobbyScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
+<<<<<<< HEAD
+		
+=======
 			currentScreenInstance.connect("startGame", self, "startGame")
 		GlobalVars.WAIT_SCREEN:
 			currentScreenInstance = waitScreenScene.instance()
+<<<<<<< HEAD
+>>>>>>> e77a4b85622324065309a199ff2c2b234f4f9a93
+=======
 		GlobalVars.VOTE_SCREEN:
 			currentScreenInstance = voteScreenScene.instance()
+>>>>>>> 915ce5dce700d31bde4123539747acdccc456699
 		GlobalVars.RESULTS_SCREEN:
 			currentScreenInstance = resultsScreenScene.instance()
 		GlobalVars.TOTAL_SCREEN:
