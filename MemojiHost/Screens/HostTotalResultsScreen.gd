@@ -40,11 +40,12 @@ func displayResults(scores, players):
 				currentIndex = i
 		#place the player in their correct place, displaying their place, making sure they are visible
 		if(currentPlace < 5):
-			placeNode = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace) + "/PlayerName")
+			placeNode = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace))
 			placeNode.text = remainingPlayers[currentIndex].username
+			placeNode
 			placeNode.visible = true
 		else:
-			placeNode = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerName")
+			placeNode = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace))
 			placeNode.text = remainingPlayers[currentIndex].username
 			placeNode.visible = true
 		#remove the score and player from the list of remaining players to be displayed
