@@ -96,6 +96,7 @@ func shufflePlayers(numPlayers):
 func pair_players(numPlayers):
 	var messages = []
 	var shuffled_players = shufflePlayers(numPlayers)
+	"""
 	for i in range(numPlayers):
 		var prompt = $PromptManager.create_prompt()
 		messages.append({
@@ -111,6 +112,23 @@ func pair_players(numPlayers):
 			"promptID": prompt.get_prompt_id(),
 			"prompt": prompt.get_prompt_text(),
 			"playerID": shuffled_players[(i + 1) % numPlayers].playerID
+		})
+	"""
+	for i in range(numPlayers):
+		var prompt = $PromptManager.create_prompt()
+		messages.append({
+			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
+			"letterCode": lobbyCode,
+			"promptID": prompt.get_prompt_id(),
+			"prompt": prompt.get_prompt_text(),
+			"playerID": players[i % numPlayers].playerID
+		})
+		messages.append({
+			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
+			"letterCode": lobbyCode,
+			"promptID": prompt.get_prompt_id(),
+			"prompt": prompt.get_prompt_text(),
+			"playerID": players[(i + 1) % numPlayers].playerID
 		})
 	return messages
 
