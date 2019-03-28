@@ -110,6 +110,7 @@ func sendPrompts():
 
 func votePhase(): # handle voting for one prompt
 	# Screen
+	print("DEBUG: entered votephase")
 	currentState = GAME_STATE.VOTE_PHASE
 	
 	if ($ScreenManager.currentScreen != GlobalVars.SCREENS.VOTE_SCREEN):
@@ -123,6 +124,7 @@ func votePhase(): # handle voting for one prompt
 
 # Sends the Answers to Players corresponding to the promptID given
 func sendAnswersForVoting(promptID):
+	print("DEBUG: sendAnswersForVoting!!!!")
 	var answers = []
 	var message
 	answers = $PromptManager.get_answers_to_prompt(promptID)
@@ -157,8 +159,11 @@ func showResults():
 		vote = 0
 
 func advanceGame():
+	print("DEBUG: Advance Game function")
 	match (currentState):
 		GAME_STATE.PROMPT_PHASE:
+			print("DEBUG: Calling votephase")
+			currentPrompt = 0
 			votePhase()
 		GAME_STATE.VOTE_PHASE:
 			# TODO: check if last round of voting, then continue to final prompt
@@ -259,13 +264,14 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 				$ScreenManager.currentScreenInstance.update_player_status(player)
 
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
+	print ("DEBUG: received player answer")
 	# TODO: Check for where in the game we currently arer
 	# i.e. if the current screen is on waiting
 	if (currentState == GAME_STATE.PROMPT_PHASE):
-		
-		$PromptManager.set_answer(promptID, playerID, emojiArray)
+		print ("DEBUG: Prompt phase detected")
+		$PromptManager.set_answer(int(promptID), playerID, emojiArray)
+		print($PromptManager.check_completion())
 		if ($PromptManager.check_completion()):
-			currentState = GAME_STATE.VOTE_PHASE
 			advanceGame()
 
 func _on_Networking_receivedPlayerVote(playerID, promptID, voteID):

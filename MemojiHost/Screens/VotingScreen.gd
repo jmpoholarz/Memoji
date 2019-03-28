@@ -1,5 +1,8 @@
 extends Node2D
 
+onready var _TimerLabel = $Foreground/TimerLabel
+onready var _Timer = $Timer
+
 signal updateGameState(msg)
 
 # class member variables go here, for example:
