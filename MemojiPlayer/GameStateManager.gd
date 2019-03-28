@@ -69,24 +69,24 @@ func _on_Networking_enteredInvalidUsername():
 		$ScreenManager/currentScreenInstance._on_InvalidName()
 	pass # replace with function body
 
-func _on_Networking_promptReceived(prompt):
-	print("GSM promptReceived(prompt)")
+func _on_Networking_promptReceived(promptID, prompt):
+	#print("GSM promptReceived(prompt)")
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
 		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN)
 		# Wait for the screen to change to the Prompt Screen before continuing
-		print("about to yeild to screen change")
+		#print("about to yeild to screen change")
 		if $ScreenManager.currentScreen != $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
 			yield($ScreenManager, "screen_change_completed") # Needs testing
-		print("yield has completed")
-		current_prompts.append(prompt)
+		#print("yield has completed")
+		current_prompts.append([promptID, prompt])
 		$ScreenManager.currentScreenInstance.add_prompts([prompt])
-		print("prompt added to currentScreen")
+		#print("prompt added to currentScreen")
 		$ScreenManager.currentScreenInstance.get_next_prompt()
-		print("next prompt got")
+		#print("next prompt got")
 	elif $ScreenManager.currentScreen == $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
-		print("GSM prompt received on PROMPT_ANSWERING_SCREEN")
-		current_prompts.append(prompt)
-		$ScreenManager.currentScreenInstance.add_prompts([prompt])
+		#print("GSM prompt received on PROMPT_ANSWERING_SCREEN")
+		current_prompts.append([promptID, prompt])
+		$ScreenManager.currentScreenInstance.add_prompts([[promptID, prompt]])
 
 
 func _on_Networking_enteredValidAnswer():
