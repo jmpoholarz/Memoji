@@ -414,6 +414,8 @@ if (cluster.isMaster) {
 
 function parseData(data) {
   console.log("PARSING DATA RECEIVED");
+  var msg = data.toString();
+  console.log(str);
   // Convert buffer to string
   var json = JSON.stringify(data);
   // Convert back to JSON
@@ -427,7 +429,16 @@ function parseData(data) {
   }
   // Check if data has length buffer at the beginning of buffer.
   var message = "";
-  // console.log(copy.data);
+
+  // Figure out if Padding (length of message) is still on message
+  if(_.startsWith(msg, '{\"')){
+    console.log("Padding is not present on message received");
+
+    // Check if accidentally has multiple messages received
+    var messages = _.split(msg, '{\"');
+    console.log(messages);
+  }
+
   if (copy.data[0] == "{".charCodeAt(0) && copy.data[4] == "{".charCodeAt(0)) {
     // Cut off padding
     console.log('CUT PADDING');
