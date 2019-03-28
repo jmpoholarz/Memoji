@@ -3,7 +3,7 @@ extends Node
 var titleScreenScene = preload("res://Screens/FirstTitle.tscn")
 var setupScreenScene = preload("res://Screens/Setup.tscn")
 var lobbyScreenScene = preload("res://Screens/LobbyDisplays/LobbyScreen.tscn")
-var waitScreenScene = preload("res://Screens/WaitScreen.tscn")
+#var waitScreenScene = preload("res://Screens/WaitScreen.tscn")
 var resultsScreenScene = preload("res://Screens/HostResultsScreen.tscn")
 var totalResultsScreenScene = preload("res://Screens/HostTotalResultsScreen.tscn")
 
@@ -36,8 +36,7 @@ func changeScreenTo(screen):
 		GlobalVars.LOBBY_SCREEN:
 			currentScreenInstance = lobbyScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
-		GlobalVars.WAIT_SCREEN:
-			currentScreenInstance = waitScreenScene.instance()
+		
 		GlobalVars.RESULTS_SCREEN:
 			currentScreenInstance = resultsScreenScene.instance()
 		GlobalVars.TOTAL_SCREEN:
