@@ -3,3 +3,4 @@
 node_modules/
 MemojiServer/server_log.txt
 MemojiServer/server_error_log.txt
+MemojiServer/dev_server.js
