@@ -7,7 +7,7 @@ const cluster = require('cluster');
 
 const port = 3000;
 
-const max_players = 3;
+const max_players = 8;
 const max_audience = 100;
 var mtype = '';
 
@@ -173,8 +173,8 @@ if (cluster.isMaster) {
     });
     console.log(codes);
     console.log(hosts);
-    update_codes();
-    update_hosts();
+//    update_codes();
+//    update_hosts();
   }, 330000);
 
   const server = net.createServer(socket => {
@@ -244,7 +244,7 @@ if (cluster.isMaster) {
           console.log('Host is still handling games');
           const host = _.find(hosts, ['code', letterCode]);
           host.lastPing = moment().valueOf();
-          update_hosts();
+      //    update_hosts();
           writeToFile(server_log, `${letterCode} Host still handling games`);
           break;
         case 130: // Host shutting down
@@ -414,8 +414,6 @@ if (cluster.isMaster) {
 
 function parseData(data) {
   console.log("PARSING DATA RECEIVED");
-  var msg = data.toString();
-  console.log(str);
   // Convert buffer to string
   var json = JSON.stringify(data);
   // Convert back to JSON
@@ -429,16 +427,7 @@ function parseData(data) {
   }
   // Check if data has length buffer at the beginning of buffer.
   var message = "";
-
-  // Figure out if Padding (length of message) is still on message
-  if(_.startsWith(msg, '{\"')){
-    console.log("Padding is not present on message received");
-
-    // Check if accidentally has multiple messages received
-    var messages = _.split(msg, '{\"');
-    console.log(messages);
-  }
-
+  // console.log(copy.data);
   if (copy.data[0] == "{".charCodeAt(0) && copy.data[4] == "{".charCodeAt(0)) {
     // Cut off padding
     console.log('CUT PADDING');
@@ -525,8 +514,8 @@ function handleHostCodeRequest(socket) {
   };
   hosts.push(host);
 
-  update_codes();
-  update_hosts();
+//  update_codes();
+//  update_hosts();
 
   // Send back letter code
   const res = {
@@ -614,7 +603,7 @@ function handleHostDisConn(letterCode) {
   console.log("PRINT CODES:");
   console.log(codes);
 
-  update_all();
+  //update_all();
 }
 
 /*
@@ -646,8 +635,8 @@ function handlePlayerConn(letterCode, socket) {
   host.players.push(player);
   players.push(player);
 
-  update_hosts();
-  update_players();
+//  update_hosts();
+//  update_players();
 
   console.log('Handled player connection successfully.');
   console.log('Send id to player.');
@@ -683,8 +672,8 @@ function handleAudienceConn(letterCode, socket) {
   host.audience.push(audience);
   audience_members.push(audience);
 
-  update_hosts();
-  update_audience();
+//  update_hosts();
+//  update_audience();
 
   var res = {
     "messageType": 112,
@@ -751,9 +740,9 @@ function handlePlayerDisConn(letterCode, id) {
     writeToFile(error_log, `Player: ${player.id} socket destroyed unsuccessfully`);
   }
 
-  update_hosts();
-  update_players();
-  update_audience();
+//  update_hosts();
+//  update_players();
+//  update_audience();
 
   return 1;
 }
