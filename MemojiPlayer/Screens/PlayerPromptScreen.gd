@@ -8,6 +8,7 @@ var _PromptLabel
 
 var prompt_array = []
 var current_prompt = ""
+var current_prompt_id = -1
 
 
 func _ready():
@@ -29,7 +30,8 @@ func get_next_prompt():
 	if prompt_array.size() <= 0:
 		return
 	# Get prompt text and remove from array of prompts
-	current_prompt = prompt_array[0]
+	current_prompt_id = prompt_array[0][0]
+	current_prompt = prompt_array[0][1]
 	prompt_array.pop_front()
 	# Set label text
 	_PromptLabel.text = current_prompt
@@ -41,6 +43,7 @@ func _on_SubmitButton_pressed():
 	# Send completed prompt to server
 	var msg = {
 			"messageType": MESSAGE_TYPES.PLAYER_SENDING_PROMPT_RESPONSE,
+			"promptID": current_prompt_id,
 			"emojiArray": get_emoji_submission()
 		}
 	emit_signal("send_message", msg)
