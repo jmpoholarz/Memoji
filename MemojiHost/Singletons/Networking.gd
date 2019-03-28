@@ -161,9 +161,10 @@ func getMessageFromServer():
 			print(messageDict["letterCode"])
 			letterCode = messageDict["letterCode"]
 		MESSAGE_TYPES.SERVER_PING:
+			print("PING")
 			var msg = {"messageType": MESSAGE_TYPES.HOST_RESPONDING_TO_PING,
 				"letterCode": letterCode}
-			sendMessageToServer($Parser.encodeMessage(msg))
+			sendMessageToServer(msg)
 		MESSAGE_TYPES.PLAYER_CONNECTED:
 			emit_signal("playerConnected", messageDict["playerID"], messageDict["isPlayer"])
 		MESSAGE_TYPES.PLAYER_DISCONNECTED:

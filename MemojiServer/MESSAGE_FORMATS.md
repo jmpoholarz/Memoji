@@ -64,6 +64,7 @@ _Sent to move players to a screen to vote on answers_
 {
   messageType: 312,
   letterCode: "ABCD" (Added by Networking.gd)
+  answers: [...]
 }
 ```
 

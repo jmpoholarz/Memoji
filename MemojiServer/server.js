@@ -26,6 +26,8 @@ let hosts = [];
 let players = [];
 let audience_members = [];
 
+let curr_process = null;
+
 if (cluster.isMaster) {
 
   console.log(`Master ${process.pid} is running`);
@@ -73,29 +75,34 @@ if (cluster.isMaster) {
   let gPlayers = [];
   let gAudience_members = [];
 
-  // Send a ping to each host every 5 minutes to check if the game is still active
-  setInterval(() => {
-    console.log("Send Ping to Host(s)");
-    writeToFile(server_log, 'Sending Ping to Host(s).');
-    _.forEach(hosts, (host) => {
-      const res = {
-        "messageType": 120
-      };
-      send(host.socket, JSON.stringify(res));
-    });
-  }, 300000);
-  // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
-  setInterval(() => {
-    console.log("Remove unresponsive Host(s)");
-    writeToFile(server_log, 'Removing unresponsive Host(s)');
-    var hosts_to_remove = _.filter(hosts, (host) => {
-      return (Math.abs(host.lastPing - moment().valueOf()) > 30000);
-    });
-    _.forEach(hosts_to_remove, (host) => {
-      host.socket.destroy();
-      _.remove(hosts, host);
-    });
-  }, 330000);
+  // // Send a ping to each host every 5 minutes to check if the game is still active
+  // setInterval(() => {
+  //   console.log("Send Ping to Host(s)");
+  //   writeToFile(server_log, 'Sending Ping to Host(s).');
+  //   _.forEach(hosts, (host) => {
+  //     console.log("Send message to host with letter code:");
+  //     console.log(host.code);
+  //     const res = {
+  //       "messageType": 120
+  //     };
+  //     send(host.socket, JSON.stringify(res));
+  //   });
+  // }, 10000);
+  // // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
+  // setInterval(() => {
+  //   console.log("Remove unresponsive Host(s)");
+  //   writeToFile(server_log, 'Removing unresponsive Host(s)');
+  //   var hosts_to_remove = _.filter(hosts, (host) => {
+  //     return (Math.abs(host.lastPing - moment().valueOf()) > 30000);
+  //   });
+  //   _.forEach(hosts_to_remove, (host) => {
+  //     _.remove(codes, host.code);
+  //     host.socket.destroy();
+  //     _.remove(hosts, host);
+  //   });
+  //   console.log(codes);
+  //   console.log(hosts);
+  // }, 15000);
 
   cluster.fork();
 
@@ -137,6 +144,38 @@ if (cluster.isMaster) {
 
 } else {
   // Workers can share any TCP connection
+
+  // Send a ping to each host every 5 minutes to check if the game is still active
+  setInterval(() => {
+    console.log("Send Ping to Host(s)");
+    writeToFile(server_log, 'Sending Ping to Host(s).');
+    _.forEach(hosts, (host) => {
+      console.log("Send message to host with letter code:");
+      console.log(host.code);
+      const res = {
+        "messageType": 120
+      };
+      send(host.socket, JSON.stringify(res));
+    });
+  }, 300000);
+  // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
+  setInterval(() => {
+    console.log("Remove unresponsive Host(s)");
+    writeToFile(server_log, 'Removing unresponsive Host(s)');
+    var hosts_to_remove = _.filter(hosts, (host) => {
+      return (Math.abs(host.lastPing - moment().valueOf()) > 30000);
+    });
+    // console.log(hosts_to_remove);
+    _.forEach(hosts_to_remove, (host) => {
+      _.remove(codes, host.code);
+      host.socket.destroy();
+      _.remove(hosts, host);
+    });
+    console.log(codes);
+    console.log(hosts);
+    update_codes();
+    update_hosts();
+  }, 330000);
 
   const server = net.createServer(socket => {
 
@@ -205,6 +244,7 @@ if (cluster.isMaster) {
           console.log('Host is still handling games');
           const host = _.find(hosts, ['code', letterCode]);
           host.lastPing = moment().valueOf();
+          update_hosts();
           writeToFile(server_log, `${letterCode} Host still handling games`);
           break;
         case 130: // Host shutting down
@@ -349,28 +389,10 @@ if (cluster.isMaster) {
   });
 
   process.on('uncaughtException', (err) => {
-    console.log('An error occured: Save local values.');
-    writeToFile(error_log, 'An error occured: Save local values.');
-
-    process.send({
-      topic: CODES_UPDATE,
-      codes: codes
-    });
-    process.send({
-      topic: HOSTS_UPDATE,
-      hosts: hosts
-    });
-    process.send({
-      topic: PLAYERS_UPDATE,
-      players: players
-    });
-    process.send({
-      topic: AUDIENCE_MEMBERS_UPDATE,
-      audience_members: audience_members
-    });
-
-    writeToFile(error_log, err.name);
-    writeToFile(error_log, err.message);
+    console.log('An error occured!');
+    writeToFile(error_log, 'An error occured!');
+    writeToFile(error_log, `Error name: ${err.name}`);
+    writeToFile(error_log, `Error message: ${err.message}`);
   });
 
   process.on('SIGINT', () => {
@@ -386,6 +408,42 @@ if (cluster.isMaster) {
     process.exit();
   });
 
+  curr_process = process;
+
+}
+
+function parseData(data) {
+  console.log("PARSING DATA RECEIVED");
+  // Convert buffer to string
+  var json = JSON.stringify(data);
+  // Convert back to JSON
+  var copy = "";
+  try {
+    copy = JSON.parse(json);
+  } catch (err) {
+    console.log("THERE HAS BEEN AN ERROR PARSING THE DATA RECEIVED.");
+    console.warn(err);
+    return -1;
+  }
+  // Check if data has length buffer at the beginning of buffer.
+  var message = "";
+  // console.log(copy.data);
+  if (copy.data[0] == "{".charCodeAt(0) && copy.data[4] == "{".charCodeAt(0)) {
+    // Cut off padding
+    console.log('CUT PADDING');
+    message = copy.data.slice(4);
+  } else if (copy.data[0] != "{".charCodeAt(0)){
+    console.log('CUT PADDING');
+    message = copy.data.slice(4);
+  } else {
+    // No padding to cut
+    console.log('DO NOT CUT PADDING');
+    message = copy.data;
+  }
+  // Place new message in buffer
+  const b = new Buffer.from(message);
+  // Return message without padding
+  return b.toString();
 }
 
 function writeToFile(filename, message) {
@@ -395,6 +453,41 @@ function writeToFile(filename, message) {
     if (err) throw err;
     console.log(`Appended to file ${filename}`);
   });
+}
+
+function update_codes() {
+  curr_process.send({
+    topic: CODES_UPDATE,
+    codes: codes
+  });
+}
+
+function update_hosts(){
+  curr_process.send({
+    topic: HOSTS_UPDATE,
+    hosts: hosts
+  });
+}
+
+function update_players(){
+  curr_process.send({
+    topic: PLAYERS_UPDATE,
+    players: players
+  });
+}
+
+function update_audience(){
+  curr_process.send({
+    topic: AUDIENCE_MEMBERS_UPDATE,
+    audience_members: audience_members
+  });
+}
+
+function update_all(){
+  update_codes();
+  update_hosts();
+  update_players();
+  update_audience();
 }
 
 /*
@@ -420,7 +513,10 @@ function handleHostCodeRequest(socket) {
     lastPing: moment().valueOf()
   };
   hosts.push(host);
-  // Host object is created
+
+  update_codes();
+  update_hosts();
+
   // Send back letter code
   const res = {
     "messageType": 111,
@@ -506,6 +602,8 @@ function handleHostDisConn(letterCode) {
   console.log(hosts);
   console.log("PRINT CODES:");
   console.log(codes);
+
+  update_all();
 }
 
 /*
@@ -536,6 +634,10 @@ function handlePlayerConn(letterCode, socket) {
   }
   host.players.push(player);
   players.push(player);
+
+  update_hosts();
+  update_players();
+
   console.log('Handled player connection successfully.');
   console.log('Send id to player.');
   var res = {
@@ -569,6 +671,10 @@ function handleAudienceConn(letterCode, socket) {
   };
   host.audience.push(audience);
   audience_members.push(audience);
+
+  update_hosts();
+  update_audience();
+
   var res = {
     "messageType": 112,
     "letterCode": letterCode,
@@ -633,6 +739,11 @@ function handlePlayerDisConn(letterCode, id) {
     console.log(`Player: ${player.id} socket destroyed successfully`);
     writeToFile(error_log, `Player: ${player.id} socket destroyed unsuccessfully`);
   }
+
+  update_hosts();
+  update_players();
+  update_audience();
+
   return 1;
 }
 
@@ -695,40 +806,6 @@ function codeCheck(letterCode) {
     return false;
   }
   return true;
-}
-
-function parseData(data) {
-  console.log("PARSING DATA RECEIVED");
-  // Convert buffer to string
-  var json = JSON.stringify(data);
-  // Convert back to JSON
-  var copy = "";
-  try {
-    copy = JSON.parse(json);
-  } catch (err) {
-    console.log("THERE HAS BEEN AN ERROR PARSING THE DATA RECEIVED.");
-    console.warn(err);
-    return -1;
-  }
-  // Check if data has length buffer at the beginning of buffer.
-  var message = "";
-  // console.log(copy.data);
-  if (copy.data[0] == "{".charCodeAt(0) && copy.data[4] == "{".charCodeAt(0)) {
-    // Cut off padding
-    console.log('CUT PADDING');
-    message = copy.data.slice(4);
-  } else if (copy.data[0] != "{".charCodeAt(0)){
-    console.log('CUT PADDING');
-    message = copy.data.slice(4);
-  } else {
-    // No padding to cut
-    console.log('DO NOT CUT PADDING');
-    message = copy.data;
-  }
-  // Place new message in buffer
-  const b = new Buffer.from(message);
-  // Return message without padding
-  return b.toString();
 }
 
 function generateCode() {

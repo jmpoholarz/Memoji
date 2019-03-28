@@ -12,7 +12,7 @@ use_filter = false
 font_data = ExtResource( 2 )
 _sections_unfolded = [ "Font", "Font/fallback" ]
 
-[node name="VotingScreen" type="Node2D"]
+[node name="VotingScreen" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
@@ -186,7 +186,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="EmojiCanvas" parent="Foreground/Answer1" index="0" instance=ExtResource( 3 )]
+[node name="Emojis1" parent="Foreground/Answer1" index="0" instance=ExtResource( 3 )]
 
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -219,7 +219,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="EmojiCanvas" parent="Foreground/Answer2" index="0" instance=ExtResource( 3 )]
+[node name="Emojis2" parent="Foreground/Answer2" index="0" instance=ExtResource( 3 )]
 
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -229,8 +229,8 @@ margin_bottom = 335.0
 [node name="Timer" type="Timer" parent="." index="2"]
 
 process_mode = 1
-wait_time = 60.0
-one_shot = true
+wait_time = 1.0
+one_shot = false
 autostart = false
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
