@@ -309,17 +309,35 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 				$ScreenManager.currentScreenInstance.update_player_status(player)
 
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
+	var message
+	
 	print ("DEBUG: received player answer")
-	# TODO: Check for where in the game we currently arer
-	# i.e. if the current screen is on waiting
+	
 	if (currentState == GAME_STATE.PROMPT_PHASE):
 		$PromptManager.set_answer(int(promptID), playerID, emojiArray)
+		message = {
+			"messageType": MESSAGE_TYPES.ACCEPTED_PROMPT_RESPONSE,
+			"letterCode": lobbyCode,
+			"playerID": playerID
+		}
+		$Networking.sendMessageToServer(message)
+
 		print("DEBUG: Check for prompt completion - ", $PromptManager.check_completion())
 		if ($PromptManager.check_completion()):
 			advanceGame()
-
+	
+	
 func _on_Networking_receivedPlayerVote(playerID, promptID, voteID):
-	currentPlayerVotes[playerID] = voteID
+	#currentPlayerVotes[playerID] = voteID
+	var message
+	message = {
+		"messageType": MESSAGE_TYPES.ACCEPTED_VOTE_RESPONSE,
+		"letterCode": lobbyCode,
+		"playerID": playerID
+	}
+	$Networking.sendMessageToServer(message)
+
+	pass
 
 func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
 	pass # replace with function body
