@@ -90,9 +90,8 @@ func shufflePlayers(numPlayers):
 	for i in range(numPlayers):
 		randomize()
 		var x = randi()%indexList.size()
-		var p = copy_players[x]
-		shuffled_players.append(p)
-		copy_players.remove(p)
+		shuffled_players.append(copy_players[x])
+		copy_players.remove(x)
 		indexList.remove(x)
 	return shuffled_players
 
