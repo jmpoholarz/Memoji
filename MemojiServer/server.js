@@ -75,35 +75,6 @@ if (cluster.isMaster) {
   let gPlayers = [];
   let gAudience_members = [];
 
-  // // Send a ping to each host every 5 minutes to check if the game is still active
-  // setInterval(() => {
-  //   console.log("Send Ping to Host(s)");
-  //   writeToFile(server_log, 'Sending Ping to Host(s).');
-  //   _.forEach(hosts, (host) => {
-  //     console.log("Send message to host with letter code:");
-  //     console.log(host.code);
-  //     const res = {
-  //       "messageType": 120
-  //     };
-  //     send(host.socket, JSON.stringify(res));
-  //   });
-  // }, 10000);
-  // // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
-  // setInterval(() => {
-  //   console.log("Remove unresponsive Host(s)");
-  //   writeToFile(server_log, 'Removing unresponsive Host(s)');
-  //   var hosts_to_remove = _.filter(hosts, (host) => {
-  //     return (Math.abs(host.lastPing - moment().valueOf()) > 30000);
-  //   });
-  //   _.forEach(hosts_to_remove, (host) => {
-  //     _.remove(codes, host.code);
-  //     host.socket.destroy();
-  //     _.remove(hosts, host);
-  //   });
-  //   console.log(codes);
-  //   console.log(hosts);
-  // }, 15000);
-
   cluster.fork();
 
   // Handle local and global variables between Master and Worker processes
@@ -173,8 +144,8 @@ if (cluster.isMaster) {
     });
     console.log(codes);
     console.log(hosts);
-//    update_codes();
-//    update_hosts();
+    update_codes();
+    update_hosts();
   }, 330000);
 
   const server = net.createServer(socket => {
@@ -244,7 +215,7 @@ if (cluster.isMaster) {
           console.log('Host is still handling games');
           const host = _.find(hosts, ['code', letterCode]);
           host.lastPing = moment().valueOf();
-      //    update_hosts();
+          update_hosts();
           writeToFile(server_log, `${letterCode} Host still handling games`);
           break;
         case 130: // Host shutting down
@@ -389,7 +360,7 @@ if (cluster.isMaster) {
   });
 
   process.on('uncaughtException', (err) => {
-    console.log('An error occured!');
+    console.log(`An error occured! ${err.name} | ${err.message}`);
     writeToFile(error_log, 'An error occured!');
     writeToFile(error_log, `Error name: ${err.name}`);
     writeToFile(error_log, `Error message: ${err.message}`);
@@ -432,7 +403,7 @@ function parseData(data) {
     // Cut off padding
     console.log('CUT PADDING');
     message = copy.data.slice(4);
-  } else if (copy.data[0] != "{".charCodeAt(0)){
+  } else if (copy.data[0] != "{".charCodeAt(0)) {
     console.log('CUT PADDING');
     message = copy.data.slice(4);
   } else {
@@ -462,28 +433,28 @@ function update_codes() {
   });
 }
 
-function update_hosts(){
+function update_hosts() {
   curr_process.send({
     topic: HOSTS_UPDATE,
     hosts: hosts
   });
 }
 
-function update_players(){
+function update_players() {
   curr_process.send({
     topic: PLAYERS_UPDATE,
     players: players
   });
 }
 
-function update_audience(){
+function update_audience() {
   curr_process.send({
     topic: AUDIENCE_MEMBERS_UPDATE,
     audience_members: audience_members
   });
 }
 
-function update_all(){
+function update_all() {
   update_codes();
   update_hosts();
   update_players();
@@ -514,8 +485,8 @@ function handleHostCodeRequest(socket) {
   };
   hosts.push(host);
 
-//  update_codes();
-//  update_hosts();
+  update_codes();
+  update_hosts();
 
   // Send back letter code
   const res = {
@@ -603,7 +574,7 @@ function handleHostDisConn(letterCode) {
   console.log("PRINT CODES:");
   console.log(codes);
 
-  //update_all();
+  update_all();
 }
 
 /*
@@ -635,8 +606,8 @@ function handlePlayerConn(letterCode, socket) {
   host.players.push(player);
   players.push(player);
 
-//  update_hosts();
-//  update_players();
+  update_hosts();
+  update_players();
 
   console.log('Handled player connection successfully.');
   console.log('Send id to player.');
@@ -672,8 +643,8 @@ function handleAudienceConn(letterCode, socket) {
   host.audience.push(audience);
   audience_members.push(audience);
 
-//  update_hosts();
-//  update_audience();
+  update_hosts();
+  update_audience();
 
   var res = {
     "messageType": 112,
@@ -740,9 +711,9 @@ function handlePlayerDisConn(letterCode, id) {
     writeToFile(error_log, `Player: ${player.id} socket destroyed unsuccessfully`);
   }
 
-//  update_hosts();
-//  update_players();
-//  update_audience();
+  update_hosts();
+  update_players();
+  update_audience();
 
   return 1;
 }
@@ -778,24 +749,24 @@ function sendToHost(letterCode, message) {
 function send(socket, data) {
   // Convert length to 32bit integer
   const n = data.toString().length;
-  const arr = toBytesInt32(n);
+  console.log(`Length of message: ${n}`);
+  const buf = toBytesInt32(n);
   // Store length in Buffer
-  const buff = new Buffer.from(arr);
-  console.log(buff);
   // Store message in Buffer
-  const buff2 = new Buffer.from(data.toString());
-  console.log('Message sent: ' + buff2.toString());
+  const buf2 = new Buffer.from(data.toString());
   // Send length
-  socket.write(buff);
+  console.log(`Length Sent: ${buf}`);
+  socket.write(buf);
   // Send message
-  socket.write(buff2);
+  console.log(`Message sent: ${buf2.toString()}`);
+  socket.write(buf2);
 }
 
 function toBytesInt32(num) {
-  arr = new ArrayBuffer(4);
-  view = new DataView(arr);
-  view.setUint32(0, num, false);
-  return arr;
+  var buf = new Buffer.alloc(4);
+  buf.fill(0);
+  buf.writeUInt32BE(num, 0);
+  return buf;
 }
 
 function codeCheck(letterCode) {
