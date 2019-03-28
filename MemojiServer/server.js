@@ -16,12 +16,17 @@ const error_log = 'server_error_log.txt';
 
 const GET_ALL = 'GET_ALL';
 const UPDATE_ALL = 'UPDATE_ALL';
-const SEND_ALL = 'SEND_ALL';
+const CODES_UPDATE = 'CODES_UPDATE';
+const HOSTS_UPDATE = 'HOSTS_UPDATE';
+const PLAYERS_UPDATE = 'PLAYERS_UPDATE';
+const AUDIENCE_MEMBERS_UPDATE = 'AUDIENCE_MEMBERS_UPDATE';
 
 let codes = [];
 let hosts = [];
 let players = [];
 let audience_members = [];
+
+let curr_process = null;
 
 if (cluster.isMaster) {
 
@@ -111,10 +116,16 @@ if (cluster.isMaster) {
         });
       }
     }
-    if (msg.topic && msg.topic === SEND_ALL) {
+    if (msg.topic && msg.topic === CODES_UPDATE) {
       gCodes = msg.codes;
+    }
+    if (msg.topic && msg.topic === HOSTS_UPDATE) {
       gHosts = msg.hosts;
+    }
+    if (msg.topic && msg.topic === PLAYERS_UPDATE) {
       gPlayers = msg.players;
+    }
+    if (msg.topic && msg.topic === AUDIENCE_MEMBERS_UPDATE) {
       gAudience_members = msg.audience_members;
     }
   });
@@ -343,14 +354,6 @@ if (cluster.isMaster) {
     console.log('An error occured: Save local values.');
     writeToFile(error_log, 'An error occured: Save local values.');
 
-    process.send({
-      topic: SEND_ALL,
-      codes: codes,
-      hosts: hosts,
-      players: players,
-      audience_members: audience_members
-    });
-
     writeToFile(error_log, err.name);
     writeToFile(error_log, err.message);
   });
@@ -368,6 +371,42 @@ if (cluster.isMaster) {
     process.exit();
   });
 
+  curr_process = process;
+
+}
+
+function parseData(data) {
+  console.log("PARSING DATA RECEIVED");
+  // Convert buffer to string
+  var json = JSON.stringify(data);
+  // Convert back to JSON
+  var copy = "";
+  try {
+    copy = JSON.parse(json);
+  } catch (err) {
+    console.log("THERE HAS BEEN AN ERROR PARSING THE DATA RECEIVED.");
+    console.warn(err);
+    return -1;
+  }
+  // Check if data has length buffer at the beginning of buffer.
+  var message = "";
+  // console.log(copy.data);
+  if (copy.data[0] == "{".charCodeAt(0) && copy.data[4] == "{".charCodeAt(0)) {
+    // Cut off padding
+    console.log('CUT PADDING');
+    message = copy.data.slice(4);
+  } else if (copy.data[0] != "{".charCodeAt(0)){
+    console.log('CUT PADDING');
+    message = copy.data.slice(4);
+  } else {
+    // No padding to cut
+    console.log('DO NOT CUT PADDING');
+    message = copy.data;
+  }
+  // Place new message in buffer
+  const b = new Buffer.from(message);
+  // Return message without padding
+  return b.toString();
 }
 
 function writeToFile(filename, message) {
@@ -377,6 +416,41 @@ function writeToFile(filename, message) {
     if (err) throw err;
     console.log(`Appended to file ${filename}`);
   });
+}
+
+function update_codes() {
+  curr_process.send({
+    topic: CODES_UPDATE,
+    codes: codes
+  });
+}
+
+function update_hosts(){
+  curr_process.send({
+    topic: HOSTS_UPDATE,
+    hosts: hosts
+  });
+}
+
+function update_players(){
+  curr_process.send({
+    topic: PLAYERS_UPDATE,
+    players: players
+  });
+}
+
+function update_audience(){
+  curr_process.send({
+    topic: AUDIENCE_MEMBERS_UPDATE,
+    audience_members: audience_members
+  });
+}
+
+function update_all(){
+  update_codes();
+  update_hosts();
+  update_players();
+  update_audience();
 }
 
 /*
@@ -402,7 +476,10 @@ function handleHostCodeRequest(socket) {
     lastPing: moment().valueOf()
   };
   hosts.push(host);
-  // Host object is created
+
+  update_codes();
+  update_hosts();
+
   // Send back letter code
   const res = {
     "messageType": 111,
@@ -488,6 +565,8 @@ function handleHostDisConn(letterCode) {
   console.log(hosts);
   console.log("PRINT CODES:");
   console.log(codes);
+
+  update_all();
 }
 
 /*
@@ -518,6 +597,10 @@ function handlePlayerConn(letterCode, socket) {
   }
   host.players.push(player);
   players.push(player);
+
+  update_hosts();
+  update_players();
+
   console.log('Handled player connection successfully.');
   console.log('Send id to player.');
   var res = {
@@ -551,6 +634,10 @@ function handleAudienceConn(letterCode, socket) {
   };
   host.audience.push(audience);
   audience_members.push(audience);
+
+  update_hosts();
+  update_audience();
+
   var res = {
     "messageType": 112,
     "letterCode": letterCode,
@@ -615,6 +702,11 @@ function handlePlayerDisConn(letterCode, id) {
     console.log(`Player: ${player.id} socket destroyed successfully`);
     writeToFile(error_log, `Player: ${player.id} socket destroyed unsuccessfully`);
   }
+
+  update_hosts();
+  update_players();
+  update_audience();
+
   return 1;
 }
 
@@ -677,40 +769,6 @@ function codeCheck(letterCode) {
     return false;
   }
   return true;
-}
-
-function parseData(data) {
-  console.log("PARSING DATA RECEIVED");
-  // Convert buffer to string
-  var json = JSON.stringify(data);
-  // Convert back to JSON
-  var copy = "";
-  try {
-    copy = JSON.parse(json);
-  } catch (err) {
-    console.log("THERE HAS BEEN AN ERROR PARSING THE DATA RECEIVED.");
-    console.warn(err);
-    return -1;
-  }
-  // Check if data has length buffer at the beginning of buffer.
-  var message = "";
-  // console.log(copy.data);
-  if (copy.data[0] == "{".charCodeAt(0) && copy.data[4] == "{".charCodeAt(0)) {
-    // Cut off padding
-    console.log('CUT PADDING');
-    message = copy.data.slice(4);
-  } else if (copy.data[0] != "{".charCodeAt(0)){
-    console.log('CUT PADDING');
-    message = copy.data.slice(4);
-  } else {
-    // No padding to cut
-    console.log('DO NOT CUT PADDING');
-    message = copy.data;
-  }
-  // Place new message in buffer
-  const b = new Buffer.from(message);
-  // Return message without padding
-  return b.toString();
 }
 
 function generateCode() {
