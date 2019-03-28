@@ -5,10 +5,10 @@ var currentState = GAME_STATE.NOT_STARTED
 var currentPrompt # Index starting from 0 that refers to the prompt players are currently voting on
 var answers = []
 
-var players = []
-var audiencePlayers = []
-var currentPlayerVotes = []
-var totalScoreTally = []
+var players = [] # array of all players in the game
+var audiencePlayers = [] # array of all players in the audience
+var currentPlayerVotes = [] # array of which selection was voted for by each players
+var totalScoreTally = [] # array of scores for each player, in total
 var competitors = [] # players who are competing in the current round of voting
 
 var lobbyCode = null
