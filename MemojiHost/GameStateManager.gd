@@ -85,18 +85,22 @@ func sendPrompts():
 	
 func shufflePlayers(numPlayers):
 	var shuffled_players = []
+	var copy_players = [] + players
 	var indexList = range(numPlayers)
 	for i in range(numPlayers):
 		randomize()
 		var x = randi()%indexList.size()
-		shuffled_players.append(players[x])
+		var p = copy_players[x]
+		shuffled_players.append(p)
+		copy_players.remove(p)
 		indexList.remove(x)
 	return shuffled_players
 
 func pair_players(numPlayers):
 	var messages = []
 	var shuffled_players = shufflePlayers(numPlayers)
-	"""
+	print(shuffled_players)
+	
 	for i in range(numPlayers):
 		var prompt = $PromptManager.create_prompt()
 		messages.append({
@@ -130,6 +134,7 @@ func pair_players(numPlayers):
 			"prompt": prompt.get_prompt_text(),
 			"playerID": players[(i + 1) % numPlayers].playerID
 		})
+	"""
 	return messages
 
 func votePhase(): # handle voting for one prompt
