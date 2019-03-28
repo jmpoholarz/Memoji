@@ -14,6 +14,14 @@ func _ready():
 #	# Update game logic here.
 #	pass
 
+func displayAnswers(answers):
+	#get the arrays of answers so that the responses can be displayed
+	var displayBox = get_node("MarginContainer/Rows/AnswerBoxes/AnswerLeft/EmojiCanvas")
+	displayBox.decode_emojis(answers[0])
+	displayBox = get_node("MarginContainer/Rows/AnswerBoxes/AnswerRight/EmojiCanvas")
+	displayBox.decode_emojis(answers[1])
+	return
+
 func calculateTotals(ID, votes, audiencePercent):
 	#calculate how many points are to be awarded to the player based on
 	#the number of votes received and the percent of the audience won over
