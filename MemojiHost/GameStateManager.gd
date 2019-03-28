@@ -61,6 +61,7 @@ func setupGame():
 	currentState = GAME_STATE.PROMPT_PHASE
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
+	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
 	
 	# Create message to send to players that game is starting
 	var message = {"messageType":MESSAGE_TYPES.HOST_STARTING_GAME, 

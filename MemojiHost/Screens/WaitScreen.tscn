@@ -3,7 +3,7 @@
 [ext_resource path="res://Screens/WaitScreen.gd" type="Script" id=1]
 [ext_resource path="res://Screens/Elements/ConfirmationRow.tscn" type="PackedScene" id=2]
 
-[node name="WaitScreen" type="Node"]
+[node name="WaitScreen" type="Node" index="0"]
 
 script = ExtResource( 1 )
 

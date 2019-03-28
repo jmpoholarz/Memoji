@@ -2,6 +2,8 @@ extends VBoxContainer
 
 var playerID = null
 var avatarList = []
+var progress = 0
+var maxPrompts
 
 func _ready():
 	# TODO: Replace Placeholder
@@ -30,6 +32,10 @@ func update_from_player(player):
 	
 func show_confirmation():
 	$Checkmark.show()
+
+func record_answer():
+	progress += 1;
+	if (progress >= 2): show_confirmation()
 
 func reset():
 	playerID = null
