@@ -74,7 +74,7 @@ func _on_Networking_promptReceived(promptID, prompt):
 			yield($ScreenManager, "screen_change_completed") # Needs testing
 		#print("yield has completed")
 		current_prompts.append([promptID, prompt])
-		$ScreenManager.currentScreenInstance.add_prompts([prompt])
+		$ScreenManager.currentScreenInstance.add_prompts([[promptID, prompt]])
 		#print("prompt added to currentScreen")
 		$ScreenManager.currentScreenInstance.get_next_prompt()
 		#print("next prompt got")
