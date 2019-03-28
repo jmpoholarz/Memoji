@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Screens/WaitingForGameStartScreen.gd" type="Script" id=1]
 
-[node name="WaitingForGameScreen" type="Panel"]
+[node name="WaitingForGameScreen" type="Panel" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -160,6 +160,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 6
 size_flags_vertical = 6
+disabled = true
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null

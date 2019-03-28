@@ -93,7 +93,7 @@ func shufflePlayers(numPlayers):
 		indexList.remove(x)
 	return shuffled_players
 
-func pair_prompts(numPlayers):
+func pair_players(numPlayers):
 	var messages = []
 	var shuffled_players = shufflePlayers(numPlayers)
 	for i in range(numPlayers):
@@ -115,29 +115,26 @@ func pair_prompts(numPlayers):
 	return messages
 
 func votePhase(): # handle voting for one prompt
-	# Screen
+	var answers # Array
+	var promptID # Integer
+	
+	promptID = $PromptManager.active_prompt_ids[currentPrompt]
+	answers = $PromptManager.get_answers_to_prompt(promptID)
+	
 	print("DEBUG: entered votephase")
 	currentState = GAME_STATE.VOTE_PHASE
 	
+	# Change to VotingScreen if not already there and update it
 	if ($ScreenManager.currentScreen != GlobalVars.SCREENS.VOTE_SCREEN):
 		$ScreenManager.changeScreenTo(GlobalVars.SCREENS.VOTE_SCREEN)
-	else:
-		pass
-		# TODO: Reset the voting screen to display current prompt
-		#$ScreenManager.currentScreenInstance.reset_display()
+	$ScreenManager.currentScreenInstance.display_emojis(answers[0], answers[1])
 	
-	sendAnswersForVoting($PromptManager.active_prompt_ids[currentPrompt])
+	sendAnswersForVoting(answers)
 
 # Sends the Answers to Players corresponding to the promptID given
-func sendAnswersForVoting(promptID):
+func sendAnswersForVoting(answers):
 	print("DEBUG: sendAnswersForVoting!!!!")
-	var answers = []
 	var message
-	answers = $PromptManager.get_answers_to_prompt(promptID)
-	
-	# TODO: Refactor this
-	if ($ScreenManager.currentScreen == GlobalVars.SCREENS.VOTE_SCREEN):
-		$ScreenManager.currentScreen.display_emojis(answers[0], answers[1])
 	
 	for index in range(answers.size()):
 		message = {
