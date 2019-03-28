@@ -513,6 +513,7 @@ function handleHostDisConn(letterCode) {
     console.log(`Send Player: ${player.id} disconnect message.`);
     send(player.socket, JSON.stringify(res));
     writeToFile(server_log, `Send Player: ${player.id} disconnect message.`);
+    _.remove(players, player);
   });
   console.log('Players removed from host lobby');
   writeToFile(server_log, 'Players removed from host lobby');
@@ -533,6 +534,7 @@ function handleHostDisConn(letterCode) {
     console.log(`Send Audience: ${audience.id} disconnect message.`);
     send(audience.socket, JSON.stringify(res));
     writeToFile(server_log, `Send Audience: ${audience.id} disconnect message.`);
+    _.remove(audience_members, audience);
   });
 
   console.log('Audience removed from host lobby');
@@ -713,7 +715,6 @@ function handlePlayerDisConn(letterCode, id) {
 
   update_hosts();
   update_players();
-  update_audience();
 
   return 1;
 }
