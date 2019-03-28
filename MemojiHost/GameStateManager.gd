@@ -165,6 +165,7 @@ func showResults():
 
 func showTotalResults():
 	$ScreenManager.changeScreenTo(GlobalVars.TOTAL_SCREEN)
+	$ScreenManager.currentScreenInstance.displayResults(totalScoreTally, players)
 	
 
 func advanceGame():
