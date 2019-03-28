@@ -174,9 +174,9 @@ func getMessageFromServer():
 		MESSAGE_TYPES.PLAYER_SENDING_PROMPT_RESPONSE:
 			emit_signal("receivedPlayerAnswer", messageDict["playerID"], messageDict["promptID"], messageDict["emojiArray"])
 		MESSAGE_TYPES.PLAYER_SENDING_SINGLE_VOTE:
-			emit_signal("receivedPlayerVote", messageDict["playerID"], messageDict["promptID"], messageDict["voteID"])
+			emit_signal("receivedPlayerVote", messageDict["playerID"], messageDict["voteID"])
 		MESSAGE_TYPES.PLAYER_SENDING_MULTI_VOTE:
-			emit_signal("receivedPlayerMultiVote", messageDict["playerID"], messageDict["promptID"], messageDict["voteArray"])
+			emit_signal("receivedPlayerMultiVote", messageDict["playerID"], messageDict["voteArray"])
 		_:
 			print("Unrecognized message code " + str(messageCode))
 			Logger.writeLine("Unrecognized message code " + str(messageCode))
