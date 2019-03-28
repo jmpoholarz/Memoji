@@ -171,7 +171,7 @@ func getMessageFromServer():
 		MESSAGE_TYPES.HOST_SENDING_PROMPT:
 			emit_signal("promptReceived", messageDict["promptID"], messageDict["prompt"])
 		MESSAGE_TYPES.HOST_SENDING_ANSWERS:
-			emit_signal("answersReceived", messageDict["answerArray"])
+			emit_signal("answersReceived", messageDict["answers"])
 		MESSAGE_TYPES.INVALID_USERNAME:
 			emit_signal("enteredInvalidUsername")
 		MESSAGE_TYPES.ACCEPTED_USERNAME_AND_AVATAR:
