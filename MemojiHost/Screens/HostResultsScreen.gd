@@ -62,7 +62,7 @@ func displayVoters(votes, players):
 			currentNode.visible = true
 		else:
 			#if a player did not vote make sure they are not visible
-			currentNode = getNode(voterLoc + "VotersLet/PlayerIcon" + str(x+1))
+			currentNode = getNode(voterLoc + "VotersLeft/PlayerIcon" + str(x+1))
 			currentNode.visible = false
 			currentNode = getNode(voterLoc + "VotersRight/PlayerIcon" + str(x+1))
 			currentNode.visible = false
