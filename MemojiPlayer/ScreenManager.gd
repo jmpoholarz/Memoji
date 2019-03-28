@@ -58,6 +58,7 @@ func changeScreenTo(screen):
 			currentScreenInstance = playerVotingScene.instance()
 			add_child(currentScreenInstance)
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
+			currentScreenInstance.connect("change_screen", self, "changeScreenTo")
 			
 		PROMPT_ANSWERING_SCREEN:
 			currentScreenInstance = prompt_answering_screen_scene.instance()
@@ -68,6 +69,7 @@ func changeScreenTo(screen):
 		WAITING_SCREEN:
 			currentScreenInstance = wait_screen.instance()
 			add_child(currentScreenInstance)
+			
 		
 		PLAYER_WAITING_AFTER_VOTING_SCREEN:
 			currentScreenInstance = wait_screen.instance()
