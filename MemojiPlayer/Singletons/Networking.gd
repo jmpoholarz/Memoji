@@ -111,7 +111,7 @@ func sendMessageToServer(message):
 		return
 	# Check if valid message
 	if message["messageType"] != MESSAGE_TYPES.HOST_REQUESTING_CODE:
-		print("Failed to send message.  Lacking messageType attribute.")
+		#print("Failed to send message.  Lacking messageType attribute.")
 		Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'messageType' attribute.")
 	if !message.has("letterCode"):
 		#print("Failed to send message.  Lacking letterCode attribute.")
@@ -123,7 +123,7 @@ func sendMessageToServer(message):
 	Logger.writeLine("Sending player message...")
 	message = $Parser.encodeMessage(message)
 	socket.put_utf8_string(message)
-	print("Player message sent.")
+	print("Player message (" + str(message) + ") sent.")
 	Logger.writeLine("Message (" + str(message) + ") sent.")
 
 func getMessageFromServer():
