@@ -37,10 +37,13 @@ func _on_Networking_connectionTimeout():
 		$ScreenManager.currentScreenInstance.show_ServerErrorPopup("Could not connect to server.  Connection Timeout.")
 
 
-func _on_Networking_answersReceived(answerArray):
+func _on_Networking_answersReceived(answers):
+	$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
-		$ScreenManager/currentScreenInstance.receive_PromptArray(answerArray)
+		#$ScreenManager/currentScreenInstance.receive_answerArray(answerArray)
+		$ScreenManager.currentScreen.set_answers(answers)
 	pass # replace with function body
+	#Manoj
 
 func _on_Networking_enteredInvalidAnswer():
 #	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
@@ -99,6 +102,8 @@ func _on_Networking_enteredInvalidMultiVote():
 	pass # replace with function body
 
 func _on_Networking_enteredValidVote():
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PLAYER_WAITING_AFTER_VOTING_SCREEN)
 	pass # replace with function body
 
 func _on_Networking_enteredInvalidVote():
