@@ -143,7 +143,7 @@ func votePhase(): # handle voting for one prompt
 	
 	promptID = $PromptManager.active_prompt_ids[currentPrompt]
 	answers = $PromptManager.get_answers_to_prompt(promptID)
-	promptObj = $PromptManager.active_prompts[prompt_id]
+	promptObj = $PromptManager.active_prompts[promptID]
 	
 	print("DEBUG: entered votephase")
 	currentState = GAME_STATE.VOTE_PHASE

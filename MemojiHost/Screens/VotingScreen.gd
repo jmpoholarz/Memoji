@@ -16,7 +16,7 @@ func display_emojis(answer1, answer2):
 	
 func display_prompt_text(text):
 	promptLabel.text = text
-	promptLabe.show()
+	promptLabel.show()
 	pass
 
 func reset_display():
