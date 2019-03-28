@@ -147,6 +147,7 @@ func sendAnswersForVoting(answers):
 
 func showResults():
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
+	$ScreenManager.currentScreenInstance.displayAnswers(answers)
 	#variables for keeping number of votes and later each calculated player score
 	var results1 = 0
 	var results2 = 0
