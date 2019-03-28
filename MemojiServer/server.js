@@ -173,6 +173,8 @@ if (cluster.isMaster) {
     });
     console.log(codes);
     console.log(hosts);
+    update_codes();
+    update_hosts();
   }, 330000);
 
   const server = net.createServer(socket => {
@@ -242,6 +244,7 @@ if (cluster.isMaster) {
           console.log('Host is still handling games');
           const host = _.find(hosts, ['code', letterCode]);
           host.lastPing = moment().valueOf();
+          update_hosts();
           writeToFile(server_log, `${letterCode} Host still handling games`);
           break;
         case 130: // Host shutting down
@@ -386,11 +389,10 @@ if (cluster.isMaster) {
   });
 
   process.on('uncaughtException', (err) => {
-    console.log('An error occured: Save local values.');
-    writeToFile(error_log, 'An error occured: Save local values.');
-
-    writeToFile(error_log, err.name);
-    writeToFile(error_log, err.message);
+    console.log('An error occured!');
+    writeToFile(error_log, 'An error occured!');
+    writeToFile(error_log, `Error name: ${err.name}`);
+    writeToFile(error_log, `Error message: ${err.message}`);
   });
 
   process.on('SIGINT', () => {
