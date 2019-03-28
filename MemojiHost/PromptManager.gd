@@ -50,6 +50,10 @@ func check_completion(): # Checks that each prompt has been answered
 	
 	return true
 
+# TODO: handle audience
+func check_votes(promptID, numPlayers): # Checks every player voted on the prompt
+	pass
+
 func create_prompt():
 	# Get data stored in prompt
 	var prompt_data = _get_new_prompt().split("%%%")
