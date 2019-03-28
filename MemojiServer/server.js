@@ -749,7 +749,7 @@ function sendToHost(letterCode, message) {
 function send(socket, data) {
   // Convert length to 32bit integer
   const n = data.toString().length;
-  console.log(n);
+  console.log(`Length of message: ${n}`);
   const buf = toBytesInt32(n);
   // Store length in Buffer
   // Store message in Buffer
