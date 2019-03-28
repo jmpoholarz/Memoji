@@ -23,7 +23,7 @@ func _ready():
 	get_node("GridContainer/ChoiceSevenButton").connect("pressed", self, "on_ChoiceSeven_Pressed")
 	get_node("GridContainer/ChoiceEightButton").connect("pressed", self, "on_ChoiceEight_Pressed")
 	
-	set_answers([0,1,2,3,4,5,6])
+	#set_answers([0,1,2,3,4,5,6])
 	
 	get_node("SubmitButton").connect("pressed", self, "on_SubmitButton_Pressed")
 	#Get Single prompt 
