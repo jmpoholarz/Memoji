@@ -61,6 +61,7 @@ func setupGame():
 	currentState = GAME_STATE.PROMPT_PHASE
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
+	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
 	
 	# Create message to send to players that game is starting
 	var message = {"messageType":MESSAGE_TYPES.HOST_STARTING_GAME, 
@@ -128,6 +129,10 @@ func sendAnswersForVoting(promptID):
 	var answers = []
 	var message
 	answers = $PromptManager.get_answers_to_prompt(promptID)
+	
+	# TODO: Refactor this
+	if ($ScreenManager.currentScreen == GlobalVars.SCREENS.VOTE_SCREEN):
+		$ScreenManager.currentScreen.display_emojis(answers[0], answers[1])
 	
 	for index in range(answers.size()):
 		message = {
@@ -268,9 +273,8 @@ func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	# TODO: Check for where in the game we currently arer
 	# i.e. if the current screen is on waiting
 	if (currentState == GAME_STATE.PROMPT_PHASE):
-		print ("DEBUG: Prompt phase detected")
 		$PromptManager.set_answer(int(promptID), playerID, emojiArray)
-		print($PromptManager.check_completion())
+		print("DEBUG: Check for prompt completion - ", $PromptManager.check_completion())
 		if ($PromptManager.check_completion()):
 			advanceGame()
 

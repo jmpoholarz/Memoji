@@ -61,6 +61,7 @@ func create_prompt():
 	prompt_obj.set_prompt_id(prompt_id)
 	prompt_obj.set_prompt_text(prompt_text)
 	active_prompts[prompt_obj.get_prompt_id()] = prompt_obj
+	active_prompt_ids.append(prompt_obj.get_prompt_id())
 	
 	# Return the prompt object if needed
 	return prompt_obj
@@ -87,7 +88,7 @@ func _get_new_prompt(prompt_number = -1):
 	f.close()
 	print(str(prompt_number) + ":::" + prompt_text)
 	# Add chosen prompts to activePrompts so it isn't chosen again
-	active_prompt_ids.append(prompt_number)
+	#active_prompt_ids.append(prompt_number)
 	return prompt_text
 
 
