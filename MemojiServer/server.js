@@ -749,24 +749,24 @@ function sendToHost(letterCode, message) {
 function send(socket, data) {
   // Convert length to 32bit integer
   const n = data.toString().length;
-  const arr = toBytesInt32(n);
+  console.log(n);
+  const buf = toBytesInt32(n);
   // Store length in Buffer
-  const buff = new Buffer.from(arr);
-  console.log(buff);
   // Store message in Buffer
-  const buff2 = new Buffer.from(data.toString());
-  console.log('Message sent: ' + buff2.toString());
+  const buf2 = new Buffer.from(data.toString());
   // Send length
-  socket.write(buff);
+  console.log(`Length Sent: ${buf}`);
+  socket.write(buf);
   // Send message
-  socket.write(buff2);
+  console.log(`Message sent: ${buf2.toString()}`);
+  socket.write(buf2);
 }
 
 function toBytesInt32(num) {
-  arr = new ArrayBuffer(4);
-  view = new DataView(arr);
-  view.setUint32(0, num, false);
-  return arr;
+  var buf = new Buffer.alloc(4);
+  buf.fill(0);
+  buf.writeUInt32BE(num, 0);
+  return buf;
 }
 
 function codeCheck(letterCode) {
