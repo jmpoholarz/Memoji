@@ -32,6 +32,8 @@ func displayResults(scores, players):
 	var currentIndex = 0
 	var currentPlace = 1
 	var placeNode = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place1")
+	var placeNodeText
+	var placeNodeIcon
 	#while there are still players that have not been placed
 	while(remainingPlayers.empty() == false):
 		#find the highest score remaining in the array
@@ -41,12 +43,17 @@ func displayResults(scores, players):
 		#place the player in their correct place, displaying their place, making sure they are visible
 		if(currentPlace < 5):
 			placeNode = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace))
-			placeNode.text = remainingPlayers[currentIndex].username
-			placeNode
+			placeNodeText = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace) + "/PlayerName")
+			placeNodeIcon = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerIcon")
+			placeNodeText.text = remainingPlayers[currentIndex].username
+			placeNodeIcon.texture = load("res://Assets/m"+ str(remainingPlayers[currentIndex].avatarID) +".png")
 			placeNode.visible = true
 		else:
 			placeNode = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace))
-			placeNode.text = remainingPlayers[currentIndex].username
+			placeNodeText = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace) + "/PlayerName")
+			placeNodeIcon = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerIcon")
+			placeNodeText.text = remainingPlayers[currentIndex].username
+			placeNodeIcon.texture = load("res://Assets/m"+ str(remainingPlayers[currentIndex].avatarID) +".png")
 			placeNode.visible = true
 		#remove the score and player from the list of remaining players to be displayed
 		ordered.remove(0)
