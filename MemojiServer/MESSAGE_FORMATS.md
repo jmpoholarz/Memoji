@@ -5,7 +5,7 @@
 _Sent from host when setting up server_  
 ```javascript
 {
-  messageType: 110, 
+  messageType: 110,
   letterCode: "ABCD" (Added by Networking.gd)
 }
 ```
@@ -32,7 +32,7 @@ _Sent when host has closed their game session_
 _Sent to advance players to blank screen before prompts_  
 ```javascript
 {
-  messageType: 301, 
+  messageType: 301,
   letterCode: "ABCD" (Added by Networking.gd)
 }
 ```
@@ -41,7 +41,7 @@ _Sent to advance players to blank screen before prompts_
 _Sent to advance players back to join game screen where they can quit_  
 ```javascript
 {
-  messageType: 302, 
+  messageType: 302,
   letterCode: "ABCD" (Added by Networking.gd)
 }
 ```
@@ -62,7 +62,7 @@ _Sent to move players to a prompt answering screen_
 _Sent to move players to a screen to vote on answers_  
 ```javascript
 {
-  messageType: 312, 
+  messageType: 312,
   letterCode: "ABCD" (Added by Networking.gd)
 }
 ```
@@ -80,7 +80,7 @@ _Sent to move players to black screen @ prompt/vote timer expires_
 _Sent when an entered username is already taken or invalid_  
 ```javascript
 {
-  messageType: 404, 
+  messageType: 404,
   letterCode: "ABCD" (Added by Networking.gd)
 }
 ```
@@ -89,7 +89,7 @@ _Sent when an entered username is already taken or invalid_
 _Sent when an entered username/avatar are valid_  
 ```javascript
 {
-  messageType: 405, 
+  messageType: 405,
   letterCode: "ABCD" (Added by Networking.gd)
 }
 ```
@@ -98,7 +98,7 @@ _Sent when an entered username/avatar are valid_
 _Sent when a prompt response is invalid_  
 ```javascript
 {
-  messageType: 411, 
+  messageType: 411,
   letterCode: "ABCD", (Added by Networking.gd)
   playerID: "abc-123"}
 ```
@@ -107,7 +107,7 @@ _Sent when a prompt response is invalid_
 _Sent when host successfully obtains a player response to a prompt_  
 ```javascript
 {
-  messageType: 412, 
+  messageType: 412,
   letterCode: "ABCD", (Added by Networking.gd)
   playerID: "abc-123"
 }
@@ -117,7 +117,7 @@ _Sent when host successfully obtains a player response to a prompt_
 _Sent when a vote response is invalid_  
 ```javascript
 {
-  messageType: 421, 
+  messageType: 421,
   letterCode: "ABCD", (Added by Networking.gd)
   playerID: "abc-123"
 }
@@ -127,7 +127,7 @@ _Sent when a vote response is invalid_
 _Sent when a vote response is successfully obtained by the host_  
 ```javascript
 {
-  messageType: 422, 
+  messageType: 422,
   letterCode: "ABCD", (Added by Networking.gd)
   playerID: "abc-123"
 }
@@ -137,7 +137,7 @@ _Sent when a vote response is successfully obtained by the host_
 _Sent when a multi vote response is invalid_  
 ```javascript
 {
-  messageType: 431, 
+  messageType: 431,
   letterCode: "ABCD", (Added by Networking.gd)
   playerID: "abc-123"
 }
@@ -147,7 +147,7 @@ _Sent when a multi vote response is invalid_
 _Sent when a multi vote is successfully obtained by the host_  
 ```javascript
 {
-  messageType: 432, 
+  messageType: 432,
   letterCode: "ABCD", (Added by Networking.gd)
   playerID: "abc-123"
 }
@@ -158,7 +158,7 @@ _Sent when a multi vote is successfully obtained by the host_
 _Sent from player to inform of new player connection_  
 ```javascript
 {
-  messageType: 401, 
+  messageType: 401,
   letterCode: "ABCD"
 }
 ```
@@ -167,7 +167,7 @@ _Sent from player to inform of new player connection_
 _Sent from player to inform of disconnect from server, such as quitting_  
 ```javascript
 {
-  messageType: 402, 
+  messageType: 402,
   letterCode: "ABCD", (Added by Networking.gd)
   playerID: "abc-123"
 }
@@ -192,6 +192,7 @@ _Sent to deliver an answer to a prompt to the host_
   messageType: 410,
   letterCode: "ABCD", (Added by Networking.gd)
   playerID: "abc-123", (Added by GameStateManager.gd)
+  promptID: 1,
   emojiArray: [[1,1,40010],[1,3,40020],...]
 }
 ```
@@ -231,7 +232,7 @@ _Sent from Server when error parsing_
 _Sent from Server when first delivering ABCD code_  
 ```javascript
 {
-  messageType: 111, 
+  messageType: 111,
   letterCode: "ABCD"
 }
 ```
@@ -240,9 +241,9 @@ _Sent from Server when first delivering ABCD code_
 _Sent from Server when Player enters a valid code_  
 ```javascript
 {
-  messageType: 112, 
-  letterCode: "ABCD", 
-  playerID: "abc-123", 
+  messageType: 112,
+  letterCode: "ABCD",
+  playerID: "abc-123",
   isPlayer: true
 }
 ```
