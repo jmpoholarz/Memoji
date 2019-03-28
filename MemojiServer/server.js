@@ -16,10 +16,7 @@ const error_log = 'server_error_log.txt';
 
 const GET_ALL = 'GET_ALL';
 const UPDATE_ALL = 'UPDATE_ALL';
-const CODES_UPDATE = 'CODES_UPDATE';
-const HOSTS_UPDATE = 'HOSTS_UPDATE';
-const PLAYERS_UPDATE = 'PLAYERS_UPDATE';
-const AUDIENCE_MEMBERS_UPDATE = 'AUDIENCE_MEMBERS_UPDATE';
+const SEND_ALL = 'SEND_ALL';
 
 let codes = [];
 let hosts = [];
@@ -114,16 +111,10 @@ if (cluster.isMaster) {
         });
       }
     }
-    if (msg.topic && msg.topic === CODES_UPDATE) {
+    if (msg.topic && msg.topic === SEND_ALL) {
       gCodes = msg.codes;
-    }
-    if (msg.topic && msg.topic === HOSTS_UPDATE) {
       gHosts = msg.hosts;
-    }
-    if (msg.topic && msg.topic === PLAYERS_UPDATE) {
       gPlayers = msg.players;
-    }
-    if (msg.topic && msg.topic === AUDIENCE_MEMBERS_UPDATE) {
       gAudience_members = msg.audience_members;
     }
   });
@@ -353,19 +344,10 @@ if (cluster.isMaster) {
     writeToFile(error_log, 'An error occured: Save local values.');
 
     process.send({
-      topic: CODES_UPDATE,
-      codes: codes
-    });
-    process.send({
-      topic: HOSTS_UPDATE,
-      hosts: hosts
-    });
-    process.send({
-      topic: PLAYERS_UPDATE,
-      players: players
-    });
-    process.send({
-      topic: AUDIENCE_MEMBERS_UPDATE,
+      topic: SEND_ALL,
+      codes: codes,
+      hosts: hosts,
+      players: players,
       audience_members: audience_members
     });
 
