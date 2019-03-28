@@ -27,14 +27,17 @@ func set_vote(prompt_id, player_id, answer_index):
 	else:
 		return false
 
-# NEW - now returns the entire answer object instead of only EmojiArray
-# See Prompt.gd for more info
-func get_answers_to_prompt(prompt_id):
+func get_answers_to_prompt(prompt_id): # Returns array of EmojiArrays
 	var answers = []
-	for answer in active_prompts[prompt_id].get_answers():
-		answers.append(answer)
+	var answerObjArr = active_prompts[prompt_id].get_answers()
+	for index in range(answerObjArr.size()):
+		answers.append(answerObjArr[index].emojis)
+	
 	return answers
-
+	
+func get_players(prompt_id):
+	pass
+	
 func check_completion(): # Checks that each prompt has been answered
 	for prompt in active_prompts:
 		if (prompt.player_answers.size() < 2):

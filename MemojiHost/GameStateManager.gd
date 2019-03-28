@@ -3,10 +3,13 @@ extends Node
 var currentRound
 var currentState = GAME_STATE.NOT_STARTED
 var currentPrompt # Index starting from 0 that refers to the prompt players are currently voting on
+var answers = []
+
 var players = []
 var audiencePlayers = []
 var currentPlayerVotes = []
 var totalScoreTally = []
+var competitors = [] # players who are competing in the current round of voting
 
 var lobbyCode = null
 
@@ -105,14 +108,33 @@ func sendPrompts():
 	
 	pass
 
-# TODO
-# Sends the Answers to Players corresponding to the index given
-func sendAnswersForVoting(promptIndex):
+func votePhase(): # handle voting for one prompt
+	# Screen
+	currentState = GAME_STATE.VOTE_PHASE
 	
-	$PromptManager.get_answers_to_prompt(currentPrompt)
+	if ($ScreenManager.currentScreen != GlobalVars.SCREENS.VOTE_SCREEN):
+		$ScreenManager.changeScreenTo(GlobalVars.SCREENS.VOTE_SCREEN)
+	else:
+		pass
+		# TODO: Reset the voting screen to display current prompt
+		#$ScreenManager.currentScreenInstance.reset_display()
 	
+	sendAnswersForVoting($PromptManager.active_prompt_ids[currentPrompt])
+
+# Sends the Answers to Players corresponding to the promptID given
+func sendAnswersForVoting(promptID):
+	var answers = []
+	var message
+	answers = $PromptManager.get_answers_to_prompt(promptID)
 	
-	pass
+	for index in range(answers.size()):
+		message = {
+			"messageType": MESSAGE_TYPES.HOST_SENDING_ANSWERS,
+			"letterCode": lobbyCode,
+			"answers": answers
+		}
+		$Networking.sendMessageToServer(message)
+		yield(get_tree().create_timer(1), "timeout")
 
 func showResults():
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
@@ -131,6 +153,13 @@ func showResults():
 	#totalScoreTally[idOfEachVotedPlayer] += 
 
 func advanceGame():
+	match (currentState):
+		GAME_STATE.PROMPT_PHASE:
+			votePhase()
+		GAME_STATE.VOTE_PHASE:
+			# TODO: check if last round of voting, then continue to final prompt
+			
+			pass
 	pass
 
 func quitHosting():
@@ -233,11 +262,7 @@ func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 		$PromptManager.set_answer(promptID, playerID, emojiArray)
 		if ($PromptManager.check_completion()):
 			currentState = GAME_STATE.VOTE_PHASE
-			$ScreenManager.changeScreenTo(GlobalVars.SCREENS.VOTE_SCREEN)
-			
-			sendAnswersForVoting(currentPrompt)
-			
-	return
+			advanceGame()
 
 func _on_Networking_receivedPlayerVote(playerID, promptID, voteID):
 	currentPlayerVotes[playerID] = voteID
