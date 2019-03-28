@@ -4,7 +4,7 @@ extends Panel
 # var a = 2
 # var b = "textvar"
 signal connectToServer()
-signal sendMessage(msg)
+signal send_message(msg)
 signal changeVotingOption(ChoiceId)
 signal voting_has_ended()
 signal change_screen(screen)
