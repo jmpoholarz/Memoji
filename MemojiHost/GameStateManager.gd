@@ -73,34 +73,8 @@ func setupGame():
 	sendPrompts()
 
 func sendPrompts():
-	# Get prompts -> PromptManager, PromptGenerator
-	var numPrompts = 0
-	var messages_to_send = []
-	var numPlayers = players.size()
-	
-	match (numPlayers):
-		3:
-			numPrompts = GlobalVars.three_players
-		4:
-			numPrompts = GlobalVars.four_players
-	
 	# Create message dictionary
-	for i in range(3):
-		var prompt = $PromptManager.create_prompt()
-		messages_to_send.append({
-			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
-			"letterCode": lobbyCode,
-			"promptID": prompt.get_prompt_id(),
-			"prompt": prompt.get_prompt_text(),
-			"playerID": players[i % numPlayers].playerID
-		})
-		messages_to_send.append({
-			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
-			"letterCode": lobbyCode,
-			"promptID": prompt.get_prompt_id(),
-			"prompt": prompt.get_prompt_text(),
-			"playerID": players[(i + 1) % numPlayers].playerID
-		})
+	var messages_to_send = pair_players(players.size())
 	
 	print(messages_to_send)
 	for m in messages_to_send:
@@ -108,31 +82,59 @@ func sendPrompts():
 		yield(get_tree().create_timer(1), "timeout")
 	
 	pass
+	
+func shufflePlayers(numPlayers):
+	var shuffled_players = []
+	var indexList = range(numPlayers)
+	for i in range(numPlayers):
+		randomize()
+		var x = randi()%indexList.size()
+		shuffled_players.append(players[x])
+		indexList.remove(x)
+	return shuffled_players
+
+func pair_prompts(numPlayers):
+	var messages = []
+	var shuffled_players = shufflePlayers(numPlayers)
+	for i in range(numPlayers):
+		var prompt = $PromptManager.create_prompt()
+		messages.append({
+			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
+			"letterCode": lobbyCode,
+			"promptID": prompt.get_prompt_id(),
+			"prompt": prompt.get_prompt_text(),
+			"playerID": shuffled_players[i % numPlayers].playerID
+		})
+		messages.append({
+			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
+			"letterCode": lobbyCode,
+			"promptID": prompt.get_prompt_id(),
+			"prompt": prompt.get_prompt_text(),
+			"playerID": shuffled_players[(i + 1) % numPlayers].playerID
+		})
+	return messages
 
 func votePhase(): # handle voting for one prompt
-	# Screen
+	var answers # Array
+	var promptID # Integer
+	
+	promptID = $PromptManager.active_prompt_ids[currentPrompt]
+	answers = $PromptManager.get_answers_to_prompt(promptID)
+	
 	print("DEBUG: entered votephase")
 	currentState = GAME_STATE.VOTE_PHASE
 	
+	# Change to VotingScreen if not already there and update it
 	if ($ScreenManager.currentScreen != GlobalVars.SCREENS.VOTE_SCREEN):
 		$ScreenManager.changeScreenTo(GlobalVars.SCREENS.VOTE_SCREEN)
-	else:
-		pass
-		# TODO: Reset the voting screen to display current prompt
-		#$ScreenManager.currentScreenInstance.reset_display()
+	$ScreenManager.currentScreen.display_emojis(answers[0], answers[1])
 	
-	sendAnswersForVoting($PromptManager.active_prompt_ids[currentPrompt])
+	sendAnswersForVoting(answers)
 
 # Sends the Answers to Players corresponding to the promptID given
-func sendAnswersForVoting(promptID):
+func sendAnswersForVoting(answers):
 	print("DEBUG: sendAnswersForVoting!!!!")
-	var answers = []
 	var message
-	answers = $PromptManager.get_answers_to_prompt(promptID)
-	
-	# TODO: Refactor this
-	if ($ScreenManager.currentScreen == GlobalVars.SCREENS.VOTE_SCREEN):
-		$ScreenManager.currentScreen.display_emojis(answers[0], answers[1])
 	
 	for index in range(answers.size()):
 		message = {
@@ -162,6 +164,19 @@ func showResults():
 	#reset votes for next round now that they have been displayed
 	for vote in currentPlayerVotes:
 		vote = 0
+
+func showTotalResults():
+	$ScreenManager.changeScreenTo(GlobalVars.TOTAL_SCREEN)
+	$ScreenManager.currentScreenInstance.displayResults(totalScoreTally, players)
+	#time till reset
+	var t = Timer.new()
+	t.setWaitTime(30)
+	t.setOneShot(true)
+	self.add_child(t)
+	t.start()
+	yield(t, "timeout")
+	t.queue_free()
+	toTitle()
 
 func advanceGame():
 	print("DEBUG: Advance Game function")
