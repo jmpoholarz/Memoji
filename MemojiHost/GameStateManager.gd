@@ -85,18 +85,21 @@ func sendPrompts():
 	
 func shufflePlayers(numPlayers):
 	var shuffled_players = []
+	var copy_players = [] + players
 	var indexList = range(numPlayers)
 	for i in range(numPlayers):
 		randomize()
 		var x = randi()%indexList.size()
-		shuffled_players.append(players[x])
+		shuffled_players.append(copy_players[x])
+		copy_players.remove(x)
 		indexList.remove(x)
 	return shuffled_players
 
 func pair_players(numPlayers):
 	var messages = []
 	var shuffled_players = shufflePlayers(numPlayers)
-	"""
+	print(shuffled_players)
+	
 	for i in range(numPlayers):
 		var prompt = $PromptManager.create_prompt()
 		messages.append({
@@ -130,6 +133,7 @@ func pair_players(numPlayers):
 			"prompt": prompt.get_prompt_text(),
 			"playerID": players[(i + 1) % numPlayers].playerID
 		})
+	"""
 	return messages
 
 func votePhase(): # handle voting for one prompt
@@ -165,6 +169,7 @@ func sendAnswersForVoting(answers):
 
 func showResults():
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
+	$ScreenManager.currentScreenInstance.displayAnswers(answers)
 	#variables for keeping number of votes and later each calculated player score
 	var results1 = 0
 	var results2 = 0
