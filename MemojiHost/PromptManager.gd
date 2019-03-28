@@ -27,12 +27,17 @@ func set_vote(prompt_id, player_id, answer_index):
 	else:
 		return false
 
-func get_answers_to_prompt(prompt_id):
+func get_answers_to_prompt(prompt_id): # Returns array of EmojiArrays
 	var answers = []
-	for answer in active_prompts[prompt_id].get_answers():
-		answers += answer.emojis
+	var answerObjArr = active_prompts[prompt_id].get_answers()
+	for index in range(answerObjArr.size()):
+		answers.append(answerObjArr[index].emojis)
+	
 	return answers
-
+	
+func get_players(prompt_id):
+	pass
+	
 func check_completion(): # Checks that each prompt has been answered
 	for prompt in active_prompts:
 		if (prompt.player_answers.size() < 2):
@@ -58,8 +63,7 @@ func create_prompt():
 func _get_new_prompt(prompt_number = -1):
 	if active_prompt_ids.size() == TOTAL_QUESTIONS:
 		print("Failed to generate new prompt as all prompts have been chosen.  Resetting.")
-		active_prompt_ids.clear()
-		active_prompts.clear()
+		reset()
 	# Generate random number
 	while prompt_number < 0 || prompt_number >= TOTAL_QUESTIONS || prompt_number in active_prompt_ids:
 		prompt_number = randi() % TOTAL_QUESTIONS

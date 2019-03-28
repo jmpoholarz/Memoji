@@ -1,8 +1,6 @@
 extends Container
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+# class member variables go here
 var score1 = 0
 var score2 = 0
 
@@ -19,7 +17,9 @@ func _ready():
 func calculateTotals(ID, votes, audiencePercent):
 	#calculate how many points are to be awarded to the player based on
 	#the number of votes received and the percent of the audience won over
+	#also display the results on the screen elements
 	var totalPoints
+	#scoreToUpdate is the node that is being worked with, either left or right
 	var scoreToUpdate
 	#number of votes are multiplied by 100
 	#audience percent is added as a percent of 100 points, a perfect audience score
@@ -30,7 +30,7 @@ func calculateTotals(ID, votes, audiencePercent):
 		score1 = totalPoints
 		scoreToUpdate = get_node("MarginContainer/Rows/Results/ScoreLeft")
 		scoreToUpdate.text = str(totalPoints)
-	else:
+	elif ID == 2:
 		score2 = totalPoints
 		scoreToUpdate = get_node("MarginContainer/Rows/Results/ScoreRight")
 		scoreToUpdate.text = str(totalPoints)
@@ -39,7 +39,10 @@ func calculateTotals(ID, votes, audiencePercent):
 func displayVoters(votes, players):
 	#recieve who voted for each answer and display appropriately
 	#location of the voter images
+	#display the correct voter images that voted for each answer
+	#voterLoc is the location in the scene where the voter display is located
 	var voterLoc = "MarginContainer/Rows/Voters/"
+	#current node being decided to make visible or invisible
 	var currentNode
 	#go through every player vote and decide which side to show them on
 	for x in range(0, votes.size()):
@@ -59,5 +62,6 @@ func displayVoters(votes, players):
 	
 func displayAudience(votes):
 	#TODO
+	#display the percent of audience that voted for each answer in text boxes
 	return
 	
