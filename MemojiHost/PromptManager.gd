@@ -39,8 +39,8 @@ func get_players(prompt_id):
 	pass
 	
 func check_completion(): # Checks that each prompt has been answered
-	for prompt in active_prompts:
-		if (prompt.player_answers.size() < 2):
+	for k in active_prompts.keys():
+		if (active_prompts[k].player_answers.size() < 2):
 			return false
 	
 	return true
