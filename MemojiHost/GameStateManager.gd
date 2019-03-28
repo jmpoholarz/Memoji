@@ -93,7 +93,7 @@ func shufflePlayers(numPlayers):
 		indexList.remove(x)
 	return shuffled_players
 
-func pair_prompts(numPlayers):
+func pair_players(numPlayers):
 	var messages = []
 	var shuffled_players = shufflePlayers(numPlayers)
 	for i in range(numPlayers):
@@ -127,7 +127,7 @@ func votePhase(): # handle voting for one prompt
 	# Change to VotingScreen if not already there and update it
 	if ($ScreenManager.currentScreen != GlobalVars.SCREENS.VOTE_SCREEN):
 		$ScreenManager.changeScreenTo(GlobalVars.SCREENS.VOTE_SCREEN)
-	$ScreenManager.currentScreen.display_emojis(answers[0], answers[1])
+	$ScreenManager.currentScreenInstance.display_emojis(answers[0], answers[1])
 	
 	sendAnswersForVoting(answers)
 
