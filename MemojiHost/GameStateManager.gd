@@ -130,6 +130,10 @@ func sendAnswersForVoting(promptID):
 	var message
 	answers = $PromptManager.get_answers_to_prompt(promptID)
 	
+	# TODO: Refactor this
+	if ($ScreenManager.currentScreen == GlobalVars.SCREENS.VOTE_SCREEN):
+		$ScreenManager.currentScreen.display_emojis(answers[0], answers[1])
+	
 	for index in range(answers.size()):
 		message = {
 			"messageType": MESSAGE_TYPES.HOST_SENDING_ANSWERS,
@@ -269,9 +273,8 @@ func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	# TODO: Check for where in the game we currently arer
 	# i.e. if the current screen is on waiting
 	if (currentState == GAME_STATE.PROMPT_PHASE):
-		print ("DEBUG: Prompt phase detected")
 		$PromptManager.set_answer(int(promptID), playerID, emojiArray)
-		print($PromptManager.check_completion())
+		print("DEBUG: Check for prompt completion - ", $PromptManager.check_completion())
 		if ($PromptManager.check_completion()):
 			advanceGame()
 
