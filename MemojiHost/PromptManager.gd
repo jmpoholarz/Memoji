@@ -52,7 +52,11 @@ func check_completion(): # Checks that each prompt has been answered
 
 # TODO: handle audience
 func check_votes(promptID, numPlayers): # Checks every player voted on the prompt
-	pass
+	var promptObj = active_prompts[promptID]
+	if (promptObj.get_number_of_votes_for_answer() < numPlayers):
+		return false
+		
+	return true
 
 func create_prompt():
 	# Get data stored in prompt
@@ -64,6 +68,7 @@ func create_prompt():
 	var prompt_obj = GlobalVars.PromptClass.new()
 	prompt_obj.set_prompt_id(prompt_id)
 	prompt_obj.set_prompt_text(prompt_text)
+	
 	active_prompts[prompt_obj.get_prompt_id()] = prompt_obj
 	active_prompt_ids.append(prompt_obj.get_prompt_id())
 	

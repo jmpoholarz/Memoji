@@ -173,7 +173,9 @@ func sendAnswersForVoting(answers):
 		yield(get_tree().create_timer(1), "timeout")
 
 func resultsPhase():
+	currentState = GAME_STATE.RESULTS_PHASE
 	
+	showResults()
 	pass
 
 func roundResults():
@@ -186,19 +188,19 @@ func showResults():
 	var results1 = 0
 	var results2 = 0
 	#tally votes for each result
-	for vote in currentPlayerVotes:
-		if vote == 1:
-			results1 = results1 + 1
-		elif vote == 2:
-			results2 = results2 + 1
+	#for vote in currentPlayerVotes:
+	#	if vote == 1:
+	#		results1 = results1 + 1
+	#	elif vote == 2:
+	#		results2 = results2 + 1
 	#calculate and display totals of scores
 	results1 = $ScreenManager.currentScreenInstance.calculateTotals(1, results1, 0)
 	results2 = $ScreenManager.currentScreenInstance.calculateTotals(2, results2, 0)
 	#display who voted for each answer
 	$ScreenManager.currentScreenInstance.displayVoters(currentPlayerVotes, players)
 	#reset votes for next round now that they have been displayed
-	for vote in currentPlayerVotes:
-		vote = 0
+	#for vote in currentPlayerVotes:
+	#	vote = 0
 
 func showTotalResults():
 	$ScreenManager.changeScreenTo(GlobalVars.TOTAL_SCREEN)
@@ -349,11 +351,13 @@ func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 			advanceGame()
 	
 	
-func _on_Networking_receivedPlayerVote(playerID, promptID, voteID):
+func _on_Networking_receivedPlayerVote(playerID, voteID):
 	#currentPlayerVotes[playerID] = voteID
 	var message
+	var promptID
+	
 	if (currentState == GAME_STATE.VOTE_PHASE):
-		promptID = int(promptID)
+		promptID = $PromptManager.active_prompt_ids[currentPrompt]
 		voteID = int(voteID)
 		
 		# TODO: Error check
@@ -366,9 +370,11 @@ func _on_Networking_receivedPlayerVote(playerID, promptID, voteID):
 			"playerID": playerID
 		}
 		$Networking.sendMessageToServer(message)
-	
-	
-
+		
+		# Check that all votes are in
+		if ($PromptManager.check_votes(promptID, players.size())):
+			advanceGame()
+		
 
 func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
 	pass # replace with function body
