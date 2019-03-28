@@ -75,29 +75,34 @@ if (cluster.isMaster) {
   let gPlayers = [];
   let gAudience_members = [];
 
-  // Send a ping to each host every 5 minutes to check if the game is still active
-  setInterval(() => {
-    console.log("Send Ping to Host(s)");
-    writeToFile(server_log, 'Sending Ping to Host(s).');
-    _.forEach(hosts, (host) => {
-      const res = {
-        "messageType": 120
-      };
-      send(host.socket, JSON.stringify(res));
-    });
-  }, 300000);
-  // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
-  setInterval(() => {
-    console.log("Remove unresponsive Host(s)");
-    writeToFile(server_log, 'Removing unresponsive Host(s)');
-    var hosts_to_remove = _.filter(hosts, (host) => {
-      return (Math.abs(host.lastPing - moment().valueOf()) > 30000);
-    });
-    _.forEach(hosts_to_remove, (host) => {
-      host.socket.destroy();
-      _.remove(hosts, host);
-    });
-  }, 330000);
+  // // Send a ping to each host every 5 minutes to check if the game is still active
+  // setInterval(() => {
+  //   console.log("Send Ping to Host(s)");
+  //   writeToFile(server_log, 'Sending Ping to Host(s).');
+  //   _.forEach(hosts, (host) => {
+  //     console.log("Send message to host with letter code:");
+  //     console.log(host.code);
+  //     const res = {
+  //       "messageType": 120
+  //     };
+  //     send(host.socket, JSON.stringify(res));
+  //   });
+  // }, 10000);
+  // // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
+  // setInterval(() => {
+  //   console.log("Remove unresponsive Host(s)");
+  //   writeToFile(server_log, 'Removing unresponsive Host(s)');
+  //   var hosts_to_remove = _.filter(hosts, (host) => {
+  //     return (Math.abs(host.lastPing - moment().valueOf()) > 30000);
+  //   });
+  //   _.forEach(hosts_to_remove, (host) => {
+  //     _.remove(codes, host.code);
+  //     host.socket.destroy();
+  //     _.remove(hosts, host);
+  //   });
+  //   console.log(codes);
+  //   console.log(hosts);
+  // }, 15000);
 
   cluster.fork();
 
@@ -139,6 +144,36 @@ if (cluster.isMaster) {
 
 } else {
   // Workers can share any TCP connection
+
+  // Send a ping to each host every 5 minutes to check if the game is still active
+  setInterval(() => {
+    console.log("Send Ping to Host(s)");
+    writeToFile(server_log, 'Sending Ping to Host(s).');
+    _.forEach(hosts, (host) => {
+      console.log("Send message to host with letter code:");
+      console.log(host.code);
+      const res = {
+        "messageType": 120
+      };
+      send(host.socket, JSON.stringify(res));
+    });
+  }, 300000);
+  // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
+  setInterval(() => {
+    console.log("Remove unresponsive Host(s)");
+    writeToFile(server_log, 'Removing unresponsive Host(s)');
+    var hosts_to_remove = _.filter(hosts, (host) => {
+      return (Math.abs(host.lastPing - moment().valueOf()) > 30000);
+    });
+    // console.log(hosts_to_remove);
+    _.forEach(hosts_to_remove, (host) => {
+      _.remove(codes, host.code);
+      host.socket.destroy();
+      _.remove(hosts, host);
+    });
+    console.log(codes);
+    console.log(hosts);
+  }, 330000);
 
   const server = net.createServer(socket => {
 
