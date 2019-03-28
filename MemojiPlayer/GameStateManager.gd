@@ -39,9 +39,8 @@ func _on_Networking_connectionTimeout():
 
 func _on_Networking_answersReceived(answers):
 	print("received answers")
-	$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
-	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
-		#$ScreenManager/currentScreenInstance.receive_answerArray(answerArray)
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
 		$ScreenManager.currentScreen.set_answers(answers)
 	pass # replace with function body
 	#Manoj
