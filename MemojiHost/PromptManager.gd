@@ -1,46 +1,69 @@
 extends Node
 
-var prompt_scene = preload("res://Prompt.tscn")
-
 const TOTAL_QUESTIONS = 21
 
 var active_prompt_ids = []
 var active_prompts = {}
 
 func _ready():
-	__unit_test_get_new_prompt()
+	#__unit_test_get_new_prompt()
 	pass
+	
+func reset():
+	active_prompts.clear()
+	active_prompt_ids.clear()
 
-func setAnswer(prompt_id, player_id, answer):
-	active_prompts[prompt_id].add_player_answer(player_id, answer)
+func set_answer(prompt_id, player_id, answer):
+	if (active_prompts.has(prompt_id)):
+		active_prompts[prompt_id].add_player_answer(player_id, answer)
+		return true
+	else:
+		return false
 
 func set_vote(prompt_id, player_id, answer_index):
-	active_prompts[prompt_id].add_player_vote(player_id, answer_index)
+	if (active_prompts.has(prompt_id)):
+		active_prompts[prompt_id].add_player_vote(player_id, answer_index)
+		return true
+	else:
+		return false
 
-func get_answers_to_prompt(prompt_id):
+func get_answers_to_prompt(prompt_id): # Returns array of EmojiArrays
 	var answers = []
-	for answer in active_prompts[prompt_id].get_answers():
-		answers += answer.emojis
-
-
+	var answerObjArr = active_prompts[prompt_id].get_answers()
+	for index in range(answerObjArr.size()):
+		answers.append(answerObjArr[index].emojis)
+	
+	return answers
+	
+func get_players(prompt_id):
+	pass
+	
+func check_completion(): # Checks that each prompt has been answered
+	for prompt in active_prompts:
+		if (prompt.player_answers.size() < 2):
+			return false
+	
+	return true
 
 func create_prompt():
 	# Get data stored in prompt
-	var prompt_data = _get_new_prompt()
-	var prompt_id = prompt_data[0]
+	var prompt_data = _get_new_prompt().split("%%%")
+	var prompt_id = int(prompt_data[0])
 	var prompt_text = prompt_data[1]
-	# Create prompt object and add as child
-	var prompt_obj = prompt_scene.instance()
+
+	# Create prompt object and add to active prompt dictionary
+	var prompt_obj = GlobalVars.PromptClass.new()
 	prompt_obj.set_prompt_id(prompt_id)
 	prompt_obj.set_prompt_text(prompt_text)
-	add_child(prompt_obj)
+	active_prompts[prompt_obj.get_prompt_id()] = prompt_obj
+	
 	# Return the prompt object if needed
 	return prompt_obj
 
 func _get_new_prompt(prompt_number = -1):
 	if active_prompt_ids.size() == TOTAL_QUESTIONS:
 		print("Failed to generate new prompt as all prompts have been chosen.  Resetting.")
-		active_prompt_ids.clear()
+		reset()
 	# Generate random number
 	while prompt_number < 0 || prompt_number >= TOTAL_QUESTIONS || prompt_number in active_prompt_ids:
 		prompt_number = randi() % TOTAL_QUESTIONS
@@ -82,6 +105,14 @@ func __unit_test_get_new_prompt():
 	
 	var prompt_obj = create_prompt()
 	prompt_obj.add_player_answer(333, "abcd")
-	print(str(prompt_obj.get_players()[0]))
+#	print(str(prompt_obj.get_players()[0]))
+	print(prompt_obj.get_prompt_id())
+	print(prompt_obj.get_prompt_text())
+	print(prompt_obj.get_answer_from_player(333))
+	print("\n")
+	
+	for x in active_prompts.keys():
+		print("Key: ", x, ", Prompt ID: ", active_prompts[x].get_prompt_id())
+		pass
 	
 	## TODO test more getters

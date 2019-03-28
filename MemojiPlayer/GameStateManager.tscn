@@ -4,7 +4,7 @@
 [ext_resource path="res://ScreenManager.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Singletons/Networking.tscn" type="PackedScene" id=3]
 
-[node name="GameStateManager" type="Node"]
+[node name="GameStateManager" type="Node" index="0"]
 
 script = ExtResource( 1 )
 
@@ -39,7 +39,5 @@ script = ExtResource( 1 )
 [connection signal="gameEndedByHost" from="Networking" to="." method="_on_Networking_gameEndedByHost"]
 
 [connection signal="gameStartedByHost" from="Networking" to="." method="_on_Networking_gameStartedByHost"]
-
-[connection signal="promptsReceived" from="Networking" to="." method="_on_Networking_promptsReceived"]
 
 

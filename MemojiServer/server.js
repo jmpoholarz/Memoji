@@ -4,53 +4,74 @@ const uuid = require('uuid/v1');
 const moment = require('moment');
 const fs = require('fs');
 const cluster = require('cluster');
-const mysql = require('mysql');
 
 const port = 3000;
 
-var codes = [];
-var hosts = [];
-var players = [];
-var audience_members = [];
-
-const max_players = 2;
+const max_players = 3;
 const max_audience = 100;
 var mtype = '';
 
 const server_log = 'server_log.txt';
 const error_log = 'server_error_log.txt';
 
-// TODO:
-// Work with data locally, if run into error, push all local data to database
-// that is new (search for mysql if that is easy) or pull and compare
-// -----------------------------
-// Write function to pull all data from database on start of worker process
-// -----------------------------
-// Write functionality to push new data to database on creation such as
-// --Host code request
-// --Player connection
-// --audience connection
-// -----------------------------
-// Write functionality to remove data from database on:
-// --Host disconnection
-// --Removal of inactive Host
-// --Player disconnection
-// --Audience disconnection
-// -----------------------------
+const GET_ALL = 'GET_ALL';
+const UPDATE_ALL = 'UPDATE_ALL';
+const CODES_UPDATE = 'CODES_UPDATE';
+const HOSTS_UPDATE = 'HOSTS_UPDATE';
+const PLAYERS_UPDATE = 'PLAYERS_UPDATE';
+const AUDIENCE_MEMBERS_UPDATE = 'AUDIENCE_MEMBERS_UPDATE';
 
+let codes = [];
+let hosts = [];
+let players = [];
+let audience_members = [];
 
 if (cluster.isMaster) {
+
   console.log(`Master ${process.pid} is running`);
-  const start_time = moment().format('YYYY-MM-DD hh:mm:ss A')
+  const start_time = moment().format('YYYY-MM-DD hh:mm:ss A');
   console.log(`Server start time: ${start_time}`);
-  fs.writeFile(server_log, `[${start_time}]: # Beginning of server log\n`, 'utf8', (err) => {
-    if (err) throw err;
-    console.log('server_log.txt created successfully.');
+
+  fs.access(server_log, fs.F_OK, (err) => {
+    if (err) {
+      fs.writeFile(server_log, `[${start_time}]: # Server Start | Beginning of server log\n`, 'utf8', (err) => {
+        if (err) throw err;
+        console.log('server_log.txt created successfully.');
+      });
+    } else {
+      // Server log already exists.
+      // Append to Server Log
+      console.log('server_log.txt already exists.');
+      fs.appendFile(server_log, '\r\n\r\n', 'utf8', (err) => {
+        if (err) throw err;
+        console.log(`Appended to file ${server_log}`);
+      });
+      writeToFile(server_log, '# Server Start | Beginning of server log');
+    }
   });
-  fs.writeFile(error_log, `[${start_time}]: # Beginning of error log\n`, 'utf8', (err) => {
-    if (err) throw err;
-    console.log('server_error_log.txt created successfully.');
+
+  fs.access(error_log, fs.F_OK, (err) => {
+    if (err) {
+      fs.writeFile(error_log, `[${start_time}]: # Server Start | Beginning of error log\n`, 'utf8', (err) => {
+        if (err) throw err;
+        console.log('server_error_log.txt created successfully.');
+      });
+    } else {
+      // Server Error Log already exists.
+      // Append to Server Error Log
+      console.log('server_error_log.txt already exists.');
+      fs.appendFile(error_log, '\r\n\r\n', 'utf8', (err) => {
+        if (err) throw err;
+        console.log(`Appended to file ${error_log}`);
+      });
+      writeToFile(error_log, '# Server Start | Beginning of error log');
+    }
   });
+
+  let gCodes = [];
+  let gHosts = [];
+  let gPlayers = [];
+  let gAudience_members = [];
 
   // Send a ping to each host every 5 minutes to check if the game is still active
   setInterval(() => {
@@ -76,10 +97,36 @@ if (cluster.isMaster) {
     });
   }, 330000);
 
-  // const numCPUs = require('os').cpus().length;
-  // for (var i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  // }
+  cluster.fork();
+
+  // Handle local and global variables between Master and Worker processes
+  cluster.on('message', (worker, msg, handle) => {
+    console.log("Message received from worker:");
+    console.log(msg);
+    if (msg.topic && msg.topic === GET_ALL) {
+      for (const id in cluster.workers) {
+        cluster.workers[id].send({
+          topic: UPDATE_ALL,
+          codes: gCodes,
+          hosts: gHosts,
+          players: gPlayers,
+          audience_members: gAudience_members
+        });
+      }
+    }
+    if (msg.topic && msg.topic === CODES_UPDATE) {
+      gCodes = msg.codes;
+    }
+    if (msg.topic && msg.topic === HOSTS_UPDATE) {
+      gHosts = msg.hosts;
+    }
+    if (msg.topic && msg.topic === PLAYERS_UPDATE) {
+      gPlayers = msg.players;
+    }
+    if (msg.topic && msg.topic === AUDIENCE_MEMBERS_UPDATE) {
+      gAudience_members = msg.audience_members;
+    }
+  });
 
   // Restart a worker if it dies (e.i. on an error)
   cluster.on('exit', (worker, code, signal) => {
@@ -90,11 +137,6 @@ if (cluster.isMaster) {
 
 } else {
   // Workers can share any TCP connection
-
-  // DO NOT PUSH THIS SECTION
-
-
-  // POPULATE ARRAYS
 
   const server = net.createServer(socket => {
 
@@ -208,8 +250,6 @@ if (cluster.isMaster) {
           sendToHost(letterCode, message);
           writeToFile(server_log, `Forward Player disconnection to host - ${letterCode}`);
           break;
-        case 301: // Host starting game -----> Send to all Players
-        case 302: // Host ending game -------> Send to all Players
         case 320: // Host round time is up --> Send to all Players
           sendToAllPlayers(letterCode, message);
           if (message.messageType === 301) mtype = 'Host starting game.';
@@ -221,64 +261,55 @@ if (cluster.isMaster) {
           sendToPlayer(message);
           writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending prompt.] Sending to Player: ${message.playerID}`);
           break;
+        case 301: // Host starting game -----> Send to all Players and Audience
+        case 302: // Host ending game -------> Send to all Players and Audience
         case 312: // Host sending answers ---> Send to all Players and Audience
           sendToPlayersAndAudience(letterCode, message);
-          writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending answers.] Sending to all Players and Audience`);
+          if (message.messageType === 301) mtype = 'Host starting game.';
+          if (message.messageType === 302) mtype = 'Host ending game.';
+          if (message.messageType === 312) mtype = 'Host sending answers.';
+          writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to all Players and Audience`);
           break;
         case 404: // Invalid username ----------------> Send to Player
         case 405: // Accepted Username and avatar ----> Send to Player
+        case 411: // Invalid prompt response ---------> Send to Player
+        case 412: // Accepted prompt response --------> Send to Player
+        case 421: // Invalid vote response -----------> Send to Player
+        case 422: // Accepted vote response ----------> Send to Player
+        case 431: // Invalid multi vote --------------> Send to Player
+        case 432: // Accepted multi vote -------------> Send to Player
           sendToPlayer(message);
           if (message.messageType === 404) mtype = 'Invalid username.';
           if (message.messageType === 405) mtype = 'Host starting game.';
+          if (message.messageType === 411) mtype = 'Invalid prompt response.';
+          if (message.messageType === 412) mtype = 'Accepted prompt response.';
+          if (message.messageType === 421) mtype = 'Invalid vote response.';
+          if (message.messageType === 422) mtype = 'Accepted vote response.';
+          if (message.messageType === 431) mtype = 'Invalid multi vote.';
+          if (message.messageType === 432) mtype = 'Accepted multi vote.';
           writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Player: ${message.playerID}`);
           break;
         case 403: // Player username and avatar ------> Send to Host
         case 410: // Player sending prompt response --> Send to Host
-        case 411: // Invalid prompt response --------> Send to Host
-        case 412: // Accepted prompt response --------> Send to Host
         case 420: // Player sending single vote ------> Send to Host
-        case 421: // Invalid vote response -----------> Send to Host
-        case 422: // Accepted vote response ----------> Send to Host
         case 430: // Player sending multi vote -------> Send to Host
-        case 431: // Invalid multi vote --------------> Send to Host
-        case 432: // Accepted multi vote -------------> Send to Host
           sendToHost(letterCode, message);
           if (message.messageType === 403) mtype = 'Player username and avatar.';
           if (message.messageType === 410) mtype = 'Player sending prompt response.';
-          if (message.messageType === 411) mtype = 'Invalid prompt response.';
-          if (message.messageType === 412) mtype = 'Accepted prompt response.';
           if (message.messageType === 420) mtype = 'Player sending single vote.';
-          if (message.messageType === 421) mtype = 'Invalid vote response.';
-          if (message.messageType === 422) mtype = 'Accepted vote response.';
           if (message.messageType === 430) mtype = 'Player sending multi vote.';
-          if (message.messageType === 431) mtype = 'Invalid multi vote.';
-          if (message.messageType === 432) mtype = 'Accepted multi vote.';
           writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Host - ${letterCode}`);
           break;
         default:
           console.log('Unknown Message Type');
           writeToFile(error_log, '[MessageType]: Unknown MessageType. No action performed.');
       }
+
     });
 
     server.on('error', (err) => {
-      // INSERT ALL LOCAL DATA TO DB
 
-      // // INSERT code into codes table
-      // var sql = `INSERT INTO codes (code) VALUE ('${letterCode}')`;
-      // con.query(sql, (err, result) => {
-      //   if (err) throw err;
-      //   console.log("1 record inserted");
-      //   console.log(result);
-      // });
-      // // INSERT host into hosts table
-      // const host_socket = JSON.stringify(host.socket);
-      // sql = `INSERT INTO hosts (code, host, lastping) VALUES ('${host.code}', '${host_socket}', '${host.lastPing}')`;
-      // con.query(sql, (err, result) => {
-      //   if (err) throw err;
-      //   console.log("1 record inserted");
-      //   console.log(result);
-      // });
+      writeToFile(error_log, 'An error occured: Save local values.');
 
       writeToFile(error_log, err.name);
       writeToFile(error_log, err.message);
@@ -292,6 +323,69 @@ if (cluster.isMaster) {
 
   server.listen(port, () => console.log(`Listening on port ${port}`));
   console.log(`Worker ${process.pid} started`);
+
+  // Send message to Master to get values from variables
+  process.send({
+    topic: GET_ALL
+  });
+
+  // Receive message from Master
+  // Populate arrays
+  process.on('message', (msg) => {
+    writeToFile(server_log, `Receive global arrays from Master process.`);
+    console.log("Worker received message from Master:");
+    console.log(msg);
+    if (msg.topic && msg.topic === UPDATE_ALL) {
+      codes = msg.codes;
+      hosts = msg.hosts;
+      players = msg.players;
+      audience_members = msg.audience_members;
+      console.log("UDPATE LOCAL VALUES:");
+      console.log(codes);
+      console.log(hosts);
+      console.log(players);
+      console.log(audience_members);
+    }
+  });
+
+  process.on('uncaughtException', (err) => {
+    console.log('An error occured: Save local values.');
+    writeToFile(error_log, 'An error occured: Save local values.');
+
+    process.send({
+      topic: CODES_UPDATE,
+      codes: codes
+    });
+    process.send({
+      topic: HOSTS_UPDATE,
+      hosts: hosts
+    });
+    process.send({
+      topic: PLAYERS_UPDATE,
+      players: players
+    });
+    process.send({
+      topic: AUDIENCE_MEMBERS_UPDATE,
+      audience_members: audience_members
+    });
+
+    writeToFile(error_log, err.name);
+    writeToFile(error_log, err.message);
+  });
+
+  process.on('SIGINT', () => {
+    console.log("Server Shutting down.");
+    try {
+      const message = 'Server Shutdown.';
+      const timestamp = moment().format('YYYY-MM-DD hh:mm:ss A');
+      const final_message = `[${timestamp}]: ${message}\n`;
+      fs.appendFileSync(server_log, final_message);
+    } catch (err) {
+      console.log(err);
+    }
+    process.exit();
+  });
+
 }
 
 function writeToFile(filename, message) {
@@ -315,17 +409,6 @@ Host data structure
 */
 
 function handleHostCodeRequest(socket) {
-  // Check if Host already has a code
-  // Handle on Godot side
-  // const host = _.find(hosts, ['socket', socket]);
-  // if(host !== undefined) {
-  //   // Host exists -> remove previous code from codes array
-  //   // And remove host from hosts array
-  //   _.remove(hosts, host);
-  //
-  // } else {
-  //
-  // }
   console.log("Code 110: Host request a room code");
   const letterCode = generateCode();
   console.log(letterCode);
@@ -421,6 +504,7 @@ function handleHostDisConn(letterCode) {
   writeToFile(server_log, 'Host removed from host list');
   console.log("PRINT HOSTS:");
   console.log(hosts);
+  console.log("PRINT CODES:");
   console.log(codes);
 }
 
@@ -614,6 +698,7 @@ function codeCheck(letterCode) {
 }
 
 function parseData(data) {
+  console.log("PARSING DATA RECEIVED");
   // Convert buffer to string
   var json = JSON.stringify(data);
   // Convert back to JSON
@@ -627,16 +712,18 @@ function parseData(data) {
   }
   // Check if data has length buffer at the beginning of buffer.
   var message = "";
-  if (data[0] == "{".charCodeAt(0)) {
-    // No padding to cut
-    console.log('DO NOT CUT PADDING');
-    message = copy.data;
-    // console.log(message);
-  } else {
+  // console.log(copy.data);
+  if (copy.data[0] == "{".charCodeAt(0) && copy.data[4] == "{".charCodeAt(0)) {
     // Cut off padding
     console.log('CUT PADDING');
     message = copy.data.slice(4);
-    // console.log(message);
+  } else if (copy.data[0] != "{".charCodeAt(0)){
+    console.log('CUT PADDING');
+    message = copy.data.slice(4);
+  } else {
+    // No padding to cut
+    console.log('DO NOT CUT PADDING');
+    message = copy.data;
   }
   // Place new message in buffer
   const b = new Buffer.from(message);

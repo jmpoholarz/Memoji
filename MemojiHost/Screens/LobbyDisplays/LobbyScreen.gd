@@ -1,8 +1,9 @@
-extends Node2D
+extends Control
 
 signal messageServer(msg)
 signal changeScreen(screen)
 signal updateGameState(msg)
+signal startGame()
 
 onready var p1 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P1
 onready var p2 = $Foreground/Content/Lines/TopLine/Statuses/PlayerStatus/P2
@@ -20,9 +21,14 @@ onready var pDisplays = [p1, p2, p3, p4, p5, p6, p7, p8] # GUI representing each
 var avatarList = [] # Stores the avatars, indexed by Player.AvatarID
 var linkedIDs = [] # Stores the playerID
 
+var _NotEnoughPlayers
+var _NotAllPlayersHaveAvatar
+
 func _ready():
 	avatarSetup()
 	
+	_NotEnoughPlayers = $Foreground/NotEnoughPlayersPopup
+	_NotAllPlayersHaveAvatar = $Foreground/NotAllPlayersHaveAvatar
 	codeLabel.text = "????"
 	emit_signal("updateGameState", "code")
 
@@ -100,7 +106,15 @@ func update_audience(count):
 	audienceLabel.update_count(count)
 
 func _on_StartButton_pressed():
+	
+	emit_signal("startGame")
 	pass # replace with function body
 
 func _on_ExitButton_pressed():
 	emit_signal("updateGameState", "disconnectLobby")
+	
+func showNotEnoughPlayers():
+	_NotEnoughPlayers.popup()
+
+func showNotAllPlayersHaveAvatar():
+	_NotAllPlayersHaveAvatar.popup()

@@ -80,12 +80,13 @@ func handle_canvas_click(row, column):
 		"delete":
 			var path = EmojiIdToFilename.EmojiIdToFilenameDict[currently_selected_emoji_id]
 			grid_dict[Vector2(row, column)][1].texture = load(EmojiIdToFilename.EmojiIdToFilenameDict[10000])
-			grid_dict[Vector2(row, column)][2] = currently_selected_emoji_id
+			grid_dict[Vector2(row, column)][2] = 10000
 		"move":
 			var id = grid_dict[Vector2(row, column)][2]
 			emit_signal("emoji_grabbed", id)
 			var path = EmojiIdToFilename.EmojiIdToFilenameDict[10000]
 			grid_dict[Vector2(row, column)][1].texture = load(path)
+			grid_dict[Vector2(row, column)][2] = 10000
 			
 
 func update_emoji_selected(new_emoji_id):

@@ -15,8 +15,8 @@ signal receivedPlayerMultiVote(playerID, promptID, voteArray)
 
 
 
-#var defaultServerIP = "18.223.0.88"
-var defaultServerIP = "127.0.0.1"
+var defaultServerIP = "18.224.39.240"
+#var defaultServerIP = "127.0.0.1"
 var defaultServerPort = 3000
 var portOffset = 0
 
@@ -28,6 +28,7 @@ var startedTest = false
 
 func _ready():
 	socket = StreamPeerTCP.new()
+	socket.set_no_delay(true)
 	#___test()
 
 func ___test():
@@ -113,8 +114,9 @@ func sendMessageToServer(message):
 			print("Failed to send message.  Lacking messageType attribute.")
 			Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'messageType' attribute.")
 		if !message.has("letterCode"):
-			print("Failed to send message.  Lacking letterCode attribute.")
-			Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'letterCode' attribute.")
+			#print("Failed to send message.  Lacking letterCode attribute.")
+			#Logger.writeLine("Failed to send message (" + str(message) + ").  Lacking 'letterCode' attribute.")
+			message["letterCode"] = letterCode
 	# Send message
 	mostRecentMessage = message
 	print("Sending message...")

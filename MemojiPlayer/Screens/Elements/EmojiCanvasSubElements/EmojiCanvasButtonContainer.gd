@@ -14,6 +14,8 @@ var EmojiButton = preload("res://Screens/Elements/EmojiCanvasSubElements/EmojiBu
 var EmojiButtonGroup = preload("res://Screens/Elements/EmojiCanvasSubElements/EmojiPaletteButtonGroup.tres")
 
 func _ready():
+	get_tree().get_root().connect("size_changed", self, "update_columns")
+	
 	for dir_path in emoji_directories:
 		# Create files of ids
 		var f = File.new()
@@ -48,7 +50,8 @@ func _ready():
 				icon.centered = false
 				icon.offset = Vector2(8,8)
 				b.add_child(icon)
-				b.set_emoji_id(emoji_id)
+				#b.set_emoji_id(emoji_id)
+				b.set_emoji_id(EmojiFilenameToId.EmojiFilenameToIdDict[dir_path + "/" + file_name])
 				#b.rect_min_size = Vector2(44,44)
 				b.group = EmojiButtonGroup
 				#b.toggle_mode = true
@@ -61,13 +64,19 @@ func _ready():
 				
 			# get next file
 			file_name = dir.get_next()
+		
+		if CREATING_ID_FILES:
+			f.close()
 	
 	# Setup grid layout
-	columns = rect_size.x / BUTTON_SIZE
-	print(str(columns) + " " + str(rect_size.x) + " " + str(BUTTON_SIZE))
-	if columns < 1:
-		columns = 1
+	update_columns()
 
 func _child_emoji_button_pressed(id):
 	emit_signal("emoji_button_pressed", id)
 	#print("signal of id " + str(id) + " received in Palette")
+
+func update_columns():
+	columns = rect_size.x / BUTTON_SIZE
+	print(str(columns) + " " + str(rect_size.x) + " " + str(BUTTON_SIZE))
+	if columns < 1:
+		columns = 1

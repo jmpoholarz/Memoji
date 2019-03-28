@@ -21,7 +21,7 @@ func _ready():
 	#	"in which case all of the words should push the rest of the content in this screen downward, reducing the size of " + \
 	#	"the emoji palette.")
 
-func set_prompts(prompt_array):
+func add_prompts(prompt_array):
 	for prompt in prompt_array:
 		self.prompt_array.append(prompt)
 

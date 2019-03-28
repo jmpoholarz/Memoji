@@ -1,5 +1,3 @@
-extends Node
-
 var prompt_id
 var prompt_text
 var player_answers = []
@@ -65,6 +63,11 @@ func set_prompt_text(prompt_text):
 	self.prompt_text = prompt_text
 
 func add_player_answer(player_id, emojis):
+	for answer in player_answers:
+		if (answer.player_id == player_id): # Update the answer, do not add new answer
+			answer.emojis = emojis
+			return
+	
 	# Create object to hold answer
 	var answer_obj = Answer.new()
 	answer_obj.player_id = player_id
@@ -74,6 +77,11 @@ func add_player_answer(player_id, emojis):
 	add_child(answer_obj)
 
 func add_player_vote(player_id, vote_index):
+	for vote in player_votes:
+		if (vote.player_id == player_id): # Update duplicate vote
+			vote.vote_index = vote_index
+			return
+	
 	# Create object to hold vote
 	var vote_obj = Vote.new()
 	vote_obj.player_id = player_id
