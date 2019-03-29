@@ -187,7 +187,7 @@ func resultsPhase():
 	showResults()
 
 func roundResults():
-	toTitle()
+	showTotalResults()
 	pass
 
 func showResults():
@@ -295,7 +295,10 @@ func toTitle():
 	players.clear()
 	audiencePlayers.clear()
 	currentState = GAME_STATE.NOT_STARTED
+	totalScoreTally.clear()
+	competitors.clear()
 	lobbyCode = null
+	
 	# TODO Sprint 2: handle currentState, currentRound
 	$ScreenManager.changeScreenTo(GlobalVars.TITLE_SCREEN)
 	

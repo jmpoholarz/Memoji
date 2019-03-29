@@ -49,7 +49,7 @@ func changeScreenTo(screen):
 			currentScreenInstance = resultsScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.TOTAL_SCREEN:
-			currentScreenInstance = resultsScreenScene.instance()
+			currentScreenInstance = totalResultsScreenScene.instance()
 	
 	if (currentScreenInstance != null):
 		currentScreenInstance.connect("messageServer", self, "forwardMessage")
