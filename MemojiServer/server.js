@@ -138,14 +138,21 @@ if (cluster.isMaster) {
     });
     // console.log(hosts_to_remove);
     _.forEach(hosts_to_remove, (host) => {
+      _.remove(players, (player) => {
+        return player.code == host.code;
+      });
+      _.remove(audience_members, (audience_member) => {
+        return audience_member.code == host.code;
+      })
       _.remove(codes, host.code);
       host.socket.destroy();
       _.remove(hosts, host);
     });
     console.log(codes);
     console.log(hosts);
-    update_codes();
-    update_hosts();
+    console.log(players);
+    console.log(audience_members);
+    update_all();
   }, 330000);
 
   const server = net.createServer(socket => {
@@ -551,9 +558,6 @@ function handleHostDisConn(letterCode) {
       writeToFile(error_log, `Audience member: ${audience.id} socket destroyed unsuccessfully`);
     }
   });
-
-  console.log('Audience removed from host lobby');
-  writeToFile(server_log, 'Audience removed from host lobby');
 
   // Send 'disconnect' to host socket once finished
   host.socket.end();
