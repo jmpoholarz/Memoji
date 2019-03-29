@@ -6,7 +6,6 @@ var currentPrompt # Index starting from 0 that refers to the prompt players are 
 
 var players = [] # array of all players in the game
 var audiencePlayers = [] # array of all players in the audience
-var currentPlayerVotes = [] # array of which selection was voted for by each players
 var totalScoreTally = [] # array of scores for each player, in total
 var competitors = [] # players who are competing in the current round of voting
 
@@ -172,26 +171,37 @@ func sendAnswersForVoting(answers):
 		yield(get_tree().create_timer(1), "timeout")
 
 func resultsPhase():
+	var promptID = $PromptManager.active_prompt_ids[currentPrompt]
+	
 	currentState = GAME_STATE.RESULTS_PHASE
 	
+	competitors = $PromptManager.active_prompts[promptID].get_players_who_answered()
 	showResults()
-	pass
 
 func roundResults():
 	pass
 
 func showResults():
+	# Give IDs of players competing, also calculate array of who voted for what
 	var promptID
 	var answers
+	var currentPlayerVotes = [] # array of which selection was voted for by each players
+	var leftVoters # Player array - Voted for left answer
+	var rightVoters # Player array - Voted for right answer
 	
 	promptID = $PromptManager.active_prompt_ids[currentPrompt]
 	answers = $PromptManager.get_answers_to_prompt(promptID)
+	leftVoters = $PromptManager.get_supporters(promptID, 0)
+	rightVoters = $PromptManager.get_supporters(promptID, 1)
+	
 	
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
 	$ScreenManager.currentScreenInstance.displayAnswers(answers)
 	#variables for keeping number of votes and later each calculated player score
-	var results1 = 0
-	var results2 = 0
+	var results1 = $PromptManager.get_votes(promptID, 0)
+	var results2 = $PromptManager.get_votes(promptID, 1)
+	
+	currentPlayerVotes
 	#tally votes for each result
 	#for vote in currentPlayerVotes:
 	#	if vote == 1:
@@ -202,7 +212,7 @@ func showResults():
 	results1 = $ScreenManager.currentScreenInstance.calculateTotals(1, results1, 0)
 	results2 = $ScreenManager.currentScreenInstance.calculateTotals(2, results2, 0)
 	#display who voted for each answer
-	$ScreenManager.currentScreenInstance.displayVoters(currentPlayerVotes, players)
+	$ScreenManager.currentScreenInstance.displayVoters(leftVoters, rightVoters)
 	#reset votes for next round now that they have been displayed
 	#for vote in currentPlayerVotes:
 	#	vote = 0
@@ -293,7 +303,6 @@ func _on_Networking_playerConnected(playerID, isPlayer):
 	
 	if (isPlayer):
 		players.append(player)
-		currentPlayerVotes.append(0)
 		totalScoreTally.append(0)
 		
 		if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):

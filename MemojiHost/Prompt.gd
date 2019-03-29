@@ -44,8 +44,8 @@ func get_number_of_votes_for_answer(answer_index):
 
 func get_players_who_answered():
 	var players = []
-	for answer in player_answers:
-		players.append(answer.player_id)
+	for index in range(player_answers.size()):
+		players.append(player_answers[index].player_id)
 	return players
 
 func get_players_who_voted():
@@ -53,6 +53,13 @@ func get_players_who_voted():
 	for vote in player_votes:
 		players.append(vote.player_id)
 	return players
+
+func get_voters_for_answer(answer_index):
+	var supporters = []
+	for vote in player_votes:
+		if (vote.vote_index == answer_index):
+			supporters.append(vote.player_id)
+	return supporters
 
 # Setters
 

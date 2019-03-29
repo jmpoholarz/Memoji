@@ -39,8 +39,18 @@ func get_answers_to_prompt(prompt_id): # Returns array of EmojiArrays
 	return answers
 	
 func get_players(prompt_id):
+	
 	pass
 	
+func get_votes(prompt_id, vote_index):
+	var promptObj = active_prompts[prompt_id]
+	
+	return promptObj.get_number_of_votes_for_answer(vote_index)
+
+func get_supporters(prompt_id, vote_index):
+	var promptObj = active_prompts[prompt_id]
+	return promptObj.get_voters_for_answer(vote_index)
+
 func check_completion(): # Checks that each prompt has been answered
 	for k in active_prompts.keys():
 		print("DEBUG: Prompt - ", active_prompts[k].get_prompt_text())
