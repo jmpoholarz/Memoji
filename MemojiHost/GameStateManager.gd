@@ -201,7 +201,7 @@ func showResults():
 	var results1 = $PromptManager.get_votes(promptID, 0)
 	var results2 = $PromptManager.get_votes(promptID, 1)
 	
-	currentPlayerVotes
+	#currentPlayerVotes
 	#tally votes for each result
 	#for vote in currentPlayerVotes:
 	#	if vote == 1:
