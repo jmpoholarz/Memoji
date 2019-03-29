@@ -20,6 +20,12 @@ enum GAME_STATE {
 	FINAL_RESULTS = 5
 }
 
+func findPlayer(id):
+	for p in players:
+		if (p.playerID == id):
+			return p
+	return null
+	
 func debug_to_lobby():
 	$ScreenManager.changeScreenTo(GlobalVars.LOBBY_SCREEN)
 	
@@ -172,10 +178,12 @@ func sendAnswersForVoting(answers):
 
 func resultsPhase():
 	var promptID = $PromptManager.active_prompt_ids[currentPrompt]
-	
+	var competitorIDs = $PromptManager.active_prompts[promptID].get_players_who_answered()
+	competitors = []
+	for index in range(competitorIDs.size()):
+		competitors.append(findPlayer(competitorIDs[index]))
+		
 	currentState = GAME_STATE.RESULTS_PHASE
-	
-	competitors = $PromptManager.active_prompts[promptID].get_players_who_answered()
 	showResults()
 
 func roundResults():
@@ -186,14 +194,23 @@ func showResults():
 	var promptID
 	var answers
 	var currentPlayerVotes = [] # array of which selection was voted for by each players
-	var leftVoters # Player array - Voted for left answer
-	var rightVoters # Player array - Voted for right answer
+	var leftVoterIDs
+	var rightVoterIDs
+	var leftVoters = [] # Player array - Voted for left answer
+	var rightVoters = [] # Player array - Voted for right answer
 	
 	promptID = $PromptManager.active_prompt_ids[currentPrompt]
 	answers = $PromptManager.get_answers_to_prompt(promptID)
-	leftVoters = $PromptManager.get_supporters(promptID, 0)
-	rightVoters = $PromptManager.get_supporters(promptID, 1)
+	leftVoterIDs = $PromptManager.get_supporters(promptID, 0)
+	rightVoterIDs = $PromptManager.get_supporters(promptID, 1)
 	
+	leftVoters.resize(leftVoterIDs.size())
+	rightVoters.resize(rightVoterIDs.size())
+	
+	for index in range(leftVoterIDs.size()):
+		leftVoters[index] = findPlayer(leftVoterIDs[index])
+	for index in range(rightVoterIDs.size()):
+		rightVoters[index] = findPlayer(rightVoterIDs[index])
 	
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
 	$ScreenManager.currentScreenInstance.displayAnswers(answers)
