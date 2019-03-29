@@ -3,7 +3,6 @@ extends Node
 var currentRound
 var currentState = GAME_STATE.NOT_STARTED
 var currentPrompt # Index starting from 0 that refers to the prompt players are currently voting on
-var answers = []
 
 var players = [] # array of all players in the game
 var audiencePlayers = [] # array of all players in the audience
@@ -182,6 +181,12 @@ func roundResults():
 	pass
 
 func showResults():
+	var promptID
+	var answers
+	
+	promptID = $PromptManager.active_prompt_ids[currentPrompt]
+	answers = $PromptManager.get_answers_to_prompt(promptID)
+	
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
 	$ScreenManager.currentScreenInstance.displayAnswers(answers)
 	#variables for keeping number of votes and later each calculated player score
