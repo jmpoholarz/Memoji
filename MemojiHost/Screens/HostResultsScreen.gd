@@ -56,25 +56,31 @@ func displayVoters(leftPlayers, rightPlayers):
 	var index = 0
 	#first make every voter icon invisible so that only valid votes are shown
 	for x in range(0, 8):
-		currentNode = get_node(voterLoc + "VotersLeft/PlayerIcon" + str(index+1))
+		currentNode = get_node(voterLoc + "VotersLeft/player" + str(index+1))
 		currentNode.visible = false
-		currentNode = get_node(voterLoc + "VotersRight/PlayerIcon" + str(index+1))
+		currentNode = get_node(voterLoc + "VotersRight/player" + str(index+1))
 		currentNode.visible = false
 	
 	#show voters for the left response
 	for x in leftPlayers:
-		currentNode = get_node(voterLoc + "VotersLeft/PlayerIcon" + str(index+1))
-		currentNode.texture = load("res://Assets/m" + str(leftPlayers[index].avatarID) + ".png")
+		currentNode = get_node(voterLoc + "VotersLeft/player" + str(index+1))
 		currentNode.visible = true
+		currentNode = get_node(voterLoc + "VotersLeft/player" + str(index+1) + "/PlayerIcon")
+		currentNode.texture = load("res://Assets/m" + str(leftPlayers[index].avatarID) + ".png")
+		currentNode = get_node(voterLoc + "VotersLeft/player" + str(index+1) + "/Label")
+		currentNode.text = leftPlayers[index].username
 		index += 1
 	
 	index = 0
 	
 	#show voters for the right response
 	for x in rightPlayers:
-		currentNode = get_node(voterLoc + "VotersRight/PlayerIcon" + str(index+1))
-		currentNode.texture = load("res://Assets/m" + str(rightPlayers[index].avatarID) + ".png")
+		currentNode = get_node(voterLoc + "VotersRight/player" + str(index+1))
 		currentNode.visible = true
+		currentNode = get_node(voterLoc + "VotersRight/player" + str(index+1) + "/PlayerIcon")
+		currentNode.texture = load("res://Assets/m" + str(rightPlayers[index].avatarID) + ".png")
+		currentNode = get_node(voterLoc + "VotersRight/player" + str(index+1) + "/Label")
+		currentNode.text = rightPlayers[index].username
 		index += 1
 	
 #	for x in range(0, votes.size()):
