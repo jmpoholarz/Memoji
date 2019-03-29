@@ -249,7 +249,7 @@ func showTotalResults():
 	$ScreenManager.changeScreenTo(GlobalVars.TOTAL_SCREEN)
 	$ScreenManager.currentScreenInstance.displayResults(totalScoreTally, players)
 	#time till reset
-	var t = Timer.new()
+	"""var t = Timer.new()
 	t.setWaitTime(30)
 	t.setOneShot(true)
 	self.add_child(t)
@@ -257,6 +257,7 @@ func showTotalResults():
 	yield(t, "timeout")
 	t.queue_free()
 	toTitle()
+	"""
 
 func advanceGame():
 	print("DEBUG: Advance Game function")
