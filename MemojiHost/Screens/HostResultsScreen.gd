@@ -73,7 +73,7 @@ func displayVoters(leftPlayers, rightPlayers):
 	#show voters for the right response
 	for x in rightPlayers:
 		currentNode = get_node(voterLoc + "VotersRight/PlayerIcon" + str(index+1))
-		currentNode.texture = load("res://Assets/m" + str(leftPlayers[index].avatarID) + ".png")
+		currentNode.texture = load("res://Assets/m" + str(rightPlayers[index].avatarID) + ".png")
 		currentNode.visible = true
 		index += 1
 	
