@@ -54,12 +54,14 @@ func displayVoters(leftPlayers, rightPlayers):
 	var currentNode
 	#go through every player vote and decide which side to show them 
 	var index = 0
+	#first make every voter icon invisible so that only valid votes are shown
 	for x in range(0, 8):
 		currentNode = get_node(voterLoc + "VotersLeft/PlayerIcon" + str(index+1))
 		currentNode.visible = false
 		currentNode = get_node(voterLoc + "VotersRight/PlayerIcon" + str(index+1))
 		currentNode.visible = false
 	
+	#show voters for the left response
 	for x in leftVotes:
 		currentNode = get_node(voterLoc + "VotersLeft/PlayerIcon" + str(index+1))
 		currentNode.texture = load("res://Assets/m" + str(leftPlayers[index].avatarID) + ".png")
@@ -68,6 +70,7 @@ func displayVoters(leftPlayers, rightPlayers):
 	
 	index = 0
 	
+	#show voters for the right response
 	for x in rightVotes:
 		currentNode = get_node(voterLoc + "VotersRight/PlayerIcon" + str(index+1))
 		currentNode.texture = load("res://Assets/m" + str(leftPlayers[index].avatarID) + ".png")
