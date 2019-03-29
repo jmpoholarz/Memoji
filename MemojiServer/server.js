@@ -481,6 +481,17 @@ Host data structure
 
 function handleHostCodeRequest(socket) {
   console.log("Code 110: Host request a room code");
+  // Check if host already exists
+  var h = _.find(hosts, (host) => {
+    return host.socket == socket;
+  });
+  if (h != undefined) {
+    if (h.code != null || h.code != undefined) {
+      console.log(`Host already has code: ${h.code}`);
+      return;
+    }
+  }
+
   const letterCode = generateCode();
   console.log(letterCode);
   var host = {
