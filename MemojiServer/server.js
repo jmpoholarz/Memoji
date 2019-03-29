@@ -753,21 +753,23 @@ function send(socket, data) {
   console.log(`Length of message: ${n}`);
   const buf = toBytesInt32(n);
   // Store length in Buffer
+  const buff = new Buffer.from(arr);
   // Store message in Buffer
-  const buf2 = new Buffer.from(data.toString());
+  const buff2 = new Buffer.from(data.toString());
   // Send length
-  console.log(`Length Sent: ${buf}`);
-  socket.write(buf);
+  console.log(buff);
+  socket.write(buff);
   // Send message
-  console.log(`Message sent: ${buf2.toString()}`);
-  socket.write(buf2);
+  console.log(`Message sent: ${buff2.toString()}`);
+  socket.write(buff2);
 }
 
 function toBytesInt32(num) {
-  var buf = new Buffer.alloc(4);
-  buf.fill(0);
-  buf.writeUInt32BE(num, 0);
-  return buf;
+  console.log("CONVERT");
+  arr = new ArrayBuffer(4);
+  view = new DataView(arr);
+  view.setUint32(0, num, false);
+  return arr;
 }
 
 function codeCheck(letterCode) {

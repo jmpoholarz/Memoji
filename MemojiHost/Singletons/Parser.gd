@@ -31,10 +31,13 @@ func getMessageLength(socket):
 		total - the value of the 4 bytes
 	"""
 	var total = 0
-	for i in range(3, -1, -1):
-		var byte = socket.get_u8()
-		print(byte)
-		total += (byte * int(pow(16,i)))
+	var b1 = socket.get_u8()
+	var b2 = socket.get_u8()
+	var b3 = socket.get_u8()
+	var b4 = socket.get_u8()
+	
+	total = (b1 * (16*16*16*16*16*16)) + (b2 * (16*16*16*16)) + (b3 * (16*16)) + (b4)
+	
 	return total
 
 func testJsonConversions():
