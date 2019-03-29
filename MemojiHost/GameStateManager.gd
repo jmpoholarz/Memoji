@@ -187,6 +187,7 @@ func resultsPhase():
 	showResults()
 
 func roundResults():
+	toTitle()
 	pass
 
 func showResults():
