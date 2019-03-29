@@ -216,6 +216,16 @@ func showResults():
 	#reset votes for next round now that they have been displayed
 	#for vote in currentPlayerVotes:
 	#	vote = 0
+	var pIndex
+	for x in range(0,players.size()):
+		if competitor[0] == players[x]:
+			pIndex = x
+	totalScoreTally[pIndex] += results1
+	pIndex = 0
+	for x in range(0,players.size()):
+		if competitor[1] == players[x]:
+			pIndex = x
+	totalScoreTally[pIndex] += results2
 
 func showTotalResults():
 	$ScreenManager.changeScreenTo(GlobalVars.TOTAL_SCREEN)
