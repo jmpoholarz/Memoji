@@ -99,6 +99,7 @@ alignment = 1
 
 [node name="Prompt" type="Label" parent="MarginContainer/Rows/PromptContainer" index="0"]
 
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -127,8 +128,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 617.0
-margin_right = 681.0
+margin_left = 471.0
+margin_right = 535.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
