@@ -52,22 +52,43 @@ func displayVoters(votes, players):
 	var voterLoc = "MarginContainer/Rows/Voters/"
 	#current node being decided to make visible or invisible
 	var currentNode
-	#go through every player vote and decide which side to show them on
-	for x in range(0, votes.size()):
-		if(votes[x] == 1):
-			currentNode = get_node(voterLoc + "VotersLeft/PlayerIcon" + str(x+1))
-			currentNode.texture = load("res://Assets/m"+ str(players[x].avatarID) +".png")
-			currentNode.visible = true
-		elif(votes[x] == 2):
-			currentNode = get_node(voterLoc + "VotersRight/PlayerIcon" + str(x+1))
-			currentNode.texture = load("res://Assets/m"+ str(players[x].avatarID) +".png")
-			currentNode.visible = true
-		else:
-			#if a player did not vote make sure they are not visible
-			currentNode = get_node(voterLoc + "VotersLeft/PlayerIcon" + str(x+1))
-			currentNode.visible = false
-			currentNode = get_node(voterLoc + "VotersRight/PlayerIcon" + str(x+1))
-			currentNode.visible = false
+	#go through every player vote and decide which side to show them 
+	var index = 0
+	for x in range(0, 8):
+		currentNode = get_node(voterLoc + "VotersLeft/PlayerIcon" + str(index+1))
+		currentNode.visible = false
+		currentNode = get_node(voterLoc + "VotersRight/PlayerIcon" + str(index+1))
+		currentNode.visible = false
+	
+	for x in leftVotes:
+		currentNode = get_node(voterLoc + "VotersLeft/PlayerIcon" + str(index+1))
+		currentNode.texture = load("res://Assets/m" + str(leftPlayers[index].avatarID) + ".png")
+		currentNode.visible = true
+		index += 1
+	
+	index = 0
+	
+	for x in rightVotes:
+		currentNode = get_node(voterLoc + "VotersRight/PlayerIcon" + str(index+1))
+		currentNode.texture = load("res://Assets/m" + str(leftPlayers[index].avatarID) + ".png")
+		currentNode.visible = true
+		index += 1
+	
+#	for x in range(0, votes.size()):
+#		if(votes[x] == 1):
+#			currentNode = get_node(voterLoc + "VotersLeft/PlayerIcon" + str(x+1))
+#			currentNode.texture = load("res://Assets/m"+ str(players[x].avatarID) +".png")
+#			currentNode.visible = true
+#		elif(votes[x] == 2):
+#			currentNode = get_node(voterLoc + "VotersRight/PlayerIcon" + str(x+1))
+#			currentNode.texture = load("res://Assets/m"+ str(players[x].avatarID) +".png")
+#			currentNode.visible = true
+#		else:
+#			#if a player did not vote make sure they are not visible
+#			currentNode = get_node(voterLoc + "VotersLeft/PlayerIcon" + str(x+1))
+#			currentNode.visible = false
+#			currentNode = get_node(voterLoc + "VotersRight/PlayerIcon" + str(x+1))
+#			currentNode.visible = false
 	return
 
 func displayAudience(votes):
