@@ -44,7 +44,7 @@ func calculateTotals(ID, votes, audiencePercent):
 		scoreToUpdate.text = str(totalPoints)
 	return totalPoints
 
-func displayVoters(votes, players):
+func displayVoters(leftPlayers, rightPlayers):
 	#recieve who voted for each answer and display appropriately
 	#location of the voter images
 	#display the correct voter images that voted for each answer
