@@ -229,7 +229,7 @@ func showResults():
 	results1 = $ScreenManager.currentScreenInstance.calculateTotals(1, results1, 0)
 	results2 = $ScreenManager.currentScreenInstance.calculateTotals(2, results2, 0)
 	#display who voted for each answer
-	$ScreenManager.currentScreenInstance.displayVoters(leftVoters, rightVoters)
+	#$ScreenManager.currentScreenInstance.displayVoters(leftVoters, rightVoters)
 	#reset votes for next round now that they have been displayed
 	#for vote in currentPlayerVotes:
 	#	vote = 0
