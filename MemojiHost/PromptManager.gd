@@ -53,7 +53,7 @@ func check_completion(): # Checks that each prompt has been answered
 # TODO: handle audience
 func check_votes(promptID, numPlayers): # Checks every player voted on the prompt
 	var promptObj = active_prompts[promptID]
-	if (promptObj.get_number_of_votes_for_answer() < numPlayers):
+	if (promptObj.get_votes().size() < numPlayers):
 		return false
 		
 	return true
