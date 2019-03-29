@@ -262,14 +262,31 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="PlayerIcon1" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft" index="0"]
+[node name="player1" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersLeft" index="0"]
 
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 64.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft/player1" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -281,17 +298,52 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
 
-[node name="PlayerIcon2" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft" index="1"]
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersLeft/player1" index="1"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="player2" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersLeft" index="1"]
+
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 136.0
-margin_right = 200.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft/player2" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -303,17 +355,52 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
 
-[node name="PlayerIcon3" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft" index="2"]
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersLeft/player2" index="1"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="player3" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersLeft" index="2"]
+
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 68.0
-margin_right = 132.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft/player3" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -325,17 +412,52 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
 
-[node name="PlayerIcon4" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft" index="3"]
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersLeft/player3" index="1"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="player4" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersLeft" index="3"]
+
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 68.0
-margin_right = 132.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft/player4" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -347,17 +469,52 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
 
-[node name="PlayerIcon5" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft" index="4"]
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersLeft/player4" index="1"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="player5" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersLeft" index="4"]
+
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 68.0
-margin_right = 132.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft/player5" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -369,17 +526,52 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect", "Visibility" ]
 
-[node name="PlayerIcon6" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft" index="5"]
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersLeft/player5" index="1"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="player6" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersLeft" index="5"]
+
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 68.0
-margin_right = 132.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft/player6" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -391,17 +583,52 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
 
-[node name="PlayerIcon7" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft" index="6"]
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersLeft/player6" index="1"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="player7" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersLeft" index="6"]
+
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 204.0
-margin_right = 268.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft/player7" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -413,17 +640,52 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
 
-[node name="PlayerIcon8" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft" index="7"]
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersLeft/player7" index="1"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="player8" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersLeft" index="7"]
+
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 68.0
-margin_right = 132.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersLeft/player8" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -435,7 +697,26 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Grow Direction", "Rect" ]
+
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersLeft/player8" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="Divider" type="MarginContainer" parent="MarginContainer/Rows/Voters" index="1"]
 
@@ -460,7 +741,6 @@ _sections_unfolded = [ "Rect", "custom_constants" ]
 
 [node name="VotersRight" type="HBoxContainer" parent="MarginContainer/Rows/Voters" index="2"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -476,14 +756,32 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="PlayerIcon1" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight" index="0"]
+[node name="player1" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersRight" index="0"]
 
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 64.0
+margin_left = -120.0
+margin_right = -51.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight/player1" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -495,16 +793,53 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect", "Visibility" ]
 
-[node name="PlayerIcon2" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight" index="1"]
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersRight/player1" index="1"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="player2" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersRight" index="1"]
+
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 64.0
+margin_left = -120.0
+margin_right = -51.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight/player2" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -516,16 +851,53 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
 
-[node name="PlayerIcon3" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight" index="2"]
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersRight/player2" index="1"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="player3" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersRight" index="2"]
+
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 64.0
+margin_left = -120.0
+margin_right = -51.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight/player3" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -537,16 +909,53 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
 
-[node name="PlayerIcon4" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight" index="3"]
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersRight/player3" index="1"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="player4" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersRight" index="3"]
+
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 64.0
+margin_left = -120.0
+margin_right = -51.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight/player4" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -558,16 +967,53 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
 
-[node name="PlayerIcon5" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight" index="4"]
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersRight/player4" index="1"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="player5" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersRight" index="4"]
+
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 64.0
+margin_left = -120.0
+margin_right = -51.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight/player5" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -579,16 +1025,53 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
 
-[node name="PlayerIcon6" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight" index="5"]
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersRight/player5" index="1"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="player6" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersRight" index="5"]
+
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 64.0
+margin_left = -120.0
+margin_right = -51.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight/player6" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -600,16 +1083,53 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
 
-[node name="PlayerIcon7" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight" index="6"]
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersRight/player6" index="1"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="player7" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersRight" index="6"]
+
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 64.0
+margin_left = -120.0
+margin_right = -51.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight/player7" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -621,16 +1141,53 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
 
-[node name="PlayerIcon8" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight" index="7"]
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersRight/player7" index="1"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="player8" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersRight" index="7"]
+
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 64.0
+margin_left = -120.0
+margin_right = -51.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="PlayerIcon" type="TextureRect" parent="MarginContainer/Rows/Voters/VotersRight/player8" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 69.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -642,7 +1199,26 @@ size_flags_vertical = 1
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Rect" ]
+
+[node name="Label" type="Label" parent="MarginContainer/Rows/Voters/VotersRight/player8" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 68.0
+margin_right = 69.0
+margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "name here"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="AudienceVotes" type="HBoxContainer" parent="MarginContainer/Rows" index="4"]
 
