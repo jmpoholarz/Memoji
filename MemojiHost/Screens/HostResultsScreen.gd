@@ -1,5 +1,7 @@
 extends Container
 
+signal updateGameState(msg)
+
 # class member variables go here
 var score1 = 0
 var score2 = 0
@@ -109,3 +111,7 @@ func displayAudience(votes):
 	#votes is an array, index 0 contains votes for left, index 1 contains votes for right
 	#display the percent of audience that voted for each answer in text boxes
 	return
+
+
+func _on_ProceedButton_pressed():
+	emit_signal("updateGameState", "advance")
