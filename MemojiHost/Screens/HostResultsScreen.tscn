@@ -758,13 +758,13 @@ alignment = 0
 
 [node name="player1" type="VBoxContainer" parent="MarginContainer/Rows/Voters/VotersRight" index="0"]
 
+editor/display_folded = true
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -120.0
-margin_right = -51.0
+margin_right = 69.0
 margin_bottom = 82.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
