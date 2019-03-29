@@ -128,15 +128,15 @@ if (cluster.isMaster) {
       };
       send(host.socket, JSON.stringify(res));
     });
-  }, 300000);
+  }, 600000);
   // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
   setInterval(() => {
     console.log("Remove unresponsive Host(s)");
     writeToFile(server_log, 'Removing unresponsive Host(s)');
     var hosts_to_remove = _.filter(hosts, (host) => {
-      return (Math.abs(host.lastPing - moment().valueOf()) > 30000);
+      return (Math.abs(host.lastPing - moment().valueOf()) > 25000);
     });
-    // console.log(hosts_to_remove);
+    console.log(hosts_to_remove);
     _.forEach(hosts_to_remove, (host) => {
       _.remove(players, (player) => {
         return player.code == host.code;
@@ -153,7 +153,7 @@ if (cluster.isMaster) {
     console.log(players);
     console.log(audience_members);
     update_all();
-  }, 330000);
+  }, 630000);
 
   const server = net.createServer(socket => {
 
@@ -434,6 +434,7 @@ function writeToFile(filename, message) {
 }
 
 function update_codes() {
+  writeToFile(server_log, 'Update Codes');
   curr_process.send({
     topic: CODES_UPDATE,
     codes: codes
@@ -441,6 +442,7 @@ function update_codes() {
 }
 
 function update_hosts() {
+  writeToFile(server_log, 'Update Hosts');
   curr_process.send({
     topic: HOSTS_UPDATE,
     hosts: hosts
@@ -448,6 +450,7 @@ function update_hosts() {
 }
 
 function update_players() {
+  writeToFile(server_log, 'Update Players');
   curr_process.send({
     topic: PLAYERS_UPDATE,
     players: players
@@ -455,6 +458,7 @@ function update_players() {
 }
 
 function update_audience() {
+  writeToFile(server_log, 'Update Audience Members');
   curr_process.send({
     topic: AUDIENCE_MEMBERS_UPDATE,
     audience_members: audience_members
