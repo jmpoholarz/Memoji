@@ -22,7 +22,7 @@ func displayResults(scores, players):
 	#sort through the scores to put them in order
 	for x in range(1, ordered.size()):
 		var y = x
-		while(y > 0 && ordered[y-1] > ordered[y]):
+		while(y > 0 && ordered[y-1] < ordered[y]):
 			temp = ordered[y-1]
 			ordered[y-1] = ordered[y]
 			ordered[y] = temp
