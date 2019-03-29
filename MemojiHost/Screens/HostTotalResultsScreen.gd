@@ -45,14 +45,14 @@ func displayResults(scores, players):
 			placeNode = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace))
 			placeNodeText = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace) + "/PlayerName")
 			placeNodeIcon = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace) + "/PlayerIcon")
-			placeNodeText.text = remainingPlayers[currentIndex].username
+			placeNodeText.text = remainingPlayers[currentIndex].username + ":  " + str(ordered[0])
 			placeNodeIcon.texture = load("res://Assets/m"+ str(remainingPlayers[currentIndex].avatarID) +".png")
 			placeNode.visible = true
 		else:
 			placeNode = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace))
 			placeNodeText = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerName")
 			placeNodeIcon = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerIcon")
-			placeNodeText.text = remainingPlayers[currentIndex].username
+			placeNodeText.text = remainingPlayers[currentIndex].username + ":  " + str(ordered[0])
 			placeNodeIcon.texture = load("res://Assets/m"+ str(remainingPlayers[currentIndex].avatarID) +".png")
 			placeNode.visible = true
 		#remove the score and player from the list of remaining players to be displayed
