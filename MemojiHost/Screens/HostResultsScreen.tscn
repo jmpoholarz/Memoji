@@ -121,7 +121,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Visibility" ]
 
-[node name="Button" type="Button" parent="MarginContainer/Rows/PromptContainer" index="1"]
+[node name="ProceedButton" type="Button" parent="MarginContainer/Rows/PromptContainer" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -1404,5 +1404,7 @@ text = "100"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[connection signal="pressed" from="MarginContainer/Rows/PromptContainer/ProceedButton" to="." method="_on_ProceedButton_pressed"]
 
 

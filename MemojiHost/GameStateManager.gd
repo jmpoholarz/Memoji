@@ -276,7 +276,6 @@ func advanceGame():
 			else:
 				#TODO:
 				roundResults()
-				
 				pass
 			pass
 	pass
@@ -430,5 +429,11 @@ func _on_ScreenManager_handleGameState(msg):
 	if $ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN:
 		if (msg == "code" && lobbyCode != null):
 			$ScreenManager.currentScreenInstance.update_lettercode(lobbyCode)
+			return
 		elif (msg == "disconnectLobby"):
 			toTitle()
+			return
+	elif $ScreenManager.currentScreen == GlobalVars.RESULTS_SCREEN:
+		if (msg == "advance"):
+			advanceGame()
+			return
