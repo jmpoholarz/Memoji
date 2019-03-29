@@ -218,12 +218,12 @@ func showResults():
 	#	vote = 0
 	var pIndex
 	for x in range(0,players.size()):
-		if competitor[0] == players[x]:
+		if competitors[0] == players[x]:
 			pIndex = x
 	totalScoreTally[pIndex] += results1
 	pIndex = 0
 	for x in range(0,players.size()):
-		if competitor[1] == players[x]:
+		if competitors[1] == players[x]:
 			pIndex = x
 	totalScoreTally[pIndex] += results2
 
