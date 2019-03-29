@@ -139,6 +139,7 @@ _sections_unfolded = [ "Rect", "custom_constants" ]
 
 [node name="Place1" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsLeft" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -184,6 +185,7 @@ anchor_bottom = 0.0
 margin_left = 34.0
 margin_right = 98.0
 margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -191,7 +193,9 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 2 )
+expand = true
 stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
 
 [node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/Place1" index="2"]
 
@@ -264,6 +268,7 @@ anchor_bottom = 0.0
 margin_left = 38.0
 margin_right = 102.0
 margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -271,7 +276,9 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 2 )
+expand = true
 stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
 
 [node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/Place2" index="2"]
 
@@ -344,6 +351,7 @@ anchor_bottom = 0.0
 margin_left = 35.0
 margin_right = 99.0
 margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -351,7 +359,9 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 2 )
+expand = true
 stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
 
 [node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/Place3" index="2"]
 
@@ -425,6 +435,7 @@ anchor_bottom = 0.0
 margin_left = 35.0
 margin_right = 99.0
 margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -432,7 +443,9 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 2 )
+expand = true
 stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
 
 [node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsLeft/Place4" index="2"]
 
@@ -524,6 +537,7 @@ anchor_bottom = 0.0
 margin_left = 35.0
 margin_right = 99.0
 margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -531,7 +545,9 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 2 )
+expand = true
 stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
 
 [node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/Place5" index="2"]
 
@@ -605,6 +621,7 @@ anchor_bottom = 0.0
 margin_left = 35.0
 margin_right = 99.0
 margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -612,7 +629,9 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 2 )
+expand = true
 stretch_mode = 0
+_sections_unfolded = [ "Hint", "Rect" ]
 
 [node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/Place6" index="2"]
 
@@ -686,6 +705,7 @@ anchor_bottom = 0.0
 margin_left = 35.0
 margin_right = 99.0
 margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -693,7 +713,9 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 2 )
+expand = true
 stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
 
 [node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/Place7" index="2"]
 
@@ -767,6 +789,7 @@ anchor_bottom = 0.0
 margin_left = 35.0
 margin_right = 99.0
 margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -774,7 +797,9 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 texture = ExtResource( 2 )
+expand = true
 stretch_mode = 0
+_sections_unfolded = [ "Rect" ]
 
 [node name="PlayerName" type="Label" parent="MarginContainer/Rows/Columns/ResultsRight/Place8" index="2"]
 
