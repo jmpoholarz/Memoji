@@ -144,14 +144,13 @@ if (cluster.isMaster) {
       _.remove(audience_members, (audience_member) => {
         return audience_member.code == host.code;
       })
-      _.remove(codes, host.code);
+      _.remove(codes, (code) => {
+        return code == host.code;
+      });
       host.socket.destroy();
       _.remove(hosts, host);
     });
-    console.log(codes);
-    console.log(hosts);
-    console.log(players);
-    console.log(audience_members);
+    printAll();
     update_all();
   }, 630000);
 
@@ -221,7 +220,9 @@ if (cluster.isMaster) {
         case 121: // Host is still handling games
           console.log('Host is still handling games');
           const host = _.find(hosts, ['code', letterCode]);
+          console.log(host.lastPing);
           host.lastPing = moment().valueOf();
+          console.log(host.lastPing);
           update_hosts();
           writeToFile(server_log, `${letterCode} Host still handling games`);
           break;
@@ -422,6 +423,17 @@ function parseData(data) {
   const b = new Buffer.from(message);
   // Return message without padding
   return b.toString();
+}
+
+function printAll() {
+  console.log("CODES:");
+  console.log(codes);
+  console.log("HOSTS:");
+  console.log(hosts);
+  console.log("PLAYERS:");
+  console.log(players);
+  console.log("AUDIENCE");
+  console.log(audience_members);
 }
 
 function writeToFile(filename, message) {
