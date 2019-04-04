@@ -18,32 +18,16 @@ onready var codeLabel = $Foreground/Content/Lines/BottomLine/ABCDcode # audience
 
 onready var pDisplays = [p1, p2, p3, p4, p5, p6, p7, p8] # GUI representing each player
 
-var avatarList = [] # Stores the avatars, indexed by Player.AvatarID
 var linkedIDs = [] # Stores the playerID
 
 var _NotEnoughPlayers
 var _NotAllPlayersHaveAvatar
 
 func _ready():
-	avatarSetup()
-	
 	_NotEnoughPlayers = $Foreground/NotEnoughPlayersPopup
 	_NotAllPlayersHaveAvatar = $Foreground/NotAllPlayersHaveAvatar
 	codeLabel.text = "????"
 	emit_signal("updateGameState", "code")
-
-func avatarSetup(): # loads the avatars in use
-	avatarList.resize(8)
-	# TODO: replace placeholders
-	## Temporarily used to match client placeholder ##
-	avatarList[0] = preload("res://Assets/m1.png")
-	avatarList[1] = preload("res://Assets/m3.png")
-	avatarList[2] = preload("res://Assets/m7.png")
-	avatarList[3] = preload("res://Assets/m0.png")
-	avatarList[4] = preload("res://Assets/m2.png")
-	avatarList[5] = preload("res://Assets/m4.png")
-	avatarList[6] = preload("res://Assets/m5.png")
-	avatarList[7] = preload("res://Assets/m6.png")
 
 # Old function
 func update_player_status2(playerID, username, avatarID):
@@ -54,7 +38,7 @@ func update_player_status2(playerID, username, avatarID):
 	if (index == -1): # no player with that ID was found
 		return -1
 		
-	pDisplays[index].update_player(username, avatarList[avatarID])
+	pDisplays[index].update_player(username, avatarID)
 	
 	return 0
 func update_player_status(playerObj):
@@ -97,7 +81,7 @@ func update_from_list(players): # takes an array of Player Objects
 
 # Makes the display at index show info about the provided player object
 func update_display(index, playerObj):
-	pDisplays[index].update_player(playerObj.username, avatarList[playerObj.avatarID])
+	pDisplays[index].update_player(playerObj.username, playerObj.avatarID)
 
 func update_lettercode(code):
 	codeLabel.update_code(code)

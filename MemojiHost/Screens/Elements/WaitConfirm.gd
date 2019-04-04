@@ -7,19 +7,15 @@ var maxPrompts
 
 func _ready():
 	# TODO: Replace Placeholder
-	avatarList.resize(8)
-	avatarList[0] = preload("res://Assets/m1.png")
-	avatarList[1] = preload("res://Assets/m3.png")
-	avatarList[2] = preload("res://Assets/m7.png")
-	avatarList[3] = preload("res://Assets/m0.png")
-	avatarList[4] = preload("res://Assets/m2.png")
-	avatarList[5] = preload("res://Assets/m4.png")
-	avatarList[6] = preload("res://Assets/m5.png")
-	avatarList[7] = preload("res://Assets/m6.png")
-	
+	avatarSetup()
 	$PlayerDisplay.hide()
 	$Checkmark.hide()
 	pass
+	
+func avatarSetup(): # loads the avatars in use
+	avatarList.resize(GlobalVars.MAXPLAYERS)
+	for index in range(avatarList.size()):
+		avatarList[index] = load(GlobalVars.AVATARPATHS[index])
 
 func link_player(player):
 	self.playerID = player.playerID
