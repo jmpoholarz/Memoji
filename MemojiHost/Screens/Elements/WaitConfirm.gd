@@ -24,7 +24,7 @@ func link_player(player):
 	$Checkmark.hide()
 	
 func update_from_player(player):
-	$PlayerDisplay.update_player(player.username, avatarList[player.avatarID])
+	$PlayerDisplay.update_player(player.username, player.avatarID)
 	
 func show_confirmation():
 	$Checkmark.show()
