@@ -11,4 +11,4 @@ func add_promptID(id):
 	currentPromptIDs.append(id)
 
 func get_promptIDs():
-	currentPromptIDs
+	return currentPromptIDs
