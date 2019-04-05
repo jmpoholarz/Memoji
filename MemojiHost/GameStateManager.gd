@@ -102,45 +102,46 @@ func shufflePlayers(numPlayers):
 		indexList.remove(x)
 	return shuffled_players
 
+func parse_prompt(prompt_text):
+	var new_prompt_text = ""
+	var prompt_strings = prompt_text.split("<username>")
+	if prompt_strings.size() == 2:
+		# This prompt contains a <username> space
+		print("Prompt: " + str(prompt_text))
+		print("Has a <username> in it")
+		# Get a random user
+		randomize()
+		var x = randi()%players.size()
+		new_prompt_text = str(prompt_strings[0]) + str(players[x].username) + str(prompt_strings[1])
+		print("New prompt text: " + str(new_prompt_text))
+	else:
+		new_prompt_text = prompt_text
+		print("New prompt text: " + str(new_prompt_text))
+	return new_prompt_text
+
 func pair_players(numPlayers):
 	var messages = []
 	var shuffled_players = shufflePlayers(numPlayers)
 	print(shuffled_players)
-	
 	for i in range(numPlayers):
 		var prompt = $PromptManager.create_prompt()
+		# Check if prompt contains <username>
+		var prompt_text = prompt.get_prompt_text()
+		prompt_text = parse_prompt(prompt_text)
 		messages.append({
 			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
 			"letterCode": lobbyCode,
 			"promptID": prompt.get_prompt_id(),
-			"prompt": prompt.get_prompt_text(),
+			"prompt": prompt_text,
 			"playerID": shuffled_players[i % numPlayers].playerID
 		})
 		messages.append({
 			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
 			"letterCode": lobbyCode,
 			"promptID": prompt.get_prompt_id(),
-			"prompt": prompt.get_prompt_text(),
+			"prompt": prompt_text,
 			"playerID": shuffled_players[(i + 1) % numPlayers].playerID
 		})
-	"""
-	for i in range(numPlayers):
-		var prompt = $PromptManager.create_prompt()
-		messages.append({
-			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
-			"letterCode": lobbyCode,
-			"promptID": prompt.get_prompt_id(),
-			"prompt": prompt.get_prompt_text(),
-			"playerID": players[i % numPlayers].playerID
-		})
-		messages.append({
-			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
-			"letterCode": lobbyCode,
-			"promptID": prompt.get_prompt_id(),
-			"prompt": prompt.get_prompt_text(),
-			"playerID": players[(i + 1) % numPlayers].playerID
-		})
-	"""
 	return messages
 
 func votePhase(): # handle voting for one prompt
