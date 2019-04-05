@@ -101,7 +101,8 @@ _Sent when a prompt response is invalid_
 {
   messageType: 411,
   letterCode: "ABCD", (Added by Networking.gd)
-  playerID: "abc-123"}
+  playerID: "abc-123"
+}
 ```
 
 * **ACCEPTED_PROMPT_RESPONSE = 412**  
@@ -203,9 +204,7 @@ _Sent when a Player has disconnected and wants to reconnect to an existing host 
 {
   messageType: 406,
   letterCode: "ABCD",
-  playerID: "abc-123",
-  username: "username",
-  avatarIndex: 1
+  playerID: "abc-123"
 }
 ```
 

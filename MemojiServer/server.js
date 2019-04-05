@@ -273,6 +273,9 @@ if (cluster.isMaster) {
           sendToHost(letterCode, message);
           writeToFile(server_log, `Forward Player disconnection to host - ${letterCode}`);
           break;
+        case 406: // Player Reconnecting
+          
+          break;
         case 320: // Host round time is up --> Send to all Players
           sendToAllPlayers(letterCode, message);
           if (message.messageType === 301) mtype = 'Host starting game.';
@@ -301,6 +304,7 @@ if (cluster.isMaster) {
         case 422: // Accepted vote response ----------> Send to Player
         case 431: // Invalid multi vote --------------> Send to Player
         case 432: // Accepted multi vote -------------> Send to Player
+        case 440: // Update Player game state --------> Send to Player
           sendToPlayer(message);
           if (message.messageType === 404) mtype = 'Invalid username.';
           if (message.messageType === 405) mtype = 'Host starting game.';
@@ -310,6 +314,7 @@ if (cluster.isMaster) {
           if (message.messageType === 422) mtype = 'Accepted vote response.';
           if (message.messageType === 431) mtype = 'Invalid multi vote.';
           if (message.messageType === 432) mtype = 'Accepted multi vote.';
+          if (message.messageType === 440) mtype = 'Update Player game state.';
           writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Player: ${message.playerID}`);
           break;
         case 403: // Player username and avatar ------> Send to Host
