@@ -279,6 +279,15 @@ _Sent from Server when Player enters an invalid code_
 }
 ```
 
+* **ACCEPTED_PLAYER_RECONNECTION = 114**  
+_Sent from Server when Player reconnection was successful_  
+```javascript
+{
+  messageType: 114,
+  playerID: "abc-123"
+}
+```
+
 * **SERVER_PING = 120**  
 _Sent from Server when Server is checking if the game is still active_  
 ```javascript

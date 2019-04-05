@@ -274,7 +274,17 @@ if (cluster.isMaster) {
           writeToFile(server_log, `Forward Player disconnection to host - ${letterCode}`);
           break;
         case 406: // Player Reconnecting
-          
+          if (codeCheck(letterCode)) {
+            handlePlayerReConn(letterCode, message);
+          } else {
+            console.log('Lobby Code does not exist!');
+            console.log('Did not handle player reconnection successfully.');
+            const res = {
+              "messageType": 113
+            };
+            send(socket, JSON.stringify(res));
+            writeToFile(server_log, 'Player could not join. Invalid letter code.');
+          }
           break;
         case 320: // Host round time is up --> Send to all Players
           sendToAllPlayers(letterCode, message);
@@ -695,15 +705,20 @@ function handlePlayerConn(letterCode, socket) {
   const player = {
     code: letterCode,
     socket: socket,
-    id: id
+    id: id,
+    isActive: true
   };
   const host = _.find(hosts, ['code', letterCode]);
+  // Looks for if player is already connected to host
   const p = _.find(host.players, (p) => {
     return p.socket === socket;
   });
+  // Player is already connected to host
   if (p !== undefined) {
     return -1;
   }
+  // Player not already connected to host
+  // Proceed
   host.players.push(player);
   players.push(player);
 
@@ -739,7 +754,8 @@ function handleAudienceConn(letterCode, socket) {
   const audience = {
     code: letterCode,
     socket: socket,
-    id: id
+    id: id,
+    isActive: true
   };
   host.audience.push(audience);
   audience_members.push(audience);
@@ -816,6 +832,59 @@ function handlePlayerDisConn(letterCode, id) {
   update_players();
 
   return 1;
+}
+
+function handlePlayerReConn(letterCode, message, socket) {
+  // Code exists
+  console.log("Code exists: " + letterCode);
+  // Find player in Players array
+  const player = _.find(players, (p) => {
+    return p.id == message.playerID;
+  });
+  if (player === undefined) {
+    console.log("Player does not exist.");
+    console.log(":(");
+    return;
+  }
+  // Player has been found
+  player.isActive = true;
+
+  // Find host to reconnect to
+  const host = _.find(hosts, ['code', letterCode]);
+  // Find player in host's player array
+  const p = _.find(host.players, (pl) => {
+    return pl.id == player.id;
+  });
+  // Player is not in host's player array
+  if (p !== undefined) {
+    console.log("Player is not in Host's player array");
+    return -1;
+  }
+  // Player is in host's player array
+  const reconnected_player = {
+    code: letterCode,
+    socket: socket,
+    id: message.playerID,
+    isActive: true
+  }
+  host.players.remove(p);
+  host.players.push(reconnected_player);
+  players.remove(player);
+  players.push(reconnected_player);
+
+  update_hosts();
+  update_players();
+
+  console.log('Handled player reconnection successfully.');
+  var res = {
+    "messageType": 114,
+    "letterCode": letterCode,
+    "playerID": message.playerID
+  };
+  send(socket, JSON.stringify(res));
+  res.messageType = 406;
+  send(host.socket, JSON.stringify(res));
+  console.log("End of Player reconnection");
 }
 
 function sendToAllPlayers(letterCode, message) {
