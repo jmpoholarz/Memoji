@@ -17,7 +17,7 @@ func set_answer(prompt_id, player_id, answer):
 	print("DEBUG: prompt answer - ", prompt_id)
 	print("Dictionary: ", active_prompts)
 	if (active_prompts.has(prompt_id)):
-		active_prompts[prompt_id].add_player_answer(player_id, answer)
+		active_prompts[prompt_id].update_player_answer(player_id, answer)
 		print("DEBUG: prompt answer added successfully")
 		return true
 	else:

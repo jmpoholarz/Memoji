@@ -125,6 +125,9 @@ func pair_players(numPlayers):
 	print(shuffled_players)
 	for i in range(numPlayers):
 		var prompt = $PromptManager.create_prompt()
+		prompt.add_competitor(shuffled_players[i % numPlayers].playerID)
+		prompt.add_competitor(shuffled_players[(i + 1) % numPlayers].playerID)
+		
 		# Check if prompt contains <username>
 		var prompt_text = prompt.get_prompt_text()
 		prompt_text = parse_prompt(prompt_text)
