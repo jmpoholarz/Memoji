@@ -72,9 +72,8 @@ func changeScreenTo(screen):
 		PLAYER_WAITING_AFTER_VOTING_SCREEN:
 			currentScreenInstance = wait_screen.instance()
 
-	
-	add_child(currentScreenInstance)
 	currentScreen = screen
+	add_child(currentScreenInstance)
 	emit_signal("screen_change_completed")
 
 func forwardMessage(msg):
