@@ -44,6 +44,9 @@ func _ready():
 	toTitle()
 
 func on_startGame():
+	if $ScreenManager.currentScreen == GlobalVars.SETUP_SCREEN:
+		instructions = $ScreenManager.currentScreenInstance.getInstructionState()
+		repeatInstruct = $ScreenManager.currentScreenInstance.getRepeatState()
 	setupGame()
 	currentRound = 1
 
