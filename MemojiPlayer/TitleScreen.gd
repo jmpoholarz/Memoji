@@ -5,14 +5,12 @@ signal sendMessage(msg)
 
 onready var _ConnectingLabel = $ConnectingLabel
 onready var _JoinButton = $VBoxContainer/JoinButton
-onready var _InstructionsLabel = $VBoxContainer/VBoxContainer/InstructionsLabel
-onready var _RoomCodeLineEdit = $VBoxContainer/VBoxContainer/RoomCodeLineEdit
+onready var _InstructionsLabel = $VBoxContainer/InstructionsLabel
+onready var _RoomCodeLineEdit = $VBoxContainer/RoomCodeLineEdit
 onready var _RoomCodeInvalidLengthPopup = $RoomCodeInvalidLengthPopup
 onready var _RoomCodeInvalidCharacterPopup = $RoomCodeInvalidCharacters
 onready var _ServerErrorPopup = $ServerErrorPopup
 
-func _ready():
-	pass
 
 func _on_JoinButton_pressed():
 	var roomCode = _RoomCodeLineEdit.text
