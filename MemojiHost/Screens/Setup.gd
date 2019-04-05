@@ -28,8 +28,7 @@ func _on_InstructionsCheck_toggled(button_pressed):
 	var repeat = get_node(repeatLocation)
 	if button_pressed:
 		repeat.pressed = false
-		repeat.visible = false
-	else:
 		repeat.visible = true
+	else:
+		repeat.visible = false
 		repeat.pressed = false
-	repeat.queue_free()

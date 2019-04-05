@@ -34,7 +34,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-color = Color( 0.0732422, 0.327568, 0.625, 1 )
+color = Color( 0.0235294, 0.101961, 0.192157, 1 )
 _sections_unfolded = [ "Margin" ]
 
 [node name="MarginContainer2" type="MarginContainer" parent="." index="1"]
