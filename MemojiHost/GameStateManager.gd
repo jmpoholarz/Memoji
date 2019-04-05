@@ -3,8 +3,8 @@ extends Node
 var currentRound
 var currentState = GAME_STATE.NOT_STARTED
 var currentPrompt # Index starting from 0 that refers to the prompt players are currently voting on
-var instructions = true
-var repeatInstruct = false
+var instructions = true # whether or not to show instructions before the actual game begins
+var repeatInstruct = false # whether to show instructions for every round of the game
 
 var players = [] # array of all players in the game
 var audiencePlayers = [] # array of all players in the audience
@@ -44,6 +44,7 @@ func _ready():
 	toTitle()
 
 func on_startGame():
+	# set the instruction variables to what they need to be
 	if $ScreenManager.currentScreen == GlobalVars.SETUP_SCREEN:
 		instructions = $ScreenManager.currentScreenInstance.getInstructionState()
 		repeatInstruct = $ScreenManager.currentScreenInstance.getRepeatState()
