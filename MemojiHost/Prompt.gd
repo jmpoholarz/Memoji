@@ -1,16 +1,23 @@
 var prompt_id
 var prompt_text
-var player_answers = []
+var player_answers = [] # Stores the players who are answering the prompt as well as their answer
 var player_votes = []
-#var competitiors = []	# Stores the players that are to answer the prompt
+
+var answers_completed = 0 # how many answers have been answered
 
 class Answer:
 	var player_id
-	var emojis
+	var emojis # null if player hasn't answered yet
 
 class Vote:
 	var player_id
 	var vote_index
+
+func reset():
+	prompt_id = null
+	prompt_text = null
+	player_answers.clear()
+	player_votes.clear()
 
 func setup(pArr): # pArr - array of playerIDs
 	var answerObj
@@ -115,6 +122,7 @@ func add_player_vote(player_id, vote_index):
 func update_player_answer(player_id, emojis):
 	for answer in player_answers:
 		if (answer.player_id == player_id): # Update the answer, do not add new answer
+			if (answer.emojis == null): answers_completed += 1 # if no previous answer, increase count of answer by 1
 			answer.emojis = emojis
 			return true
 	return false

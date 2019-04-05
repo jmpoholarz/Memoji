@@ -57,11 +57,16 @@ func get_supporters(prompt_id, vote_index):
 	var promptObj = active_prompts[prompt_id]
 	return promptObj.get_voters_for_answer(vote_index)
 
+# TODO: Fix this
 func check_completion(): # Checks that each prompt has been answered
+	var promptObj
+	
 	for k in active_prompts.keys():
-		print("DEBUG: Prompt - ", active_prompts[k].get_prompt_text())
-		print("* answer count: ", active_prompts[k].player_answers.size())
-		if (active_prompts[k].player_answers.size() < 2):
+		promptObj = active_prompts[k]
+		print("DEBUG: Prompt - ", promptObj.get_prompt_text())
+		print("* answer count: ", promptObj.player_answers.size())
+		
+		if (promptObj.answers_completed < promptObj.player_answers.size()):
 			return false
 	
 	return true
@@ -153,6 +158,3 @@ func __unit_test_get_new_prompt():
 		check_completion()
 		pass
 	
-	
-	
-	## TODO test more getters
