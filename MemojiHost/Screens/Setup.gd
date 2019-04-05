@@ -39,3 +39,9 @@ func _on_InstructionsCheck_toggled(button_pressed):
 		instructionState = false
 		repeat.visible = false
 		repeat.pressed = false
+
+func getInstructionState():
+	return instructionState
+
+func getRepeatState():
+	return repeatState
