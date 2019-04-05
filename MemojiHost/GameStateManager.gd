@@ -3,6 +3,8 @@ extends Node
 var currentRound
 var currentState = GAME_STATE.NOT_STARTED
 var currentPrompt # Index starting from 0 that refers to the prompt players are currently voting on
+var instructions = true
+var repeatInstruct = false
 
 var players = [] # array of all players in the game
 var audiencePlayers = [] # array of all players in the audience
