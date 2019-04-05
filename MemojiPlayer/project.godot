@@ -18,6 +18,7 @@ config/icon="res://icon.png"
 
 MESSAGE_TYPES="*res://Singletons/MESSAGE_TYPES.gd"
 Logger="*res://Singletons/Logger.gd"
+SessionStorer="*res://Singletons/SessionStorer.gd"
 EmojiFilenameToId="*res://Singletons/EmojiFilenameToId.gd"
 EmojiIdToFilename="*res://Singletons/EmojiIdToFilename.gd"
 
