@@ -32,16 +32,19 @@ func _ready():
 
 func changeScreenTo(screen):
 	# TODO - queue_free() before changing screen
+	if (currentScreenInstance != null):
+		remove_child(currentScreenInstance)
+		currentScreenInstance.queue_free()
+		currentScreenInstance = null
+	
 	match screen:
 		TITLE_SCREEN:
 			currentScreenInstance = titleScreenScene.instance()
-			add_child(currentScreenInstance)
 			currentScreenInstance.connect("connectToServer", self, "connectToServer")
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
 			
 		USERINFORMATION_SCREEN:
 			currentScreenInstance = userinfoScreenScene.instance()
-			add_child(currentScreenInstance)
 			#currentScreenInstance.connect("connectToServer", self, "connectToServer")
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
 			var GSM = get_node("../")
@@ -49,32 +52,28 @@ func changeScreenTo(screen):
 		
 		LOBBY_SCREEN:
 			currentScreenInstance = lobbyScreenScene.instance()
-			add_child(currentScreenInstance)
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
 			currentScreenInstance.connect("changeScreen", self, "changeScreenTo")
 			currentScreenInstance.connect("disconnectFromHost", self, "disconnectFromServer")
 		
 		PLAYER_VOTING_SCREEN:
 			currentScreenInstance = playerVotingScene.instance()
-			add_child(currentScreenInstance)
 			currentScreenInstance.connect("send_message", self, "forwardMessage")
 			currentScreenInstance.connect("change_screen", self, "changeScreenTo")
 			
 		PROMPT_ANSWERING_SCREEN:
 			currentScreenInstance = prompt_answering_screen_scene.instance()
-			add_child(currentScreenInstance)
 			currentScreenInstance.connect("send_message", self, "forwardMessage")
 			currentScreenInstance.connect("out_of_prompts", self, "go_to_waiting_screen")
 			
 		WAITING_SCREEN:
 			currentScreenInstance = wait_screen.instance()
-			add_child(currentScreenInstance)
-			
 		
 		PLAYER_WAITING_AFTER_VOTING_SCREEN:
 			currentScreenInstance = wait_screen.instance()
-			add_child(currentScreenInstance)
-		
+
+	
+	add_child(currentScreenInstance)
 	currentScreen = screen
 	emit_signal("screen_change_completed")
 

@@ -28,9 +28,9 @@ func changeScreenTo(screen):
 	if (currentScreenInstance != null):
 		remove_child(currentScreenInstance)
 		currentScreenInstance.queue_free()
+		currentScreenInstance = null
+		currentScreen = null
 	
-	currentScreenInstance == null
-	currentScreen = screen
 	match screen:
 		GlobalVars.TITLE_SCREEN:
 			currentScreenInstance = titleScreenScene.instance()
@@ -52,6 +52,7 @@ func changeScreenTo(screen):
 			currentScreenInstance = totalResultsScreenScene.instance()
 	
 	if (currentScreenInstance != null):
+		currentScreen = screen
 		currentScreenInstance.connect("messageServer", self, "forwardMessage")
 		currentScreenInstance.connect("changeScreen", self, "changeScreenTo")
 		add_child(currentScreenInstance)
