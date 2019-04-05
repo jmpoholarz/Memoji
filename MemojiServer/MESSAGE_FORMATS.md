@@ -154,6 +154,17 @@ _Sent when a multi vote is successfully obtained by the host_
 }
 ```
 
+* **UPDATE_PLAYER_GAME_STATE = 440**  
+_Sent when a Player requests to be updated on the current game state_  
+```javascript
+{
+  messageType: 440,
+  letterCode: "ABCD", (Added by Networking.gd)
+  playerID: "abc-123",
+  gameState: 3
+}
+```
+
 ## Messages Sent from Player:
 * **PLAYER_CONNECTED = 401**  
 _Sent from player to inform of new player connection_  
@@ -181,6 +192,18 @@ _Sent to update player's username and avatar on the host_
   messageType: 403,
   letterCode: "ABCD", (Added by Networking.gd)
   playerID: "abc-123", (Added by GameStateManager.gd)
+  username: "username",
+  avatarIndex: 1
+}
+```
+
+* **PLAYER_RECONNECT = 406**  
+_Sent when a Player has disconnected and wants to reconnect to an existing host that it was previously connected to_  
+```javascript
+{
+  messageType: 406,
+  letterCode: "ABCD",
+  playerID: "abc-123",
   username: "username",
   avatarIndex: 1
 }
@@ -300,3 +323,4 @@ _Sent from server if message received is invalid JSON_
 **avatarIndex**				- The ID of the avatar image chosen to represent a player on the host  
 **voteID**					- The ID of the answer the player has chosen to vote for  
 **voteArray**				- An array of voteIDs that the player has chosen to vote for  
+**gameState**       - A number that identifies the current game state
