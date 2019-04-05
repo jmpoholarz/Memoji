@@ -8,6 +8,9 @@ onready var codeLabel = $MarginContainer2/MarginContainer3/VBoxContainer/VBoxCon
 var repeatLocation = "MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer4/HBoxContainer3/RepeatCheck"
 var toggleLocation = "MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer4/HBoxContainer2/InstructionsCheck"
 
+var instructionState = true
+var repeatState = false
+
 func _ready():
 	$MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer9/Button.disabled = true
 	pass
@@ -27,8 +30,12 @@ func _on_RequestCode_pressed():
 func _on_InstructionsCheck_toggled(button_pressed):
 	var repeat = get_node(repeatLocation)
 	if button_pressed:
+		instructionState = true
+		repeatState = false
 		repeat.pressed = false
 		repeat.visible = true
 	else:
+		repeatState = false
+		instructionState = false
 		repeat.visible = false
 		repeat.pressed = false
