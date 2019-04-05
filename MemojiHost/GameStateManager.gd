@@ -3,6 +3,8 @@ extends Node
 var currentRound
 var currentState = GAME_STATE.NOT_STARTED
 var currentPrompt # Index starting from 0 that refers to the prompt players are currently voting on
+var instructions = true # whether or not to show instructions before the actual game begins
+var repeatInstruct = false # whether to show instructions for every round of the game
 
 var players = [] # array of all players in the game
 var audiencePlayers = [] # array of all players in the audience
@@ -42,6 +44,10 @@ func _ready():
 	toTitle()
 
 func on_startGame():
+	# set the instruction variables to what they need to be
+	if $ScreenManager.currentScreen == GlobalVars.SETUP_SCREEN:
+		instructions = $ScreenManager.currentScreenInstance.getInstructionState()
+		repeatInstruct = $ScreenManager.currentScreenInstance.getRepeatState()
 	setupGame()
 	currentRound = 1
 
@@ -66,6 +72,9 @@ func setupGame():
 	
 	# Everything ok to start
 	currentState = GAME_STATE.PROMPT_PHASE
+	for player in players: # Clear prompts left from last round
+		player.clear_prompts()
+	
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
 	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
@@ -102,13 +111,39 @@ func shufflePlayers(numPlayers):
 		indexList.remove(x)
 	return shuffled_players
 
+func parse_prompt(prompt_text):
+	var new_prompt_text = ""
+	var prompt_strings = prompt_text.split("<username>")
+	if prompt_strings.size() == 2:
+		# This prompt contains a <username> space
+		print("Prompt: " + str(prompt_text))
+		print("Has a <username> in it")
+		# Get a random user
+		randomize()
+		var x = randi()%players.size()
+		new_prompt_text = str(prompt_strings[0]) + str(players[x].username) + str(prompt_strings[1])
+		print("New prompt text: " + str(new_prompt_text))
+	else:
+		new_prompt_text = prompt_text
+		print("New prompt text: " + str(new_prompt_text))
+	return new_prompt_text
+
 func pair_players(numPlayers):
 	var messages = []
 	var shuffled_players = shufflePlayers(numPlayers)
 	print(shuffled_players)
-	
 	for i in range(numPlayers):
 		var prompt = $PromptManager.create_prompt()
+		# Initialize prompts with the players that are supposed to answer
+		prompt.add_competitor(shuffled_players[i % numPlayers].playerID)
+		prompt.add_competitor(shuffled_players[(i + 1) % numPlayers].playerID)
+		# Store information in each player for which prompts they should answer
+		shuffled_players[i % numPlayers].add_promptID(prompt.prompt_id)
+		shuffled_players[(i + 1) % numPlayers].add_promptID(prompt.prompt_id)
+		
+		# Check if prompt contains <username>
+		var prompt_text = prompt.get_prompt_text()
+		prompt.set_prompt_text(parse_prompt(prompt_text))
 		messages.append({
 			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
 			"letterCode": lobbyCode,
@@ -123,24 +158,6 @@ func pair_players(numPlayers):
 			"prompt": prompt.get_prompt_text(),
 			"playerID": shuffled_players[(i + 1) % numPlayers].playerID
 		})
-	"""
-	for i in range(numPlayers):
-		var prompt = $PromptManager.create_prompt()
-		messages.append({
-			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
-			"letterCode": lobbyCode,
-			"promptID": prompt.get_prompt_id(),
-			"prompt": prompt.get_prompt_text(),
-			"playerID": players[i % numPlayers].playerID
-		})
-		messages.append({
-			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
-			"letterCode": lobbyCode,
-			"promptID": prompt.get_prompt_id(),
-			"prompt": prompt.get_prompt_text(),
-			"playerID": players[(i + 1) % numPlayers].playerID
-		})
-	"""
 	return messages
 
 func votePhase(): # handle voting for one prompt

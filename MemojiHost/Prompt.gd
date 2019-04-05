@@ -1,15 +1,33 @@
 var prompt_id
 var prompt_text
-var player_answers = []
+var player_answers = [] # Stores the players who are answering the prompt as well as their answer
 var player_votes = []
+
+var answers_completed = 0 # how many answers have been answered
 
 class Answer:
 	var player_id
-	var emojis
+	var emojis # null if player hasn't answered yet
 
 class Vote:
 	var player_id
 	var vote_index
+
+func reset():
+	prompt_id = null
+	prompt_text = null
+	player_answers.clear()
+	player_votes.clear()
+
+func setup(pArr): # pArr - array of playerIDs
+	var answerObj
+	for index in range(pArr.size()):
+		answerObj = Answer.new()
+		answerObj.player_id = pArr[index]
+		answerObj.emojis = null
+
+func add_competitor(playerID):
+	add_player_answer(playerID, null)
 
 # Getters
 
@@ -42,7 +60,8 @@ func get_number_of_votes_for_answer(answer_index):
 			counter += 1
 	return counter
 
-func get_players_who_answered():
+# TODO: Rename or fix this function
+func get_players_who_answered(): # returns all players that have answered
 	var players = []
 	for index in range(player_answers.size()):
 		players.append(player_answers[index].player_id)
@@ -61,6 +80,12 @@ func get_voters_for_answer(answer_index):
 			supporters.append(vote.player_id)
 	return supporters
 
+func get_competitors():
+	var playerIDs = []
+	for index in range(player_answers.size()):
+		playerIDs.append(player_answers[index].player_id)
+	return playerIDs
+
 # Setters
 
 func set_prompt_id(prompt_id):
@@ -69,12 +94,10 @@ func set_prompt_id(prompt_id):
 func set_prompt_text(prompt_text):
 	self.prompt_text = prompt_text
 
+# TODO: change calls to this to update_player_answer
 func add_player_answer(player_id, emojis):
-	for answer in player_answers:
-		if (answer.player_id == player_id): # Update the answer, do not add new answer
-			answer.emojis = emojis
-			return
-	
+	if (update_player_answer(player_id, emojis) == true):
+		return
 	# Create object to hold answer
 	var answer_obj = Answer.new()
 	answer_obj.player_id = player_id
@@ -95,3 +118,11 @@ func add_player_vote(player_id, vote_index):
 	vote_obj.vote_index = vote_index
 	# Store vote and add as a child
 	player_votes.append(vote_obj)
+	
+func update_player_answer(player_id, emojis):
+	for answer in player_answers:
+		if (answer.player_id == player_id): # Update the answer, do not add new answer
+			if (answer.emojis == null): answers_completed += 1 # if no previous answer, increase count of answer by 1
+			answer.emojis = emojis
+			return true
+	return false

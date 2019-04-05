@@ -118,47 +118,51 @@ if (cluster.isMaster) {
 
   // Send a ping to each host every 5 minutes to check if the game is still active
   setInterval(() => {
-    console.log("Send Ping to Host(s)");
-    writeToFile(server_log, 'Sending Ping to Host(s).');
-    _.forEach(hosts, (host) => {
-      console.log("Send message to host with letter code:");
-      console.log(host.code);
-      const res = {
-        "messageType": 120
-      };
-      send(host.socket, JSON.stringify(res));
-    });
-  }, 600000);
-  // Check every 5:30 minutes for lastPing > 30000. Remove host if true.
-  setInterval(() => {
-    console.log("Remove unresponsive Host(s)");
-    writeToFile(server_log, 'Removing unresponsive Host(s)');
-    var hosts_to_remove = _.filter(hosts, (host) => {
-      return (Math.abs(host.lastPing - moment().valueOf()) > 25000);
-    });
-    console.log(hosts_to_remove);
-    _.forEach(hosts_to_remove, (host) => {
-      _.remove(players, (player) => {
-        return player.code == host.code;
-      });
-      _.remove(audience_members, (audience_member) => {
-        return audience_member.code == host.code;
-      })
-      _.remove(codes, (code) => {
-        return code == host.code;
-      });
-      host.socket.destroy();
-      _.remove(hosts, host);
-    });
-    printAll();
-    update_all();
-  }, 630000);
+    console.log("Ping Hosts");
+    pingHost();
+    console.log("End Ping Hosts");
+  }, 300000);
 
   const server = net.createServer(socket => {
 
     console.log('client connected');
 
     socket.on('end', () => {
+      // Client disconnected
+      // Find out if this is a host, player, or audience_member
+      var sock = undefined;
+
+      // Is this a host?
+      sock = _.find(hosts, (host) => {
+        return host.socket === socket;
+      });
+      if (sock !== undefined) {
+        console.log("Client that disconnected was a Host");
+        // Handle Host properly
+
+        return;
+      }
+
+      sock = _.find(players, (player) => {
+        return player.socket === socket;
+      });
+      if (sock !== undefined) {
+        console.log("Client that disconnected was a Player");
+        // Handle Player properly
+
+        return;
+      }
+
+      sock = _.find(audience, (audience_member) => {
+        return audience_member.socket === socket;
+      });
+      if (sock !== undefined) {
+        console.log("Client that disconnected was an Audience");
+        // Handle Audience properly
+
+        return;
+      }
+
       console.log('client disconnected');
     });
 
@@ -269,6 +273,9 @@ if (cluster.isMaster) {
           sendToHost(letterCode, message);
           writeToFile(server_log, `Forward Player disconnection to host - ${letterCode}`);
           break;
+        case 406: // Player Reconnecting
+          
+          break;
         case 320: // Host round time is up --> Send to all Players
           sendToAllPlayers(letterCode, message);
           if (message.messageType === 301) mtype = 'Host starting game.';
@@ -297,6 +304,7 @@ if (cluster.isMaster) {
         case 422: // Accepted vote response ----------> Send to Player
         case 431: // Invalid multi vote --------------> Send to Player
         case 432: // Accepted multi vote -------------> Send to Player
+        case 440: // Update Player game state --------> Send to Player
           sendToPlayer(message);
           if (message.messageType === 404) mtype = 'Invalid username.';
           if (message.messageType === 405) mtype = 'Host starting game.';
@@ -306,6 +314,7 @@ if (cluster.isMaster) {
           if (message.messageType === 422) mtype = 'Accepted vote response.';
           if (message.messageType === 431) mtype = 'Invalid multi vote.';
           if (message.messageType === 432) mtype = 'Accepted multi vote.';
+          if (message.messageType === 440) mtype = 'Update Player game state.';
           writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Player: ${message.playerID}`);
           break;
         case 403: // Player username and avatar ------> Send to Host
@@ -423,6 +432,65 @@ function parseData(data) {
   const b = new Buffer.from(message);
   // Return message without padding
   return b.toString();
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function pingHost() {
+  console.log("Send Ping to Host(s)");
+  writeToFile(server_log, 'Sending Ping to Host(s).');
+  var hosts_to_remove = []
+  var hosts_to_remove_during_ping = []
+  var hosts_to_remove_after_ping = []
+  _.forEach(hosts, (host) => {
+    console.log("Send message to host with letter code:");
+    console.log(host.code);
+    const res = {
+      "messageType": 120
+    };
+    try {
+      send(host.socket, JSON.stringify(res));
+    } catch (err) {
+      console.log("Socket has been shutdown");
+      console.log("Remove host");
+      hosts_to_remove_during_ping.push(host);
+    }
+
+  });
+  // Sleep for 5 seconds to double check if there was a response
+  console.log("Wait 5 seconds");
+  await sleep(5000);
+  console.log("After 5 seconds. Check for Hosts to remove");
+  console.log("Remove unresponsive Host(s)");
+  writeToFile(server_log, 'Removing unresponsive Host(s)');
+  hosts_to_remove_after_ping = _.filter(hosts, (host) => {
+    var host_ping = host.lastPing;
+    var current_time = moment().valueOf();
+    var diff = Math.abs(host_ping - current_time);
+    console.log(host_ping);
+    console.log(current_time);
+    console.log(diff);
+    return diff > 6000;
+  });
+  hosts_to_remove = hosts_to_remove_during_ping.concat(hosts_to_remove_after_ping);
+  console.log(hosts_to_remove);
+  _.forEach(hosts_to_remove, (host) => {
+    _.remove(players, (player) => {
+      return player.code == host.code;
+    });
+    _.remove(audience_members, (audience_member) => {
+      return audience_member.code == host.code;
+    })
+    _.remove(codes, (code) => {
+      return code == host.code;
+    });
+    host.socket.destroy();
+    _.remove(hosts, host);
+  });
+  printAll();
+  update_all();
 }
 
 function printAll() {
@@ -796,7 +864,6 @@ function send(socket, data) {
 }
 
 function toBytesInt32(num) {
-  console.log("CONVERT");
   arr = new ArrayBuffer(4);
   view = new DataView(arr);
   view.setUint32(0, num, false);
