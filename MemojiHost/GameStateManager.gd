@@ -127,19 +127,19 @@ func pair_players(numPlayers):
 		var prompt = $PromptManager.create_prompt()
 		# Check if prompt contains <username>
 		var prompt_text = prompt.get_prompt_text()
-		prompt_text = parse_prompt(prompt_text)
+		prompt.set_prompt_text(parse_prompt(prompt_text))
 		messages.append({
 			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
 			"letterCode": lobbyCode,
 			"promptID": prompt.get_prompt_id(),
-			"prompt": prompt_text,
+			"prompt": prompt.get_prompt_text(),
 			"playerID": shuffled_players[i % numPlayers].playerID
 		})
 		messages.append({
 			"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
 			"letterCode": lobbyCode,
 			"promptID": prompt.get_prompt_id(),
-			"prompt": prompt_text,
+			"prompt": prompt.get_prompt_text(),
 			"playerID": shuffled_players[(i + 1) % numPlayers].playerID
 		})
 	return messages
