@@ -15,9 +15,9 @@ class Vote:
 func setup(pArr): # pArr - array of playerIDs
 	var answerObj
 	for index in range(pArr.size()):
-		ans = Answer.new()
-		ans.player_id = pArr[index]
-		ans.emojis = null
+		answerObj = Answer.new()
+		answerObj.player_id = pArr[index]
+		answerObj.emojis = null
 
 func add_competitor(playerID):
 	add_player_answer(playerID, null)
