@@ -72,6 +72,9 @@ func setupGame():
 	
 	# Everything ok to start
 	currentState = GAME_STATE.PROMPT_PHASE
+	for player in players: # Clear prompts left from last round
+		player.clear_prompts()
+	
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
 	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
@@ -131,8 +134,12 @@ func pair_players(numPlayers):
 	print(shuffled_players)
 	for i in range(numPlayers):
 		var prompt = $PromptManager.create_prompt()
+		# Initialize prompts with the players that are supposed to answer
 		prompt.add_competitor(shuffled_players[i % numPlayers].playerID)
 		prompt.add_competitor(shuffled_players[(i + 1) % numPlayers].playerID)
+		# Store information in each player for which prompts they should answer
+		shuffled_players[i % numPlayers].add_promptID(prompt.prompt_id)
+		shuffled_players[(i + 1) % numPlayers].add_promptID(prompt.prompt_id)
 		
 		# Check if prompt contains <username>
 		var prompt_text = prompt.get_prompt_text()
