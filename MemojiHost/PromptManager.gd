@@ -30,6 +30,12 @@ func set_vote(prompt_id, player_id, answer_index):
 	else:
 		return false
 
+func get_prompt_by_id(prompt_id):
+	if (active_prompts.has(prompt_id)):
+		return active_prompts[prompt_id]
+	else:
+		return null
+
 func get_answers_to_prompt(prompt_id): # Returns array of EmojiArrays
 	var answers = []
 	var answerObjArr = active_prompts[prompt_id].get_answers()
