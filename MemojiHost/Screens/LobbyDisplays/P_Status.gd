@@ -3,13 +3,14 @@ extends VBoxContainer
 onready var name_label = $Name
 onready var avatar_pic = $Icon/Avatar
 
-const DEFAULT_TEXT = "..."
+const DEFAULT_TEXT = "Joining"
 var DEFAULT_AVATAR = load(GlobalVars.DEFAULTAVATAR)
 var avatarList = []
 
 func _ready():
 	avatarSetup()
 	reset()
+	hide()
 
 func avatarSetup(): # loads the avatars in use
 	avatarList.resize(GlobalVars.MAXPLAYERS)
