@@ -167,6 +167,15 @@ _Sent when a Player requests to be updated on the current game state_
 ```
 
 ## Messages Sent from Player:
+* **PLAYER_RESPOND_TO_PING = 122**  
+_Snet when player tells the server that it's still active_  
+```javascript
+{
+  messageType: 122,
+  letterCode: "ABCD" (Added by Networking.gd)
+}
+```
+
 * **PLAYER_CONNECTED = 401**  
 _Sent from player to inform of new player connection_  
 ```javascript

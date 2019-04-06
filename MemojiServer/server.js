@@ -119,8 +119,11 @@ if (cluster.isMaster) {
   // Send a ping to each host every 5 minutes to check if the game is still active
   setInterval(() => {
     console.log("Ping Hosts");
-    pingHost();
+    pingHosts();
     console.log("End Ping Hosts");
+    console.log("Ping Players");
+    pingPlayers();
+    console.log("End Ping Players");
   }, 300000);
 
   const server = net.createServer(socket => {
@@ -139,7 +142,7 @@ if (cluster.isMaster) {
       if (sock !== undefined) {
         console.log("Client that disconnected was a Host");
         // Handle Host properly
-
+        handleHostDisConn(sock.letterCode);
         return;
       }
 
@@ -149,7 +152,9 @@ if (cluster.isMaster) {
       if (sock !== undefined) {
         console.log("Client that disconnected was a Player");
         // Handle Player properly
-
+        _.remove(players, sock);
+        sock.isActive = false;
+        players.push(sock);
         return;
       }
 
@@ -230,6 +235,12 @@ if (cluster.isMaster) {
           update_hosts();
           writeToFile(server_log, `${letterCode} Host still handling games`);
           break;
+        case 122:
+          console.log('Player is still handling games');
+          const player_index = _.findIndex(players, (p) => {
+            return p.socket === socket;
+          });
+          players[player_index].isActive = true;
         case 130: // Host shutting down
           handleHostDisConn(letterCode);
           break;
@@ -275,7 +286,7 @@ if (cluster.isMaster) {
           break;
         case 406: // Player Reconnecting
           if (codeCheck(letterCode)) {
-            handlePlayerReConn(letterCode, message);
+            handlePlayerReConn(letterCode, message, socket);
           } else {
             console.log('Lobby Code does not exist!');
             console.log('Did not handle player reconnection successfully.');
@@ -448,7 +459,7 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function pingHost() {
+async function pingHosts() {
   console.log("Send Ping to Host(s)");
   writeToFile(server_log, 'Sending Ping to Host(s).');
   var hosts_to_remove = []
@@ -501,6 +512,49 @@ async function pingHost() {
   });
   printAll();
   update_all();
+}
+
+async function pingPlayers() {
+  console.log("Send Ping to Players");
+  writeToFile(server_log, 'Sending Ping to Players.');
+  var players_to_remove = []
+  var players_to_remove_during_ping = []
+  var players_to_remove_after_ping = []
+  _.forEach(players, (player) => {
+    console.log("Send message to player with letter code:");
+    console.log(player.letterCode);
+    player.isActive = false;
+    const res = {
+      "messageType": 120
+    };
+    try {
+      send(player.socket, JSON.stringify(res));
+    } catch (err) {
+      console.log("Socket has been shutdown");
+      console.log("Remove host");
+      players_to_remove_during_ping.push(host);
+    }
+  });
+
+  console.log("Wait 5 seconds");
+  await sleep(5000);
+  console.log("After 5 seconds. Check for Players to remove");
+  console.log("Remove unresponsive Player(s)");
+  writeToFile(server_log, 'Removing unresponsive Player(s)');
+
+  players_to_remove_after_ping = _.filter(players, (p) => {
+    return p.isActive == false;
+  });
+  players_to_remove = players_to_remove_during_ping.concat(players_to_remove_after_ping);
+
+  console.log(players_to_remove);
+  _.forEach(players_to_remove, (p) => {
+    _.remove(players, p);
+  });
+
+  printAll();
+  update_all();
+
 }
 
 function printAll() {
