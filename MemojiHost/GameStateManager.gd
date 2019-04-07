@@ -44,7 +44,7 @@ func _ready():
 	toTitle()
 
 func on_startGame():
-	# set the instruction variables to what they need to be
+	# set the instruction variables to what they need to be, only if screen is correct at the moment just in case
 	if $ScreenManager.currentScreen == GlobalVars.SETUP_SCREEN:
 		instructions = $ScreenManager.currentScreenInstance.getInstructionState()
 		repeatInstruct = $ScreenManager.currentScreenInstance.getRepeatState()
