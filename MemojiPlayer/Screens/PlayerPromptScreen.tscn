@@ -128,6 +128,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 0
+disabled = true
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -147,6 +148,15 @@ margin_bottom = 800.0
 size_flags_vertical = 3
 _sections_unfolded = [ "Rect", "Size Flags" ]
 
+[node name="Timer" type="Timer" parent="." index="1"]
+
+process_mode = 1
+wait_time = 2.0
+one_shot = true
+autostart = false
+
 [connection signal="pressed" from="Panel/VBoxContainer/MarginContainer/HBoxContainer/SubmitButton" to="." method="_on_SubmitButton_pressed"]
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 
 
