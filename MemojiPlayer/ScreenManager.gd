@@ -1,7 +1,7 @@
 extends Node
 
 var titleScreenScene = preload("res://TitleScreen.tscn")
-var userinfoScreenScene = preload("res://UserInformationScreen.tscn")
+var userinfoScreenScene = preload("res://Screens/UserInformationScreen.tscn")
 var playerVotingScene = preload("res://PlayerVoting.tscn")
 var lobbyScreenScene = preload("res://Screens/WaitingForGameStartScreen.tscn")
 var prompt_answering_screen_scene = preload("res://Screens/PlayerPromptScreen.tscn")
