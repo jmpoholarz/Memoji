@@ -8,7 +8,7 @@ func _ready():
 	pass
 
 func _input(event):
-	if event.is_pressed() and event.button_index == BUTTON_LEFT:
+	if event is InputEventMouseButton and event.is_pressed() and event.button_index == BUTTON_LEFT:
 		var grid_loc = world_to_map(get_local_mouse_position())
 		#print(grid_loc)
 		emit_signal("canvas_clicked", grid_loc.y, grid_loc.x)
