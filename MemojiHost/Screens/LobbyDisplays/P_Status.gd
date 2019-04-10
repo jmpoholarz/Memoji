@@ -5,7 +5,8 @@ onready var avatar_pic = $Icon/Avatar
 
 const DEFAULT_TEXT = "Joining"
 var DEFAULT_AVATAR = load(GlobalVars.DEFAULTAVATAR)
-var avatarList = []
+var avatarList = [] # Old list
+var avatarDict = {}
 
 func _ready():
 	avatarSetup()
@@ -16,6 +17,10 @@ func avatarSetup(): # loads the avatars in use
 	avatarList.resize(GlobalVars.MAXPLAYERS)
 	for index in range(avatarList.size()):
 		avatarList[index] = load(GlobalVars.AVATARPATHS[index])
+		
+	for key in AvatarIdToFilename.AvatarIdToFilenameDict.keys():
+		avatarDict[key] = load(AvatarIdToFilename.AvatarIdToFilenameDict[key])
+		pass
 
 func reset():
 	name_label.text = DEFAULT_TEXT
@@ -28,7 +33,7 @@ func update_player(newName, avatarID):
 	else:
 		name_label.text = DEFAULT_TEXT
 		
-	if (avatarID != null && avatarID < 8 && avatarID >=0):
-		avatar_pic.texture = avatarList[avatarID]
+	if (avatarID != null):
+		avatar_pic.texture = avatarDict[avatarID]
 	else:
 		avatar_pic.texture = DEFAULT_AVATAR

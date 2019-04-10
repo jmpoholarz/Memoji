@@ -381,7 +381,7 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 	for player in players:
 		if player.playerID == playerID:
 			player.username = username
-			player.avatarID = avatarIndex
+			player.avatarID = int(avatarIndex)
 			
 			var message = {"messageType":MESSAGE_TYPES.ACCEPTED_USERNAME_AND_AVATAR, 
 				"letterCode" : lobbyCode,
