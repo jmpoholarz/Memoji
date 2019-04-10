@@ -920,11 +920,11 @@ function handlePlayerReConn(letterCode, message, socket) {
   // Find host to reconnect to
   const host = _.find(hosts, ['code', letterCode]);
   // Find player in host's player array
-  const player_in_host = _.find(host.players, (pl) => {
-    return pl.id == old_player.id;
+  const player_in_host = _.find(host.players, (p) => {
+    return p.id == old_player.id;
   });
   // Player is not in host's player array
-  if (player_in_host !== undefined) {
+  if (player_in_host == undefined) {
     console.log("Player is not in Host's player array");
     return -1;
   }
