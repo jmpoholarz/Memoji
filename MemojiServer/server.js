@@ -135,7 +135,7 @@ if (cluster.isMaster) {
       // Find out if this is a host, player, or audience_member
       var sock = undefined;
 
-      // Is this a host?
+      // Is this a Host?
       sock = _.find(hosts, (host) => {
         return host.socket === socket;
       });
@@ -145,7 +145,8 @@ if (cluster.isMaster) {
         handleHostDisConn(sock.letterCode);
         return;
       }
-
+      // Not a Host
+      // Is this a Player?
       sock = _.find(players, (player) => {
         return player.socket === socket;
       });
@@ -157,14 +158,14 @@ if (cluster.isMaster) {
         players.push(sock);
         return;
       }
-
+      // Is this an Audience Member?
       sock = _.find(audience, (audience_member) => {
         return audience_member.socket === socket;
       });
       if (sock !== undefined) {
         console.log("Client that disconnected was an Audience");
         // Handle Audience properly
-
+        
         return;
       }
 
