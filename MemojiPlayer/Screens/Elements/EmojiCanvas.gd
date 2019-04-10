@@ -7,8 +7,9 @@ signal emoji_grabbed(id)
 const ROWS = 5
 const COLUMNS = 5
 
-var _GridContainer
-var _CanvasTileMap
+onready var _GridContainer = $GridContainer
+onready var _CanvasTileMap = $CanvasTileMap
+
 var grid_dict = {}
 var currently_selected_emoji_id = 10000
 var currently_selected_tool = "add"
@@ -16,8 +17,6 @@ var currently_selected_tool = "add"
 var saved_encoding = []
 
 func _ready():
-	_GridContainer = $GridContainer
-	_CanvasTileMap = $CanvasTileMap
 	_CanvasTileMap.connect("canvas_clicked", self, "handle_canvas_click")
 	setup_grid()
 

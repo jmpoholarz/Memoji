@@ -5,9 +5,9 @@ var playerScene = preload("res://Player.tscn")
 var currentRound
 var currentState
 var player
-var lobbyCode
 var playerName = "name"
 var playerIcon = 0
+var lobbyCode = "????"
 
 var current_prompts = []
 
@@ -71,21 +71,15 @@ func _on_Networking_enteredInvalidUsername():
 	pass # replace with function body
 
 func _on_Networking_promptReceived(promptID, prompt):
-	#print("GSM promptReceived(prompt)")
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
 		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN)
 		# Wait for the screen to change to the Prompt Screen before continuing
-		#print("about to yeild to screen change")
 		if $ScreenManager.currentScreen != $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
 			yield($ScreenManager, "screen_change_completed") # Needs testing
-		#print("yield has completed")
 		current_prompts.append([promptID, prompt])
 		$ScreenManager.currentScreenInstance.add_prompts([[promptID, prompt]])
-		#print("prompt added to currentScreen")
 		$ScreenManager.currentScreenInstance.get_next_prompt()
-		#print("next prompt got")
 	elif $ScreenManager.currentScreen == $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
-		#print("GSM prompt received on PROMPT_ANSWERING_SCREEN")
 		current_prompts.append([promptID, prompt])
 		$ScreenManager.currentScreenInstance.add_prompts([[promptID, prompt]])
 
@@ -116,23 +110,28 @@ func _on_Networking_enteredInvalidVote():
 	pass # replace with function body
 
 func _on_Networking_forcedToDisconnect():
-	print("in GSM force disconnect")
-	$Networking.disconnectPlayerFromServer()
-	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.TITLE_SCREEN)
-	lobbyCode = "????"
-
-func _on_Networking_gameEndedByHost():
 	$Networking.disconnectPlayerFromServer()
 	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.TITLE_SCREEN)
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
 		$ScreenManager.currentScreenInstance.show_ServerErrorPopup("Player Disconnected from Host")
-	
 	lobbyCode = "????"
-	pass # replace with function body
+	# Store empty game session
+	SessionStorer.save_game_info("", "")
+
+
+func _on_Networking_gameEndedByHost():
+	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.LOBBY_SCREEN)
+	lobbyCode = "????"
+	# Store game session
+	SessionStorer.save_game_info("", "")
+
+
 
 func _on_Networking_gameStartedByHost():
 	# Advance players to waiting for prompt screen
 	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
+	# Store game session
+	SessionStorer.save_game_info(player.playerID, $Networking.letterCode)
 
 
 

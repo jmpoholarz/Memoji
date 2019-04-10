@@ -3,8 +3,10 @@ extends Node
 signal send_message(msg)
 signal out_of_prompts()
 
-var _EmojiCanvasEditor
-var _PromptLabel
+onready var _EmojiCanvasEditor = $Panel/VBoxContainer/EmojiCanvasEditor
+onready var _PromptLabel = $Panel/VBoxContainer/MarginContainer/HBoxContainer/PromptLabel
+onready var _SubmitButton = $Panel/VBoxContainer/MarginContainer/HBoxContainer/SubmitButton
+onready var _SubmitButtonTimer = $Timer
 
 var prompt_array = []
 var current_prompt = ""
@@ -12,15 +14,7 @@ var current_prompt_id = -1
 
 
 func _ready():
-	_EmojiCanvasEditor = $Panel/VBoxContainer/EmojiCanvasEditor
-	_PromptLabel = $Panel/VBoxContainer/MarginContainer/HBoxContainer/PromptLabel
-	
-	#prompt_array.push_back("First prompt.")
-	#prompt_array.push_back("Second prompt.")
-	#prompt_array.push_back("Third prompt.")
-	#prompt_array.push_back("This is a very long prompt which would be expected to take up more than one line of the editor " + \
-	#	"in which case all of the words should push the rest of the content in this screen downward, reducing the size of " + \
-	#	"the emoji palette.")
+	_SubmitButtonTimer.start()
 
 func add_prompts(prompt_array):
 	for prompt in prompt_array:
@@ -40,6 +34,9 @@ func get_emoji_submission():
 	return _EmojiCanvasEditor.get_emojis()
 
 func _on_SubmitButton_pressed():
+	# Disable button to prevent double press
+	_SubmitButton.disabled = true
+	_SubmitButtonTimer.start()
 	# Send completed prompt to server
 	var msg = {
 			"messageType": MESSAGE_TYPES.PLAYER_SENDING_PROMPT_RESPONSE,
@@ -53,3 +50,7 @@ func _on_SubmitButton_pressed():
 		_EmojiCanvasEditor.reset_canvas()
 	else:
 		emit_signal("out_of_prompts")
+
+
+func _on_Timer_timeout():
+	_SubmitButton.disabled = false

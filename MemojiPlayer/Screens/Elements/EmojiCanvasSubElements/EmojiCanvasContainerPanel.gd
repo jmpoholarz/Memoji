@@ -1,17 +1,13 @@
 extends Panel
 
-var _EmojiPalette
-var _CurrentEmojiSelectedPreview
-var _EmojiCanvas
+onready var _EmojiPalette = $VBoxContainer/MarginContainer/EmojiPalette
+onready var _CurrentEmojiSelectedPreview = $VBoxContainer/HBoxContainer/VBoxContainer/CenterContainer/CurrentEmojiSelectedPreview
+onready var _EmojiCanvas = $VBoxContainer/HBoxContainer/EmojiCanvas
 
 var current_tool_selected = "add"
 var current_emoji_id = 10000
 
 func _ready():
-	_EmojiPalette = $VBoxContainer/MarginContainer/EmojiPalette
-	_CurrentEmojiSelectedPreview = $VBoxContainer/HBoxContainer/VBoxContainer/CenterContainer/CurrentEmojiSelectedPreview
-	_EmojiCanvas = $VBoxContainer/HBoxContainer/EmojiCanvas
-	
 	_EmojiPalette.connect("emoji_selected", self, "_on_new_emoji_selected")
 	_EmojiCanvas.connect("emoji_grabbed", self, "_on_new_emoji_selected")
 

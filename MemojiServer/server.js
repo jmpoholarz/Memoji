@@ -119,8 +119,11 @@ if (cluster.isMaster) {
   // Send a ping to each host every 5 minutes to check if the game is still active
   setInterval(() => {
     console.log("Ping Hosts");
-    pingHost();
+    pingHosts();
     console.log("End Ping Hosts");
+    console.log("Ping Players");
+    pingPlayers();
+    console.log("End Ping Players");
   }, 300000);
 
   const server = net.createServer(socket => {
@@ -139,7 +142,7 @@ if (cluster.isMaster) {
       if (sock !== undefined) {
         console.log("Client that disconnected was a Host");
         // Handle Host properly
-
+        handleHostDisConn(sock.letterCode);
         return;
       }
 
@@ -149,7 +152,9 @@ if (cluster.isMaster) {
       if (sock !== undefined) {
         console.log("Client that disconnected was a Player");
         // Handle Player properly
-
+        _.remove(players, sock);
+        sock.isActive = false;
+        players.push(sock);
         return;
       }
 
@@ -230,6 +235,12 @@ if (cluster.isMaster) {
           update_hosts();
           writeToFile(server_log, `${letterCode} Host still handling games`);
           break;
+        case 122:
+          console.log('Player is still handling games');
+          const player_index = _.findIndex(players, (p) => {
+            return p.socket === socket;
+          });
+          players[player_index].isActive = true;
         case 130: // Host shutting down
           handleHostDisConn(letterCode);
           break;
@@ -274,7 +285,17 @@ if (cluster.isMaster) {
           writeToFile(server_log, `Forward Player disconnection to host - ${letterCode}`);
           break;
         case 406: // Player Reconnecting
-          
+          if (codeCheck(letterCode)) {
+            handlePlayerReConn(letterCode, message, socket);
+          } else {
+            console.log('Lobby Code does not exist!');
+            console.log('Did not handle player reconnection successfully.');
+            const res = {
+              "messageType": 113
+            };
+            send(socket, JSON.stringify(res));
+            writeToFile(server_log, 'Player could not join. Invalid letter code.');
+          }
           break;
         case 320: // Host round time is up --> Send to all Players
           sendToAllPlayers(letterCode, message);
@@ -438,7 +459,7 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function pingHost() {
+async function pingHosts() {
   console.log("Send Ping to Host(s)");
   writeToFile(server_log, 'Sending Ping to Host(s).');
   var hosts_to_remove = []
@@ -491,6 +512,49 @@ async function pingHost() {
   });
   printAll();
   update_all();
+}
+
+async function pingPlayers() {
+  console.log("Send Ping to Players");
+  writeToFile(server_log, 'Sending Ping to Players.');
+  var players_to_remove = []
+  var players_to_remove_during_ping = []
+  var players_to_remove_after_ping = []
+  _.forEach(players, (player) => {
+    console.log("Send message to player with letter code:");
+    console.log(player.letterCode);
+    player.isActive = false;
+    const res = {
+      "messageType": 120
+    };
+    try {
+      send(player.socket, JSON.stringify(res));
+    } catch (err) {
+      console.log("Socket has been shutdown");
+      console.log("Remove host");
+      players_to_remove_during_ping.push(host);
+    }
+  });
+
+  console.log("Wait 5 seconds");
+  await sleep(5000);
+  console.log("After 5 seconds. Check for Players to remove");
+  console.log("Remove unresponsive Player(s)");
+  writeToFile(server_log, 'Removing unresponsive Player(s)');
+
+  players_to_remove_after_ping = _.filter(players, (p) => {
+    return p.isActive == false;
+  });
+  players_to_remove = players_to_remove_during_ping.concat(players_to_remove_after_ping);
+
+  console.log(players_to_remove);
+  _.forEach(players_to_remove, (p) => {
+    _.remove(players, p);
+  });
+
+  printAll();
+  update_all();
+
 }
 
 function printAll() {
@@ -695,15 +759,20 @@ function handlePlayerConn(letterCode, socket) {
   const player = {
     code: letterCode,
     socket: socket,
-    id: id
+    id: id,
+    isActive: true
   };
   const host = _.find(hosts, ['code', letterCode]);
+  // Looks for if player is already connected to host
   const p = _.find(host.players, (p) => {
     return p.socket === socket;
   });
+  // Player is already connected to host
   if (p !== undefined) {
     return -1;
   }
+  // Player not already connected to host
+  // Proceed
   host.players.push(player);
   players.push(player);
 
@@ -739,7 +808,8 @@ function handleAudienceConn(letterCode, socket) {
   const audience = {
     code: letterCode,
     socket: socket,
-    id: id
+    id: id,
+    isActive: true
   };
   host.audience.push(audience);
   audience_members.push(audience);
@@ -816,6 +886,59 @@ function handlePlayerDisConn(letterCode, id) {
   update_players();
 
   return 1;
+}
+
+function handlePlayerReConn(letterCode, message, socket) {
+  // Code exists
+  console.log("Code exists: " + letterCode);
+  // Find player in Players array
+  const player = _.find(players, (p) => {
+    return p.id == message.playerID;
+  });
+  if (player === undefined) {
+    console.log("Player does not exist.");
+    console.log(":(");
+    return;
+  }
+  // Player has been found
+  player.isActive = true;
+
+  // Find host to reconnect to
+  const host = _.find(hosts, ['code', letterCode]);
+  // Find player in host's player array
+  const p = _.find(host.players, (pl) => {
+    return pl.id == player.id;
+  });
+  // Player is not in host's player array
+  if (p !== undefined) {
+    console.log("Player is not in Host's player array");
+    return -1;
+  }
+  // Player is in host's player array
+  const reconnected_player = {
+    code: letterCode,
+    socket: socket,
+    id: message.playerID,
+    isActive: true
+  }
+  host.players.remove(p);
+  host.players.push(reconnected_player);
+  players.remove(player);
+  players.push(reconnected_player);
+
+  update_hosts();
+  update_players();
+
+  console.log('Handled player reconnection successfully.');
+  var res = {
+    "messageType": 114,
+    "letterCode": letterCode,
+    "playerID": message.playerID
+  };
+  send(socket, JSON.stringify(res));
+  res.messageType = 406;
+  send(host.socket, JSON.stringify(res));
+  console.log("End of Player reconnection");
 }
 
 function sendToAllPlayers(letterCode, message) {
