@@ -18,13 +18,12 @@ func reset():
 	prompt_text = null
 	player_answers.clear()
 	player_votes.clear()
+	answers_completed = 0
 
 func setup(pArr): # pArr - array of playerIDs
 	var answerObj
 	for index in range(pArr.size()):
-		answerObj = Answer.new()
-		answerObj.player_id = pArr[index]
-		answerObj.emojis = null
+		add_player_answer(pArr[index], null)
 
 func add_competitor(playerID):
 	add_player_answer(playerID, null)
