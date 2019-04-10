@@ -142,6 +142,7 @@ if (cluster.isMaster) {
       if (sock !== undefined) {
         console.log("Client that disconnected was a Host");
         // Handle Host properly
+        console.log(`letterCode: ${sock.letterCode}`);
         handleHostDisConn(sock.letterCode);
         return;
       }
@@ -165,7 +166,7 @@ if (cluster.isMaster) {
       if (sock !== undefined) {
         console.log("Client that disconnected was an Audience");
         // Handle Audience properly
-        
+
         return;
       }
 
@@ -399,8 +400,9 @@ if (cluster.isMaster) {
   });
 
   process.on('uncaughtException', (err) => {
-    console.log(`An error occured! ${err.name} | ${err.message}`);
+    console.error(`An error occured!\n${err.stack}\n${err.name} | ${err.message}`);
     writeToFile(error_log, 'An error occured!');
+    writeToFile(error_log, `Error stack: ${err.stack}`);
     writeToFile(error_log, `Error name: ${err.name}`);
     writeToFile(error_log, `Error message: ${err.message}`);
   });
@@ -677,11 +679,16 @@ function handleHostCodeRequest(socket) {
 
 
 function handleHostDisConn(letterCode) {
-  console.log("Host is shutting down");
+  console.log(`Host is shutting down: ${letterCode}`);
   // Find host via matching socket
   // Send force disonnect message to clients connected to host
   var host = _.find(hosts, ['code', letterCode]);
   _.pull(codes, letterCode);
+  if(host == undefined) {
+    console.log("There is an issue with host disconnection!");
+    console.log("Host is undefined");
+    return;
+  }
   console.log(host);
   console.log('Send players disconnect message.');
 
