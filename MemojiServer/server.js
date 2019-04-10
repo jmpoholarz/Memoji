@@ -236,9 +236,9 @@ if (cluster.isMaster) {
           writeToFile(server_log, `${letterCode} Host still handling games`);
           break;
         case 122:
-          console.log('Player is still handling games');
+          console.log('Player is still active');
           const player_index = _.findIndex(players, (p) => {
-            return p.socket === socket;
+            return p.code === letterCode;
           });
           players[player_index].isActive = true;
         case 130: // Host shutting down
@@ -421,6 +421,7 @@ if (cluster.isMaster) {
 
 }
 
+
 function parseData(data) {
   console.log("PARSING DATA RECEIVED");
   // Convert buffer to string
@@ -455,9 +456,11 @@ function parseData(data) {
   return b.toString();
 }
 
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
 
 async function pingHosts() {
   console.log("Send Ping to Host(s)");
@@ -514,6 +517,7 @@ async function pingHosts() {
   update_all();
 }
 
+
 async function pingPlayers() {
   console.log("Send Ping to Players");
   writeToFile(server_log, 'Sending Ping to Players.');
@@ -530,6 +534,7 @@ async function pingPlayers() {
     try {
       send(player.socket, JSON.stringify(res));
     } catch (err) {
+      console.log(err);
       console.log("Socket has been shutdown");
       console.log("Remove host");
       players_to_remove_during_ping.push(host);
@@ -542,20 +547,21 @@ async function pingPlayers() {
   console.log("Remove unresponsive Player(s)");
   writeToFile(server_log, 'Removing unresponsive Player(s)');
 
-  players_to_remove_after_ping = _.filter(players, (p) => {
-    return p.isActive == false;
+  players_to_remove_after_ping = _.filter(players, (player) => {
+    return player.isActive == false;
   });
   players_to_remove = players_to_remove_during_ping.concat(players_to_remove_after_ping);
 
   console.log(players_to_remove);
-  _.forEach(players_to_remove, (p) => {
-    _.remove(players, p);
+  _.forEach(players_to_remove, (player) => {
+    _.remove(players, player);
   });
 
   printAll();
   update_all();
 
 }
+
 
 function printAll() {
   console.log("CODES:");
@@ -568,6 +574,7 @@ function printAll() {
   console.log(audience_members);
 }
 
+
 function writeToFile(filename, message) {
   const timestamp = moment().format('YYYY-MM-DD hh:mm:ss A');
   const final_message = `[${timestamp}]: ${message}\n`;
@@ -577,6 +584,7 @@ function writeToFile(filename, message) {
   });
 }
 
+
 function update_codes() {
   writeToFile(server_log, 'Update Codes');
   curr_process.send({
@@ -584,6 +592,7 @@ function update_codes() {
     codes: codes
   });
 }
+
 
 function update_hosts() {
   writeToFile(server_log, 'Update Hosts');
@@ -593,6 +602,7 @@ function update_hosts() {
   });
 }
 
+
 function update_players() {
   writeToFile(server_log, 'Update Players');
   curr_process.send({
@@ -601,6 +611,7 @@ function update_players() {
   });
 }
 
+
 function update_audience() {
   writeToFile(server_log, 'Update Audience Members');
   curr_process.send({
@@ -608,6 +619,7 @@ function update_audience() {
     audience_members: audience_members
   });
 }
+
 
 function update_all() {
   update_codes();
@@ -661,6 +673,7 @@ function handleHostCodeRequest(socket) {
   };
   send(socket, JSON.stringify(res));
 }
+
 
 function handleHostDisConn(letterCode) {
   console.log("Host is shutting down");
@@ -829,6 +842,7 @@ function handleAudienceConn(letterCode, socket) {
   return id;
 }
 
+
 function handlePlayerDisConn(letterCode, id) {
   // Remove player from host
   if (!codeCheck(letterCode)) {
@@ -888,29 +902,29 @@ function handlePlayerDisConn(letterCode, id) {
   return 1;
 }
 
+
 function handlePlayerReConn(letterCode, message, socket) {
   // Code exists
   console.log("Code exists: " + letterCode);
   // Find player in Players array
-  const player = _.find(players, (p) => {
+  const old_player = _.find(players, (p) => {
     return p.id == message.playerID;
   });
-  if (player === undefined) {
+  if (old_player === undefined) {
     console.log("Player does not exist.");
     console.log(":(");
     return;
   }
   // Player has been found
-  player.isActive = true;
 
   // Find host to reconnect to
   const host = _.find(hosts, ['code', letterCode]);
   // Find player in host's player array
-  const p = _.find(host.players, (pl) => {
-    return pl.id == player.id;
+  const player_in_host = _.find(host.players, (pl) => {
+    return pl.id == old_player.id;
   });
   // Player is not in host's player array
-  if (p !== undefined) {
+  if (player_in_host !== undefined) {
     console.log("Player is not in Host's player array");
     return -1;
   }
@@ -921,9 +935,9 @@ function handlePlayerReConn(letterCode, message, socket) {
     id: message.playerID,
     isActive: true
   }
-  host.players.remove(p);
+  host.players.remove(player_in_host);
   host.players.push(reconnected_player);
-  players.remove(player);
+  players.remove(old_player);
   players.push(reconnected_player);
 
   update_hosts();
@@ -941,6 +955,7 @@ function handlePlayerReConn(letterCode, message, socket) {
   console.log("End of Player reconnection");
 }
 
+
 function sendToAllPlayers(letterCode, message) {
   const host = _.find(hosts, ['code', letterCode]);
   _.forEach(host.players, (player) => {
@@ -948,10 +963,12 @@ function sendToAllPlayers(letterCode, message) {
   });
 }
 
+
 function sendToPlayer(message) {
   const player = _.find(players, ['id', message.playerID]);
   send(player.socket, JSON.stringify(message));
 }
+
 
 function sendToPlayersAndAudience(letterCode, message) {
   const host = _.find(hosts, ['code', letterCode]);
@@ -962,6 +979,7 @@ function sendToPlayersAndAudience(letterCode, message) {
     send(audience.socket, JSON.stringify(message));
   });
 }
+
 
 function sendToHost(letterCode, message) {
   const host = _.find(hosts, ['code', letterCode]);
@@ -986,12 +1004,14 @@ function send(socket, data) {
   socket.write(buff2);
 }
 
+
 function toBytesInt32(num) {
   arr = new ArrayBuffer(4);
   view = new DataView(arr);
   view.setUint32(0, num, false);
   return arr;
 }
+
 
 function codeCheck(letterCode) {
   console.log("PRINT CODES");
@@ -1002,6 +1022,7 @@ function codeCheck(letterCode) {
   }
   return true;
 }
+
 
 function generateCode() {
   var code = "";
