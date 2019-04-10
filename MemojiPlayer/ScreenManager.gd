@@ -47,7 +47,7 @@ func changeScreenTo(screen):
 			#currentScreenInstance.connect("connectToServer", self, "connectToServer")
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
 			var GSM = get_parent() #this probably shouldn't be allowed
-			currentScreenInstance.change_name_and_icon(GSM.playerName, GSM.playerIcon)
+			#currentScreenInstance.change_name_and_icon(GSM.playerName, GSM.playerIcon)
 		
 		LOBBY_SCREEN:
 			currentScreenInstance = lobbyScreenScene.instance()
