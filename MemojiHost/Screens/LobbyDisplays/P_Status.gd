@@ -28,7 +28,7 @@ func update_player(newName, avatarID):
 	else:
 		name_label.text = DEFAULT_TEXT
 		
-	if (avatarID != null):
+	if (avatarID != null && avatarID < 8 && avatarID >=0):
 		avatar_pic.texture = avatarList[avatarID]
 	else:
 		avatar_pic.texture = DEFAULT_AVATAR
