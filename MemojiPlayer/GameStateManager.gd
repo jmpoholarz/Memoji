@@ -5,8 +5,8 @@ var playerScene = preload("res://Player.tscn")
 var currentRound
 var currentState
 var player
-var playerName = "name"
-var playerIcon = 0
+var playerName = ""
+var playerIcon = -1
 var lobbyCode = "????"
 
 var current_prompts = []
@@ -30,6 +30,8 @@ func connectToServer():
 
 func disconnectFromServer():
 	$Networking.disconnectPlayerFromServer()
+	# Store empty game session
+	SessionStorer.save_game_info("", "")
 
 func _on_Networking_connectionTimeout():
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
@@ -58,6 +60,7 @@ func _on_Networking_enteredValidHostCode(playerID, isPlayer, code):
 	player.isPlayer = isPlayer
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
 		$ScreenManager.changeScreenTo($ScreenManager.USERINFORMATION_SCREEN)
+		SessionStorer.save_game_info(player.playerID, $Networking.letterCode)
 
 func _on_Networking_enteredInvalidHostCode():
 	#if $ScreenManager.currentScene == $ScreenManager.SCREENS.TITLE_SCREEN:
@@ -131,7 +134,7 @@ func _on_Networking_gameStartedByHost():
 	# Advance players to waiting for prompt screen
 	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
 	# Store game session
-	SessionStorer.save_game_info(player.playerID, $Networking.letterCode)
+	#SessionStorer.save_game_info(player.playerID, $Networking.letterCode)
 
 
 

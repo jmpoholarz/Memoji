@@ -20,5 +20,5 @@ func _on_BackButton_pressed():
 func _on_DisconnectButton_pressed():
 	var msg = {"messageType": MESSAGE_TYPES.PLAYER_DISCONNECTED, "letterCode":roomCode}
 	emit_signal("sendMessage", msg)
-	emit_signal("changeScreen", 1)
 	emit_signal("disconnectFromHost")
+	emit_signal("changeScreen", 1)
