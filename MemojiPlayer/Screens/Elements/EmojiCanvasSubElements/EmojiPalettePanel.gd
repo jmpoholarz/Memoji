@@ -1,9 +1,7 @@
 extends Panel
 
-var _TabContainer
+onready var _TabContainer = $VBoxContainer/TabContainer
 
-func _ready():
-	_TabContainer = $VBoxContainer/TabContainer
 
 func _on_PeopleButton_pressed():
 	_TabContainer.current_tab = 0

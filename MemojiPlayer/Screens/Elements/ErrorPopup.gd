@@ -10,4 +10,4 @@ func _ready():
 
 func _update_text(new_text):
 	label_text = new_text
-	_Label.text = new_text
+	#_Label.text = new_text

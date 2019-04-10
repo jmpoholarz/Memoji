@@ -1,6 +1,6 @@
 extends Node
 
-var titleScreenScene = preload("res://TitleScreen.tscn")
+var titleScreenScene = preload("res://Screens/TitleScreen.tscn")
 var userinfoScreenScene = preload("res://Screens/UserInformationScreen.tscn")
 var playerVotingScene = preload("res://PlayerVoting.tscn")
 var lobbyScreenScene = preload("res://Screens/WaitingForGameStartScreen.tscn")
@@ -24,14 +24,13 @@ enum SCREENS {
 	
 }
 
-var currentScreen
-var currentScreenInstance
+var currentScreen = -1
+var currentScreenInstance = null
 
 func _ready():
 	pass
 
 func changeScreenTo(screen):
-	# TODO - queue_free() before changing screen
 	if (currentScreenInstance != null):
 		remove_child(currentScreenInstance)
 		currentScreenInstance.queue_free()
@@ -47,7 +46,7 @@ func changeScreenTo(screen):
 			currentScreenInstance = userinfoScreenScene.instance()
 			#currentScreenInstance.connect("connectToServer", self, "connectToServer")
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
-			var GSM = get_node("../")
+			var GSM = get_parent() #this probably shouldn't be allowed
 			currentScreenInstance.change_name_and_icon(GSM.playerName, GSM.playerIcon)
 		
 		LOBBY_SCREEN:
@@ -77,11 +76,9 @@ func changeScreenTo(screen):
 	emit_signal("screen_change_completed")
 
 func forwardMessage(msg):
-	#print("in forward message with message " + str(msg))
 	emit_signal("sendMessageToServer", msg)
 
 func connectToServer():
-	#print("in ScreenManager connectToServer")
 	emit_signal("connectToServer")
 
 func disconnectFromServer():

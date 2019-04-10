@@ -1,8 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://TitleScreen.gd" type="Script" id=1]
+[ext_resource path="res://Screens/TitleScreen.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Emojis/symbols/punctuation/203c.png" type="Texture" id=2]
 [ext_resource path="res://Screens/Elements/ErrorPopup.tscn" type="PackedScene" id=3]
+
 
 [node name="TitleScreenPanel" type="Panel" index="0"]
 

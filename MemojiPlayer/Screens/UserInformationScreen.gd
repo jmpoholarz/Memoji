@@ -13,8 +13,10 @@ onready var _TextureRect = $MarginContainer/VBoxContainer/HBoxContainer/AvatarTe
 onready var _SubmitButton = $MarginContainer/VBoxContainer/MarginContainer/SubmitButton
 onready var _GridContainer = $MarginContainer/VBoxContainer/VBoxContainer2/ScrollContainer/GridContainer
 
+onready var _ProcessingLabel = $ProcessingLabel
 onready var _UsernameErrorPopup = $UsernameErrorPopup
 onready var _AvatarErrorPopup = $AvatarErrorPopup
+onready var _UsernameCharacterErrorPopup = $UsernameCharacterErrorPopup
 # Variables
 var avatar_id = -1
 var username = ""
@@ -23,6 +25,8 @@ func _ready():
 	# Update grid columns to adjust to screen size
 	update_columns()
 	_insert_avatars()
+	_ProcessingLabel.visible = false
+	_SubmitButton.disabled = false
 
 
 func update_columns():
@@ -58,13 +62,32 @@ func textSubmitToServer(message):
 
 
 func _on_SubmitButton_pressed():
+	# Validate username and avatar
 	if username.length() <= 0:
 		_UsernameErrorPopup.popup()
 		return
+	var test_username = username
+	test_username = test_username.to_upper()
+	for i in range(test_username.length()):
+		match test_username[i]:
+			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M':
+				pass
+			'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z':
+				pass
+			'0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
+				pass
+			'!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '[', ']', '{', '}':
+				pass
+			'-', '_', ' ', '.', ',', '?', ':', ';', '~', '+', '=', '<', '>':
+				pass
+			_:
+				_UsernameCharacterErrorPopup.popup()
+				return
 	if avatar_id == -1:
 		_AvatarErrorPopup.popup()
 		return
 	
+	# Submit valid information to the server
 	print(username + " " + str(avatar_id))
 	var msg = {
 		"messageType": MESSAGE_TYPES.PLAYER_USERNAME_AND_AVATAR,
@@ -74,4 +97,6 @@ func _on_SubmitButton_pressed():
 	#emit_signal("connectToServer")
 	#yield(get_tree().create_timer(2), "timeout")
 	emit_signal("sendMessage", msg)
+	_ProcessingLabel.visible = true
+	_SubmitButton.disabled = true
 
