@@ -157,10 +157,26 @@ if (cluster.isMaster) {
         _.remove(players, sock);
         sock.isActive = false;
         players.push(sock);
+        // Find Host for this player
+        const host = _.find(hosts, ['code', sock.letterCode]);
+        if (host == undefined) {
+          console.error(`Issue finding host with letterCode: ${sock.letterCode}`);
+          return;
+        }
+        // Else Send message to Host that a player has disconnected
+        const res = {
+          "messageType": 132,
+          "playerID": sock.id
+        }
+        try {
+          sendToHost(sock.letterCode, res);
+        } catch(err) {
+          logError(err);
+        }
         return;
       }
       // Is this an Audience Member?
-      sock = _.find(audience, (audience_member) => {
+      sock = _.find(audience_members, (audience_member) => {
         return audience_member.socket === socket;
       });
       if (sock !== undefined) {
@@ -311,6 +327,11 @@ if (cluster.isMaster) {
           writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending prompt.] Sending to Player: ${message.playerID}`);
           break;
         case 301: // Host starting game -----> Send to all Players and Audience
+          var er = existInactivePlayers(letterCode);
+          if (er == -1){
+            // There is a Player that is Not Active
+          }
+          // Else Proceed
         case 302: // Host ending game -------> Send to all Players and Audience
         case 312: // Host sending answers ---> Send to all Players and Audience
           sendToPlayersAndAudience(letterCode, message);
@@ -400,11 +421,7 @@ if (cluster.isMaster) {
   });
 
   process.on('uncaughtException', (err) => {
-    console.error(`An error occured!\n${err.stack}\n${err.name} | ${err.message}`);
-    writeToFile(error_log, 'An error occured!');
-    writeToFile(error_log, `Error stack: ${err.stack}`);
-    writeToFile(error_log, `Error name: ${err.name}`);
-    writeToFile(error_log, `Error message: ${err.message}`);
+    logError(err);
   });
 
   process.on('SIGINT', () => {
@@ -422,6 +439,15 @@ if (cluster.isMaster) {
 
   curr_process = process;
 
+}
+
+
+function logError(err) {
+  console.error(`An error occured!\n${err.stack}\n${err.name} | ${err.message}`);
+  writeToFile(error_log, 'An error occured!');
+  writeToFile(error_log, `Error stack: ${err.stack}`);
+  writeToFile(error_log, `Error name: ${err.name}`);
+  writeToFile(error_log, `Error message: ${err.message}`);
 }
 
 
@@ -677,6 +703,7 @@ function handleHostCodeRequest(socket) {
   send(socket, JSON.stringify(res));
 }
 
+// TODO: Look for socket being dead
 
 function handleHostDisConn(letterCode) {
   console.log(`Host is shutting down: ${letterCode}`);
@@ -767,8 +794,9 @@ function handleHostDisConn(letterCode) {
 Player data structure
 {
   code: "ABCD"
-  player: socket object
+  socket: socket object
   id: uuid
+  isActive: true
 }
 */
 
@@ -850,6 +878,7 @@ function handleAudienceConn(letterCode, socket) {
   return id;
 }
 
+// TODO: Look for socket being dead
 
 function handlePlayerDisConn(letterCode, id) {
   // Remove player from host
@@ -961,6 +990,23 @@ function handlePlayerReConn(letterCode, message, socket) {
   res.messageType = 406;
   send(host.socket, JSON.stringify(res));
   console.log("End of Player reconnection");
+}
+
+
+function existInactivePlayers(letterCode) {
+  const host = _.find(hosts, ['code', letterCode]);
+  if (host == undefined) {
+    console.error(`Issue finding host with given letterCode: ${letterCode}`);
+    writeToFile(error_log, `Issue finding host with letterCode: ${letterCode}`);
+  }
+  var player = _.find(host.players, ['isActive', false]);
+  if (player == undefined) {
+    console.log('All players are active for this game session');
+    return 1;
+  } else {
+    console.error('There is a player that is Not Active');
+    return -1;
+  }
 }
 
 

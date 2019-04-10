@@ -313,6 +313,15 @@ _Sent from Server when the Server forces a player to disconnect_
 }
 ```
 
+* **BAD_PLAYER_DISCONNECT = 132**  
+_Sent when a Player disconnects to notifiy the Host_  
+```javascript
+{
+  messageType: 132,
+  playerID: "abc-123"
+}
+```
+
 * **INVALID_MESSAGE_JSON = 601**  
 _Sent from server if message received is invalid JSON_  
 ```javascript
