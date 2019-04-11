@@ -10,6 +10,7 @@ var players = [] # array of all players in the game
 var audiencePlayers = [] # array of all players in the audience
 var totalScoreTally = [] # array of scores for each player, in total
 var competitors = [] # players who are competing in the current round of voting
+var disconnected_players = [] # players who have disconnected
 
 var lobbyCode = null
 
@@ -350,6 +351,12 @@ func _on_Networking_playerConnected(playerID, isPlayer):
 	player.isPlayer = isPlayer
 	
 	if (isPlayer):
+		for dc_player in disconnected_players:
+			if dc_player.playerID == player.playerID:
+				# Previously disconnected player
+				# Handle reconnection
+				print("DEBUG MESSAGE: Player connecting had been previously connected")
+		
 		players.append(player)
 		totalScoreTally.append(0)
 		
@@ -440,6 +447,18 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 
 func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
 	pass # replace with function body
+
+
+func _on_Networking_playerBadDisconnect(playerID):
+	print("DEBUG MESSAGE: Player Bad Disconnect")
+	# Find player based on playerID
+	for player in players:
+		if player.playerID == playerID:
+			print("DEBUG MESSAGE: Player found")
+			disconnected_players.append(player)
+			players.erase(player)
+			if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
+				$ScreenManager.currentScreenInstance.update_from_list(players)
 
 
 func _on_ScreenManager_sendMessageToServer(msg):
