@@ -168,11 +168,7 @@ if (cluster.isMaster) {
           "messageType": 132,
           "playerID": sock.id
         }
-        try {
-          sendToHost(sock.letterCode, res);
-        } catch(err) {
-          logError(err);
-        }
+        sendToHost(sock.letterCode, res);
         return;
       }
       // Is this an Audience Member?
@@ -1052,10 +1048,18 @@ function send(socket, data) {
   const buff2 = new Buffer.from(data.toString());
   // Send length
   console.log(buff);
-  socket.write(buff);
+  try {
+    socket.write(buff);
+  } catch (err) {
+    logError(err);
+  }
   // Send message
   console.log(`Message sent: ${buff2.toString()}`);
-  socket.write(buff2);
+  try {
+    socket.write(buff2);
+  } catch (err) {
+    logError(err);
+  }
 }
 
 
