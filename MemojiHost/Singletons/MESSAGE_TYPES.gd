@@ -39,6 +39,7 @@ enum MESSAGE_TYPES {
 	PLAYER_SENDING_MULTI_VOTE = 430,		# Sent to deliver an answer to the final round to the host
 	INVALID_MULTI_VOTE = 431,				#
 	ACCEPTED_MULTI_VOTE = 432,				#
+	UPDATE_PLAYER_GAME_STATE = 440,			# Sent when a Player requests to be updated on the current game state
 	
 	INVALID_MESSAGE_JSON = 601,				# Sent from server if message received is invalid JSON
 
