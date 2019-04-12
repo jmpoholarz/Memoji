@@ -133,7 +133,7 @@ size_flags_vertical = 1
 stretch_mode = 6
 _sections_unfolded = [ "Rect" ]
 
-[node name="Button" type="Button" parent="Rows" index="5"]
+[node name="ProceedButton" type="Button" parent="Rows" index="5"]
 
 anchor_left = 0.0
 anchor_top = 0.0
