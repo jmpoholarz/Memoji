@@ -19,10 +19,10 @@ func update_lettercode(code):
 	_CodeLabel.text = code
 	_PlayButton.disabled = false
 
-func _on_Button_pressed():
+func _on_PlayButton_pressed():
 	emit_signal("changeScreen", GlobalVars.LOBBY_SCREEN)
 
-func _on_RequestCode_pressed():
+func _on_RequestCodeButton_pressed():
 	var request = { "messageType": MESSAGE_TYPES.HOST_REQUESTING_CODE, "letterCode": "????" }
 	emit_signal("messageServer", request)
 

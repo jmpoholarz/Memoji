@@ -262,4 +262,8 @@ flat = false
 align = 1
 _sections_unfolded = [ "Size Flags" ]
 
+[connection signal="pressed" from="VBoxContainer/SettingsContainer/CodeContainer/RequestCodeButton" to="." method="_on_RequestCodeButton_pressed"]
+
+[connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
+
 
