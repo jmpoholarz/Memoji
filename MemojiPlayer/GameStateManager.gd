@@ -148,7 +148,7 @@ func _on_Networking_gameStartedByHost():
 
 
 func _on_Networking_updatePlayerGameState(messageDict):
-	match (currentState):
+	match (messageDict["gameState"]):
 		GAME_STATE.NOT_STARTED:
 			pass
 		GAME_STATE.PROMPT_PHASE:
@@ -171,4 +171,5 @@ func _on_ScreenManager_sendMessageToServer(msg):
 	$Networking.sendMessageToServer(msg)
 
 
-
+func _on_ScreenManager_updateGameState(newState):
+	currentState = newState
