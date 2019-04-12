@@ -3,6 +3,7 @@ var username
 var avatarID
 var isPlayer
 var currentPromptIDs = []
+var answeredPromptIDs = []
 
 func clear_prompts():
 	currentPromptIDs.clear()

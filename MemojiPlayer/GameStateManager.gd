@@ -150,10 +150,13 @@ func _on_Networking_gameStartedByHost():
 func _on_Networking_updatePlayerGameState(messageDict):
 	match (messageDict["gameState"]):
 		GAME_STATE.NOT_STARTED:
-			pass
+			currentState = messageDict["gameState"]
 		GAME_STATE.PROMPT_PHASE:
+			# We have prompts to answer
+			# Look at received prompts
 			pass
 		GAME_STATE.VOTE_PHASE:
+			# We have voting to do
 			pass
 		GAME_STATE.RESULTS_PHASE:
 			pass
