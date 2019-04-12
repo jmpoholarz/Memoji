@@ -9,7 +9,10 @@ func _ready():
 	_Label.text = label_text
 
 func _update_text(new_text):
-	_Label.text = new_text
+	if _Label:
+		_Label.text = new_text
 
 func _get_text():
-	return _Label.text
+	if _Label:
+		return _Label.text
+	return ""

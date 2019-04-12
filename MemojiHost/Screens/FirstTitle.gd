@@ -1,8 +1,8 @@
 extends Panel
 
 signal connectToServer()
-#signal messageServer(msg)
-#signal changeScreen(screen)
+signal messageServer(msg)
+signal changeScreen(screen)
 
 onready var _ConnectingLabel = $VBoxContainer/ConnectingLabel
 onready var _Button = $VBoxContainer/ConnectButton
