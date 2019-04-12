@@ -6,15 +6,6 @@ signal updateGameState(msg)
 var score1 = 0
 var score2 = 0
 
-func _ready():
-	# Called when the node is added to the scene for the first time.
-	# Initialization here
-	pass
-
-#func _process(delta):
-#	# Called every frame. Delta is time since last frame.
-#	# Update game logic here.
-#	pass
 
 func displayAnswers(answers):
 	#get the arrays of answers so that the responses can be displayed

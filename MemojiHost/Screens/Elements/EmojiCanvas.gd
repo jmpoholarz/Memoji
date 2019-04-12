@@ -7,8 +7,8 @@ signal emoji_grabbed(id)
 const ROWS = 5
 const COLUMNS = 5
 
-var _GridContainer
-var _CanvasTileMap
+onready var _GridContainer = $GridContainer
+onready var _CanvasTileMap = $CanvasTileMap
 var grid_dict = {}
 var currently_selected_emoji_id = 10000
 var currently_selected_tool = "add"
@@ -16,8 +16,6 @@ var currently_selected_tool = "add"
 var saved_encoding = []
 
 func _ready():
-	_GridContainer = $GridContainer
-	_CanvasTileMap = $CanvasTileMap
 	_CanvasTileMap.connect("canvas_clicked", self, "handle_canvas_click")
 	setup_grid()
 
@@ -71,7 +69,6 @@ func handle_canvas_click(row, column):
 	if !EmojiIdToFilename.EmojiIdToFilenameDict.has(currently_selected_emoji_id):
 		return
 	# Handle actual click
-	#print("current tool is " + currently_selected_tool)
 	match currently_selected_tool:
 		"add":
 			var path = EmojiIdToFilename.EmojiIdToFilenameDict[currently_selected_emoji_id]

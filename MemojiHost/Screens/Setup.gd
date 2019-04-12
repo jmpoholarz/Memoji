@@ -1,23 +1,23 @@
-extends Container
+extends Panel
 
 signal messageServer(msg)
 signal changeScreen(screen)
 signal updateGameState(msg)
 
-onready var codeLabel = $MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer4/HBoxContainer/ABCDcode
-var repeatLocation = "MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer4/HBoxContainer3/RepeatCheck"
-var toggleLocation = "MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer4/HBoxContainer2/InstructionsCheck"
+onready var _CodeLabel = $VBoxContainer/SettingsContainer/CodeContainer/ABCDcode
+onready var _RepeatToggle = $VBoxContainer/SettingsContainer/RepeatCheck
+onready var _InstructionToggle = $VBoxContainer/SettingsContainer/InstructionsCheck
+onready var _PlayButton = $VBoxContainer/PlayButton
 
 var instructionState = true
 var repeatState = false
 
 func _ready():
-	$MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer9/Button.disabled = true
-	pass
+	_PlayButton.disabled = true
 
 func update_lettercode(code):
-	codeLabel.text = code
-	$MarginContainer2/MarginContainer3/VBoxContainer/VBoxContainer2/VBoxContainer2/Players/MarginContainer9/Button.disabled = false
+	_CodeLabel.text = code
+	_PlayButton.disabled = false
 
 func _on_Button_pressed():
 	emit_signal("changeScreen", GlobalVars.LOBBY_SCREEN)
@@ -28,17 +28,16 @@ func _on_RequestCode_pressed():
 
 
 func _on_InstructionsCheck_toggled(button_pressed):
-	var repeat = get_node(repeatLocation)
 	if button_pressed:
 		instructionState = true
 		repeatState = false
-		repeat.pressed = false
-		repeat.visible = true
+		_RepeatToggle.pressed = false
+		_RepeatToggle.visible = true
 	else:
 		repeatState = false
 		instructionState = false
-		repeat.visible = false
-		repeat.pressed = false
+		_RepeatToggle.visible = false
+		_RepeatToggle.pressed = false
 
 func getInstructionState():
 	return instructionState

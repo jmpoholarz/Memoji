@@ -1,26 +1,12 @@
-extends Node
-
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+extends Panel
 
 signal messageServer(msg)
 
-var _TimerLabel
-var _Timer
+onready var _TimerLabel = $MarginContainer/TimerLabel
+onready var _Timer = $Timer 
 onready var confirmDisplay = $ConfirmationRow
 
-func _ready():
-	# Called when the node is added to the scene for the first time.
-	# Initialization here
-	_TimerLabel = $MarginContainer/TimerLabel
-	_Timer = $Timer
-	pass
 
-#func _process(delta):
-	# Called every frame. Delta is time since last frame.
-	# Update game logic here.
-#	pass
 
 # Add timer node on start
 # Make label to display timer value

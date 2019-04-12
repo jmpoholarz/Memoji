@@ -25,6 +25,7 @@ func _ready():
 	# Update grid columns to adjust to screen size
 	update_columns()
 	_insert_avatars()
+	change_name_and_icon(username, avatar_id)
 	_ProcessingLabel.visible = false
 	_SubmitButton.disabled = false
 
@@ -50,7 +51,7 @@ func _insert_avatars():
 func _on_avatar_button_pressed(id):
 	avatar_id = id
 	# Update avatar display
-	_TextureRect.texture = load(AvatarIdToFilename.AvatarIdToFilenameDict[avatar_id])
+	_TextureRect.texture = load(AvatarIdToFilename.AvatarIdToFilenameDict[int(avatar_id)])
 
 
 func _on_TextEdit_text_changed():
@@ -100,3 +101,9 @@ func _on_SubmitButton_pressed():
 	_ProcessingLabel.visible = true
 	_SubmitButton.disabled = true
 
+
+func change_name_and_icon(player_name, icon_id):
+	if (player_name == null || icon_id == -1 || icon_id == 0):
+		return
+	_TextBox.text = player_name
+	_TextureRect.texture = load(AvatarIdToFilename.AvatarIdToFilenameDict[int(avatar_id)])
