@@ -300,7 +300,7 @@ func advanceGame():
 
 
 func updatePlayerGameState(player):
-	var message = { "messageType": 440, "playerID": playerID, "gameState": currentState }
+	var message = { "messageType": 440, "playerID": player.playerID, "gameState": currentState }
 	match (currentState):
 		GAME_STATE.NOT_STARTED:
 			pass
