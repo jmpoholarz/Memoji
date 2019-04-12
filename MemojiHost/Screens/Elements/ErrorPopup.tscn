@@ -20,7 +20,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 popup_exclusive = false
 script = ExtResource( 1 )
-label_text = null
+label_text = "Sample text."
 
 [node name="Label" type="Label" parent="." index="0"]
 
@@ -45,5 +45,7 @@ autowrap = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[connection signal="about_to_show" from="." to="." method="_on_ErrorPopup_about_to_show"]
 
 

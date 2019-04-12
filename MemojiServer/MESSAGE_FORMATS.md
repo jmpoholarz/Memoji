@@ -162,13 +162,14 @@ _Sent when a Player requests to be updated on the current game state_
   messageType: 440,
   letterCode: "ABCD", (Added by Networking.gd)
   playerID: "abc-123",
-  gameState: 3
+  gameState: 3,
+  ... (Other information based on game state.)
 }
 ```
 
 ## Messages Sent from Player:
 * **PLAYER_RESPOND_TO_PING = 122**  
-_Snet when player tells the server that it's still active_  
+_Sent when player tells the server that it's still active_  
 ```javascript
 {
   messageType: 122,
@@ -314,7 +315,7 @@ _Sent from Server when the Server forces a player to disconnect_
 ```
 
 * **BAD_PLAYER_DISCONNECT = 132**  
-_Sent when a Player disconnects to notifiy the Host_  
+_Sent when a Player disconnects to notify the Host_  
 ```javascript
 {
   messageType: 132,

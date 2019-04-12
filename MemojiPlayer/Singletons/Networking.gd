@@ -18,6 +18,7 @@ signal enteredInvalidVote
 signal enteredValidVote
 signal enteredInvalidMultiVote
 signal enteredValidMultiVote
+signal updatePlayerGameState(messageDict)
 # # # # # # # # # #
 
 var defaultServerIP = "18.224.39.240"
@@ -188,7 +189,8 @@ func getMessageFromServer():
 			emit_signal("enteredInvalidMultiVote")
 		MESSAGE_TYPES.ACCEPTED_MULTI_VOTE:
 			emit_signal("enteredInvalidMultiVote")
+		MESSAGE_TYPES.UPDATE_PLAYER_GAME_STATE:
+			emit_signal("updatePlayerGameState", messageDict)
 		_:
-
 			print("Unrecognized message code " + str(messageCode))
 			Logger.writeLine("Unrecognized message code " + str(messageCode))

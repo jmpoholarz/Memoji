@@ -12,6 +12,7 @@ signal receivedPlayerAnswer(playerID, promptID, emojiArray)
 signal receivedPlayerVote(playerID, promptID, voteID)
 signal receivedPlayerMultiVote(playerID, promptID, voteArray)
 signal playerBadDisconnect(playerID)
+signal playerReconnected(playerID)
 # # # # # # # # # #
 
 
@@ -180,6 +181,8 @@ func getMessageFromServer():
 			emit_signal("receivedPlayerMultiVote", messageDict["playerID"], messageDict["voteArray"])
 		MESSAGE_TYPES.PLAYER_BAD_DISCONNECT:
 			emit_signal("playerBadDisconnect", messageDict["playerID"])
+		MESSAGE_TYPES.PLAYER_RECONNECT:
+			emit_signal("playerReconnected", messageDict["playerID"])
 		_:
 			print("Unrecognized message code " + str(messageCode))
 			Logger.writeLine("Unrecognized message code " + str(messageCode))
