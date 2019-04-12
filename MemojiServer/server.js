@@ -157,10 +157,22 @@ if (cluster.isMaster) {
         _.remove(players, sock);
         sock.isActive = false;
         players.push(sock);
+        // Find Host for this player
+        const host = _.find(hosts, ['code', sock.letterCode]);
+        if (host == undefined) {
+          console.error(`Issue finding host with letterCode: ${sock.letterCode}`);
+          return;
+        }
+        // Else Send message to Host that a player has disconnected
+        const res = {
+          "messageType": 132,
+          "playerID": sock.id
+        }
+        sendToHost(sock.letterCode, res);
         return;
       }
       // Is this an Audience Member?
-      sock = _.find(audience, (audience_member) => {
+      sock = _.find(audience_members, (audience_member) => {
         return audience_member.socket === socket;
       });
       if (sock !== undefined) {
@@ -179,13 +191,13 @@ if (cluster.isMaster) {
       console.log(data.length);
 
       if (data.length <= 4) {
-        console.log('Ignore message. Length too short.');
+        // console.log('Ignore message. Length too short.');
         return;
       }
 
       const json = parseData(data);
       if (json === -1) {
-        console.log('Error parsing data');
+        console.error('Error parsing data');
         const res = {
           "messageType": 100
         };
@@ -197,7 +209,7 @@ if (cluster.isMaster) {
       try {
         message = JSON.parse(json);
       } catch (err) {
-        console.log(err);
+        console.error(err);
         const res = {
           "messageType": 100
         };
@@ -266,8 +278,8 @@ if (cluster.isMaster) {
               writeToFile(server_log, `Audience: [${id}] joined Host - ${letterCode}`);
             }
           } else {
-            console.log('Invalid code');
-            console.log('Did not handle player connection successfully.');
+            console.error('Invalid code');
+            console.error('Did not handle player connection successfully.');
             const res = {
               "messageType": 113
             };
@@ -279,7 +291,7 @@ if (cluster.isMaster) {
           // Remove player from host
           var r = handlePlayerDisConn(letterCode, message.playerID);
           if (r == -1) {
-            console.log("Error handling player disconnection.");
+            console.error("Error handling player disconnection.");
             return;
           }
           writeToFile(server_log, `Player disconnecting from host - ${letterCode}`);
@@ -290,8 +302,8 @@ if (cluster.isMaster) {
           if (codeCheck(letterCode)) {
             handlePlayerReConn(letterCode, message, socket);
           } else {
-            console.log('Lobby Code does not exist!');
-            console.log('Did not handle player reconnection successfully.');
+            console.error('Lobby Code does not exist!');
+            console.error('Did not handle player reconnection successfully.');
             const res = {
               "messageType": 113
             };
@@ -311,6 +323,11 @@ if (cluster.isMaster) {
           writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending prompt.] Sending to Player: ${message.playerID}`);
           break;
         case 301: // Host starting game -----> Send to all Players and Audience
+          var er = existInactivePlayers(letterCode);
+          if (er == -1){
+            // There is a Player that is Not Active
+          }
+          // Else Proceed
         case 302: // Host ending game -------> Send to all Players and Audience
         case 312: // Host sending answers ---> Send to all Players and Audience
           sendToPlayersAndAudience(letterCode, message);
@@ -352,7 +369,7 @@ if (cluster.isMaster) {
           writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to Host - ${letterCode}`);
           break;
         default:
-          console.log('Unknown Message Type');
+          console.error('Unknown Message Type');
           writeToFile(error_log, '[MessageType]: Unknown MessageType. No action performed.');
       }
 
@@ -400,11 +417,7 @@ if (cluster.isMaster) {
   });
 
   process.on('uncaughtException', (err) => {
-    console.error(`An error occured!\n${err.stack}\n${err.name} | ${err.message}`);
-    writeToFile(error_log, 'An error occured!');
-    writeToFile(error_log, `Error stack: ${err.stack}`);
-    writeToFile(error_log, `Error name: ${err.name}`);
-    writeToFile(error_log, `Error message: ${err.message}`);
+    logError(err);
   });
 
   process.on('SIGINT', () => {
@@ -415,13 +428,22 @@ if (cluster.isMaster) {
       const final_message = `[${timestamp}]: ${message}\n`;
       fs.appendFileSync(server_log, final_message);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     process.exit();
   });
 
   curr_process = process;
 
+}
+
+
+function logError(err) {
+  console.error(`An error occured!\n${err.stack}\n${err.name} | ${err.message}`);
+  writeToFile(error_log, 'An error occured!');
+  writeToFile(error_log, `Error stack: ${err.stack}`);
+  writeToFile(error_log, `Error name: ${err.name}`);
+  writeToFile(error_log, `Error message: ${err.message}`);
 }
 
 
@@ -434,7 +456,7 @@ function parseData(data) {
   try {
     copy = JSON.parse(json);
   } catch (err) {
-    console.log("THERE HAS BEEN AN ERROR PARSING THE DATA RECEIVED.");
+    console.error("THERE HAS BEEN AN ERROR PARSING THE DATA RECEIVED.");
     console.warn(err);
     return -1;
   }
@@ -480,8 +502,9 @@ async function pingHosts() {
     try {
       send(host.socket, JSON.stringify(res));
     } catch (err) {
-      console.log("Socket has been shutdown");
-      console.log("Remove host");
+      logError(err);
+      console.error("Socket has been shutdown");
+      console.error("Remove host");
       hosts_to_remove_during_ping.push(host);
     }
 
@@ -537,9 +560,9 @@ async function pingPlayers() {
     try {
       send(player.socket, JSON.stringify(res));
     } catch (err) {
-      console.log(err);
-      console.log("Socket has been shutdown");
-      console.log("Remove host");
+      logError(err);
+      console.error("Socket has been shutdown");
+      console.error("Remove host");
       players_to_remove_during_ping.push(host);
     }
   });
@@ -643,14 +666,13 @@ Host data structure
 */
 
 function handleHostCodeRequest(socket) {
-  console.log("Code 110: Host request a room code");
   // Check if host already exists
   var h = _.find(hosts, (host) => {
     return host.socket == socket;
   });
   if (h != undefined) {
     if (h.code != null || h.code != undefined) {
-      console.log(`Host already has code: ${h.code}`);
+      console.error(`Host already has code: ${h.code}`);
       return;
     }
   }
@@ -677,6 +699,7 @@ function handleHostCodeRequest(socket) {
   send(socket, JSON.stringify(res));
 }
 
+// TODO: Look for socket being dead
 
 function handleHostDisConn(letterCode) {
   console.log(`Host is shutting down: ${letterCode}`);
@@ -685,8 +708,8 @@ function handleHostDisConn(letterCode) {
   var host = _.find(hosts, ['code', letterCode]);
   _.pull(codes, letterCode);
   if(host == undefined) {
-    console.log("There is an issue with host disconnection!");
-    console.log("Host is undefined");
+    console.error("There is an issue with host disconnection!");
+    console.error("Host is undefined");
     return;
   }
   console.log(host);
@@ -712,7 +735,7 @@ function handleHostDisConn(letterCode) {
       console.log(`Player: ${player.id} socket destroyed successfully`);
       writeToFile(server_log, `Player: ${player.id} socket destroyed successfully`);
     } else {
-      console.log(`Player: ${player.id} socket destroyed unsuccessfully`);
+      console.error(`Player: ${player.id} socket destroyed unsuccessfully`);
       writeToFile(error_log, `Player: ${player.id} socket destroyed unsuccessfully`);
     }
   });
@@ -734,7 +757,7 @@ function handleHostDisConn(letterCode) {
       console.log(`Audience member: ${audience.id} socket destroyed successfully`);
       writeToFile(server_log, `Audience member: ${audience.id} socket destroyed successfully`);
     } else {
-      console.log(`Audience member: ${audience.id} socket destroyed unsuccessfully`);
+      console.error(`Audience member: ${audience.id} socket destroyed unsuccessfully`);
       writeToFile(error_log, `Audience member: ${audience.id} socket destroyed unsuccessfully`);
     }
   });
@@ -749,7 +772,7 @@ function handleHostDisConn(letterCode) {
     console.log('Host socket destroyed successfully.');
     writeToFile(server_log, 'Host socket destroyed successfully.');
   } else {
-    console.log('Host socket destroyed unsuccessfully.');
+    console.error('Host socket destroyed unsuccessfully.');
     writeToFile(error_log, 'Host socket destroyed unsuccessfully.');
   }
   _.remove(hosts, host);
@@ -767,8 +790,9 @@ function handleHostDisConn(letterCode) {
 Player data structure
 {
   code: "ABCD"
-  player: socket object
+  socket: socket object
   id: uuid
+  isActive: true
 }
 */
 
@@ -850,6 +874,7 @@ function handleAudienceConn(letterCode, socket) {
   return id;
 }
 
+// TODO: Look for socket being dead
 
 function handlePlayerDisConn(letterCode, id) {
   // Remove player from host
@@ -859,13 +884,13 @@ function handlePlayerDisConn(letterCode, id) {
   }
   const host = _.find(hosts, ['code', letterCode]);
   if (host === undefined) {
-    console.log(`[ERROR]: Could not find Host - ${letterCode}`);
+    console.error(`[ERROR]: Could not find Host - ${letterCode}`);
     writeToFile(error_log, `[ERROR]: Could not find Host - ${letterCode}`);
     // return -1;
   }
   const player = _.find(players, ['id', id]);
   if (player === undefined) {
-    console.log(`[ERROR]: Could not find Player: ${id}`);
+    console.error(`[ERROR]: Could not find Player: ${id}`);
     writeToFile(error_log, `[ERROR]: Could not find Player: ${id}`);
     return -1;
   }
@@ -876,9 +901,9 @@ function handlePlayerDisConn(letterCode, id) {
     console.log('Handled player removal from host successfully.');
     writeToFile(server_log, 'Handled player removal from host successfully.');
   } else {
-    console.log(`[ERROR]: Removing player: ${player.id} from host: ${letterCode}`);
+    console.error(`[ERROR]: Removing player: ${player.id} from host: ${letterCode}`);
     writeToFile(error_log, `[ERROR]: Removing player: ${player.id} from host: ${letterCode}`);
-    console.log('Handled player removal from host unsuccessfully.');
+    console.error('Handled player removal from host unsuccessfully.');
     writeToFile(error_log, 'Handled player removal from host unsuccessfully.');
   }
   removed_player = _.remove(players, player);
@@ -888,9 +913,9 @@ function handlePlayerDisConn(letterCode, id) {
     console.log('Handled player removal from player list successfully.');
     writeToFile(server_log, 'Handled player removal from player list successfully.');
   } else {
-    console.log(`Removing player: ${player.id} from player list`);
+    console.error(`Removing player: ${player.id} from player list`);
     writeToFile(error_log, `[ERROR]: Removing player: ${player.id} from player list`);
-    console.log('Handled player removal from player list unsuccessfully.');
+    console.error('Handled player removal from player list unsuccessfully.');
     writeToFile(error_log, 'Handled player removal from player list unsuccessfully.');
   }
   player.socket.end();
@@ -900,7 +925,7 @@ function handlePlayerDisConn(letterCode, id) {
     console.log(`Player: ${player.id} socket destroyed successfully`);
     writeToFile(server_log, `Player: ${player.id} socket destroyed successfully`);
   } else {
-    console.log(`Player: ${player.id} socket destroyed successfully`);
+    console.error(`Player: ${player.id} socket destroyed unsuccessfully`);
     writeToFile(error_log, `Player: ${player.id} socket destroyed unsuccessfully`);
   }
 
@@ -919,8 +944,8 @@ function handlePlayerReConn(letterCode, message, socket) {
     return p.id == message.playerID;
   });
   if (old_player === undefined) {
-    console.log("Player does not exist.");
-    console.log(":(");
+    console.error("Player does not exist.");
+    console.error(":(");
     return;
   }
   // Player has been found
@@ -933,7 +958,7 @@ function handlePlayerReConn(letterCode, message, socket) {
   });
   // Player is not in host's player array
   if (player_in_host == undefined) {
-    console.log("Player is not in Host's player array");
+    console.error("Player is not in Host's player array");
     return -1;
   }
   // Player is in host's player array
@@ -961,6 +986,23 @@ function handlePlayerReConn(letterCode, message, socket) {
   res.messageType = 406;
   send(host.socket, JSON.stringify(res));
   console.log("End of Player reconnection");
+}
+
+
+function existInactivePlayers(letterCode) {
+  const host = _.find(hosts, ['code', letterCode]);
+  if (host == undefined) {
+    console.error(`Issue finding host with given letterCode: ${letterCode}`);
+    writeToFile(error_log, `Issue finding host with letterCode: ${letterCode}`);
+  }
+  var player = _.find(host.players, ['isActive', false]);
+  if (player == undefined) {
+    console.log('All players are active for this game session');
+    return 1;
+  } else {
+    console.error('There is a player that is Not Active');
+    return -1;
+  }
 }
 
 
@@ -1006,10 +1048,18 @@ function send(socket, data) {
   const buff2 = new Buffer.from(data.toString());
   // Send length
   console.log(buff);
-  socket.write(buff);
+  try {
+    socket.write(buff);
+  } catch (err) {
+    logError(err);
+  }
   // Send message
   console.log(`Message sent: ${buff2.toString()}`);
-  socket.write(buff2);
+  try {
+    socket.write(buff2);
+  } catch (err) {
+    logError(err);
+  }
 }
 
 
@@ -1025,7 +1075,7 @@ function codeCheck(letterCode) {
   console.log("PRINT CODES");
   console.log(codes);
   if (!codes.includes(letterCode)) {
-    console.log('Code does not exist: ' + letterCode);
+    console.error('Code does not exist: ' + letterCode);
     return false;
   }
   return true;

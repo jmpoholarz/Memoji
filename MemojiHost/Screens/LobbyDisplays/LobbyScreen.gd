@@ -20,12 +20,10 @@ onready var pDisplays = [p1, p2, p3, p4, p5, p6, p7, p8] # GUI representing each
 
 var linkedIDs = [] # Stores the playerID
 
-var _NotEnoughPlayers
-var _NotAllPlayersHaveAvatar
+onready var _NotEnoughPlayers = $Foreground/NotEnoughPlayersPopup
+onready var _NotAllPlayersHaveAvatar = $Foreground/NotAllPlayersHaveAvatar
 
 func _ready():
-	_NotEnoughPlayers = $Foreground/NotEnoughPlayersPopup
-	_NotAllPlayersHaveAvatar = $Foreground/NotAllPlayersHaveAvatar
 	codeLabel.text = "????"
 	emit_signal("updateGameState", "code")
 

@@ -3,7 +3,6 @@
 [ext_resource path="res://Screens/Elements/EmojiCanvas.gd" type="Script" id=1]
 [ext_resource path="res://Screens/Elements/EmojiCanvasSubElements/CanvasTileMap.gd" type="Script" id=2]
 
-
 [node name="EmojiCanvas" type="PanelContainer" index="0"]
 
 anchor_left = 0.0
@@ -31,7 +30,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 326.0
+margin_right = 870.0
 margin_bottom = 328.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -48,7 +47,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 326.0
+margin_right = 870.0
 margin_bottom = 328.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false

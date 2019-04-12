@@ -15,6 +15,7 @@ enum MESSAGE_TYPES {
 
 	HOST_SHUTTING_DOWN = 130,				# Sent when host has closed their game session
 	SERVER_FORCE_DISCONNECT_CLIENT = 131,	# Sent when the server forces a player to disconnect
+	PLAYER_BAD_DISCONNECT = 132				# Sent when a Player does not gracefully disconnect
 
 	HOST_STARTING_GAME = 301,				# Sent to advance players to blank screen before prompts
 	HOST_ENDING_GAME = 302,					# Sent to advance players back to join game screen where they can quit

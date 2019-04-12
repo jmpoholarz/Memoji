@@ -2,7 +2,6 @@
 
 [ext_resource path="res://Screens/Elements/EmojiCanvasSubElements/EmojiButton.gd" type="Script" id=1]
 
-
 [node name="EmojiButton" type="Button" index="0"]
 
 anchor_left = 0.0
