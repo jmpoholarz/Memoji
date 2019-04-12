@@ -2,10 +2,6 @@ extends TileMap
 
 signal canvas_clicked(row, column)
 
-func _ready():
-	# Called when the node is added to the scene for the first time.
-	# Initialization here
-	pass
 
 func _input(event):
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == BUTTON_LEFT:
