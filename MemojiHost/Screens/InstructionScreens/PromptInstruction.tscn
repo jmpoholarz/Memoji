@@ -52,7 +52,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Label" type="Label" parent="Rows" index="1"]
+[node name="Instruction1" type="Label" parent="Rows" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -75,7 +75,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="TextureRect" type="TextureRect" parent="Rows" index="2"]
+[node name="Diagram1" type="TextureRect" parent="Rows" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -94,7 +94,7 @@ size_flags_vertical = 1
 stretch_mode = 6
 _sections_unfolded = [ "Rect" ]
 
-[node name="Button" type="Button" parent="Rows" index="3"]
+[node name="ProceedButton" type="Button" parent="Rows" index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
