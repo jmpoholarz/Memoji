@@ -194,7 +194,7 @@ func sendAnswersForVoting(answers):
 
 func resultsPhase():
 	var promptID = $PromptManager.active_prompt_ids[currentPrompt]
-	var competitorIDs = $PromptManager.active_prompts[promptID].get_players_who_answered()
+	var competitorIDs = $PromptManager.active_prompts[promptID].get_competitors()
 	competitors = []
 	for index in range(competitorIDs.size()):
 		competitors.append(findPlayer(competitorIDs[index]))
@@ -254,11 +254,16 @@ func showResults():
 	for x in range(0,players.size()):
 		if competitors[0] == players[x]:
 			pIndex = x
+			players[x].increase_score(results1) # NEW - repalces totalScoreTally
+	# TODO: Remove this line
 	totalScoreTally[pIndex] += results1
+	
 	pIndex = 0
 	for x in range(0,players.size()):
 		if competitors[1] == players[x]:
 			pIndex = x
+			players[x].increase_score(results1) # NEW - repalces totalScoreTally
+	# TODO: Remove this line
 	totalScoreTally[pIndex] += results2
 
 func showTotalResults():

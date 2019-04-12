@@ -58,15 +58,18 @@ func displayVoters(leftPlayers, rightPlayers):
 		currentNode = get_node(voterLoc + "VotersRight/player" + str(index+1))
 		currentNode.visible = false
 	
+	# TODO: Delun - Redo the for loop
 	#show voters for the left response
 	for x in leftPlayers:
-		currentNode = get_node(voterLoc + "VotersLeft/player" + str(index+1))
-		currentNode.visible = true
-		currentNode = get_node(voterLoc + "VotersLeft/player" + str(index+1) + "/PlayerIcon")
-		currentNode.texture = load("res://Assets/m" + str(leftPlayers[index].avatarID) + ".png")
-		currentNode = get_node(voterLoc + "VotersLeft/player" + str(index+1) + "/Label")
-		currentNode.text = leftPlayers[index].username
-		index += 1
+		# NEW - Error checking
+		if (x != null):
+			currentNode = get_node(voterLoc + "VotersLeft/player" + str(index+1))
+			currentNode.visible = true
+			currentNode = get_node(voterLoc + "VotersLeft/player" + str(index+1) + "/PlayerIcon")
+			currentNode.texture = load("res://Assets/m" + str(x.avatarID) + ".png")
+			currentNode = get_node(voterLoc + "VotersLeft/player" + str(index+1) + "/Label")
+			currentNode.text = x.username
+			index += 1
 	
 	index = 0
 	
