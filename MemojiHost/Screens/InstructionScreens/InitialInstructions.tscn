@@ -15,7 +15,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." index="0"]
+[node name="Rows" type="VBoxContainer" parent="." index="0"]
 
 anchor_left = 0.5
 anchor_top = 0.5
@@ -35,15 +35,15 @@ custom_constants/separation = 20
 alignment = 1
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="InstructionsTitle" type="Label" parent="VBoxContainer" index="0"]
+[node name="InstructionsTitle" type="Label" parent="Rows" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 140.0
+margin_top = 105.0
 margin_right = 1024.0
-margin_bottom = 154.0
+margin_bottom = 119.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -56,15 +56,15 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Instructions1" type="Label" parent="VBoxContainer" index="1"]
+[node name="Instructions1" type="Label" parent="Rows" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 174.0
+margin_top = 139.0
 margin_right = 1024.0
-margin_bottom = 188.0
+margin_bottom = 153.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -77,15 +77,15 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer" index="2"]
+[node name="TextureRect" type="TextureRect" parent="Rows" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 208.0
+margin_top = 173.0
 margin_right = 1024.0
-margin_bottom = 408.0
+margin_bottom = 373.0
 rect_min_size = Vector2( 200, 200 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -97,15 +97,15 @@ expand = true
 stretch_mode = 6
 _sections_unfolded = [ "Rect" ]
 
-[node name="Instructions2" type="Label" parent="VBoxContainer" index="3"]
+[node name="Instructions2" type="Label" parent="Rows" index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 428.0
+margin_top = 393.0
 margin_right = 1024.0
-margin_bottom = 459.0
+margin_bottom = 424.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -118,5 +118,31 @@ align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[node name="Button" type="Button" parent="Rows" index="4"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 444.0
+margin_right = 1024.0
+margin_bottom = 494.0
+rect_min_size = Vector2( 400, 50 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Proceed"
+flat = false
+align = 1
+_sections_unfolded = [ "Rect" ]
 
 
