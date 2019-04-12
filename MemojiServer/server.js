@@ -164,6 +164,8 @@ if (cluster.isMaster) {
           return;
         }
         // Else Send message to Host that a player has disconnected
+        // Remove player from Host players array
+        _.remove(host.players, sock);
         const res = {
           "messageType": 132,
           "playerID": sock.id
@@ -323,11 +325,6 @@ if (cluster.isMaster) {
           writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending prompt.] Sending to Player: ${message.playerID}`);
           break;
         case 301: // Host starting game -----> Send to all Players and Audience
-          var er = existInactivePlayers(letterCode);
-          if (er == -1){
-            // There is a Player that is Not Active
-          }
-          // Else Proceed
         case 302: // Host ending game -------> Send to all Players and Audience
         case 312: // Host sending answers ---> Send to all Players and Audience
           sendToPlayersAndAudience(letterCode, message);

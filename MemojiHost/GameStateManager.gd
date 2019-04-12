@@ -298,6 +298,24 @@ func advanceGame():
 			pass
 	pass
 
+
+func updatePlayerGameState(player):
+	var message = { "messageType": 440, "playerID": playerID, "gameState": currentState }
+	match (currentState):
+		GAME_STATE.NOT_STARTED:
+			pass
+		GAME_STATE.PROMPT_PHASE:
+			pass
+		GAME_STATE.VOTE_PHASE:
+			pass
+		GAME_STATE.RESULTS_PHASE:
+			pass
+		GAME_STATE.ROUND_RESULTS:
+			pass
+		GAME_STATE.FINAL_RESULTS:
+			pass
+
+
 func quitHosting():
 	pass
 
@@ -349,12 +367,6 @@ func _on_Networking_playerConnected(playerID, isPlayer):
 	player.isPlayer = isPlayer
 	
 	if (isPlayer):
-		for dc_player in disconnected_players:
-			if dc_player.playerID == player.playerID:
-				# Previously disconnected player
-				# Handle reconnection
-				print("DEBUG MESSAGE: Player connecting had been previously connected")
-		
 		players.append(player)
 		totalScoreTally.append(0)
 		
@@ -380,6 +392,17 @@ func _on_Networking_playerDisconnected(playerID):
 			if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 					$ScreenManager.currentScreenInstance.update_audience(audiencePlayers.size())
 			return
+
+
+func _on_Networking_playerReconnected(playerID):
+	for dc_player in disconnected_players:
+			if dc_player.playerID == playerID:
+				# Previously disconnected player
+				# Handle reconnection
+				print("DEBUG MESSAGE: Player connecting had been previously connected")
+				# Update player based on gamestate
+	pass # replace with function body
+
 
 func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 	# TODO - check that no duplicate username or icon
@@ -476,3 +499,4 @@ func _on_ScreenManager_handleGameState(msg):
 		if (msg == "advance"):
 			advanceGame()
 			return
+

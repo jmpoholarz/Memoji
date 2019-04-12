@@ -28,6 +28,7 @@ enum MESSAGE_TYPES {
 	PLAYER_USERNAME_AND_AVATAR = 403,		# Sent to update player's username and avatar on the host
 	INVALID_USERNAME = 404,					# Sent when an entered username is already taken or invalid
 	ACCEPTED_USERNAME_AND_AVATAR = 405,		# Sent when an entered username/avatar are valid
+	PLAYER_RECONNECT = 406,					# Sent when a Player is reconnecting to a Host that it previously disconnected
 
 	PLAYER_SENDING_PROMPT_RESPONSE = 410,	# Sent to deliver an answer to a prompt to the host
 	INVALID_PROMPT_RESPONSE = 411,			# Sent when a prompt response is invalid
