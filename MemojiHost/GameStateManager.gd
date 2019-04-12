@@ -53,8 +53,6 @@ func on_startGame():
 	currentRound = 1
 
 func setupGame():
-	# TODO logic creating enough prompts based on amount of players for this round
-
 	# Check for if there are enough players joined
 	if players.size() <= 2:
 		# Not enough players are joined
@@ -302,7 +300,7 @@ func advanceGame():
 
 
 func updatePlayerGameState(player):
-	var message = { "messageType": 440, "playerID": playerID, "gameState": currentState }
+	var message = { "messageType": 440, "playerID": player.playerID, "gameState": currentState }
 	match (currentState):
 		GAME_STATE.NOT_STARTED:
 			pass
