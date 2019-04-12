@@ -23,6 +23,8 @@ script = ExtResource( 1 )
 
 [connection signal="playerDisconnected" from="Networking" to="." method="_on_Networking_playerDisconnected"]
 
+[connection signal="playerReconnected" from="Networking" to="." method="_on_Networking_playerReconnected"]
+
 [connection signal="receivedPlayerAnswer" from="Networking" to="." method="_on_Networking_receivedPlayerAnswer"]
 
 [connection signal="receivedPlayerDetails" from="Networking" to="." method="_on_Networking_receivedPlayerDetails"]
