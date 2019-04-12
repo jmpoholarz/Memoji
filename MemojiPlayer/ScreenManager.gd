@@ -12,6 +12,7 @@ signal sendMessageToServer(msg)
 signal connectToServer()
 signal disconnectFromServer()
 signal screen_change_completed()
+signal updateGameState(newState)
 
 enum SCREENS {
 	TITLE_SCREEN = 1,
@@ -22,6 +23,15 @@ enum SCREENS {
 	PLAYER_VOTING_SCREEN = 6,
 	PLAYER_WAITING_AFTER_VOTING_SCREEN = 7
 	
+}
+
+enum GAME_STATE {
+	NOT_STARTED = 0
+	PROMPT_PHASE = 1
+	VOTE_PHASE = 2
+	RESULTS_PHASE = 3
+	ROUND_RESULTS = 4
+	FINAL_RESULTS = 5
 }
 
 var currentScreen = -1
@@ -36,11 +46,14 @@ func changeScreenTo(screen):
 		currentScreenInstance.queue_free()
 		currentScreenInstance = null
 	
+	var currentState
+	
 	match screen:
 		TITLE_SCREEN:
 			currentScreenInstance = titleScreenScene.instance()
 			currentScreenInstance.connect("connectToServer", self, "connectToServer")
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
+			currentState = GAME_STATE.NOT_STARTED
 			
 		USERINFORMATION_SCREEN:
 			currentScreenInstance = userinfoScreenScene.instance()
@@ -49,22 +62,26 @@ func changeScreenTo(screen):
 			var GSM = get_parent() #this probably shouldn't be allowed
 			currentScreenInstance.username = GSM.playerName
 			currentScreenInstance.avatar_id = GSM.playerIcon
+			currentState = GAME_STATE.NOT_STARTED
 		
 		LOBBY_SCREEN:
 			currentScreenInstance = lobbyScreenScene.instance()
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
 			currentScreenInstance.connect("changeScreen", self, "changeScreenTo")
 			currentScreenInstance.connect("disconnectFromHost", self, "disconnectFromServer")
+			currentState = GAME_STATE.NOT_STARTED
 		
 		PLAYER_VOTING_SCREEN:
 			currentScreenInstance = playerVotingScene.instance()
 			currentScreenInstance.connect("send_message", self, "forwardMessage")
 			currentScreenInstance.connect("change_screen", self, "changeScreenTo")
+			currentState = GAME_STATE.VOTE_PHASE
 			
 		PROMPT_ANSWERING_SCREEN:
 			currentScreenInstance = prompt_answering_screen_scene.instance()
 			currentScreenInstance.connect("send_message", self, "forwardMessage")
 			currentScreenInstance.connect("out_of_prompts", self, "go_to_waiting_screen")
+			currentState = GAME_STATE.PROMPT_PHASE
 			
 		WAITING_SCREEN:
 			currentScreenInstance = wait_screen.instance()
@@ -75,6 +92,7 @@ func changeScreenTo(screen):
 	currentScreen = screen
 	add_child(currentScreenInstance)
 	emit_signal("screen_change_completed")
+	emit_signal("updateGameState", currentState)
 
 func forwardMessage(msg):
 	emit_signal("sendMessageToServer", msg)

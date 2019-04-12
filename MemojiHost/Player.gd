@@ -6,6 +6,7 @@ var isPlayer
 var vote = null # Who this player voted for: 0 for left, 1 for right
 var totalScore = 0 # NEW - used to keep track of scores for final results
 var currentPromptIDs = []
+var answeredPromptIDs = []
 
 func reset_score():
 	totalScore = 0

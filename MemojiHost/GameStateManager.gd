@@ -446,7 +446,8 @@ func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	if (currentState == GAME_STATE.PROMPT_PHASE):
 		for player in players:
 			if player.playerID == playerID:
-				player.currentPrompts.erase(promptID)
+				player.currentPromptIDs.erase(promptID)
+				player.answeredPromptIDs.append(promptID)
 		$PromptManager.set_answer(int(promptID), playerID, emojiArray)
 		message = {
 			"messageType": MESSAGE_TYPES.ACCEPTED_PROMPT_RESPONSE,
