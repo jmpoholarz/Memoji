@@ -162,7 +162,8 @@ _Sent when a Player requests to be updated on the current game state_
   messageType: 440,
   letterCode: "ABCD", (Added by Networking.gd)
   playerID: "abc-123",
-  gameState: 3
+  gameState: 3,
+  ... (Other information based on game state.)
 }
 ```
 

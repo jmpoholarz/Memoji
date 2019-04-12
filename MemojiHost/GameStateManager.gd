@@ -301,20 +301,29 @@ func advanceGame():
 	pass
 
 
-func updatePlayerGameState():
+func updatePlayerGameState(player):
+	var message = { "messageType": 440, "playerID": playerID, "gameState": currentState }
 	match (currentState):
 		GAME_STATE.NOT_STARTED:
 			pass
 		GAME_STATE.PROMPT_PHASE:
-			pass
+			# Get prompts
+			var prompts = []
+			for prompt_id in player.get_promptIDs():
+				prompts.append($PromptManager.get_prompt_by_id(prompt_id))
+			message["promptArray"] = prompts
 		GAME_STATE.VOTE_PHASE:
-			pass
+			# Get vote options
+			var promptID = $PromptManager.active_prompt_ids[currentPrompt]
+			var answers = $PromptManager.get_answers_to_prompt(promptID)
+			message["answers"] = answers
 		GAME_STATE.RESULTS_PHASE:
 			pass
 		GAME_STATE.ROUND_RESULTS:
 			pass
 		GAME_STATE.FINAL_RESULTS:
 			pass
+	$Networking.sendMessageToServer(message)
 
 
 func quitHosting():
@@ -402,6 +411,8 @@ func _on_Networking_playerReconnected(playerID):
 				# Handle reconnection
 				print("DEBUG MESSAGE: Player connecting had been previously connected")
 				# Update player based on gamestate
+				players.append(dc_player)
+				updatePlayerGameState(dc_player)
 	pass # replace with function body
 
 
@@ -430,6 +441,9 @@ func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	print ("DEBUG: received player answer")
 	
 	if (currentState == GAME_STATE.PROMPT_PHASE):
+		for player in players:
+			if player.playerID == playerID:
+				player.currentPrompts.erase(promptID)
 		$PromptManager.set_answer(int(promptID), playerID, emojiArray)
 		message = {
 			"messageType": MESSAGE_TYPES.ACCEPTED_PROMPT_RESPONSE,
