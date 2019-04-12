@@ -11,6 +11,15 @@ var lobbyCode = "????"
 
 var current_prompts = []
 
+enum GAME_STATE {
+	NOT_STARTED = 0
+	PROMPT_PHASE = 1
+	VOTE_PHASE = 2
+	RESULTS_PHASE = 3
+	ROUND_RESULTS = 4
+	FINAL_RESULTS = 5
+}
+
 func _ready():
 	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
 	
@@ -138,10 +147,28 @@ func _on_Networking_gameStartedByHost():
 
 
 
+func _on_Networking_updatePlayerGameState(messageDict):
+	match (currentState):
+		GAME_STATE.NOT_STARTED:
+			pass
+		GAME_STATE.PROMPT_PHASE:
+			pass
+		GAME_STATE.VOTE_PHASE:
+			pass
+		GAME_STATE.RESULTS_PHASE:
+			pass
+		GAME_STATE.ROUND_RESULTS:
+			pass
+		GAME_STATE.FINAL_RESULTS:
+			pass
+	pass # replace with function body
+
+
 func _on_ScreenManager_sendMessageToServer(msg):
 	#print("in GSM with message " + str(msg))
 	if player != null:
 		msg["playerID"] = player.playerID
 	$Networking.sendMessageToServer(msg)
+
 
 

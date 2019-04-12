@@ -6,8 +6,8 @@ enum MESSAGE_TYPES {
 	SERVER_MESSAGE_ERROR = 100,				# Sent from server when error parsing
 
 	HOST_REQUESTING_CODE = 110,				# Sent from host when setting up server
-	SERVER_SENDING_CODE = 111,				# Sent from server when first delivering ABCD code
-	VALID_SERVER_CODE = 112,				# Sent when player enters a valid code
+	SERVER_SENDING_CODE = 111,				# Sent when first delivering ABCD code
+	VALID_SERVER_CODE = 112					# Sent when player enters a valid code
 	INVALID_SERVER_CODE = 113,				# Sent when player enters an invalid code
 
 	SERVER_PING = 120,						# Sent when server is checking if the game is still active
@@ -15,6 +15,7 @@ enum MESSAGE_TYPES {
 
 	HOST_SHUTTING_DOWN = 130,				# Sent when host has closed their game session
 	SERVER_FORCE_DISCONNECT_CLIENT = 131,	# Sent when the server forces a player to disconnect
+	PLAYER_BAD_DISCONNECT = 132				# Sent when a Player does not gracefully disconnect
 
 	HOST_STARTING_GAME = 301,				# Sent to advance players to blank screen before prompts
 	HOST_ENDING_GAME = 302,					# Sent to advance players back to join game screen where they can quit
@@ -27,6 +28,7 @@ enum MESSAGE_TYPES {
 	PLAYER_USERNAME_AND_AVATAR = 403,		# Sent to update player's username and avatar on the host
 	INVALID_USERNAME = 404,					# Sent when an entered username is already taken or invalid
 	ACCEPTED_USERNAME_AND_AVATAR = 405,		# Sent when an entered username/avatar are valid
+	PLAYER_RECONNECT = 406,					# Sent when a Player is reconnecting to a Host that it previously disconnected
 
 	PLAYER_SENDING_PROMPT_RESPONSE = 410,	# Sent to deliver an answer to a prompt to the host
 	INVALID_PROMPT_RESPONSE = 411,			# Sent when a prompt response is invalid
@@ -37,6 +39,9 @@ enum MESSAGE_TYPES {
 	PLAYER_SENDING_MULTI_VOTE = 430,		# Sent to deliver an answer to the final round to the host
 	INVALID_MULTI_VOTE = 431,				#
 	ACCEPTED_MULTI_VOTE = 432,				#
+	UPDATE_PLAYER_GAME_STATE = 440,			# Sent when a Player requests to be updated on the current game state
+	
+	INVALID_MESSAGE_JSON = 601,				# Sent from server if message received is invalid JSON
 
 	FINAL # Honestly just here so I don't have to re-add the comma etc.
 }
