@@ -301,19 +301,20 @@ func advanceGame():
 	pass
 
 
-func updatePlayerGameState():
+func updatePlayerGameState(player):
+	var message = { "messageType": 440, "playerID": playerID, "gameState": currentState }
 	match (currentState):
-		GAMESTATE.NOT_STARTED:
+		GAME_STATE.NOT_STARTED:
 			pass
-		GAMESTATE.PROMPT_PHASE:
+		GAME_STATE.PROMPT_PHASE:
 			pass
-		GAMESTATE.VOTE_PHASE:
+		GAME_STATE.VOTE_PHASE:
 			pass
-		GAMESTATE.RESULTS_PHASE:
+		GAME_STATE.RESULTS_PHASE:
 			pass
-		GAMESTATE.ROUND_RESULTS:
+		GAME_STATE.ROUND_RESULTS:
 			pass
-		GAMESTATE.FINAL_RESULTS:
+		GAME_STATE.FINAL_RESULTS:
 			pass
 
 
