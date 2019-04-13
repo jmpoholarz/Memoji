@@ -131,6 +131,7 @@ if (cluster.isMaster) {
     console.log('client connected');
 
     socket.on('end', () => {
+      console.log("Client disconnected");
       // Client disconnected
       // Find out if this is a host, player, or audience_member
       var sock = undefined;
@@ -142,8 +143,8 @@ if (cluster.isMaster) {
       if (sock !== undefined) {
         console.log("Client that disconnected was a Host");
         // Handle Host properly
-        console.log(`letterCode: ${sock.letterCode}`);
-        handleHostDisConn(sock.letterCode);
+        console.log(`letterCode: ${sock.code}`);
+        handleHostDisConn(sock.code);
         return;
       }
       // Not a Host
@@ -152,15 +153,17 @@ if (cluster.isMaster) {
         return player.socket === socket;
       });
       if (sock !== undefined) {
-        console.log("Client that disconnected was a Player");
+        console.log("Client that disconnected was a Player:");
+        console.log(sock);
+        console.log(`LetterCode: ${sock.code}`);
         // Handle Player properly
         _.remove(players, sock);
         sock.isActive = false;
         players.push(sock);
         // Find Host for this player
-        const host = _.find(hosts, ['code', sock.letterCode]);
+        const host = _.find(hosts, ['code', sock.code]);
         if (host == undefined) {
-          console.error(`Issue finding host with letterCode: ${sock.letterCode}`);
+          console.error(`Issue finding host with letterCode: ${sock.code}`);
           return;
         }
         // Else Send message to Host that a player has disconnected
@@ -168,9 +171,11 @@ if (cluster.isMaster) {
         _.remove(host.players, sock);
         const res = {
           "messageType": 132,
-          "playerID": sock.id
+          "letterCode": sock.code,
+          "playerID": sock.id,
+          "isPlayer": true
         }
-        sendToHost(sock.letterCode, res);
+        sendToHost(sock.code, res);
         return;
       }
       // Is this an Audience Member?
@@ -181,6 +186,13 @@ if (cluster.isMaster) {
         console.log("Client that disconnected was an Audience");
         // Handle Audience properly
 
+        const res = {
+          "messageType": 132,
+          "letterCode": sock.code,
+          "playerID": sock.id,
+          "isPlayer": false
+        }
+        sendToHost(sock.code, res);
         return;
       }
 
@@ -220,6 +232,7 @@ if (cluster.isMaster) {
         return;
       }
 
+      console.log("Message:");
       console.log(message);
 
       // See what message type (action)
@@ -1029,7 +1042,14 @@ function sendToPlayersAndAudience(letterCode, message) {
 
 
 function sendToHost(letterCode, message) {
+  console.log(message);
   const host = _.find(hosts, ['code', letterCode]);
+  if (host == undefined) {
+    console.error(`There was an issue finding the Host with letterCode: ${letterCode}`);
+    console.error(hosts);
+    console.error("====================");
+    return;
+  }
   send(host.socket, JSON.stringify(message));
 }
 
