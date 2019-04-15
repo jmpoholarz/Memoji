@@ -33,6 +33,25 @@ func sendAnswer():
 func sendAnswersForVoting():
 	pass
 
+func handleReceivedPrompt(prompt_id, prompt_text):
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN)
+		if $ScreenManager.currentScreen != $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
+			yield($ScreenManager, "screen_change_completed") # Needs testing
+		current_prompts.append([prompt_id, prompt_text])
+		$ScreenManager.currentScreenInstance.add_prompts([[prompt_id, prompt_text]])
+		$ScreenManager.currentScreenInstance.get_next_prompt()
+	elif $ScreenManager.currentScreen == $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
+		current_prompts.append([prompt_id, prompt_text])
+		$ScreenManager.currentScreenInstance.add_prompts([[prompt_id, prompt_text]])
+
+
+func handleReceivedAnswers(answers):
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
+		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
+			$ScreenManager.currentScreenInstance.set_answers(answers)
+
 func connectToServer():
 	#Sprint("in GSM connectToServer")
 	$Networking.connectPlayerToServer($Networking.defaultServerIP, $Networking.defaultServerPort)
@@ -50,11 +69,7 @@ func _on_Networking_connectionTimeout():
 
 func _on_Networking_answersReceived(answers):
 	print("received answers")
-	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
-		$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
-		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
-			$ScreenManager.currentScreenInstance.set_answers(answers)
-	pass # replace with function body
+	handleReceivedAnswers(answers)
 	#Manoj
 
 func _on_Networking_enteredInvalidAnswer():
@@ -83,17 +98,7 @@ func _on_Networking_enteredInvalidUsername():
 	pass # replace with function body
 
 func _on_Networking_promptReceived(promptID, prompt):
-	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
-		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN)
-		# Wait for the screen to change to the Prompt Screen before continuing
-		if $ScreenManager.currentScreen != $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
-			yield($ScreenManager, "screen_change_completed") # Needs testing
-		current_prompts.append([promptID, prompt])
-		$ScreenManager.currentScreenInstance.add_prompts([[promptID, prompt]])
-		$ScreenManager.currentScreenInstance.get_next_prompt()
-	elif $ScreenManager.currentScreen == $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
-		current_prompts.append([promptID, prompt])
-		$ScreenManager.currentScreenInstance.add_prompts([[promptID, prompt]])
+	handleReceivedPrompt(promptID, prompt)
 
 
 func _on_Networking_enteredValidAnswer():
@@ -154,15 +159,22 @@ func _on_Networking_updatePlayerGameState(messageDict):
 		GAME_STATE.PROMPT_PHASE:
 			# We have prompts to answer
 			# Look at received prompts
-			pass
+			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
+			for x in range(messageDict["promptIDs"].size()):
+				handleReceivedPrompt(messageDict["promptIDs"][x], messageDict["promptText"][x])
 		GAME_STATE.VOTE_PHASE:
 			# We have voting to do
+			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
+			handleReceivedAnswers(messageDict["answers"])
 			pass
 		GAME_STATE.RESULTS_PHASE:
+			# TODO
 			pass
 		GAME_STATE.ROUND_RESULTS:
+			# TODO
 			pass
 		GAME_STATE.FINAL_RESULTS:
+			# TODO
 			pass
 	pass # replace with function body
 
