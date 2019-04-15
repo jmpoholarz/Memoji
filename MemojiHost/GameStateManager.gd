@@ -28,13 +28,13 @@ func findPlayer(id):
 		if (p.playerID == id):
 			return p
 	return null
-	
+
 func debug_to_lobby():
 	$ScreenManager.changeScreenTo(GlobalVars.LOBBY_SCREEN)
-	
+
 	var request = { "messageType": MESSAGE_TYPES.HOST_REQUESTING_CODE, "letterCode": "????" }
 	_on_ScreenManager_sendMessageToServer(request)
-	
+
 func _ready():
 	$ScreenManager.connect("connectToServer", self, "connectToServer")
 	$Networking.connect("_disconnectedFromServer", self, "on_Networking_connectionTimeout")
@@ -68,36 +68,36 @@ func setupGame():
 			if $ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN:
 				$ScreenManager.currentScreenInstance.showNotAllPlayersHaveAvatar()
 			return
-	
+
 	# Everything ok to start
 	currentState = GAME_STATE.PROMPT_PHASE
 	for player in players: # Clear prompts left from last round
 		player.clear_prompts()
-	
+
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
 	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
-	
+
 	# Create message to send to players that game is starting
-	var message = {"messageType":MESSAGE_TYPES.HOST_STARTING_GAME, 
+	var message = {"messageType":MESSAGE_TYPES.HOST_STARTING_GAME,
 				"letterCode" : lobbyCode}
 	# Send message to server
 	$Networking.sendMessageToServer(message)
 	yield(get_tree().create_timer(1), "timeout")
-	
+
 	sendPrompts()
 
 func sendPrompts():
 	# Create message dictionary
 	var messages_to_send = pair_players(players.size())
-	
+
 	print(messages_to_send)
 	for m in messages_to_send:
 		$Networking.sendMessageToServer(m)
 		yield(get_tree().create_timer(1), "timeout")
-	
+
 	pass
-	
+
 func shufflePlayers(numPlayers):
 	var shuffled_players = []
 	var copy_players = [] + players
@@ -139,7 +139,7 @@ func pair_players(numPlayers):
 		# Store information in each player for which prompts they should answer
 		shuffled_players[i % numPlayers].add_promptID(prompt.prompt_id)
 		shuffled_players[(i + 1) % numPlayers].add_promptID(prompt.prompt_id)
-		
+
 		# Check if prompt contains <username>
 		var prompt_text = prompt.get_prompt_text()
 		prompt.set_prompt_text(parse_prompt(prompt_text))
@@ -163,14 +163,14 @@ func votePhase(): # handle voting for one prompt
 	var answers # Array
 	var promptID # Integer
 	var promptObj
-	
+
 	promptID = $PromptManager.active_prompt_ids[currentPrompt]
 	answers = $PromptManager.get_answers_to_prompt(promptID)
 	promptObj = $PromptManager.active_prompts[promptID]
-	
+
 	print("DEBUG: entered votephase")
 	currentState = GAME_STATE.VOTE_PHASE
-	
+
 	# Change to VotingScreen if not already there and update it
 	if ($ScreenManager.currentScreen != GlobalVars.SCREENS.VOTE_SCREEN):
 		$ScreenManager.changeScreenTo(GlobalVars.SCREENS.VOTE_SCREEN)
@@ -182,7 +182,7 @@ func votePhase(): # handle voting for one prompt
 func sendAnswersForVoting(answers):
 	print("DEBUG: sendAnswersForVoting!!!!")
 	var message
-	
+
 	for index in range(answers.size()):
 		message = {
 			"messageType": MESSAGE_TYPES.HOST_SENDING_ANSWERS,
@@ -198,7 +198,7 @@ func resultsPhase():
 	competitors = []
 	for index in range(competitorIDs.size()):
 		competitors.append(findPlayer(competitorIDs[index]))
-		
+
 	currentState = GAME_STATE.RESULTS_PHASE
 	showResults()
 
@@ -215,26 +215,26 @@ func showResults():
 	var rightVoterIDs
 	var leftVoters = [] # Player array - Voted for left answer
 	var rightVoters = [] # Player array - Voted for right answer
-	
+
 	promptID = $PromptManager.active_prompt_ids[currentPrompt]
 	answers = $PromptManager.get_answers_to_prompt(promptID)
 	leftVoterIDs = $PromptManager.get_supporters(promptID, 0)
 	rightVoterIDs = $PromptManager.get_supporters(promptID, 1)
-	
+
 	leftVoters.resize(leftVoterIDs.size())
 	rightVoters.resize(rightVoterIDs.size())
-	
+
 	for index in range(leftVoterIDs.size()):
 		leftVoters[index] = findPlayer(leftVoterIDs[index])
 	for index in range(rightVoterIDs.size()):
 		rightVoters[index] = findPlayer(rightVoterIDs[index])
-	
+
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
 	$ScreenManager.currentScreenInstance.displayAnswers(answers)
 	#variables for keeping number of votes and later each calculated player score
 	var results1 = $PromptManager.get_votes(promptID, 0)
 	var results2 = $PromptManager.get_votes(promptID, 1)
-	
+
 	#currentPlayerVotes
 	#tally votes for each result
 	#for vote in currentPlayerVotes:
@@ -282,11 +282,11 @@ func advanceGame():
 			print("DEBUG: Calling votephase")
 			currentPrompt = 0
 			votePhase()
-			
+
 		GAME_STATE.VOTE_PHASE:
 			resultsPhase()
-			
-		GAME_STATE.RESULTS_PHASE: # Which prompt won in one phase of voting 
+
+		GAME_STATE.RESULTS_PHASE: # Which prompt won in one phase of voting
 			# TODO: check if last round of voting, then continue to final prompt
 			currentPrompt += 1
 			if (currentPrompt < players.size()): # Check for prompt completion
@@ -306,10 +306,13 @@ func updatePlayerGameState(player):
 			pass
 		GAME_STATE.PROMPT_PHASE:
 			# Get prompts
-			var prompts = []
+			var prompt_IDs = []
+			var prompt_text = []
 			for prompt_id in player.get_promptIDs():
-				prompts.append($PromptManager.get_prompt_by_id(prompt_id))
-			message["promptArray"] = prompts
+				prompt_IDs.append(prompt_id)
+				prompt_text.append($PromptManager.get_prompt_by_id(prompt_id).get_prompt_text())
+			message["promptIDs"] = prompt_IDs
+			message["promptText"] = prompt_text
 		GAME_STATE.VOTE_PHASE:
 			# Get vote options
 			var promptID = $PromptManager.active_prompt_ids[currentPrompt]
@@ -334,17 +337,17 @@ func toTitle():
 		$Networking.sendMessageToServer(endRequest)
 	# Disconnect even if lobby code hasn't been requested yet
 	$Networking.disconnectHostFromServer()
-		
+
 	players.clear()
 	audiencePlayers.clear()
 	currentState = GAME_STATE.NOT_STARTED
 	totalScoreTally.clear()
 	competitors.clear()
 	lobbyCode = null
-	
+
 	# TODO Sprint 2: handle currentState, currentRound
 	$ScreenManager.changeScreenTo(GlobalVars.TITLE_SCREEN)
-	
+
 func connectToServer():
 	$Networking.connectHostToServer($Networking.defaultServerIP, $Networking.defaultServerPort)
 
@@ -359,7 +362,7 @@ func on_Networking_successful():
 
 func _on_Networking_obtainedLetterCode(letterCode):
 	lobbyCode = letterCode
-	
+
 	if ($ScreenManager.currentScreen == GlobalVars.SETUP_SCREEN):
 		$ScreenManager.currentScreenInstance.update_lettercode(letterCode)
 		pass
@@ -373,18 +376,18 @@ func _on_Networking_playerConnected(playerID, isPlayer):
 	player = GlobalVars.PlayerClass.new()
 	player.playerID = playerID
 	player.isPlayer = isPlayer
-	
+
 	if (isPlayer):
 		players.append(player)
 		totalScoreTally.append(0)
-		
+
 		if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 			$ScreenManager.currentScreenInstance.add_player_id(playerID)
 	else:
 		audiencePlayers.append(player)
 		if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 			$ScreenManager.currentScreenInstance.update_audience(audiencePlayers.size())
-	
+
 func _on_Networking_playerDisconnected(playerID):
 	# Remove player from array
 	for player in players:
@@ -393,7 +396,7 @@ func _on_Networking_playerDisconnected(playerID):
 			if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 				$ScreenManager.currentScreenInstance.update_from_list(players)
 			return # unecessary to check audience since player already found
-	
+
 	for member in audiencePlayers:
 		if (member.playerID == playerID):
 			audiencePlayers.erase(member)
@@ -420,24 +423,24 @@ func _on_Networking_receivedPlayerDetails(playerID, username, avatarIndex):
 		if player.playerID == playerID:
 			player.username = username
 			player.avatarID = int(avatarIndex)
-			
-			var message = {"messageType":MESSAGE_TYPES.ACCEPTED_USERNAME_AND_AVATAR, 
+
+			var message = {"messageType":MESSAGE_TYPES.ACCEPTED_USERNAME_AND_AVATAR,
 				"letterCode" : lobbyCode,
 				"playerID" : playerID,
 				"username" : username,
 				"avatarIndex" : avatarIndex}
 			$Networking.sendMessageToServer(message)
-			
+
 			if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 				$ScreenManager.currentScreenInstance.update_player_status(player)
 
 func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	var message
-	
+
 	promptID = int(promptID)
-	
+
 	print ("DEBUG: received player answer")
-	
+
 	if (currentState == GAME_STATE.PROMPT_PHASE):
 		for player in players:
 			if player.playerID == playerID:
@@ -453,32 +456,32 @@ func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 
 		if ($PromptManager.check_completion()):
 			advanceGame()
-	
-	
+
+
 func _on_Networking_receivedPlayerVote(playerID, voteID):
 	#currentPlayerVotes[playerID] = voteID
 	var message
 	var promptID
-	
+
 	if (currentState == GAME_STATE.VOTE_PHASE):
 		promptID = $PromptManager.active_prompt_ids[currentPrompt]
 		voteID = int(voteID)
-		
+
 		# TODO: Error check
 		var temp = $PromptManager.set_vote(promptID, playerID, voteID)
 		print("DEBUG: set_vote - ", temp)
-		
+
 		message = {
 			"messageType": MESSAGE_TYPES.ACCEPTED_VOTE_RESPONSE,
 			"letterCode": lobbyCode,
 			"playerID": playerID
 		}
 		$Networking.sendMessageToServer(message)
-		
+
 		# Check that all votes are in
 		if ($PromptManager.check_votes(promptID, players.size())):
 			advanceGame()
-		
+
 
 func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
 	pass # replace with function body
@@ -513,4 +516,3 @@ func _on_ScreenManager_handleGameState(msg):
 		if (msg == "advance"):
 			advanceGame()
 			return
-
