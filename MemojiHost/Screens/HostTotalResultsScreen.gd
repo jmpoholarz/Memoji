@@ -15,9 +15,8 @@ func displayResults(scores, players):
 			y -= 1
 	#place every player is their correct location, and make them visible
 	#displayPlace is the displayed place of players
-	var tieWithPrev = false
 	ordered.append(0)
-	var displayPlace = 1
+	var displayPlace = 2
 	var lastScore = ordered[0]
 	var remainingPlayers = [] + players
 	var currentIndex = 0
@@ -32,11 +31,14 @@ func displayResults(scores, players):
 			if(scores[i] == ordered[0]):
 				currentIndex = i
 		#place the player in their correct place, displaying their place, making sure they are visible
+		if(ordered[0] == lastScore):
+			displayPlace -= 1
 		if(currentPlace < 5):
 			placeNode = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace))
 			placeNodeLabel = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place"+str(currentPlace)+"/PlaceLabel")
 			placeNodeText = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace) + "/PlayerName")
 			placeNodeIcon = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace) + "/PlayerIcon")
+			placeNodeLabel.text = str(displayPlace)+":"
 			placeNodeText.text = remainingPlayers[currentIndex].username + ":  " + str(ordered[0])
 			lastScore = ordered[0]
 			placeNodeIcon.texture = load("res://Assets/m"+ str(remainingPlayers[currentIndex].avatarID) +".png")
@@ -46,6 +48,7 @@ func displayResults(scores, players):
 			placeNodeLabel = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place"+str(currentPlace)+"/PlaceLabel")
 			placeNodeText = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerName")
 			placeNodeIcon = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerIcon")
+			placeNodeLabel.text = str(displayPlace)+":"
 			placeNodeText.text = remainingPlayers[currentIndex].username + ":  " + str(ordered[0])
 			lastScore = ordered[0]
 			placeNodeIcon.texture = load("res://Assets/m"+ str(remainingPlayers[currentIndex].avatarID) +".png")
