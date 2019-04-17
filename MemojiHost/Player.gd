@@ -19,6 +19,7 @@ func get_score():
 
 func clear_prompts():
 	currentPromptIDs.clear()
+	answeredPromptIDs.clear() # NEW - clears both arrays now
 	
 func add_promptID(id):
 	currentPromptIDs.append(id)

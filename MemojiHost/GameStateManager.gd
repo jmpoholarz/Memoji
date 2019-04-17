@@ -21,6 +21,9 @@ enum GAME_STATE {
 	RESULTS_PHASE = 3
 	ROUND_RESULTS = 4
 	FINAL_RESULTS = 5
+	MULTI_PROMPT_PHASE = 6
+	MULTI_VOTE_PHASE = 7
+	MULTI_RESULTS_PHASE = 8
 }
 
 # arr - array to look in # id - playerID
@@ -73,6 +76,8 @@ func setupGame():
 	# Everything ok to start
 	currentState = GAME_STATE.PROMPT_PHASE
 	for player in players: # Clear prompts left from last round
+		player.vote = null
+		player.totalScore = 0
 		player.clear_prompts()
 
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
@@ -171,6 +176,14 @@ func votePhase(): # handle voting for one prompt
 
 	print("DEBUG: entered votephase")
 	currentState = GAME_STATE.VOTE_PHASE
+
+	# TODO: Reset everyone's stored votes
+	for p in players:
+		pass
+	for p in audiencePlayers:
+		pass
+	for p in disconnected_players:
+		pass
 
 	# Change to VotingScreen if not already there and update it
 	if ($ScreenManager.currentScreen != GlobalVars.SCREENS.VOTE_SCREEN):
@@ -474,13 +487,16 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 		promptID = $PromptManager.active_prompt_ids[currentPrompt]
 		voteID = int(voteID)
 
-		# TODO: Error check - is it audience
-		# TODO: Update player/audience objects to store vote
-		
+		# Update player/audience objects to store vote
 		playerObj = findPlayer(players, playerID)
+		if (playerObj == null): # Find audience if not a player
+			playerObj = findPlayer(audiencePlayers, playerID)
+		
 		if (playerObj != null):
 			playerObj.vote = voteID
-		
+			print("DEBUG: recorded vote of ", playerID)
+			
+		# TODO: Edit this line to handle audiences
 		var temp = $PromptManager.set_vote(promptID, playerID, voteID)
 		print("DEBUG: set_vote - ", temp)
 
