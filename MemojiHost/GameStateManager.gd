@@ -198,7 +198,7 @@ func resultsPhase():
 	var competitorIDs = $PromptManager.active_prompts[promptID].get_competitors()
 	competitors = []
 	for index in range(competitorIDs.size()):
-		competitors.append(findPlayer(competitorIDs[index]))
+		competitors.append(findPlayer(players, competitorIDs[index]))
 
 	currentState = GAME_STATE.RESULTS_PHASE
 	showResults()
