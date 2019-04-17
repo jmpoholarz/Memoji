@@ -22,6 +22,7 @@ func displayResults(scores, players):
 	var currentIndex = 0
 	var currentPlace = 1
 	var placeNode = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place1")
+	var placeNodeLabel
 	var placeNodeText
 	var placeNodeIcon
 	#while there are still players that have not been placed
