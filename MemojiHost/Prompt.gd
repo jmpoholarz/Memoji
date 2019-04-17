@@ -2,6 +2,7 @@ var prompt_id
 var prompt_text
 var player_answers = [] # Stores the players who are answering the prompt as well as their answer
 var player_votes = []
+var audience_votes = []
 
 var answers_completed = 0 # how many answers have been answered
 
