@@ -46,7 +46,7 @@ func displayResults(scores, players):
 			placeNode.visible = true
 		else:
 			placeNode = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace))
-			placeNodeLabel = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place"+str(currentPlace)+"/PlaceLabel")
+			placeNodeLabel = get_node("MarginContainer/Rows/Columns/ResultsRight/Place"+str(currentPlace)+"/PlaceLabel")
 			placeNodeText = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerName")
 			placeNodeIcon = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerIcon")
 			placeNodeLabel.text = str(displayPlace)+":"
