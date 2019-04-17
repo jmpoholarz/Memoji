@@ -8,10 +8,10 @@ signal sendMessage(message)
 var NUMBER_OF_AVATARS = 8
 var BUTTON_SIZE = 100
 # Onreadys
-onready var _TextBox = $MarginContainer/VBoxContainer/HBoxContainer/TextEdit
+onready var _TextBox = $MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TextEdit
 onready var _TextureRect = $MarginContainer/VBoxContainer/HBoxContainer/AvatarTextureRect
 onready var _SubmitButton = $MarginContainer/VBoxContainer/MarginContainer/SubmitButton
-onready var _GridContainer = $MarginContainer/VBoxContainer/VBoxContainer2/ScrollContainer/GridContainer
+onready var _GridContainer = $MarginContainer/VBoxContainer/ScrollContainer/GridContainer
 
 onready var _ProcessingLabel = $ProcessingLabel
 onready var _UsernameErrorPopup = $UsernameErrorPopup
@@ -54,7 +54,7 @@ func _on_avatar_button_pressed(id):
 	_TextureRect.texture = load(AvatarIdToFilename.AvatarIdToFilenameDict[int(avatar_id)])
 
 
-func _on_TextEdit_text_changed():
+func _on_TextEdit_text_changed(x):
 	username = _TextBox.text
 
 

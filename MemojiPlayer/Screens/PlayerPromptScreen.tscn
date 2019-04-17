@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Screens/PlayerPromptScreen.gd" type="Script" id=1]
-[ext_resource path="res://Screens/Elements/EmojiCanvasEditor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Themes/grey_window_theme.tres" type="Theme" id=2]
+[ext_resource path="res://Screens/Elements/EmojiCanvasEditor.tscn" type="PackedScene" id=3]
 
-[node name="PlayerPromptScreen" type="Node" index="0"]
+[node name="PlayerPromptScreen" type="Node"]
 
 script = ExtResource( 1 )
 
@@ -19,6 +20,8 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
+theme = ExtResource( 2 )
+_sections_unfolded = [ "Theme" ]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel" index="0"]
 
@@ -41,7 +44,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 480.0
-margin_bottom = 28.0
+margin_bottom = 40.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -63,7 +66,7 @@ anchor_bottom = 0.0
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 476.0
-margin_bottom = 24.0
+margin_bottom = 36.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -79,9 +82,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 3.0
-margin_right = 418.0
-margin_bottom = 17.0
+margin_top = 2.0
+margin_right = 398.0
+margin_bottom = 30.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -102,9 +105,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 422.0
-margin_right = 426.0
-margin_bottom = 20.0
+margin_left = 402.0
+margin_right = 406.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -118,9 +121,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 430.0
+margin_left = 410.0
 margin_right = 472.0
-margin_bottom = 20.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -138,11 +141,11 @@ flat = false
 align = 2
 _sections_unfolded = [ "Size Flags" ]
 
-[node name="EmojiCanvasEditor" parent="Panel/VBoxContainer" index="1" instance=ExtResource( 2 )]
+[node name="EmojiCanvasEditor" parent="Panel/VBoxContainer" index="1" instance=ExtResource( 3 )]
 
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 32.0
+margin_top = 44.0
 margin_right = 480.0
 margin_bottom = 800.0
 size_flags_vertical = 3

@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Screens/UserInformationScreen.gd" type="Script" id=1]
-[ext_resource path="res://Screens/Elements/ErrorPopup.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Themes/grey_window_theme.tres" type="Theme" id=1]
+[ext_resource path="res://Screens/UserInformationScreen.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Avatars/unknown.png" type="Texture" id=3]
+[ext_resource path="res://Screens/Elements/ErrorPopup.tscn" type="PackedScene" id=4]
 
 [node name="UserInformationScreen" type="Panel" index="0"]
 
@@ -15,8 +17,9 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 1 )
-_sections_unfolded = [ "Margin" ]
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+_sections_unfolded = [ "Theme" ]
 
 [node name="MarginContainer" type="MarginContainer" parent="." index="0"]
 
@@ -55,6 +58,7 @@ alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -69,16 +73,32 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 1
 
-[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 83.0
-margin_top = 41.0
-margin_right = 168.0
-margin_bottom = 55.0
+margin_left = 34.0
+margin_right = 226.0
+margin_bottom = 96.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 10
+size_flags_vertical = 1
+alignment = 0
+_sections_unfolded = [ "Size Flags" ]
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 192.0
+margin_bottom = 28.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -86,64 +106,57 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
 text = "Enter name:  "
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="TextEdit" type="TextEdit" parent="MarginContainer/VBoxContainer/HBoxContainer" index="1"]
+[node name="TextEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 172.0
-margin_top = 36.0
-margin_right = 272.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 100, 24 )
+margin_top = 32.0
+margin_right = 192.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 192, 36 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
+mouse_default_cursor_shape = 1
+size_flags_horizontal = 4
 size_flags_vertical = 4
-text = ""
-readonly = false
-highlight_current_line = false
-syntax_highlighting = false
-show_line_numbers = false
-highlight_all_occurrences = false
-override_selected_font_color = false
+align = 1
+max_length = 12
+focus_mode = 2
 context_menu_enabled = true
-smooth_scrolling = false
-v_scroll_speed = 80.0
-hiding_enabled = 0
-wrap_lines = false
-caret_block_mode = false
+placeholder_alpha = 0.6
 caret_blink = false
 caret_blink_speed = 0.65
-caret_moving_by_right_click = true
-_sections_unfolded = [ "Size Flags" ]
+caret_position = 0
+_sections_unfolded = [ "Rect", "Size Flags" ]
 
-[node name="AvatarTextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer" index="2"]
+[node name="AvatarTextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 276.0
-margin_right = 372.0
+margin_left = 295.0
+margin_right = 391.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 96, 96 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
+size_flags_horizontal = 6
 size_flags_vertical = 1
+texture = ExtResource( 3 )
 stretch_mode = 4
-_sections_unfolded = [ "Rect" ]
+_sections_unfolded = [ "Rect", "Size Flags" ]
 
 [node name="SelectEmojiLabel" type="Label" parent="MarginContainer/VBoxContainer" index="1"]
 
@@ -153,7 +166,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 100.0
 margin_right = 456.0
-margin_bottom = 114.0
+margin_bottom = 159.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -162,37 +175,21 @@ size_flags_horizontal = 1
 size_flags_vertical = 4
 text = "Select your emoji avatar from the list below:  "
 align = 1
+autowrap = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Size Flags" ]
 
-[node name="VBoxContainer2" type="CenterContainer" parent="MarginContainer/VBoxContainer" index="2"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 118.0
+margin_top = 163.0
 margin_right = 456.0
 margin_bottom = 702.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 3
-use_top_left = false
-
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 78.0
-margin_top = 192.0
-margin_right = 378.0
-margin_bottom = 392.0
 rect_min_size = Vector2( 300, 200 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = true
@@ -205,23 +202,24 @@ scroll_horizontal = 0
 scroll_vertical_enabled = true
 scroll_vertical = 0
 scroll_deadzone = 0
-_sections_unfolded = [ "Scroll", "Size Flags" ]
+_sections_unfolded = [ "Rect", "Scroll" ]
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2/ScrollContainer" index="0"]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/ScrollContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 300.0
-margin_bottom = 200.0
+margin_left = 228.0
+margin_right = 228.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_horizontal = 6
+size_flags_vertical = 4
 columns = 2
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer" index="3"]
 
@@ -268,12 +266,12 @@ flat = false
 align = 1
 _sections_unfolded = [ "Size Flags" ]
 
-[node name="UsernameErrorPopup" parent="." index="1" instance=ExtResource( 2 )]
+[node name="UsernameErrorPopup" parent="." index="1" instance=ExtResource( 4 )]
 
 visible = false
 label_text = "Please enter a username!"
 
-[node name="AvatarErrorPopup" parent="." index="2" instance=ExtResource( 2 )]
+[node name="AvatarErrorPopup" parent="." index="2" instance=ExtResource( 4 )]
 
 visible = false
 label_text = "Please select an avatar!"
@@ -285,10 +283,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -40.5
-margin_top = -7.0
-margin_right = 40.5
-margin_bottom = 7.0
+margin_left = -75.5
+margin_top = -14.0
+margin_right = 75.5
+margin_bottom = 14.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -300,12 +298,12 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="UsernameCharacterErrorPopup" parent="." index="4" instance=ExtResource( 2 )]
+[node name="UsernameCharacterErrorPopup" parent="." index="4" instance=ExtResource( 4 )]
 
 visible = false
 label_text = "Username contains disallowed characters."
 
-[connection signal="text_changed" from="MarginContainer/VBoxContainer/HBoxContainer/TextEdit" to="." method="_on_TextEdit_text_changed"]
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/TextEdit" to="." method="_on_TextEdit_text_changed"]
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/SubmitButton" to="." method="_on_SubmitButton_pressed"]
 
