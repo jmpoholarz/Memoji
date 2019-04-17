@@ -44,10 +44,6 @@ func get_answers_to_prompt(prompt_id): # Returns array of EmojiArrays
 	
 	return answers
 	
-func get_players(prompt_id):
-	
-	pass
-	
 func get_votes(prompt_id, vote_index):
 	var promptObj = active_prompts[prompt_id]
 	

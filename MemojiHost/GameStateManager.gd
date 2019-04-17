@@ -23,8 +23,9 @@ enum GAME_STATE {
 	FINAL_RESULTS = 5
 }
 
-func findPlayer(id):
-	for p in players:
+# arr - array to look in # id - playerID
+func findPlayer(arr, id):
+	for p in arr:
 		if (p.playerID == id):
 			return p
 	return null
@@ -225,9 +226,9 @@ func showResults():
 	rightVoters.resize(rightVoterIDs.size())
 
 	for index in range(leftVoterIDs.size()):
-		leftVoters[index] = findPlayer(leftVoterIDs[index])
+		leftVoters[index] = findPlayer(players, leftVoterIDs[index])
 	for index in range(rightVoterIDs.size()):
-		rightVoters[index] = findPlayer(rightVoterIDs[index])
+		rightVoters[index] = findPlayer(players, rightVoterIDs[index])
 
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
 	$ScreenManager.currentScreenInstance.displayAnswers(answers)
@@ -350,7 +351,6 @@ func toTitle():
 	competitors.clear()
 	lobbyCode = null
 
-	# TODO Sprint 2: handle currentState, currentRound
 	$ScreenManager.changeScreenTo(GlobalVars.TITLE_SCREEN)
 
 func connectToServer():
@@ -467,12 +467,20 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 	#currentPlayerVotes[playerID] = voteID
 	var message
 	var promptID
+	
+	var playerObj
 
 	if (currentState == GAME_STATE.VOTE_PHASE):
 		promptID = $PromptManager.active_prompt_ids[currentPrompt]
 		voteID = int(voteID)
 
-		# TODO: Error check
+		# TODO: Error check - is it audience
+		# TODO: Update player/audience objects to store vote
+		
+		playerObj = findPlayer(players, playerID)
+		if (playerObj != null):
+			playerObj.vote = voteID
+		
 		var temp = $PromptManager.set_vote(promptID, playerID, voteID)
 		print("DEBUG: set_vote - ", temp)
 
