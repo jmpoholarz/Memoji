@@ -2,7 +2,6 @@ extends Container
 
 
 func displayResults(scores, players):
-	#TODO
 	#duplicate the scores to be sorted into highest to lowest
 	var ordered = [] + scores
 	var temp
@@ -15,31 +14,44 @@ func displayResults(scores, players):
 			ordered[y] = temp
 			y -= 1
 	#place every player is their correct location, and make them visible
+	#displayPlace is the displayed place of players
+	ordered.append(0)
+	var displayPlace = 2
+	var lastScore = ordered[0]
 	var remainingPlayers = [] + players
 	var currentIndex = 0
 	var currentPlace = 1
 	var placeNode = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place1")
+	var placeNodeLabel
 	var placeNodeText
 	var placeNodeIcon
 	#while there are still players that have not been placed
-	while(remainingPlayers.empty() == false):
+	while(remainingPlayers.size() != 1):
 		#find the highest score remaining in the array
 		for i in range(0, scores.size()):
 			if(scores[i] == ordered[0]):
 				currentIndex = i
 		#place the player in their correct place, displaying their place, making sure they are visible
+		if(ordered[0] == lastScore):
+			displayPlace -= 1
 		if(currentPlace < 5):
 			placeNode = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace))
+			placeNodeLabel = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place"+str(currentPlace)+"/PlaceLabel")
 			placeNodeText = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace) + "/PlayerName")
 			placeNodeIcon = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace) + "/PlayerIcon")
+			placeNodeLabel.text = str(displayPlace)+":"
 			placeNodeText.text = remainingPlayers[currentIndex].username + ":  " + str(ordered[0])
+			lastScore = ordered[0]
 			placeNodeIcon.texture = load("res://Assets/m"+ str(remainingPlayers[currentIndex].avatarID) +".png")
 			placeNode.visible = true
 		else:
 			placeNode = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace))
+			placeNodeLabel = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place"+str(currentPlace)+"/PlaceLabel")
 			placeNodeText = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerName")
 			placeNodeIcon = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerIcon")
+			placeNodeLabel.text = str(displayPlace)+":"
 			placeNodeText.text = remainingPlayers[currentIndex].username + ":  " + str(ordered[0])
+			lastScore = ordered[0]
 			placeNodeIcon.texture = load("res://Assets/m"+ str(remainingPlayers[currentIndex].avatarID) +".png")
 			placeNode.visible = true
 		#remove the score and player from the list of remaining players to be displayed
@@ -52,5 +64,5 @@ func displayResults(scores, players):
 		#move to next place
 		currentIndex = 0
 		currentPlace += 1
-	
+		displayPlace += 1
 	return
