@@ -15,8 +15,10 @@ func displayResults(scores, players):
 			y -= 1
 	#place every player is their correct location, and make them visible
 	#displayPlace is the displayed place of players
+	var tieWithPrev = false
+	ordered.append(0)
 	var displayPlace = 1
-	var lastScore = 0
+	var lastScore = ordered[0]
 	var remainingPlayers = [] + players
 	var currentIndex = 0
 	var currentPlace = 1
@@ -24,7 +26,7 @@ func displayResults(scores, players):
 	var placeNodeText
 	var placeNodeIcon
 	#while there are still players that have not been placed
-	while(remainingPlayers.empty() == false):
+	while(remainingPlayers.size() != 1):
 		#find the highest score remaining in the array
 		for i in range(0, scores.size()):
 			if(scores[i] == ordered[0]):
@@ -32,6 +34,7 @@ func displayResults(scores, players):
 		#place the player in their correct place, displaying their place, making sure they are visible
 		if(currentPlace < 5):
 			placeNode = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace))
+			placeNodeLabel = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place"+str(currentPlace)+"/PlaceLabel")
 			placeNodeText = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace) + "/PlayerName")
 			placeNodeIcon = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place" + str(currentPlace) + "/PlayerIcon")
 			placeNodeText.text = remainingPlayers[currentIndex].username + ":  " + str(ordered[0])
@@ -40,6 +43,7 @@ func displayResults(scores, players):
 			placeNode.visible = true
 		else:
 			placeNode = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace))
+			placeNodeLabel = get_node("MarginContainer/Rows/Columns/ResultsLeft/Place"+str(currentPlace)+"/PlaceLabel")
 			placeNodeText = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerName")
 			placeNodeIcon = get_node("MarginContainer/Rows/Columns/ResultsRight/Place" + str(currentPlace) + "/PlayerIcon")
 			placeNodeText.text = remainingPlayers[currentIndex].username + ":  " + str(ordered[0])
