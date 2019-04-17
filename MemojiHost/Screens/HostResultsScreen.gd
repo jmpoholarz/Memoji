@@ -6,6 +6,19 @@ signal updateGameState(msg)
 var score1 = 0
 var score2 = 0
 
+onready var votersLeftNode = $MarginContainer/Rows/Voters/VotersLeft
+onready var votersRightNode = $MarginContainer/Rows/Voters/VotersRight
+
+# Stores the player1, player2... nodes for easier access updated in ready
+var votersLeftArr = []
+var votersRightArr = []
+
+func _ready():
+	for index in range(votersLeftNode.get_child_count()):
+		votersLeftArr.append(votersLeftNode.get_child(index))
+		
+	for index in range(votersRightNode.get_child_count()):
+		votersLeftArr.append(votersLeftNode.get_child(index))
 
 func displayAnswers(answers):
 	#get the arrays of answers so that the responses can be displayed
@@ -53,21 +66,22 @@ func displayVoters(leftPlayers, rightPlayers):
 	var index = 0
 	#first make every voter icon invisible so that only valid votes are shown
 	for x in range(0, 8):
-		currentNode = get_node(voterLoc + "VotersLeft/player" + str(index+1))
+		currentNode = votersLeftArr[x]
 		currentNode.visible = false
-		currentNode = get_node(voterLoc + "VotersRight/player" + str(index+1))
+		currentNode = votersRightArr[x]
 		currentNode.visible = false
 	
 	# TODO: Delun - Redo the for loop
 	#show voters for the left response
 	for x in leftPlayers:
-		# NEW - Error checking
+		# NEW - Error checking - Note: works on a run
 		if (x != null):
-			currentNode = get_node(voterLoc + "VotersLeft/player" + str(index+1))
+			currentNode = votersLeftArr[index]
 			currentNode.visible = true
-			currentNode = get_node(voterLoc + "VotersLeft/player" + str(index+1) + "/PlayerIcon")
-			currentNode.texture = load("res://Assets/m" + str(x.avatarID) + ".png")
-			currentNode = get_node(voterLoc + "VotersLeft/player" + str(index+1) + "/Label")
+			currentNode = votersLeftArr[index].get_node("PlayerIcon")
+			# NEW - test this
+			currentNode.texture = load(AvatarIdToFilename.AvatarIdToFilenameDict[x.avatarID])
+			currentNode = votersLeftArr[index].get_node("Label")
 			currentNode.text = x.username
 			index += 1
 	
@@ -75,13 +89,15 @@ func displayVoters(leftPlayers, rightPlayers):
 	
 	#show voters for the right response
 	for x in rightPlayers:
-		currentNode = get_node(voterLoc + "VotersRight/player" + str(index+1))
-		currentNode.visible = true
-		currentNode = get_node(voterLoc + "VotersRight/player" + str(index+1) + "/PlayerIcon")
-		currentNode.texture = load("res://Assets/m" + str(rightPlayers[index].avatarID) + ".png")
-		currentNode = get_node(voterLoc + "VotersRight/player" + str(index+1) + "/Label")
-		currentNode.text = rightPlayers[index].username
-		index += 1
+		if (x != null):
+			currentNode = votersRightArr[index]
+			currentNode.visible = true
+			currentNode = votersRightArr[index].get_node("PlayerIcon")
+			# NEW - test this
+			currentNode.texture = load(AvatarIdToFilename.AvatarIdToFilenameDict[x.avatarID])
+			currentNode = votersRightArr[index].get_node("Label")
+			currentNode.text = rightPlayers[index].username
+			index += 1
 	
 #	for x in range(0, votes.size()):
 #		if(votes[x] == 1):
