@@ -25,7 +25,7 @@ func _ready():
 		votersLeftArr.append(votersLeftNode.get_child(index))
 		
 	for index in range(votersRightNode.get_child_count()):
-		votersLeftArr.append(votersLeftNode.get_child(index))
+		votersRightArr.append(votersRightNode.get_child(index))
 
 func displayAnswers(answers):
 	#get the arrays of answers so that the responses can be displayed

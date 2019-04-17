@@ -53,7 +53,6 @@ func get_supporters(prompt_id, vote_index):
 	var promptObj = active_prompts[prompt_id]
 	return promptObj.get_voters_for_answer(vote_index)
 
-# TODO: Fix this
 func check_completion(): # Checks that each prompt has been answered
 	var promptObj
 	
