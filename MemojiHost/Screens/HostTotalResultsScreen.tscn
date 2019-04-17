@@ -139,7 +139,6 @@ _sections_unfolded = [ "Rect", "custom_constants" ]
 
 [node name="Place1" type="HBoxContainer" parent="MarginContainer/Rows/Columns/ResultsLeft" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
