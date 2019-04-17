@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Screens/WaitingForGameStartScreen.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Themes/grey_window_theme.tres" type="Theme" id=1]
+[ext_resource path="res://Screens/WaitingForGameStartScreen.gd" type="Script" id=2]
 
-[node name="WaitingForGameScreen" type="Panel" index="0"]
+[node name="WaitingForGameScreen" type="Panel"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -14,7 +15,9 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 1 )
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+_sections_unfolded = [ "Theme" ]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." index="0"]
 
@@ -77,8 +80,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 55.0
-margin_right = 183.0
+margin_left = 47.0
+margin_right = 190.0
 margin_bottom = 398.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -97,7 +100,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 119.0
-margin_right = 128.0
+margin_right = 143.0
 margin_bottom = 167.0
 rect_min_size = Vector2( 128, 48 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -123,7 +126,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 231.0
-margin_right = 128.0
+margin_right = 143.0
 margin_bottom = 279.0
 rect_min_size = Vector2( 128, 48 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -148,9 +151,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 297.0
+margin_left = 277.0
 margin_top = 175.0
-margin_right = 425.0
+margin_right = 444.0
 margin_bottom = 223.0
 rect_min_size = Vector2( 128, 48 )
 rect_pivot_offset = Vector2( 0, 0 )

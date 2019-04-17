@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://PlayerVoting.gd" type="Script" id=1]
-[ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Screens/Elements/VotingButtonGroup.tres" type="ButtonGroup" id=3]
+[ext_resource path="res://Assets/Themes/grey_window_theme.tres" type="Theme" id=1]
+[ext_resource path="res://PlayerVoting.gd" type="Script" id=2]
+[ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Screens/Elements/VotingButtonGroup.tres" type="ButtonGroup" id=4]
 
 [node name="Panel" type="Panel" index="0"]
 
@@ -16,7 +17,9 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 1 )
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+_sections_unfolded = [ "Theme" ]
 
 [node name="PromptLabel" type="Label" parent="." index="0"]
 
@@ -67,7 +70,7 @@ text = "Submit"
 flat = false
 align = 1
 
-[node name="ExampleResizedCanvas" parent="." index="2" instance=ExtResource( 2 )]
+[node name="ExampleResizedCanvas" parent="." index="2" instance=ExtResource( 3 )]
 
 visible = false
 rect_scale = Vector2( 0.5, 0.5 )
@@ -99,8 +102,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 67.0
-margin_bottom = 20.0
+margin_right = 113.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 1
@@ -111,7 +114,7 @@ size_flags_vertical = 1
 toggle_mode = true
 enabled_focus_mode = 1
 shortcut = null
-group = ExtResource( 3 )
+group = ExtResource( 4 )
 text = "Choice 1"
 flat = false
 align = 1
@@ -122,9 +125,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 137.0
-margin_right = 204.0
-margin_bottom = 20.0
+margin_left = 183.0
+margin_right = 297.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 1
@@ -135,7 +138,7 @@ size_flags_vertical = 1
 toggle_mode = true
 enabled_focus_mode = 1
 shortcut = null
-group = ExtResource( 3 )
+group = ExtResource( 4 )
 text = "Choice 2"
 flat = false
 align = 1
@@ -146,9 +149,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 50.0
-margin_right = 67.0
-margin_bottom = 70.0
+margin_top = 62.0
+margin_right = 113.0
+margin_bottom = 94.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 1
@@ -159,7 +162,7 @@ size_flags_vertical = 1
 toggle_mode = true
 enabled_focus_mode = 1
 shortcut = null
-group = ExtResource( 3 )
+group = ExtResource( 4 )
 text = "Choice 3"
 flat = false
 align = 1
@@ -170,10 +173,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 137.0
-margin_top = 50.0
-margin_right = 204.0
-margin_bottom = 70.0
+margin_left = 183.0
+margin_top = 62.0
+margin_right = 297.0
+margin_bottom = 94.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -184,7 +187,7 @@ size_flags_vertical = 1
 toggle_mode = true
 enabled_focus_mode = 2
 shortcut = null
-group = ExtResource( 3 )
+group = ExtResource( 4 )
 text = "Choice 4"
 flat = false
 align = 1
@@ -195,9 +198,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 100.0
-margin_right = 67.0
-margin_bottom = 120.0
+margin_top = 124.0
+margin_right = 113.0
+margin_bottom = 156.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -208,7 +211,7 @@ size_flags_vertical = 1
 toggle_mode = true
 enabled_focus_mode = 2
 shortcut = null
-group = ExtResource( 3 )
+group = ExtResource( 4 )
 text = "Choice 5"
 flat = false
 align = 1
@@ -219,10 +222,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 137.0
-margin_top = 100.0
-margin_right = 204.0
-margin_bottom = 120.0
+margin_left = 183.0
+margin_top = 124.0
+margin_right = 297.0
+margin_bottom = 156.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -233,7 +236,7 @@ size_flags_vertical = 1
 toggle_mode = true
 enabled_focus_mode = 2
 shortcut = null
-group = ExtResource( 3 )
+group = ExtResource( 4 )
 text = "Choice 6"
 flat = false
 align = 1
@@ -244,9 +247,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 150.0
-margin_right = 67.0
-margin_bottom = 170.0
+margin_top = 186.0
+margin_right = 113.0
+margin_bottom = 218.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -257,7 +260,7 @@ size_flags_vertical = 1
 toggle_mode = true
 enabled_focus_mode = 2
 shortcut = null
-group = ExtResource( 3 )
+group = ExtResource( 4 )
 text = "Choice 7"
 flat = false
 align = 1
@@ -268,10 +271,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 137.0
-margin_top = 150.0
-margin_right = 204.0
-margin_bottom = 170.0
+margin_left = 183.0
+margin_top = 186.0
+margin_right = 297.0
+margin_bottom = 218.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -282,7 +285,7 @@ size_flags_vertical = 1
 toggle_mode = true
 enabled_focus_mode = 2
 shortcut = null
-group = ExtResource( 3 )
+group = ExtResource( 4 )
 text = "Choice 8"
 flat = false
 align = 1
