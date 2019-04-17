@@ -154,7 +154,7 @@ if (cluster.isMaster) {
       });
       if (sock !== undefined) {
         console.log("Client that disconnected was a Player:");
-        console.log(sock);
+        //console.log(sock);
         console.log(`LetterCode: ${sock.code}`);
         // Handle Player properly
         _.remove(players, sock);

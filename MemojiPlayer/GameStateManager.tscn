@@ -14,6 +14,8 @@ script = ExtResource( 1 )
 
 [connection signal="sendMessageToServer" from="ScreenManager" to="." method="_on_ScreenManager_sendMessageToServer"]
 
+[connection signal="updateGameState" from="ScreenManager" to="." method="_on_ScreenManager_updateGameState"]
+
 [connection signal="answersReceived" from="Networking" to="." method="_on_Networking_answersReceived"]
 
 [connection signal="enteredInvalidAnswer" from="Networking" to="." method="_on_Networking_enteredInvalidAnswer"]
@@ -43,5 +45,7 @@ script = ExtResource( 1 )
 [connection signal="gameStartedByHost" from="Networking" to="." method="_on_Networking_gameStartedByHost"]
 
 [connection signal="promptReceived" from="Networking" to="." method="_on_Networking_promptReceived"]
+
+[connection signal="updatePlayerGameState" from="Networking" to="." method="_on_Networking_updatePlayerGameState"]
 
 

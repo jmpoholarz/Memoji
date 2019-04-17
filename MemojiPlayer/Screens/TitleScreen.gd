@@ -70,6 +70,13 @@ func show_ServerErrorPopup(text):
 
 
 func _on_YesReconnectButton_pressed():
+	print("Reconnect to previous host")
+	var message = {
+		"messageType": 406,
+		"letterCode": game_info["letter_code"],
+		"playerID": game_info["player_id"]
+	}
+	emit_signal("sendMessage", message)
 	pass # replace with function body
 
 func _on_NoReconnectButton_pressed():

@@ -506,10 +506,12 @@ func _on_Networking_playerBadDisconnect(playerID):
 	for player in players:
 		if player.playerID == playerID:
 			print("DEBUG MESSAGE: Player found")
-			disconnected_players.append(player)
 			players.erase(player)
 			if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 				$ScreenManager.currentScreenInstance.update_from_list(players)
+			else:
+				disconnected_players.append(player)
+			return
 
 
 func _on_ScreenManager_sendMessageToServer(msg):
