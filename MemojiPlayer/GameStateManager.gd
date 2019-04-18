@@ -166,8 +166,6 @@ func _on_Networking_enteredValidAnswer():
 	pass # replace with function body
 
 func _on_Networking_enteredInvalidAnswer():
-#	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
-		
 	pass # replace with function body
 
 
