@@ -168,11 +168,13 @@ func pair_players(numPlayers):
 func votePhase(): # handle voting for one prompt
 	var answers # Array
 	var promptID # Integer
+	var promptText
 	var promptObj
 
 	promptID = $PromptManager.active_prompt_ids[currentPrompt]
 	answers = $PromptManager.get_answers_to_prompt(promptID)
 	promptObj = $PromptManager.active_prompts[promptID]
+	promptText = promptObj.prompt_text
 
 	print("DEBUG: entered votephase")
 	currentState = GAME_STATE.VOTE_PHASE
@@ -190,10 +192,10 @@ func votePhase(): # handle voting for one prompt
 		$ScreenManager.changeScreenTo(GlobalVars.SCREENS.VOTE_SCREEN)
 	$ScreenManager.currentScreenInstance.display_emojis(answers[0], answers[1])
 	$ScreenManager.currentScreenInstance.display_prompt_text(promptObj.get_prompt_text())
-	sendAnswersForVoting(answers)
+	sendAnswersForVoting(prompt_text, answers)
 
 # Sends the Answers to Players corresponding to the promptID given
-func sendAnswersForVoting(answers):
+func sendAnswersForVoting(prompt_text, answers):
 	print("DEBUG: sendAnswersForVoting!!!!")
 	var message
 
@@ -201,6 +203,7 @@ func sendAnswersForVoting(answers):
 		message = {
 			"messageType": MESSAGE_TYPES.HOST_SENDING_ANSWERS,
 			"letterCode": lobbyCode,
+			"prompt": prompt_text,
 			"answers": answers
 		}
 		$Networking.sendMessageToServer(message)

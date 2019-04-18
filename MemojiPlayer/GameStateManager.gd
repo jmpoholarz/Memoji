@@ -174,7 +174,7 @@ func _on_Networking_enteredInvalidAnswer():
 #################################
 # # # # # VOTING SCREEN # # # # #
 #################################
-func _on_Networking_answersReceived(answers):
+func _on_Networking_answersReceived(prompt, answers):
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
 		$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
 		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
