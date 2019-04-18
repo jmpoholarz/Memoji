@@ -2,15 +2,6 @@ extends Node
 
 var playerScene = preload("res://Player.tscn") 
 
-var currentRound
-var currentState
-var player
-var playerName = ""
-var playerIcon = -1
-var lobbyCode = "????"
-
-var current_prompts = []
-
 enum GAME_STATE {
 	NOT_STARTED = 0
 	PROMPT_PHASE = 1
@@ -20,6 +11,16 @@ enum GAME_STATE {
 	FINAL_RESULTS = 5
 }
 
+var currentRound
+var currentState
+var player
+var playerName = ""
+var playerIcon = -1
+var lobbyCode = "????"
+var current_prompts = []
+
+
+
 func _ready():
 	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
 	
@@ -27,31 +28,19 @@ func _ready():
 	$ScreenManager.connect("disconnectFromServer", self, "disconnectFromServer")
 	$Networking.connect("_disconnectedFromServer", self, "_on_Networking_connectionTimeout")
 
-func sendAnswer():
-	pass
 
-func sendAnswersForVoting():
-	pass
+func _on_ScreenManager_sendMessageToServer(msg):
+	if player != null:
+		msg["playerID"] = player.playerID
+	$Networking.sendMessageToServer(msg)
 
-func handleReceivedPrompt(prompt_id, prompt_text):
-	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
-		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN)
-		if $ScreenManager.currentScreen != $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
-			yield($ScreenManager, "screen_change_completed") # Needs testing
-		current_prompts.append([prompt_id, prompt_text])
-		$ScreenManager.currentScreenInstance.add_prompts([[prompt_id, prompt_text]])
-		$ScreenManager.currentScreenInstance.get_next_prompt()
-	elif $ScreenManager.currentScreen == $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
-		current_prompts.append([prompt_id, prompt_text])
-		$ScreenManager.currentScreenInstance.add_prompts([[prompt_id, prompt_text]])
+func _on_ScreenManager_updateGameState(newState):
+	currentState = newState
 
 
-func handleReceivedAnswers(answers):
-	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
-		$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
-		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
-			$ScreenManager.currentScreenInstance.set_answers(answers)
-
+######################################
+# # # # # GENERAL NETWORKING # # # # #
+######################################
 func connectToServer():
 	#Sprint("in GSM connectToServer")
 	$Networking.connectPlayerToServer($Networking.defaultServerIP, $Networking.defaultServerPort)
@@ -61,70 +50,11 @@ func disconnectFromServer():
 	# Store empty game session
 	SessionStorer.save_game_info("", "")
 
-func _on_Networking_connectionTimeout():
-	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
-		print("on_Networking_connectionTimeout")
-		$ScreenManager.currentScreenInstance.show_ServerErrorPopup("Could not connect to server.  Connection Timeout.")
-
-
-func _on_Networking_answersReceived(answers):
-	print("received answers")
-	handleReceivedAnswers(answers)
-	#Manoj
-
-func _on_Networking_enteredInvalidAnswer():
-#	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
-		
-	pass # replace with function body
-
-func _on_Networking_enteredValidHostCode(playerID, isPlayer, code):
-	lobbyCode = code
-	player = playerScene.instance() #might not work
-	player.playerID = playerID
-	player.isPlayer = isPlayer
-	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
-		$ScreenManager.changeScreenTo($ScreenManager.USERINFORMATION_SCREEN)
-		SessionStorer.save_game_info(player.playerID, $Networking.letterCode)
-
-func _on_Networking_enteredInvalidHostCode():
-	#if $ScreenManager.currentScene == $ScreenManager.SCREENS.TITLE_SCREEN:
-	#	$ScreenManager/TitleScreen._on_InvalidRoomCode()
-	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
-		$ScreenManager.currentScreenInstance.show_ServerErrorPopup("Entered code does not exist.  Check spelling and retry.")
-
-func _on_Networking_enteredInvalidUsername():
-	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
-		$ScreenManager/currentScreenInstance._on_InvalidName()
-	pass # replace with function body
-
-func _on_Networking_promptReceived(promptID, prompt):
-	handleReceivedPrompt(promptID, prompt)
-
-
-func _on_Networking_enteredValidAnswer():
-	pass # replace with function body
-
-func _on_Networking_enteredValidMultiVote():
-	pass # replace with function body
-
-
-func _on_Networking_enteredValidUsername(pName, pIcon):
-	playerName = pName
-	playerIcon = pIcon
-	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
-		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.LOBBY_SCREEN)
-		$ScreenManager.currentScreenInstance.new_room_code(lobbyCode)
-
-func _on_Networking_enteredInvalidMultiVote():
-	pass # replace with function body
-
-func _on_Networking_enteredValidVote():
-	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
-		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PLAYER_WAITING_AFTER_VOTING_SCREEN)
-	pass # replace with function body
-
-func _on_Networking_enteredInvalidVote():
-	pass # replace with function body
+func _on_Networking_gameEndedByHost():
+	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.LOBBY_SCREEN)
+	lobbyCode = "????"
+	# Store game session
+	SessionStorer.save_game_info("", "")
 
 func _on_Networking_forcedToDisconnect():
 	$Networking.disconnectPlayerFromServer()
@@ -134,23 +64,6 @@ func _on_Networking_forcedToDisconnect():
 	lobbyCode = "????"
 	# Store empty game session
 	SessionStorer.save_game_info("", "")
-
-
-func _on_Networking_gameEndedByHost():
-	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.LOBBY_SCREEN)
-	lobbyCode = "????"
-	# Store game session
-	SessionStorer.save_game_info("", "")
-
-
-
-func _on_Networking_gameStartedByHost():
-	# Advance players to waiting for prompt screen
-	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
-	# Store game session
-	#SessionStorer.save_game_info(player.playerID, $Networking.letterCode)
-
-
 
 func _on_Networking_updatePlayerGameState(messageDict):
 	match (messageDict["gameState"]):
@@ -179,12 +92,102 @@ func _on_Networking_updatePlayerGameState(messageDict):
 	pass # replace with function body
 
 
-func _on_ScreenManager_sendMessageToServer(msg):
-	#print("in GSM with message " + str(msg))
-	if player != null:
-		msg["playerID"] = player.playerID
-	$Networking.sendMessageToServer(msg)
+################################
+# # # # # TITLE SCREEN # # # # #
+################################
+func _on_Networking_enteredValidHostCode(playerID, isPlayer, code):
+	lobbyCode = code
+	player = playerScene.instance() #might not work
+	player.playerID = playerID
+	player.isPlayer = isPlayer
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.USERINFORMATION_SCREEN)
+		SessionStorer.save_game_info(player.playerID, $Networking.letterCode)
+
+func _on_Networking_enteredInvalidHostCode():
+	#if $ScreenManager.currentScene == $ScreenManager.SCREENS.TITLE_SCREEN:
+	#	$ScreenManager/TitleScreen._on_InvalidRoomCode()
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
+		$ScreenManager.currentScreenInstance.show_ServerErrorPopup("Entered code does not exist.  Check spelling and retry.")
+
+func _on_Networking_connectionTimeout():
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
+		print("on_Networking_connectionTimeout")
+		$ScreenManager.currentScreenInstance.show_ServerErrorPopup("Could not connect to server.  Connection Timeout.")
 
 
-func _on_ScreenManager_updateGameState(newState):
-	currentState = newState
+#############################################
+# # # # # PLAYER INFORMATION SCREEN # # # # #
+#############################################
+func _on_Networking_enteredValidUsername(pName, pIcon):
+	playerName = pName
+	playerIcon = pIcon
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.LOBBY_SCREEN)
+		$ScreenManager.currentScreenInstance.new_room_code(lobbyCode)
+
+func _on_Networking_enteredInvalidUsername():
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
+		$ScreenManager/currentScreenInstance._on_InvalidName()
+	pass # replace with function body
+
+
+################################
+# # # # # LOBBY SCREEN # # # # #
+################################
+func _on_Networking_gameStartedByHost():
+	# Advance players to waiting for prompt screen
+	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
+	# Store game session
+	#SessionStorer.save_game_info(player.playerID, $Networking.letterCode)
+
+
+##########################################
+# # # # # PLAYER RESPONSE SCREEN # # # # #
+##########################################
+func _on_Networking_promptReceived(promptID, prompt):
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN)
+		if $ScreenManager.currentScreen != $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
+			yield($ScreenManager, "screen_change_completed") # Needs testing
+		current_prompts.append([prompt_id, prompt_text])
+		$ScreenManager.currentScreenInstance.add_prompts([[prompt_id, prompt_text]])
+		$ScreenManager.currentScreenInstance.get_next_prompt()
+	elif $ScreenManager.currentScreen == $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
+		current_prompts.append([prompt_id, prompt_text])
+		$ScreenManager.currentScreenInstance.add_prompts([[prompt_id, prompt_text]])
+
+func _on_Networking_enteredValidAnswer():
+	pass # replace with function body
+
+func _on_Networking_enteredInvalidAnswer():
+#	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
+		
+	pass # replace with function body
+
+
+#################################
+# # # # # VOTING SCREEN # # # # #
+#################################
+func _on_Networking_answersReceived(answers):
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
+		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
+			$ScreenManager.currentScreenInstance.set_answers(answers)
+	
+func _on_Networking_enteredValidVote():
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PLAYER_WAITING_AFTER_VOTING_SCREEN)
+	pass # replace with function body
+
+func _on_Networking_enteredInvalidVote():
+	pass # replace with function body
+
+func _on_Networking_enteredValidMultiVote():
+	pass # replace with function body
+
+func _on_Networking_enteredInvalidMultiVote():
+	pass # replace with function body
+
+
+
