@@ -70,11 +70,6 @@ func _on_Networking_forcedToDisconnect():
 	# Store empty game session
 	SessionStorer.save_game_info("", "")
 
-func _on_Networking_answersReceived(prompt, answers):
-	print("received answers")
-	handleReceivedAnswers(prompt, answers)
-	#Manoj
-
 func _on_Networking_updatePlayerGameState(messageDict):
 	match (messageDict["gameState"]):
 		GAME_STATE.NOT_STARTED:
