@@ -1,6 +1,6 @@
 extends Node
 
-var playerScene = preload("res://Player.tscn") 
+var playerScene = preload("res://Player.tscn")
 
 enum GAME_STATE {
 	NOT_STARTED = 0
@@ -23,7 +23,7 @@ var current_prompts = []
 
 func _ready():
 	$ScreenManager.changeScreenTo($ScreenManager.TITLE_SCREEN)
-	
+
 	$ScreenManager.connect("connectToServer", self, "connectToServer")
 	$ScreenManager.connect("disconnectFromServer", self, "disconnectFromServer")
 	$Networking.connect("_disconnectedFromServer", self, "_on_Networking_connectionTimeout")
@@ -37,6 +37,11 @@ func _on_ScreenManager_sendMessageToServer(msg):
 func _on_ScreenManager_updateGameState(newState):
 	currentState = newState
 
+func handleReceivedAnswers(prompt, answers):
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
+		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
+			$ScreenManager.currentScreenInstance.set_answers(answers)
 
 ######################################
 # # # # # GENERAL NETWORKING # # # # #
@@ -64,6 +69,11 @@ func _on_Networking_forcedToDisconnect():
 	lobbyCode = "????"
 	# Store empty game session
 	SessionStorer.save_game_info("", "")
+
+func _on_Networking_answersReceived(prompt, answers):
+	print("received answers")
+	handleReceivedAnswers(prompt, answers)
+	#Manoj
 
 func _on_Networking_updatePlayerGameState(messageDict):
 	match (messageDict["gameState"]):
@@ -167,7 +177,7 @@ func _on_Networking_enteredValidAnswer():
 
 func _on_Networking_enteredInvalidAnswer():
 #	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
-		
+
 	pass # replace with function body
 
 
@@ -179,7 +189,7 @@ func _on_Networking_answersReceived(prompt, answers):
 		$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
 		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
 			$ScreenManager.currentScreenInstance.set_answers(answers)
-	
+
 func _on_Networking_enteredValidVote():
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
 		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PLAYER_WAITING_AFTER_VOTING_SCREEN)
@@ -196,3 +206,13 @@ func _on_Networking_enteredInvalidMultiVote():
 
 
 
+func _on_ScreenManager_updateGameState(newState):
+	currentState = newState
+
+
+func _on_Networking_lostConnection():
+	# Tried to send message but client is not connected to server
+	# Popup that internet connection is borked
+	$ScreenManager.lost_connection()
+
+	pass # replace with function body

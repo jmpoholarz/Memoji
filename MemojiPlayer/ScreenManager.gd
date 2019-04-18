@@ -34,6 +34,8 @@ enum GAME_STATE {
 	FINAL_RESULTS = 5
 }
 
+onready var _LostConnectionPopup = $LostConnectionPopup
+
 var currentScreen = -1
 var currentScreenInstance = null
 
@@ -105,3 +107,6 @@ func disconnectFromServer():
 
 func go_to_waiting_screen():
 	changeScreenTo(SCREENS.WAITING_SCREEN)
+
+func lost_connection():
+	_LostConnectionPopup.popup()

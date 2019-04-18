@@ -9,7 +9,7 @@ signal forcedToDisconnect
 signal gameStartedByHost
 signal gameEndedByHost
 signal promptReceived(promptID, prompt)
-signal answersReceived(answerArray)
+signal answersReceived(prompt, answerArray)
 signal enteredInvalidUsername
 signal enteredValidUsername
 signal enteredInvalidAnswer
@@ -19,6 +19,7 @@ signal enteredValidVote
 signal enteredInvalidMultiVote
 signal enteredValidMultiVote
 signal updatePlayerGameState(messageDict)
+signal lostConnection()
 # # # # # # # # # #
 
 var defaultServerIP = "18.224.39.240"
@@ -35,6 +36,7 @@ var startedTest = false
 func _ready():
 	socket = StreamPeerTCP.new()
 	socket.set_no_delay(true)
+
 	#___test()
 
 func ___test():
@@ -53,6 +55,7 @@ func _process(delta):
 		#pass
 		if socket.get_available_bytes() > 0:
 			getMessageFromServer()
+
 
 func connectPlayerToServer(serverIP, serverPort):
 	"""
@@ -76,6 +79,7 @@ func connectPlayerToServer(serverIP, serverPort):
 			print("Connection attempt made on " + defaultServerIP + ":" + str(defaultServerPort))
 			Logger.writeLine("Connection attempt made on " + defaultServerIP + ":" + str(defaultServerPort))
 			emit_signal("_connectedToServer")
+		return response
 
 func disconnectPlayerFromServer():
 	"""
@@ -107,7 +111,11 @@ func _on_ConnectingTimer_timeout():
 func sendMessageToServer(message):
 	# Check if can send message
 	if !socket.is_connected_to_host():
+		var response = connectPlayerToServer(defaultServerIP, defaultServerPort)
+		if response == OK:
+			return
 		print("Failed to send message.  Not connected to server.")
+		emit_signal("lostConnection")
 		Logger.writeLine("Failed to send message (" + str(message) + ").  Not connected to server.")
 		return
 	# Check if valid message
