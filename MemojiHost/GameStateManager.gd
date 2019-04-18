@@ -274,7 +274,7 @@ func showResults():
 			players[x].increase_score(results1) # NEW - repalces totalScoreTally
 	# TODO: Remove this line
 	totalScoreTally[pIndex] += results1
-	
+
 	pIndex = 0
 	for x in range(0,players.size()):
 		if competitors[1] == players[x]:
@@ -483,7 +483,7 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 	#currentPlayerVotes[playerID] = voteID
 	var message
 	var promptID
-	
+
 	var playerObj
 
 	if (currentState == GAME_STATE.VOTE_PHASE):
@@ -494,11 +494,11 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 		playerObj = findPlayer(players, playerID)
 		if (playerObj == null): # Find audience if not a player
 			playerObj = findPlayer(audiencePlayers, playerID)
-		
+
 		if (playerObj != null):
 			playerObj.vote = voteID
 			print("DEBUG: recorded vote of ", playerID)
-			
+
 		# TODO: Edit this line to handle audiences
 		var temp = $PromptManager.set_vote(promptID, playerID, voteID)
 		print("DEBUG: set_vote - ", temp)

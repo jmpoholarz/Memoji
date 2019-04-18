@@ -16,10 +16,11 @@ onready var _ReconnectPopup = $ReconnectPopup
 # Notification Buttons
 onready var _ReconnectNotification = $NotificationContainer/ReconnectNotification
 
+var game_info = null
 
 func _ready():
 	# Check if there's an unfinished game session
-	var game_info = SessionStorer.load_game_info()
+	game_info = SessionStorer.load_game_info()
 	if game_info["player_id"] != "" && game_info["letter_code"] != "":
 		_ReconnectPopup.popup()
 
@@ -70,7 +71,9 @@ func show_ServerErrorPopup(text):
 
 
 func _on_YesReconnectButton_pressed():
-	print("Reconnect to previous host")
+	print("[DEBUG]: Reconnect to previous host")
+	print("[DEBUG]: " + game_info["letter_code"])
+	print("[DEBUG]: " + game_info["player_id"])
 	var message = {
 		"messageType": 406,
 		"letterCode": game_info["letter_code"],
