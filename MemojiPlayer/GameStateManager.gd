@@ -55,6 +55,11 @@ func disconnectFromServer():
 	# Store empty game session
 	SessionStorer.save_game_info("", "")
 
+func _on_Networking_lostConnection():
+	# Tried to send message but client is not connected to server
+	# Popup that internet connection is borked
+	$ScreenManager.lost_connection()
+
 func _on_Networking_gameEndedByHost():
 	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.LOBBY_SCREEN)
 	lobbyCode = "????"
@@ -199,13 +204,4 @@ func _on_Networking_enteredInvalidMultiVote():
 
 
 
-func _on_ScreenManager_updateGameState(newState):
-	currentState = newState
 
-
-func _on_Networking_lostConnection():
-	# Tried to send message but client is not connected to server
-	# Popup that internet connection is borked
-	$ScreenManager.lost_connection()
-
-	pass # replace with function body
