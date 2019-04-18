@@ -6,10 +6,10 @@ signal changeScreen(screen)
 
 var roomCode = "????"
 
-func _ready():
-	# Called when the node is added to the scene for the first time.
-	# Initialization here
-	pass
+onready var _BackButton = $VBoxContainer/HBoxContainer/VBoxContainer/BackButton
+
+func hide_back_button():
+	_BackButton.visible = false
 
 func new_room_code(code):
 	roomCode = code;
