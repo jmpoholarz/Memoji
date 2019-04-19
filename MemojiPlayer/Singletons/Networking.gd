@@ -29,7 +29,6 @@ var defaultServerPort = 3000
 
 var letterCode = "????"
 var mostRecentMessage = ""
-var playerID = ""
 
 var socket = null
 var startedTest = false
@@ -56,9 +55,6 @@ func _process(delta):
 		#pass
 		if socket.get_available_bytes() > 0:
 			getMessageFromServer()
-
-func setPlayerId(id):
-	playerID = id
 
 
 func connectPlayerToServer(serverIP, serverPort):
@@ -120,9 +116,11 @@ func sendMessageToServer(message):
 			# Send reconnection message to server
 			var reconn_message = {
 				"messageType": 406,
-				"letterCode": letterCode,
-				"playerID": "placeholder"
+				"letterCode": SessionStorer.get_letter_code(),
+				"playerID": SessionStorer.get_player_id()
 			}
+			sendMessageToServer(reconn_message)
+			yield(get_tree().create_timer(1), "timeout")
 			return
 		print("Failed to send message.  Not connected to server.")
 		emit_signal("lostConnection")
@@ -176,7 +174,6 @@ func getMessageFromServer():
 			sendMessageToServer(mostRecentMessage)
 		MESSAGE_TYPES.VALID_SERVER_CODE:
 			letterCode = messageDict["letterCode"]
-			playerID = messageDict["playerID"]
 			emit_signal("enteredValidHostCode", messageDict["playerID"], messageDict["isPlayer"], messageDict["letterCode"])
 		MESSAGE_TYPES.INVALID_SERVER_CODE:
 			emit_signal("enteredInvalidHostCode")

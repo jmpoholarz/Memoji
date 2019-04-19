@@ -3,6 +3,8 @@ extends Node
 var FILE_PATH = "user://saved_connection.dat"
 var TEST_ENABLED = false
 
+var player_id
+var letter_code
 
 func _ready():
 	if TEST_ENABLED:
@@ -17,6 +19,8 @@ func save_game_info(player_id, letter_code):
 	# Create dict to work with data
 	var game_info = {"player_id" : player_id, 
 		"letter_code" : letter_code}
+	self.player_id = player_id
+	self.letter_code = letter_code
 	# Create config file to store data
 	var cf = ConfigFile.new()
 	# Write data to config file
@@ -47,10 +51,16 @@ func load_game_info():
 		# Config file found
 		for key in game_info.keys():
 			game_info[key] = cf.get_value("DATA", key, "")
+		player_id = game_info["player_id"]
+		letter_code = game_info["letter_code"]
 	# Return initialized dictionary
 	return game_info
 
+func get_player_id():
+	return player_id
 
+func get_letter_code():
+	return letter_code
 
 
 
