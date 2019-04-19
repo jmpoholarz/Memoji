@@ -201,7 +201,3 @@ func _on_Networking_enteredValidMultiVote():
 
 func _on_Networking_enteredInvalidMultiVote():
 	pass # replace with function body
-
-
-
-
