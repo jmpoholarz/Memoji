@@ -9,7 +9,7 @@ signal changeVotingOption(ChoiceId)
 signal voting_has_ended()
 signal change_screen(screen)
 onready var canvas1 = $Answer1/Emoji1
-onready var canvas2 = $Answer2/Emojis2
+onready var canvas2 = $Answer2/Emoji2
 
 var buttonID
 
@@ -36,7 +36,6 @@ func display_emojis(answer1, answer2):
 func reset_display():
 	canvas1.clear()
 	canvas2.clear()
-	promptLabel.hide()
 	
 func set_answers(answers):
 	answerNum = answers.size()
