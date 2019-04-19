@@ -1,6 +1,6 @@
 extends Node
 
-const TOTAL_QUESTIONS = 21
+const TOTAL_QUESTIONS = 107
 
 var active_prompt_ids = []
 var active_prompts = {}
