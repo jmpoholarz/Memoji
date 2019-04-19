@@ -23,8 +23,8 @@ signal updatePlayerGameState(messageDict)
 signal lostConnection()
 # # # # # # # # # #
 
-#var defaultServerIP = "18.224.39.240"
-var defaultServerIP = "127.0.0.1"
+var defaultServerIP = "18.224.39.240"
+#var defaultServerIP = "127.0.0.1"
 #var defaultServerPort = 7575
 var defaultServerPort = 3000
 
