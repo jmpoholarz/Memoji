@@ -326,7 +326,7 @@ func advanceGame():
 
 
 func updatePlayerGameState(player):
-	var message = { "messageType": 440, "playerID": player.playerID, "gameState": currentState }
+	var message = { "messageType": MESSAGE_TYPES.UPDATE_PLAYER_GAME_STATE, "playerID": player.playerID, "gameState": currentState }
 	match (currentState):
 		GAME_STATE.NOT_STARTED:
 			pass
@@ -505,7 +505,7 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 			playerFlag = false
 		else:
 			playerFlag = true
-		
+
 		if (playerObj != null): # Player/Audience exists
 			playerObj.regular_vote(voteID)
 			print("DEBUG: recorded vote of ", playerID)
@@ -530,10 +530,10 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
 	if (currentState != GAME_STATE.MULTI_VOTE_PHASE):
 		return
-	
+
 	if (voteArray.size() < 3): # check voteArray size
 		return # TODO: Maybe error handle
-	
+
 	# TODO: Implement multivote
 	pass
 

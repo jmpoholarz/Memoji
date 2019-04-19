@@ -1026,7 +1026,12 @@ function sendToAllPlayers(letterCode, message) {
 
 
 function sendToPlayer(message) {
-  const player = _.find(players, ['id', message.playerID]);
+  const player = _.find(players, (p) => {
+    return p.id == message.playerID;
+  });
+  if(player == undefined) {
+    console.error('Issue finding player based on id. In sendToPlayer.');
+  }
   send(player.socket, JSON.stringify(message));
 }
 
