@@ -226,6 +226,7 @@ _sections_unfolded = [ "Hint" ]
 [node name="ServerErrorPopup" parent="." index="3" instance=ExtResource( 5 )]
 
 visible = false
+_sections_unfolded = [ "Theme" ]
 label_text = "Cannot connect to server."
 
 [node name="RoomCodeInvalidLengthPopup" parent="." index="4" instance=ExtResource( 5 )]
