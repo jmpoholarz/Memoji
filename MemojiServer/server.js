@@ -141,10 +141,11 @@ if (cluster.isMaster) {
         return host.socket === socket;
       });
       if (sock !== undefined) {
-        console.log("Client that disconnected was a Host");
+        console.log('Client that disconnected was a Host');
         // Handle Host properly
         console.log(`letterCode: ${sock.code}`);
-        handleHostDisConn(sock.code);
+        console.log('Keep host in limbo.');
+      //  handleHostDisConn(sock.code);
         return;
       }
       // Not a Host
