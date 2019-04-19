@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=14 format=2]
+[gd_resource type="Theme" load_steps=15 format=2]
 
 [ext_resource path="res://Assets/Themes/stylebox/grey_disabled.tres" type="StyleBox" id=1]
 [ext_resource path="res://Assets/Themes/stylebox/grey_hover.tres" type="StyleBox" id=2]
@@ -10,17 +10,18 @@
 [ext_resource path="res://Assets/Themes/font/comfortaa_reg_24.tres" type="DynamicFont" id=8]
 [ext_resource path="res://Assets/left_arrow_half.png" type="Texture" id=9]
 [ext_resource path="res://Assets/right_arrow_half.png" type="Texture" id=10]
-[ext_resource path="res://Assets/Themes/stylebox/white_default.tres" type="StyleBox" id=11]
-[ext_resource path="res://Assets/up_arrow_half.png" type="Texture" id=12]
-[ext_resource path="res://Assets/down_arrow_half.png" type="Texture" id=13]
+[ext_resource path="res://Assets/Themes/stylebox/grey_window_inner.tres" type="StyleBox" id=11]
+[ext_resource path="res://Assets/Themes/stylebox/grey_window.tres" type="StyleBox" id=12]
+[ext_resource path="res://Assets/up_arrow_half.png" type="Texture" id=13]
+[ext_resource path="res://Assets/down_arrow_half.png" type="Texture" id=14]
 
 [resource]
 
 default_font = ExtResource( 8 )
-Button/colors/font_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
-Button/colors/font_color_disabled = Color( 0.4, 0.4, 0.4, 1 )
-Button/colors/font_color_hover = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
-Button/colors/font_color_pressed = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
+Button/colors/font_color = Color( 1, 1, 1, 1 )
+Button/colors/font_color_disabled = Color( 0.714844, 0.714844, 0.714844, 1 )
+Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
+Button/colors/font_color_pressed = Color( 0.628906, 0.628906, 0.628906, 1 )
 Button/constants/hseparation = 2
 Button/fonts/font = null
 Button/styles/disabled = ExtResource( 1 )
@@ -28,10 +29,10 @@ Button/styles/focus = null
 Button/styles/hover = ExtResource( 2 )
 Button/styles/normal = ExtResource( 3 )
 Button/styles/pressed = ExtResource( 4 )
-CheckBox/colors/font_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
-CheckBox/colors/font_color_disabled = Color( 0.4, 0.4, 0.4, 1 )
-CheckBox/colors/font_color_hover = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
-CheckBox/colors/font_color_pressed = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
+CheckBox/colors/font_color = Color( 1, 1, 1, 1 )
+CheckBox/colors/font_color_disabled = Color( 0.699219, 0.699219, 0.699219, 1 )
+CheckBox/colors/font_color_hover = Color( 1, 1, 1, 1 )
+CheckBox/colors/font_color_pressed = Color( 0.627451, 0.627451, 0.627451, 1 )
 CheckBox/constants/check_vadjust = 0
 CheckBox/constants/hseparation = 4
 CheckBox/fonts/font = null
@@ -44,10 +45,10 @@ CheckBox/styles/focus = null
 CheckBox/styles/hover = null
 CheckBox/styles/normal = null
 CheckBox/styles/pressed = null
-CheckButton/colors/font_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
-CheckButton/colors/font_color_disabled = Color( 0.4, 0.4, 0.4, 1 )
-CheckButton/colors/font_color_hover = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
-CheckButton/colors/font_color_pressed = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
+CheckButton/colors/font_color = Color( 1, 1, 1, 1 )
+CheckButton/colors/font_color_disabled = Color( 0.722656, 0.722656, 0.722656, 1 )
+CheckButton/colors/font_color_hover = Color( 1, 1, 1, 1 )
+CheckButton/colors/font_color_pressed = Color( 0.627451, 0.627451, 0.627451, 1 )
 CheckButton/constants/check_vadjust = 0
 CheckButton/constants/hseparation = 4
 CheckButton/fonts/font = null
@@ -68,7 +69,7 @@ HScrollBar/styles/grabber = ExtResource( 3 )
 HScrollBar/styles/grabber_highlight = ExtResource( 2 )
 HScrollBar/styles/grabber_pressed = ExtResource( 4 )
 HScrollBar/styles/scroll = ExtResource( 11 )
-HScrollBar/styles/scroll_focus = null
+HScrollBar/styles/scroll_focus = ExtResource( 11 )
 Icons/icons/close = null
 Icons/icons/logo = null
 Label/colors/font_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
@@ -79,20 +80,20 @@ Label/constants/shadow_offset_x = 1
 Label/constants/shadow_offset_y = 1
 Label/fonts/font = null
 Label/styles/normal = null
-LineEdit/colors/cursor_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
-LineEdit/colors/font_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
+LineEdit/colors/cursor_color = Color( 1, 1, 1, 1 )
+LineEdit/colors/font_color = Color( 1, 1, 1, 1 )
 LineEdit/colors/font_color_selected = Color( 0.933333, 0.933333, 0.933333, 1 )
 LineEdit/colors/selection_color = Color( 0.133333, 0.133333, 0.133333, 1 )
 LineEdit/constants/minimum_spaces = 12
 LineEdit/fonts/font = null
 LineEdit/styles/focus = ExtResource( 2 )
-LineEdit/styles/normal = ExtResource( 3 )
+LineEdit/styles/normal = ExtResource( 4 )
 LineEdit/styles/read_only = ExtResource( 1 )
-Panel/styles/panel = ExtResource( 11 )
+Panel/styles/panel = ExtResource( 12 )
 Panel/styles/panelf = null
 Panel/styles/panelnc = null
-PanelContainer/styles/panel = ExtResource( 3 )
-PopupPanel/styles/panel = ExtResource( 3 )
+PanelContainer/styles/panel = ExtResource( 12 )
+PopupPanel/styles/panel = ExtResource( 12 )
 TabContainer/colors/font_color_bg = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
 TabContainer/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
 TabContainer/colors/font_color_fg = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
@@ -111,14 +112,14 @@ TabContainer/icons/menu_highlight = null
 TabContainer/styles/panel = ExtResource( 11 )
 TabContainer/styles/tab_bg = ExtResource( 3 )
 TabContainer/styles/tab_fg = ExtResource( 4 )
-VScrollBar/icons/decrement = ExtResource( 12 )
-VScrollBar/icons/decrement_highlight = ExtResource( 12 )
-VScrollBar/icons/increment = ExtResource( 13 )
-VScrollBar/icons/increment_highlight = ExtResource( 13 )
+VScrollBar/icons/decrement = ExtResource( 13 )
+VScrollBar/icons/decrement_highlight = ExtResource( 13 )
+VScrollBar/icons/increment = ExtResource( 14 )
+VScrollBar/icons/increment_highlight = ExtResource( 14 )
 VScrollBar/styles/grabber = ExtResource( 3 )
 VScrollBar/styles/grabber_highlight = ExtResource( 2 )
 VScrollBar/styles/grabber_pressed = ExtResource( 4 )
 VScrollBar/styles/scroll = ExtResource( 11 )
 VScrollBar/styles/scroll_focus = ExtResource( 11 )
-_sections_unfolded = [ "Fonts/fonts", "HSlider/icons", "HSlider/styles", "Icons", "Icons/icons", "Panel/styles", "PanelContainer/styles", "PopupPanel/styles", "TabContainer/styles", "VScrollBar/styles" ]
+_sections_unfolded = [ "Button/colors", "CheckBox/colors", "CheckButton/colors", "Fonts/fonts", "HScrollBar/styles", "HSlider/icons", "HSlider/styles", "Icons/icons", "LineEdit/colors", "Panel/styles", "PanelContainer", "PanelContainer/styles", "PopupPanel", "PopupPanel/styles", "VScrollBar/styles" ]
 

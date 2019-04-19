@@ -155,7 +155,7 @@ func _on_Networking_gameStartedByHost():
 ##########################################
 # # # # # PLAYER RESPONSE SCREEN # # # # #
 ##########################################
-func _on_Networking_promptReceived(promptID, prompt):
+func _on_Networking_promptReceived(prompt_id, prompt_text):
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
 		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN)
 		if $ScreenManager.currentScreen != $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
