@@ -2,6 +2,7 @@ extends Panel
 
 signal connectToServer()
 signal sendMessage(msg)
+signal updateLetterCode(letter_code)
 
 
 onready var _JoinButton = $VBoxContainer/JoinButton

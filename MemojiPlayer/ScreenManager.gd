@@ -13,6 +13,7 @@ signal connectToServer()
 signal disconnectFromServer()
 signal screen_change_completed()
 signal updateGameState(newState)
+signal updateLetterCode(letter_code)
 
 enum SCREENS {
 	TITLE_SCREEN = 1,
@@ -55,6 +56,7 @@ func changeScreenTo(screen):
 			currentScreenInstance = titleScreenScene.instance()
 			currentScreenInstance.connect("connectToServer", self, "connectToServer")
 			currentScreenInstance.connect("sendMessage", self, "forwardMessage")
+			currentScreenInstance.connect("updateLetterCode", self, "updateLetterCode")
 			currentState = GAME_STATE.NOT_STARTED
 			
 		USERINFORMATION_SCREEN:
@@ -110,3 +112,6 @@ func go_to_waiting_screen():
 
 func lost_connection():
 	_LostConnectionPopup.popup()
+
+func updateLetterCode(letter_code):
+	emit_signal("updateLetterCode", letter_code)

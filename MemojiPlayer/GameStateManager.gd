@@ -26,6 +26,7 @@ func _ready():
 
 	$ScreenManager.connect("connectToServer", self, "connectToServer")
 	$ScreenManager.connect("disconnectFromServer", self, "disconnectFromServer")
+	$ScreenManager.connect("updateLetterCode", self, "updateLetterCode")
 	$Networking.connect("_disconnectedFromServer", self, "_on_Networking_connectionTimeout")
 
 func handleReceivedPrompt(prompt_id, prompt_text):
@@ -45,6 +46,10 @@ func handleReceivedAnswers(prompt, answers):
 		$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
 		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
 			$ScreenManager.currentScreenInstance.set_answers(answers)
+
+func updateLetterCode(letter_code):
+	$Networking.letterCode = letter_code
+	lobbyCode = letter_code
 
 func _on_ScreenManager_sendMessageToServer(msg):
 	if player != null:
