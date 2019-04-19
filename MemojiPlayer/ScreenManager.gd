@@ -1,4 +1,4 @@
-extends Node
+extends MarginContainer
 
 var titleScreenScene = preload("res://Screens/TitleScreen.tscn")
 var userinfoScreenScene = preload("res://Screens/UserInformationScreen.tscn")
@@ -33,6 +33,8 @@ enum GAME_STATE {
 	ROUND_RESULTS = 4
 	FINAL_RESULTS = 5
 }
+
+onready var _LostConnectionPopup = $LostConnectionPopup
 
 var currentScreen = -1
 var currentScreenInstance = null
@@ -105,3 +107,6 @@ func disconnectFromServer():
 
 func go_to_waiting_screen():
 	changeScreenTo(SCREENS.WAITING_SCREEN)
+
+func lost_connection():
+	_LostConnectionPopup.popup()

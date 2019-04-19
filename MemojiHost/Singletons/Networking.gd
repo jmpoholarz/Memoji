@@ -13,6 +13,7 @@ signal receivedPlayerVote(playerID, promptID, voteID)
 signal receivedPlayerMultiVote(playerID, promptID, voteArray)
 signal playerBadDisconnect(playerID)
 signal playerReconnected(playerID)
+signal lostConnection()
 # # # # # # # # # #
 
 
@@ -47,6 +48,15 @@ func _process(delta):
 	if socket.get_status() == socket.STATUS_CONNECTED:
 		if socket.get_available_bytes() > 0:
 			getMessageFromServer()
+
+func _notification(what):
+	print("notification")
+	if what == NOTIFICATION_PREDELETE:
+		print("destructor")
+		# destructor logic
+		if !(socket.get_status() == socket.STATUS_NONE):
+			disconnectHostFromServer()
+
 
 func connectHostToServer(serverIP, serverPort):
 	"""
@@ -107,8 +117,12 @@ func _on_ConnectingTimer_timeout():
 func sendMessageToServer(message):
 	# Check if can send message
 	if !socket.is_connected_to_host():
+		var response = connectPlayerToServer(defaultServerIP, defaultServerPort)
+		if response == OK:
+			return
 		print("Failed to send message.  Not connected to server.")
 		Logger.writeLine("Failed to send message (" + str(message) + ").  Not connected to server.")
+		emit_signal("lostConnection")
 		return
 	# Check if valid message
 	if message["messageType"] != MESSAGE_TYPES.HOST_REQUESTING_CODE:

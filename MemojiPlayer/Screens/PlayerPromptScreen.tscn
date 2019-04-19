@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Screens/PlayerPromptScreen.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Themes/grey_window_theme.tres" type="Theme" id=2]
-[ext_resource path="res://Screens/Elements/EmojiCanvasEditor.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Themes/white_theme.tres" type="Theme" id=2]
+[ext_resource path="res://Assets/Themes/grey_inner_theme.tres" type="Theme" id=3]
+[ext_resource path="res://Screens/Elements/EmojiCanvasEditor.tscn" type="PackedScene" id=4]
 
-[node name="PlayerPromptScreen" type="Node"]
+[node name="PlayerPromptScreen" type="Node" index="0"]
 
 script = ExtResource( 1 )
 
@@ -36,9 +37,11 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
+_sections_unfolded = [ "Theme" ]
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel/VBoxContainer" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -51,11 +54,8 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_constants/margin_right = 4
-custom_constants/margin_top = 4
-custom_constants/margin_left = 4
-custom_constants/margin_bottom = 4
-_sections_unfolded = [ "Hint", "custom_constants" ]
+theme = ExtResource( 3 )
+_sections_unfolded = [ "Hint", "Theme", "custom_constants" ]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer/MarginContainer" index="0"]
 
@@ -141,7 +141,7 @@ flat = false
 align = 2
 _sections_unfolded = [ "Size Flags" ]
 
-[node name="EmojiCanvasEditor" parent="Panel/VBoxContainer" index="1" instance=ExtResource( 3 )]
+[node name="EmojiCanvasEditor" parent="Panel/VBoxContainer" index="1" instance=ExtResource( 4 )]
 
 anchor_right = 0.0
 anchor_bottom = 0.0

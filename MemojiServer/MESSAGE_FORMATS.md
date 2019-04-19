@@ -63,7 +63,8 @@ _Sent to move players to a screen to vote on answers_
 ```javascript
 {
   messageType: 312,
-  letterCode: "ABCD" (Added by Networking.gd)
+  letterCode: "ABCD", (Added by Networking.gd)
+  prompt: "Some prompt string",
   answers: [...]
 }
 ```

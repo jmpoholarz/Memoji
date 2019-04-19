@@ -8,6 +8,13 @@ var score2 = 0
 
 onready var votersLeftNode = $MarginContainer/Rows/Voters/VotersLeft
 onready var votersRightNode = $MarginContainer/Rows/Voters/VotersRight
+onready var leftDisplayBox = $MarginContainer/Rows/AnswerBoxes/AnswerLeft/EmojiCanvas
+onready var rightDisplayBox = $MarginContainer/Rows/AnswerBoxes/AnswerRight/EmojiCanvas
+
+onready var scoreLeftLabel = $MarginContainer/Rows/Results/ScoreLeft
+onready var scoreRightLabel = $MarginContainer/Rows/Results/ScoreRight
+onready var audienceLeftLabel = $MarginContainer/Rows/AudienceVotes/AudienceLeft
+onready var audienceRightLabel = $MarginContainer/Rows/AudienceVotes/AudienceRight
 
 # Stores the player1, player2... nodes for easier access updated in ready
 var votersLeftArr = []
@@ -18,14 +25,12 @@ func _ready():
 		votersLeftArr.append(votersLeftNode.get_child(index))
 		
 	for index in range(votersRightNode.get_child_count()):
-		votersLeftArr.append(votersLeftNode.get_child(index))
+		votersRightArr.append(votersRightNode.get_child(index))
 
 func displayAnswers(answers):
 	#get the arrays of answers so that the responses can be displayed
-	var displayBox = get_node("MarginContainer/Rows/AnswerBoxes/AnswerLeft/EmojiCanvas")
-	displayBox.decode_emojis(answers[0])
-	displayBox = get_node("MarginContainer/Rows/AnswerBoxes/AnswerRight/EmojiCanvas")
-	displayBox.decode_emojis(answers[1])
+	leftDisplayBox.decode_emojis(answers[0])
+	rightDisplayBox.decode_emojis(answers[1])
 	return
 
 func calculateTotals(ID, votes, audiencePercent):
@@ -42,16 +47,12 @@ func calculateTotals(ID, votes, audiencePercent):
 	#set the score of whichever was calculated to be shown
 	if ID == 1:
 		score1 = totalPoints
-		scoreToUpdate = get_node("MarginContainer/Rows/Results/ScoreLeft")
-		scoreToUpdate.text = str(totalPoints)
-		scoreToUpdate = get_node("MarginContainer/Rows/AudienceVotes/AudienceLeft")
-		scoreToUpdate.text = (str(audiencePercent) + "%")
+		scoreLeftLabel.text = str(totalPoints)
+		audienceLeftLabel.text = (str(audiencePercent) + "%")
 	elif ID == 2:
 		score2 = totalPoints
-		scoreToUpdate = get_node("MarginContainer/Rows/Results/ScoreRight")
-		scoreToUpdate.text = str(totalPoints)
-		scoreToUpdate = get_node("MarginContainer/Rows/AudienceVotes/AudienceRight")
-		scoreToUpdate.text = (str(audiencePercent) + "%")
+		scoreRightLabel.text = str(totalPoints)
+		audienceRightLabel.text = (str(audiencePercent) + "%")
 	return totalPoints
 
 func displayVoters(leftPlayers, rightPlayers):
@@ -59,7 +60,7 @@ func displayVoters(leftPlayers, rightPlayers):
 	#location of the voter images
 	#display the correct voter images that voted for each answer
 	#voterLoc is the location in the scene where the voter display is located
-	var voterLoc = "MarginContainer/Rows/Voters/"
+	#var voterLoc = "MarginContainer/Rows/Voters/"
 	#current node being decided to make visible or invisible
 	var currentNode
 	#go through every player vote and decide which side to show them 

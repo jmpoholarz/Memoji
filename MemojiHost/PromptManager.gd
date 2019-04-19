@@ -1,6 +1,6 @@
 extends Node
 
-const TOTAL_QUESTIONS = 21
+const TOTAL_QUESTIONS = 107
 
 var active_prompt_ids = []
 var active_prompts = {}
@@ -44,10 +44,6 @@ func get_answers_to_prompt(prompt_id): # Returns array of EmojiArrays
 	
 	return answers
 	
-func get_players(prompt_id):
-	
-	pass
-	
 func get_votes(prompt_id, vote_index):
 	var promptObj = active_prompts[prompt_id]
 	
@@ -57,7 +53,6 @@ func get_supporters(prompt_id, vote_index):
 	var promptObj = active_prompts[prompt_id]
 	return promptObj.get_voters_for_answer(vote_index)
 
-# TODO: Fix this
 func check_completion(): # Checks that each prompt has been answered
 	var promptObj
 	
@@ -71,14 +66,27 @@ func check_completion(): # Checks that each prompt has been answered
 	
 	return true
 
-# TODO: handle audience
-func check_votes(promptID, numPlayers): # Checks every player voted on the prompt
-	var promptObj = active_prompts[promptID]
-	if (promptObj.get_votes().size() < numPlayers):
-		return false
+# OLD FUNCTION
+#func check_votes(promptID, numPlayers): # Checks every player voted on the prompt
+#	var promptObj = active_prompts[promptID]
+#	if (promptObj.get_votes().size() < numPlayers):
+#		return false
 		
+#	return true
+# TODO: handle audience
+# players is an Array of Player objects
+# finalFlag is true if on final round (triple voting)
+func check_votes(players, audiencePlayers, finalFlag = false):
+	for p in players:
+		if (!(p.check_vote(finalFlag))):
+			return false
+	# Check that audience is also done voting
+	for p in audiencePlayers:
+		if (!(p.check_vote(finalFlag))):
+			return false
+	
 	return true
-
+	
 func create_prompt():
 	# Get data stored in prompt
 	var prompt_data = _get_new_prompt().split("%%%")

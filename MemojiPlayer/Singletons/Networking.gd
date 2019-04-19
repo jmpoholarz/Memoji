@@ -9,7 +9,7 @@ signal forcedToDisconnect
 signal gameStartedByHost
 signal gameEndedByHost
 signal promptReceived(promptID, prompt)
-signal answersReceived(answerArray)
+signal answersReceived(prompt, answerArray)
 signal enteredInvalidUsername
 signal enteredValidUsername
 signal enteredInvalidAnswer
@@ -19,6 +19,7 @@ signal enteredValidVote
 signal enteredInvalidMultiVote
 signal enteredValidMultiVote
 signal updatePlayerGameState(messageDict)
+signal lostConnection()
 # # # # # # # # # #
 
 var defaultServerIP = "18.224.39.240"
@@ -28,6 +29,7 @@ var defaultServerPort = 3000
 
 var letterCode = "????"
 var mostRecentMessage = ""
+var playerID = ""
 
 var socket = null
 var startedTest = false
@@ -35,6 +37,7 @@ var startedTest = false
 func _ready():
 	socket = StreamPeerTCP.new()
 	socket.set_no_delay(true)
+
 	#___test()
 
 func ___test():
@@ -53,6 +56,10 @@ func _process(delta):
 		#pass
 		if socket.get_available_bytes() > 0:
 			getMessageFromServer()
+
+func setPlayerId(id):
+	playerID = id
+
 
 func connectPlayerToServer(serverIP, serverPort):
 	"""
@@ -76,6 +83,7 @@ func connectPlayerToServer(serverIP, serverPort):
 			print("Connection attempt made on " + defaultServerIP + ":" + str(defaultServerPort))
 			Logger.writeLine("Connection attempt made on " + defaultServerIP + ":" + str(defaultServerPort))
 			emit_signal("_connectedToServer")
+		return response
 
 func disconnectPlayerFromServer():
 	"""
@@ -107,7 +115,17 @@ func _on_ConnectingTimer_timeout():
 func sendMessageToServer(message):
 	# Check if can send message
 	if !socket.is_connected_to_host():
+		var response = connectPlayerToServer(defaultServerIP, defaultServerPort)
+		if response == OK:
+			# Send reconnection message to server
+			var reconn_message = {
+				"messageType": 406,
+				"letterCode": letterCode,
+				"playerID": "placeholder"
+			}
+			return
 		print("Failed to send message.  Not connected to server.")
+		emit_signal("lostConnection")
 		Logger.writeLine("Failed to send message (" + str(message) + ").  Not connected to server.")
 		return
 	# Check if valid message
@@ -158,6 +176,7 @@ func getMessageFromServer():
 			sendMessageToServer(mostRecentMessage)
 		MESSAGE_TYPES.VALID_SERVER_CODE:
 			letterCode = messageDict["letterCode"]
+			playerID = messageDict["playerID"]
 			emit_signal("enteredValidHostCode", messageDict["playerID"], messageDict["isPlayer"], messageDict["letterCode"])
 		MESSAGE_TYPES.INVALID_SERVER_CODE:
 			emit_signal("enteredInvalidHostCode")
@@ -172,7 +191,7 @@ func getMessageFromServer():
 		MESSAGE_TYPES.HOST_SENDING_PROMPT:
 			emit_signal("promptReceived", messageDict["promptID"], messageDict["prompt"])
 		MESSAGE_TYPES.HOST_SENDING_ANSWERS:
-			emit_signal("answersReceived", messageDict["answers"])
+			emit_signal("answersReceived", messageDict["prompt"], messageDict["answers"])
 		MESSAGE_TYPES.INVALID_USERNAME:
 			emit_signal("enteredInvalidUsername")
 		MESSAGE_TYPES.ACCEPTED_USERNAME_AND_AVATAR:

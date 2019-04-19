@@ -27,3 +27,4 @@ const AVATARPATHS = [
 const DEFAULTAVATAR = "res://Assets/Emojis/blank.png"	# Default transparent 
 
 const MAXPLAYERS = 8
+const MAXROUNDS = 3

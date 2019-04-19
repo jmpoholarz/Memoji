@@ -1,0 +1,125 @@
+[gd_resource type="Theme" load_steps=15 format=2]
+
+[ext_resource path="res://Assets/Themes/stylebox/green_disabled.tres" type="StyleBox" id=1]
+[ext_resource path="res://Assets/Themes/stylebox/green_hover.tres" type="StyleBox" id=2]
+[ext_resource path="res://Assets/Themes/stylebox/green_default.tres" type="StyleBox" id=3]
+[ext_resource path="res://Assets/Themes/stylebox/green_pressed.tres" type="StyleBox" id=4]
+[ext_resource path="res://Assets/checked_third.png" type="Texture" id=5]
+[ext_resource path="res://Assets/unchecked_third.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Themes/font/comfortaa_reg_32.tres" type="DynamicFont" id=7]
+[ext_resource path="res://Assets/Themes/font/comfortaa_reg_24.tres" type="DynamicFont" id=8]
+[ext_resource path="res://Assets/left_arrow_half.png" type="Texture" id=9]
+[ext_resource path="res://Assets/right_arrow_half.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Themes/stylebox/green_window_inner.tres" type="StyleBox" id=11]
+[ext_resource path="res://Assets/Themes/stylebox/green_window.tres" type="StyleBox" id=12]
+[ext_resource path="res://Assets/up_arrow_half.png" type="Texture" id=13]
+[ext_resource path="res://Assets/down_arrow_half.png" type="Texture" id=14]
+
+[resource]
+
+default_font = ExtResource( 8 )
+Button/colors/font_color = Color( 1, 1, 1, 1 )
+Button/colors/font_color_disabled = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
+Button/colors/font_color_pressed = Color( 0.387364, 0.902344, 0.359528, 1 )
+Button/constants/hseparation = 2
+Button/fonts/font = null
+Button/styles/disabled = ExtResource( 1 )
+Button/styles/focus = null
+Button/styles/hover = ExtResource( 2 )
+Button/styles/normal = ExtResource( 3 )
+Button/styles/pressed = ExtResource( 4 )
+CheckBox/colors/font_color = Color( 1, 1, 1, 1 )
+CheckBox/colors/font_color_disabled = Color( 1, 1, 1, 1 )
+CheckBox/colors/font_color_hover = Color( 1, 1, 1, 1 )
+CheckBox/colors/font_color_pressed = Color( 0.384314, 0.901961, 0.356863, 1 )
+CheckBox/constants/check_vadjust = 0
+CheckBox/constants/hseparation = 4
+CheckBox/fonts/font = null
+CheckBox/icons/checked = ExtResource( 5 )
+CheckBox/icons/radio_checked = ExtResource( 5 )
+CheckBox/icons/radio_unchecked = ExtResource( 6 )
+CheckBox/icons/unchecked = ExtResource( 6 )
+CheckBox/styles/disabled = null
+CheckBox/styles/focus = null
+CheckBox/styles/hover = null
+CheckBox/styles/normal = null
+CheckBox/styles/pressed = null
+CheckButton/colors/font_color = Color( 1, 1, 1, 1 )
+CheckButton/colors/font_color_disabled = Color( 1, 1, 1, 1 )
+CheckButton/colors/font_color_hover = Color( 1, 1, 1, 1 )
+CheckButton/colors/font_color_pressed = Color( 0.384314, 0.901961, 0.356863, 1 )
+CheckButton/constants/check_vadjust = 0
+CheckButton/constants/hseparation = 4
+CheckButton/fonts/font = null
+CheckButton/icons/off = ExtResource( 6 )
+CheckButton/icons/on = ExtResource( 5 )
+CheckButton/styles/disabled = null
+CheckButton/styles/focus = null
+CheckButton/styles/hover = null
+CheckButton/styles/normal = null
+CheckButton/styles/pressed = null
+Fonts/fonts/large = ExtResource( 7 )
+Fonts/fonts/normal = ExtResource( 8 )
+HScrollBar/icons/decrement = ExtResource( 9 )
+HScrollBar/icons/decrement_highlight = ExtResource( 9 )
+HScrollBar/icons/increment = ExtResource( 10 )
+HScrollBar/icons/increment_highlight = ExtResource( 10 )
+HScrollBar/styles/grabber = ExtResource( 3 )
+HScrollBar/styles/grabber_highlight = ExtResource( 2 )
+HScrollBar/styles/grabber_pressed = ExtResource( 4 )
+HScrollBar/styles/scroll = ExtResource( 11 )
+HScrollBar/styles/scroll_focus = null
+Icons/icons/close = null
+Icons/icons/logo = null
+Label/colors/font_color = Color( 1, 1, 1, 1 )
+Label/colors/font_color_shadow = Color( 0.6, 0.6, 0.6, 1 )
+Label/constants/line_spacing = 3
+Label/constants/shadow_as_outline = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/fonts/font = null
+Label/styles/normal = null
+LineEdit/colors/cursor_color = Color( 1, 1, 1, 1 )
+LineEdit/colors/font_color = Color( 1, 1, 1, 1 )
+LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
+LineEdit/colors/selection_color = Color( 1, 1, 1, 1 )
+LineEdit/constants/minimum_spaces = 12
+LineEdit/fonts/font = null
+LineEdit/styles/focus = ExtResource( 2 )
+LineEdit/styles/normal = ExtResource( 3 )
+LineEdit/styles/read_only = ExtResource( 1 )
+Panel/styles/panel = ExtResource( 12 )
+Panel/styles/panelf = null
+Panel/styles/panelnc = null
+PanelContainer/styles/panel = ExtResource( 12 )
+PopupPanel/styles/panel = ExtResource( 12 )
+TabContainer/colors/font_color_bg = Color( 1, 1, 1, 1 )
+TabContainer/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+TabContainer/colors/font_color_fg = Color( 0.384314, 0.901961, 0.356863, 1 )
+TabContainer/constants/hseparation = 4
+TabContainer/constants/label_valign_bg = 2
+TabContainer/constants/label_valign_fg = 0
+TabContainer/constants/side_margin = 8
+TabContainer/constants/top_margin = 24
+TabContainer/fonts/font = null
+TabContainer/icons/decrement = null
+TabContainer/icons/decrement_highlight = null
+TabContainer/icons/increment = null
+TabContainer/icons/increment_highlight = null
+TabContainer/icons/menu = null
+TabContainer/icons/menu_highlight = null
+TabContainer/styles/panel = ExtResource( 11 )
+TabContainer/styles/tab_bg = ExtResource( 3 )
+TabContainer/styles/tab_fg = ExtResource( 4 )
+VScrollBar/icons/decrement = ExtResource( 13 )
+VScrollBar/icons/decrement_highlight = ExtResource( 13 )
+VScrollBar/icons/increment = ExtResource( 14 )
+VScrollBar/icons/increment_highlight = ExtResource( 14 )
+VScrollBar/styles/grabber = ExtResource( 3 )
+VScrollBar/styles/grabber_highlight = ExtResource( 2 )
+VScrollBar/styles/grabber_pressed = ExtResource( 4 )
+VScrollBar/styles/scroll = ExtResource( 11 )
+VScrollBar/styles/scroll_focus = ExtResource( 11 )
+_sections_unfolded = [ "Fonts/fonts", "HScrollBar", "HScrollBar/icons", "HSlider/icons", "HSlider/styles", "Icons/icons", "Label/colors", "LineEdit/colors", "Panel", "Panel/styles", "PanelContainer", "PanelContainer/styles", "PopupPanel", "PopupPanel/styles", "TabContainer/styles", "VScrollBar/styles" ]
+

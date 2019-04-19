@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Assets/Themes/grey_window_theme.tres" type="Theme" id=1]
+[ext_resource path="res://Assets/Themes/grey_inner_theme.tres" type="Theme" id=1]
 [ext_resource path="res://PlayerVoting.gd" type="Script" id=2]
 [ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Screens/Elements/VotingButtonGroup.tres" type="ButtonGroup" id=4]
 
-[node name="Panel" type="Panel" index="0"]
+[node name="Panel" type="Panel"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -72,7 +72,6 @@ align = 1
 
 [node name="ExampleResizedCanvas" parent="." index="2" instance=ExtResource( 3 )]
 
-visible = false
 rect_scale = Vector2( 0.5, 0.5 )
 
 [node name="GridContainer" type="GridContainer" parent="." index="3"]

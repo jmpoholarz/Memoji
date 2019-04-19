@@ -21,10 +21,14 @@ enum GAME_STATE {
 	RESULTS_PHASE = 3
 	ROUND_RESULTS = 4
 	FINAL_RESULTS = 5
+	MULTI_PROMPT_PHASE = 6
+	MULTI_VOTE_PHASE = 7
+	MULTI_RESULTS_PHASE = 8
 }
 
-func findPlayer(id):
-	for p in players:
+# arr - array to look in # id - playerID
+func findPlayer(arr, id):
+	for p in arr:
 		if (p.playerID == id):
 			return p
 	return null
@@ -72,6 +76,8 @@ func setupGame():
 	# Everything ok to start
 	currentState = GAME_STATE.PROMPT_PHASE
 	for player in players: # Clear prompts left from last round
+		player.vote = null
+		player.totalScore = 0
 		player.clear_prompts()
 
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
@@ -162,24 +168,34 @@ func pair_players(numPlayers):
 func votePhase(): # handle voting for one prompt
 	var answers # Array
 	var promptID # Integer
+	var prompt_text
 	var promptObj
 
 	promptID = $PromptManager.active_prompt_ids[currentPrompt]
 	answers = $PromptManager.get_answers_to_prompt(promptID)
 	promptObj = $PromptManager.active_prompts[promptID]
+	prompt_text = promptObj.prompt_text
 
 	print("DEBUG: entered votephase")
 	currentState = GAME_STATE.VOTE_PHASE
+
+	# TODO: Reset everyone's stored votes
+	for p in players:
+		p.clear_vote()
+	for p in audiencePlayers:
+		p.clear_vote()
+	for p in disconnected_players:
+		p.clear_vote()
 
 	# Change to VotingScreen if not already there and update it
 	if ($ScreenManager.currentScreen != GlobalVars.SCREENS.VOTE_SCREEN):
 		$ScreenManager.changeScreenTo(GlobalVars.SCREENS.VOTE_SCREEN)
 	$ScreenManager.currentScreenInstance.display_emojis(answers[0], answers[1])
 	$ScreenManager.currentScreenInstance.display_prompt_text(promptObj.get_prompt_text())
-	sendAnswersForVoting(answers)
+	sendAnswersForVoting(promptText, answers)
 
 # Sends the Answers to Players corresponding to the promptID given
-func sendAnswersForVoting(answers):
+func sendAnswersForVoting(prompt_text, answers):
 	print("DEBUG: sendAnswersForVoting!!!!")
 	var message
 
@@ -187,6 +203,7 @@ func sendAnswersForVoting(answers):
 		message = {
 			"messageType": MESSAGE_TYPES.HOST_SENDING_ANSWERS,
 			"letterCode": lobbyCode,
+			"prompt": prompt_text,
 			"answers": answers
 		}
 		$Networking.sendMessageToServer(message)
@@ -197,7 +214,7 @@ func resultsPhase():
 	var competitorIDs = $PromptManager.active_prompts[promptID].get_competitors()
 	competitors = []
 	for index in range(competitorIDs.size()):
-		competitors.append(findPlayer(competitorIDs[index]))
+		competitors.append(findPlayer(players, competitorIDs[index]))
 
 	currentState = GAME_STATE.RESULTS_PHASE
 	showResults()
@@ -225,9 +242,9 @@ func showResults():
 	rightVoters.resize(rightVoterIDs.size())
 
 	for index in range(leftVoterIDs.size()):
-		leftVoters[index] = findPlayer(leftVoterIDs[index])
+		leftVoters[index] = findPlayer(players, leftVoterIDs[index])
 	for index in range(rightVoterIDs.size()):
-		rightVoters[index] = findPlayer(rightVoterIDs[index])
+		rightVoters[index] = findPlayer(players, rightVoterIDs[index])
 
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
 	$ScreenManager.currentScreenInstance.displayAnswers(answers)
@@ -257,7 +274,7 @@ func showResults():
 			players[x].increase_score(results1) # NEW - repalces totalScoreTally
 	# TODO: Remove this line
 	totalScoreTally[pIndex] += results1
-	
+
 	pIndex = 0
 	for x in range(0,players.size()):
 		if competitors[1] == players[x]:
@@ -322,7 +339,10 @@ func updatePlayerGameState(player):
 			# Get vote options
 			var promptID = $PromptManager.active_prompt_ids[currentPrompt]
 			var answers = $PromptManager.get_answers_to_prompt(promptID)
+			var promptObj = $PromptManager.active_prompts[promptID]
+			var promptText = promptObj.prompt_text
 			message["answers"] = answers
+			message["prompt"] = promptText
 		GAME_STATE.RESULTS_PHASE:
 			pass
 		GAME_STATE.ROUND_RESULTS:
@@ -350,7 +370,6 @@ func toTitle():
 	competitors.clear()
 	lobbyCode = null
 
-	# TODO Sprint 2: handle currentState, currentRound
 	$ScreenManager.changeScreenTo(GlobalVars.TITLE_SCREEN)
 
 func connectToServer():
@@ -468,11 +487,26 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 	var message
 	var promptID
 
+	var playerObj
+	var playerFlag = true # becomes false for audience member
+
 	if (currentState == GAME_STATE.VOTE_PHASE):
 		promptID = $PromptManager.active_prompt_ids[currentPrompt]
 		voteID = int(voteID)
 
-		# TODO: Error check
+		# Update player/audience objects to store vote
+		playerObj = findPlayer(players, playerID)
+		if (playerObj == null): # Find audience if not a player
+			playerObj = findPlayer(audiencePlayers, playerID)
+			playerFlag = false
+		else:
+			playerFlag = true
+		
+		if (playerObj != null): # Player/Audience exists
+			playerObj.regular_vote(voteID)
+			print("DEBUG: recorded vote of ", playerID)
+
+		# TODO: Redo this later
 		var temp = $PromptManager.set_vote(promptID, playerID, voteID)
 		print("DEBUG: set_vote - ", temp)
 
@@ -483,13 +517,21 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 		}
 		$Networking.sendMessageToServer(message)
 
+		# TODO: Change this
 		# Check that all votes are in
-		if ($PromptManager.check_votes(promptID, players.size())):
+		if ($PromptManager.check_votes(players, audiencePlayers)):
 			advanceGame()
 
 
 func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
-	pass # replace with function body
+	if (currentState != GAME_STATE.MULTI_VOTE_PHASE):
+		return
+	
+	if (voteArray.size() < 3): # check voteArray size
+		return # TODO: Maybe error handle
+	
+	# TODO: Implement multivote
+	pass
 
 
 func _on_Networking_playerBadDisconnect(playerID):
@@ -498,10 +540,12 @@ func _on_Networking_playerBadDisconnect(playerID):
 	for player in players:
 		if player.playerID == playerID:
 			print("DEBUG MESSAGE: Player found")
-			disconnected_players.append(player)
 			players.erase(player)
 			if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 				$ScreenManager.currentScreenInstance.update_from_list(players)
+			else:
+				disconnected_players.append(player)
+			return
 
 
 func _on_ScreenManager_sendMessageToServer(msg):
@@ -521,3 +565,8 @@ func _on_ScreenManager_handleGameState(msg):
 		if (msg == "advance"):
 			advanceGame()
 			return
+
+
+func _on_Networking_lostConnection():
+	$ScreenManager.lost_connection()
+	pass # replace with function body

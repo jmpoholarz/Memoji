@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Assets/Themes/grey_window_theme.tres" type="Theme" id=1]
+[ext_resource path="res://Assets/Themes/grey_inner_theme.tres" type="Theme" id=1]
 [ext_resource path="res://Screens/TitleScreen.gd" type="Script" id=2]
-[ext_resource path="res://Assets/logo_memoji.png" type="Texture" id=3]
+[ext_resource path="res://Assets/logo_memoji_80.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Emojis/symbols/punctuation/203c.png" type="Texture" id=4]
 [ext_resource path="res://Screens/Elements/ErrorPopup.tscn" type="PackedScene" id=5]
 

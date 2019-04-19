@@ -15,6 +15,8 @@ signal sendMessageToServer(msg)
 signal handleGameState(msg)			# for GameStateManager
 signal startGame()
 
+onready var _LostConnectionPopup = $LostConectionPopup
+
 var currentScreen
 var currentScreenInstance
 
@@ -70,3 +72,6 @@ func forwardGameState(msg):
 
 func startGame():
 	emit_signal("startGame")
+
+func lost_connection():
+	_LostConnectionPopup.popup()
