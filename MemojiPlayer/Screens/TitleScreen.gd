@@ -81,7 +81,7 @@ func _on_YesReconnectButton_pressed():
 	}
 	emit_signal("sendMessage", message)
 	_ReconnectPopup.hide()
-	_ConnectingLabel.visable = true
+	_ConnectingLabel.visible = true
 	pass # replace with function body
 
 func _on_NoReconnectButton_pressed():
