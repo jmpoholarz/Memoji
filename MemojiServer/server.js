@@ -150,7 +150,7 @@ if (cluster.isMaster) {
       }
       // Not a Host
       // Is this a Player?
-      console.log(players)
+      console.log(players);
       sock = _.find(players, (player) => {
         return player.socket === socket;
       });
