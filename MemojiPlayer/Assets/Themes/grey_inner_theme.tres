@@ -86,7 +86,7 @@ LineEdit/colors/selection_color = Color( 0.133333, 0.133333, 0.133333, 1 )
 LineEdit/constants/minimum_spaces = 12
 LineEdit/fonts/font = null
 LineEdit/styles/focus = ExtResource( 2 )
-LineEdit/styles/normal = ExtResource( 4 )
+LineEdit/styles/normal = ExtResource( 3 )
 LineEdit/styles/read_only = ExtResource( 1 )
 Panel/styles/panel = ExtResource( 11 )
 Panel/styles/panelf = null
@@ -120,5 +120,5 @@ VScrollBar/styles/grabber_highlight = ExtResource( 2 )
 VScrollBar/styles/grabber_pressed = ExtResource( 4 )
 VScrollBar/styles/scroll = ExtResource( 11 )
 VScrollBar/styles/scroll_focus = ExtResource( 11 )
-_sections_unfolded = [ "Button/colors", "CheckBox/colors", "CheckButton/colors", "Fonts/fonts", "HScrollBar/styles", "HSlider/icons", "HSlider/styles", "Icons/icons", "LineEdit/colors", "Panel", "Panel/styles", "PanelContainer", "PanelContainer/styles", "PopupPanel", "PopupPanel/styles", "VScrollBar/styles" ]
+_sections_unfolded = [ "Button/colors", "CheckBox/colors", "CheckButton/colors", "Fonts/fonts", "HScrollBar/styles", "HSlider/icons", "HSlider/styles", "Icons/icons", "LineEdit", "LineEdit/colors", "LineEdit/styles", "Panel", "Panel/styles", "PanelContainer", "PanelContainer/styles", "PopupPanel", "PopupPanel/styles", "VScrollBar/styles" ]
 
