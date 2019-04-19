@@ -113,6 +113,7 @@ func sendMessageToServer(message):
 			return
 		print("Failed to send message.  Not connected to server.")
 		Logger.writeLine("Failed to send message (" + str(message) + ").  Not connected to server.")
+		emit_signal("lostConnection")
 		return
 	# Check if valid message
 	if message["messageType"] != MESSAGE_TYPES.HOST_REQUESTING_CODE:
