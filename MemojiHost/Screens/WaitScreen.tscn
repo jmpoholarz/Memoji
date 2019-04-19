@@ -3,7 +3,7 @@
 [ext_resource path="res://Screens/WaitScreen.gd" type="Script" id=1]
 [ext_resource path="res://Screens/Elements/ConfirmationRow.tscn" type="PackedScene" id=2]
 
-[node name="WaitScreen" type="Panel" index="0"]
+[node name="WaitScreen" type="Panel"]
 
 anchor_left = 0.0
 anchor_top = 0.0
