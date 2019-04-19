@@ -14,6 +14,7 @@ var repeatState = false
 
 func _ready():
 	_PlayButton.disabled = true
+	
 
 func update_lettercode(code):
 	_CodeLabel.text = code
@@ -28,14 +29,13 @@ func _on_RequestCodeButton_pressed():
 
 
 func _on_InstructionsCheck_toggled(button_pressed):
-	if button_pressed:
-		instructionState = true
+	instructionState = !instructionState
+	if instructionState:
 		repeatState = false
 		_RepeatToggle.pressed = false
 		_RepeatToggle.visible = true
 	else:
 		repeatState = false
-		instructionState = false
 		_RepeatToggle.visible = false
 		_RepeatToggle.pressed = false
 
