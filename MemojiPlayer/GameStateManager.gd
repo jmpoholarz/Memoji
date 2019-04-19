@@ -106,7 +106,7 @@ func _on_Networking_enteredValidHostCode(playerID, isPlayer, code):
 	player.playerID = playerID
 	player.isPlayer = isPlayer
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
-		if isPlayer:
+		if !isPlayer:
 			$ScreenManager.changeScreenTo($ScreenManager.LOBBY_SCREEN)
 			playerName = "Audience"
 			$ScreenManager.currentScreenInstance.hide_back_button()
