@@ -339,7 +339,10 @@ func updatePlayerGameState(player):
 			# Get vote options
 			var promptID = $PromptManager.active_prompt_ids[currentPrompt]
 			var answers = $PromptManager.get_answers_to_prompt(promptID)
+			var promptObj = $PromptManager.active_prompts[promptID]
+			var promptText = promptObj.prompt_text
 			message["answers"] = answers
+			message["prompt"] = promptText
 		GAME_STATE.RESULTS_PHASE:
 			pass
 		GAME_STATE.ROUND_RESULTS:
@@ -550,3 +553,8 @@ func _on_ScreenManager_handleGameState(msg):
 		if (msg == "advance"):
 			advanceGame()
 			return
+
+
+func _on_Networking_lostConnection():
+	$ScreenManager.lost_connection()
+	pass # replace with function body
