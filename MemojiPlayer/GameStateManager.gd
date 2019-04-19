@@ -37,11 +37,6 @@ func _on_ScreenManager_sendMessageToServer(msg):
 func _on_ScreenManager_updateGameState(newState):
 	currentState = newState
 
-func handleReceivedAnswers(prompt, answers):
-	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
-		$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
-		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
-			$ScreenManager.currentScreenInstance.set_answers(answers)
 
 ######################################
 # # # # # GENERAL NETWORKING # # # # #
