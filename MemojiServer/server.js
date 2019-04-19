@@ -156,21 +156,21 @@ if (cluster.isMaster) {
       });
       if (sock !== undefined) {
         console.log("Client that disconnected was a Player:");
-        //console.log(sock);
         console.log(`LetterCode: ${sock.code}`);
-        // Handle Player properly
-        _.remove(players, sock);
-        sock.isActive = false;
-        players.push(sock);
+
         // Find Host for this player
         const host = _.find(hosts, ['code', sock.code]);
         if (host == undefined) {
           console.error(`Issue finding host with letterCode: ${sock.code}`);
           return;
         }
-        // Else Send message to Host that a player has disconnected
-        // Remove player from Host players array
+        // Handle Player properly
+        _.remove(players, sock);
         _.remove(host.players, sock);
+        sock.isActive = false;
+        players.push(sock);
+        host.players.push(sock);
+
         const res = {
           "messageType": 132,
           "letterCode": sock.code,
@@ -562,8 +562,8 @@ async function pingPlayers() {
   var players_to_remove_during_ping = []
   var players_to_remove_after_ping = []
   _.forEach(players, (player) => {
-    console.log("Send message to player with letter code:");
-    console.log(player.letterCode);
+    console.log("Send message to player:");
+    console.log(`${player.id}, ${player.code}, ${player.isActive}`);
     player.isActive = false;
     const res = {
       "messageType": 120
@@ -979,9 +979,15 @@ function handlePlayerReConn(letterCode, message, socket) {
     id: message.playerID,
     isActive: true
   }
-  host.players.remove(player_in_host);
+
+  _.remove(host.players, (player) => {
+    return player.id == player_in_host.id;
+  });
   host.players.push(reconnected_player);
-  players.remove(old_player);
+
+  _.remove(players, (player) => {
+    return player.id == old_player.id;
+  });
   players.push(reconnected_player);
 
   update_hosts();
@@ -1026,8 +1032,8 @@ function sendToAllPlayers(letterCode, message) {
 
 
 function sendToPlayer(message) {
-  console.log('Current players:');
-  console.log(players)
+  // console.log('Current players:');
+  // console.log(players)
   console.log(`Find player with id: ${message.playerID}`);
   const player = _.find(players, (p) => {
     console.log(p.id);

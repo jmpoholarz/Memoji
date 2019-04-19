@@ -18,12 +18,13 @@ signal enteredInvalidVote
 signal enteredValidVote
 signal enteredInvalidMultiVote
 signal enteredValidMultiVote
+signal acceptedPlayerReconnection()
 signal updatePlayerGameState(messageDict)
 signal lostConnection()
 # # # # # # # # # #
 
-var defaultServerIP = "18.224.39.240"
-#var defaultServerIP = "127.0.0.1"
+#var defaultServerIP = "18.224.39.240"
+var defaultServerIP = "127.0.0.1"
 #var defaultServerPort = 7575
 var defaultServerPort = 3000
 
@@ -112,6 +113,7 @@ func sendMessageToServer(message):
 	# Check if can send message
 	if !socket.is_connected_to_host():
 		var response = connectPlayerToServer(defaultServerIP, defaultServerPort)
+		yield(get_tree().create_timer(1), "timeout")
 		if response == OK:
 			# Send reconnection message to server
 			var reconn_message = {
@@ -176,6 +178,8 @@ func getMessageFromServer():
 			emit_signal("enteredValidHostCode", messageDict["playerID"], messageDict["isPlayer"], messageDict["letterCode"])
 		MESSAGE_TYPES.INVALID_SERVER_CODE:
 			emit_signal("enteredInvalidHostCode")
+		MESSAGE_TYPES.ACCEPTED_PLAYER_RECONNECTION:
+			emit_signal("acceptedPlayerReconnection")
 		MESSAGE_TYPES.SERVER_FORCE_DISCONNECT_CLIENT:
 			print("Forcibly disconnected from Host by Server.")
 			emit_signal("forcedToDisconnect")
@@ -205,6 +209,7 @@ func getMessageFromServer():
 		MESSAGE_TYPES.ACCEPTED_MULTI_VOTE:
 			emit_signal("enteredInvalidMultiVote")
 		MESSAGE_TYPES.UPDATE_PLAYER_GAME_STATE:
+			print("UPDATE_PLAYER_GAME_STATE")
 			emit_signal("updatePlayerGameState", messageDict)
 		_:
 			print("Unrecognized message code " + str(messageCode))

@@ -80,6 +80,8 @@ func _on_YesReconnectButton_pressed():
 		"playerID": game_info["player_id"]
 	}
 	emit_signal("sendMessage", message)
+	_ReconnectPopup.hide()
+	_ConnectingLabel.visable = true
 	pass # replace with function body
 
 func _on_NoReconnectButton_pressed():

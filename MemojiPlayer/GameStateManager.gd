@@ -28,6 +28,23 @@ func _ready():
 	$ScreenManager.connect("disconnectFromServer", self, "disconnectFromServer")
 	$Networking.connect("_disconnectedFromServer", self, "_on_Networking_connectionTimeout")
 
+func handleReceivedPrompt(prompt_id, prompt_text):
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN)
+		if $ScreenManager.currentScreen != $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
+			yield($ScreenManager, "screen_change_completed") # Needs testing
+		current_prompts.append([prompt_id, prompt_text])
+		$ScreenManager.currentScreenInstance.add_prompts([[prompt_id, prompt_text]])
+		$ScreenManager.currentScreenInstance.get_next_prompt()
+	elif $ScreenManager.currentScreen == $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
+		current_prompts.append([prompt_id, prompt_text])
+		$ScreenManager.currentScreenInstance.add_prompts([[prompt_id, prompt_text]])
+
+func handleReceivedAnswers(prompt, answers):
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
+		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
+			$ScreenManager.currentScreenInstance.set_answers(answers)
 
 func _on_ScreenManager_sendMessageToServer(msg):
 	if player != null:
@@ -70,13 +87,19 @@ func _on_Networking_forcedToDisconnect():
 	# Store empty game session
 	SessionStorer.save_game_info("", "")
 
+func _on_Networking_acceptedPlayerReconnection():
+	print("Player reconnected to server properly")
+	pass # replace with function body
+
 func _on_Networking_updatePlayerGameState(messageDict):
-	match (messageDict["gameState"]):
+	print("GameState from message: " + str(messageDict["gameState"]))
+	match (int(messageDict["gameState"])):
 		GAME_STATE.NOT_STARTED:
-			currentState = messageDict["gameState"]
+			pass
 		GAME_STATE.PROMPT_PHASE:
 			# We have prompts to answer
 			# Look at received prompts
+			print("HEY!!!!")
 			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
 			for x in range(messageDict["promptIDs"].size()):
 				handleReceivedPrompt(messageDict["promptIDs"][x], messageDict["promptText"][x])
@@ -94,6 +117,8 @@ func _on_Networking_updatePlayerGameState(messageDict):
 		GAME_STATE.FINAL_RESULTS:
 			# TODO
 			pass
+	currentState = messageDict["gameState"]
+	print("End of updatePlayerGameState")
 	pass # replace with function body
 
 
@@ -196,3 +221,6 @@ func _on_Networking_enteredValidMultiVote():
 
 func _on_Networking_enteredInvalidMultiVote():
 	pass # replace with function body
+
+
+

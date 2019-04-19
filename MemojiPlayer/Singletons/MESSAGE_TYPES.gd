@@ -9,6 +9,7 @@ enum MESSAGE_TYPES {
 	SERVER_SENDING_CODE = 111,				# Sent when first delivering ABCD code
 	VALID_SERVER_CODE = 112					# Sent when player enters a valid code
 	INVALID_SERVER_CODE = 113,				# Sent when player enters an invalid code
+	ACCEPTED_PLAYER_RECONNECTION = 114,		# Sent from Server when Player reconnection was successful
 
 	SERVER_PING = 120,						# Sent when server is checking if the game is still active
 	HOST_RESPONDING_TO_PING = 121,			# Sent when host tells the server it's still handing games

@@ -334,6 +334,7 @@ func updatePlayerGameState(player):
 			# Get prompts
 			var prompt_IDs = []
 			var prompt_text = []
+			print(player.get_promptIDs())
 			for prompt_id in player.get_promptIDs():
 				prompt_IDs.append(prompt_id)
 				prompt_text.append($PromptManager.get_prompt_by_id(prompt_id).get_prompt_text())
@@ -472,7 +473,11 @@ func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 	if (currentState == GAME_STATE.PROMPT_PHASE):
 		for player in players:
 			if player.playerID == playerID:
+				print("[DEBUG]: remove current prompt from currentPrompt Array")
+				print("[DEBUG]: Before:")
+				print(player.get_promptIDs())
 				player.currentPromptIDs.erase(promptID)
+				print(player.get_promptIDs())
 				player.answeredPromptIDs.append(promptID)
 		$PromptManager.set_answer(int(promptID), playerID, emojiArray)
 		message = {
