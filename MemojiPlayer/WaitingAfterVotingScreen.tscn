@@ -3,7 +3,6 @@
 [ext_resource path="res://Assets/Themes/grey_inner_theme.tres" type="Theme" id=1]
 [ext_resource path="res://WaitingAfterVotingScreen.gd" type="Script" id=2]
 
-
 [node name="Panel" type="Panel"]
 
 anchor_left = 0.0

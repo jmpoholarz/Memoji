@@ -5,7 +5,7 @@
 [ext_resource path="res://Assets/Themes/grey_inner_theme.tres" type="Theme" id=3]
 [ext_resource path="res://Screens/Elements/EmojiCanvasEditor.tscn" type="PackedScene" id=4]
 
-[node name="PlayerPromptScreen" type="Node" index="0"]
+[node name="PlayerPromptScreen" type="Node"]
 
 script = ExtResource( 1 )
 
@@ -47,7 +47,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 480.0
-margin_bottom = 40.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -63,10 +63,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 476.0
-margin_bottom = 36.0
+margin_left = 8.0
+margin_right = 480.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -145,7 +144,7 @@ _sections_unfolded = [ "Size Flags" ]
 
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 44.0
+margin_top = 36.0
 margin_right = 480.0
 margin_bottom = 800.0
 size_flags_vertical = 3
