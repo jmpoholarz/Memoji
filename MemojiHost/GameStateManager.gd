@@ -506,7 +506,9 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 		else:
 			playerFlag = true
 
-		if (playerObj != null): # Player/Audience exists
+		if (playerObj == null):
+			return # TODO: handle error?
+		else: # Player/Audience exists
 			playerObj.regular_vote(voteID)
 			print("DEBUG: recorded vote of ", playerID)
 
@@ -528,13 +530,34 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 
 
 func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
+	var message
+	var playerObj
+	var localPromptID
+	
 	if (currentState != GAME_STATE.MULTI_VOTE_PHASE):
 		return
 
 	if (voteArray.size() < 3): # check voteArray size
 		return # TODO: Maybe error handle
 
+	playerObj = findPlayer(players, playerID)
+	if (playerObj == null): # Find audience if not a player
+		playerObj = findPlayer(audiencePlayers, playerID)
+	if (playerObj == null):
+		return # Did not find player
+	
 	# TODO: Implement multivote
+	playerObj.multi_vote(voteArray[0], voteArray[1], voteArray[2])
+	
+	message = {
+		"messageType": MESSAGE_TYPES.ACCEPTED_VOTE_RESPONSE,
+		"letterCode": lobbyCode,
+		"playerID": playerID
+	}
+	
+	# TODO: Check vote completion
+	
+	
 	pass
 
 
