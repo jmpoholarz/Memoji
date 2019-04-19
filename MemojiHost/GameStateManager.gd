@@ -553,3 +553,8 @@ func _on_ScreenManager_handleGameState(msg):
 		if (msg == "advance"):
 			advanceGame()
 			return
+
+
+func _on_Networking_lostConnection():
+	$ScreenManager.lost_connection()
+	pass # replace with function body

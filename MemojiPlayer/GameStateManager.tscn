@@ -44,6 +44,8 @@ script = ExtResource( 1 )
 
 [connection signal="gameStartedByHost" from="Networking" to="." method="_on_Networking_gameStartedByHost"]
 
+[connection signal="lostConnection" from="Networking" to="." method="_on_Networking_lostConnection"]
+
 [connection signal="promptReceived" from="Networking" to="." method="_on_Networking_promptReceived"]
 
 [connection signal="updatePlayerGameState" from="Networking" to="." method="_on_Networking_updatePlayerGameState"]
