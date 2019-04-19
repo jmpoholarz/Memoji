@@ -83,7 +83,7 @@ func _on_Networking_updatePlayerGameState(messageDict):
 		GAME_STATE.VOTE_PHASE:
 			# We have voting to do
 			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
-			handleReceivedAnswers(messageDict["answers"])
+			handleReceivedAnswers(messageDict["prompt"], messageDict["answers"])
 			pass
 		GAME_STATE.RESULTS_PHASE:
 			# TODO
