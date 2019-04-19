@@ -150,6 +150,7 @@ if (cluster.isMaster) {
       }
       // Not a Host
       // Is this a Player?
+      console.log(players);
       sock = _.find(players, (player) => {
         return player.socket === socket;
       });
@@ -197,7 +198,6 @@ if (cluster.isMaster) {
         return;
       }
 
-      console.log('client disconnected');
     });
 
     socket.on('data', (data) => {
@@ -1026,7 +1026,11 @@ function sendToAllPlayers(letterCode, message) {
 
 
 function sendToPlayer(message) {
+  console.log('Current players:');
+  console.log(players)
+  console.log(`Find player with id: ${message.playerID}`);
   const player = _.find(players, (p) => {
+    console.log(p.id);
     return p.id == message.playerID;
   });
   if(player == undefined) {

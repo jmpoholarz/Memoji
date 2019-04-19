@@ -120,7 +120,6 @@ func sendMessageToServer(message):
 				"playerID": SessionStorer.get_player_id()
 			}
 			sendMessageToServer(reconn_message)
-			yield(get_tree().create_timer(1), "timeout")
 			return
 		print("Failed to send message.  Not connected to server.")
 		emit_signal("lostConnection")
