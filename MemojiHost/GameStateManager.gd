@@ -519,7 +519,7 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 
 		# TODO: Change this
 		# Check that all votes are in
-		if ($PromptManager.check_votes(promptID, players.size())):
+		if ($PromptManager.check_votes(players, audiencePlayers)):
 			advanceGame()
 
 

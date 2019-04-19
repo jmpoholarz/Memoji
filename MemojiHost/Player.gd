@@ -34,12 +34,28 @@ func clear_vote():
 	votes.clear()
 
 func regular_vote(voteID):
+	var isNew # True if it's the first time a player updates their vote
+	if (votes.size() > 0):
+		isNew = false
+	else:
+		isNew = true
+	
 	votes.resize(1)
 	votes[0] = voteID
+	
+	return isNew
 	
 func multi_vote(goldVote, silverVote, bronzeVote):
 	votes.resize(3)
 	votes[0] = goldVote
 	votes[1] = silverVote
 	votes[2] = bronzeVote
+
+func check_vote(final = false):
+	if (votes.size() < 1):
+		return false
 	
+	if (final && votes.size() < 3):
+		return false
+	
+	return true
