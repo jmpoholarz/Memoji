@@ -181,18 +181,18 @@ func votePhase(): # handle voting for one prompt
 
 	# TODO: Reset everyone's stored votes
 	for p in players:
-		pass
+		p.clear_vote()
 	for p in audiencePlayers:
-		pass
+		p.clear_vote()
 	for p in disconnected_players:
-		pass
+		p.clear_vote()
 
 	# Change to VotingScreen if not already there and update it
 	if ($ScreenManager.currentScreen != GlobalVars.SCREENS.VOTE_SCREEN):
 		$ScreenManager.changeScreenTo(GlobalVars.SCREENS.VOTE_SCREEN)
 	$ScreenManager.currentScreenInstance.display_emojis(answers[0], answers[1])
 	$ScreenManager.currentScreenInstance.display_prompt_text(promptObj.get_prompt_text())
-	sendAnswersForVoting(prompt_text, answers)
+	sendAnswersForVoting(promptText, answers)
 
 # Sends the Answers to Players corresponding to the promptID given
 func sendAnswersForVoting(prompt_text, answers):
@@ -488,6 +488,7 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 	var promptID
 
 	var playerObj
+	var playerFlag = true # becomes false for audience member
 
 	if (currentState == GAME_STATE.VOTE_PHASE):
 		promptID = $PromptManager.active_prompt_ids[currentPrompt]
@@ -497,12 +498,15 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 		playerObj = findPlayer(players, playerID)
 		if (playerObj == null): # Find audience if not a player
 			playerObj = findPlayer(audiencePlayers, playerID)
-
-		if (playerObj != null):
-			playerObj.vote = voteID
+			playerFlag = false
+		else:
+			playerFlag = true
+		
+		if (playerObj != null): # Player/Audience exists
+			playerObj.regular_vote(voteID)
 			print("DEBUG: recorded vote of ", playerID)
 
-		# TODO: Edit this line to handle audiences
+		# TODO: Redo this later
 		var temp = $PromptManager.set_vote(promptID, playerID, voteID)
 		print("DEBUG: set_vote - ", temp)
 
@@ -513,13 +517,21 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 		}
 		$Networking.sendMessageToServer(message)
 
+		# TODO: Change this
 		# Check that all votes are in
-		if ($PromptManager.check_votes(promptID, players.size())):
+		if ($PromptManager.check_votes(players, audiencePlayers)):
 			advanceGame()
 
 
 func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
-	pass # replace with function body
+	if (currentState != GAME_STATE.MULTI_VOTE_PHASE):
+		return
+	
+	if (voteArray.size() < 3): # check voteArray size
+		return # TODO: Maybe error handle
+	
+	# TODO: Implement multivote
+	pass
 
 
 func _on_Networking_playerBadDisconnect(playerID):
