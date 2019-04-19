@@ -54,7 +54,6 @@ func on_startGame():
 		instructions = $ScreenManager.currentScreenInstance.getInstructionState()
 		repeatInstruct = $ScreenManager.currentScreenInstance.getRepeatState()
 	setupGame()
-	currentRound = 1
 
 func setupGame():
 	# Check for if there are enough players joined
@@ -74,11 +73,16 @@ func setupGame():
 			return
 
 	# Everything ok to start
+	currentRound = 1
 	currentState = GAME_STATE.PROMPT_PHASE
 	for player in players: # Clear prompts left from last round
-		player.vote = null
-		player.totalScore = 0
+		player.reset_score()
 		player.clear_prompts()
+		player.clear_vote()
+	for player in audiencePlayers:
+		player.reset_score()
+		player.clear_prompts()
+		player.clear_vote()
 
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
