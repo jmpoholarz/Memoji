@@ -192,7 +192,7 @@ func votePhase(): # handle voting for one prompt
 		$ScreenManager.changeScreenTo(GlobalVars.SCREENS.VOTE_SCREEN)
 	$ScreenManager.currentScreenInstance.display_emojis(answers[0], answers[1])
 	$ScreenManager.currentScreenInstance.display_prompt_text(promptObj.get_prompt_text())
-	sendAnswersForVoting(prompt_text, answers)
+	sendAnswersForVoting(promptText, answers)
 
 # Sends the Answers to Players corresponding to the promptID given
 func sendAnswersForVoting(prompt_text, answers):
