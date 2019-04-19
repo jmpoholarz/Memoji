@@ -109,7 +109,7 @@ func _on_Networking_enteredValidHostCode(playerID, isPlayer, code):
 		if isPlayer:
 			$ScreenManager.changeScreenTo($ScreenManager.LOBBY_SCREEN)
 			playerName = "Audience"
-			$ScreenManager.currenScreenInstance.hide_back_button()
+			$ScreenManager.currentScreenInstance.hide_back_button()
 		else:
 			$ScreenManager.changeScreenTo($ScreenManager.USERINFORMATION_SCREEN)
 		SessionStorer.save_game_info(player.playerID, $Networking.letterCode)

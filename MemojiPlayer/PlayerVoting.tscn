@@ -5,7 +5,7 @@
 [ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Screens/Elements/VotingButtonGroup.tres" type="ButtonGroup" id=4]
 
-[node name="Panel" type="Panel" index="0"]
+[node name="Panel" type="Panel"]
 
 anchor_left = 0.0
 anchor_top = 0.0
