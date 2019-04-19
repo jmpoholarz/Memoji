@@ -49,6 +49,15 @@ func _process(delta):
 		if socket.get_available_bytes() > 0:
 			getMessageFromServer()
 
+func _notification(what):
+	print("notification")
+	if what == NOTIFICATION_PREDELETE:
+		print("destructor")
+		# destructor logic
+		if !(socket.get_status() == socket.STATUS_NONE):
+			disconnectHostFromServer()
+
+
 func connectHostToServer(serverIP, serverPort):
 	"""
 	Tries to connect the host application to the server

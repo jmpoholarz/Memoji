@@ -168,13 +168,13 @@ func pair_players(numPlayers):
 func votePhase(): # handle voting for one prompt
 	var answers # Array
 	var promptID # Integer
-	var promptText
+	var prompt_text
 	var promptObj
 
 	promptID = $PromptManager.active_prompt_ids[currentPrompt]
 	answers = $PromptManager.get_answers_to_prompt(promptID)
 	promptObj = $PromptManager.active_prompts[promptID]
-	promptText = promptObj.prompt_text
+	prompt_text = promptObj.prompt_text
 
 	print("DEBUG: entered votephase")
 	currentState = GAME_STATE.VOTE_PHASE
