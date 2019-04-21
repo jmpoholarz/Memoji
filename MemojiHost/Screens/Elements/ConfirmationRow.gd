@@ -1,6 +1,15 @@
 extends HBoxContainer
 # Class that handles visual confirmation of class 
-onready var displays = [$W1, $W2, $W3, $W4, $W5, $W6, $W7, $W8]
+onready var _W1 = $LeftColumn/W1
+onready var _W2 = $RightColumn/W2
+onready var _W3 = $LeftColumn/W3
+onready var _W4 = $RightColumn/W4
+onready var _W5 = $LeftColumn/W5
+onready var _W6 = $RightColumn/W6
+onready var _W7 = $LeftColumn/W7
+onready var _W8 = $RightColumn/W8
+
+onready var displays = [_W1, _W2, _W3, _W4, _W5, _W6, _W7, _W8]
 var playerCount = 0
 
 func _ready():

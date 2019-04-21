@@ -2,7 +2,7 @@ extends Panel
 
 signal messageServer(msg)
 
-onready var _TimerLabel = $MarginContainer/TimerLabel
+onready var _TimerLabel = $TimerContainer/TimerLabel
 onready var _Timer = $Timer 
 onready var confirmDisplay = $ConfirmationRow
 

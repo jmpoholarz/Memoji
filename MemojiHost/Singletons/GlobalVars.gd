@@ -13,6 +13,8 @@ enum SCREENS {
 	TOTAL_SCREEN = 7
 }
 
+enum AVATAR_EMOTIONS {HAPPY = 1, UNHAPPY = 2, ALTERNATE = 3}
+
 # TODO: Replace with actual avatars
 const AVATARPATHS = [
 	"res://Assets/m1.png",			# 0 (ID)
