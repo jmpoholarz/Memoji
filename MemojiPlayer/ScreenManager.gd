@@ -1,4 +1,4 @@
-extends MarginContainer
+extends Node
 
 var titleScreenScene = preload("res://Screens/TitleScreen.tscn")
 var userinfoScreenScene = preload("res://Screens/UserInformationScreen.tscn")

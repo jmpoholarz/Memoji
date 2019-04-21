@@ -114,7 +114,7 @@ func sendMessageToServer(message):
 	if !socket.is_connected_to_host():
 		var response = connectPlayerToServer(defaultServerIP, defaultServerPort)
 		yield(get_tree().create_timer(1), "timeout")
-		if response == OK:
+		if socket.get_status() == socket.STATUS_CONNECTED:
 			# Send reconnection message to server
 			var reconn_message = {
 				"messageType": 406,
@@ -124,7 +124,8 @@ func sendMessageToServer(message):
 			sendMessageToServer(reconn_message)
 			return
 		print("Failed to send message.  Not connected to server.")
-		emit_signal("lostConnection")
+		if message["messageType"] != MESSAGE_TYPES.PLAYER_CONNECTED:
+			emit_signal("lostConnection")
 		Logger.writeLine("Failed to send message (" + str(message) + ").  Not connected to server.")
 		return
 	# Check if valid message
