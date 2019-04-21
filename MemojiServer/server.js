@@ -117,14 +117,14 @@ if (cluster.isMaster) {
   // Workers can share any TCP connection
 
   // Send a ping to each host every 5 minutes to check if the game is still active
-  setInterval(() => {
-    console.log('[LOG]: Ping Hosts');
-    pingHosts();
-    console.log('[LOG]: End Ping Hosts');
-    console.log('[LOG]: Ping Players');
-    pingPlayers();
-    console.log('[LOG]: End Ping Players');
-  }, 300000);
+  // setInterval(() => {
+  //   console.log('[LOG]: Ping Hosts');
+  //   pingHosts();
+  //   console.log('[LOG]: End Ping Hosts');
+  //   console.log('[LOG]: Ping Players');
+  //   pingPlayers();
+  //   console.log('[LOG]: End Ping Players');
+  // }, 300000);
 
   const server = net.createServer(socket => {
 
@@ -258,11 +258,9 @@ if (cluster.isMaster) {
           break;
         case 121: // Host is still handling games
           console.log('[LOG]: Host is still handling games');
-          // const host = _.find(hosts, ['code', letterCode]);
-          // console.log(host.lastPing);
-          // host.lastPing = moment().valueOf();
-          // console.log(host.lastPing);
-          // update_hosts();
+          const host = _.find(hosts, ['code', letterCode]);
+          host.isActive = true;
+          update_hosts();
           writeToFile(server_log, `${letterCode} Host still handling games`);
           break;
         case 122:
@@ -509,6 +507,7 @@ async function pingHosts() {
   _.forEach(hosts, (host) => {
     console.log('[LOG]: Send message to host with letter code:');
     console.log(host.code);
+    host.isActive = false;
     const res = {
       "messageType": 120
     };
@@ -523,24 +522,18 @@ async function pingHosts() {
 
   });
   // Sleep for 5 seconds to double check if there was a response
-  // console.log('[LOG]: Wait 5 seconds');
-  // await sleep(5000);
-  // console.log('[LOG]: After 5 seconds. Check for Hosts to remove');
-  // console.log('[LOG]: Remove unresponsive Host(s)');
-  // writeToFile(server_log, 'Removing unresponsive Host(s)');
-  // hosts_to_remove_after_ping = _.filter(hosts, (host) => {
-  //   var host_ping = host.lastPing;
-  //   var current_time = moment().valueOf();
-  //   var diff = Math.abs(host_ping - current_time);
-  //   console.log(host_ping);
-  //   console.log(current_time);
-  //   console.log(diff);
-  //   return diff > 6000;
-  // });
-  // hosts_to_remove = hosts_to_remove_during_ping.concat(hosts_to_remove_after_ping);
-  // console.log(hosts_to_remove);
-  console.log(hosts_to_remove_during_ping);
-  _.forEach(hosts_to_remove_during_ping, (host) => {
+  console.log('[LOG]: Wait 5 seconds');
+  await sleep(5000);
+  console.log('[LOG]: After 5 seconds. Check for Hosts to remove');
+  console.log('[LOG]: Remove unresponsive Host(s)');
+  writeToFile(server_log, 'Removing unresponsive Host(s)');
+  hosts_to_remove_after_ping = _.remove(hosts, (host) => {
+    return host.isActive == false;
+  });
+  hosts_to_remove = hosts_to_remove_during_ping.concat(hosts_to_remove_after_ping);
+  console.log(hosts_to_remove);
+  // console.log(hosts_to_remove_during_ping);
+  _.forEach(hosts_to_remove, (host) => {
     _.remove(players, (player) => {
       return player.code == host.code;
     });
@@ -567,7 +560,7 @@ async function pingPlayers() {
   _.forEach(players, (player) => {
     console.log('[LOG]: Send message to player:');
     console.log(`[LOG]: ${player.id}, ${player.code}, ${player.isActive}`);
-    // player.isActive = false;
+    player.isActive = false;
     const res = {
       "messageType": 120
     };
@@ -581,20 +574,20 @@ async function pingPlayers() {
     }
   });
 
-  // console.log('[LOG]: Wait 5 seconds');
-  // await sleep(5000);
-  // console.log('[LOG]: After 5 seconds. Check for Players to remove');
-  // console.log('[LOG]: Remove unresponsive Player(s)');
-  // writeToFile(server_log, 'Removing unresponsive Player(s)');
-  //
-  // players_to_remove_after_ping = _.filter(players, (player) => {
-  //   return player.isActive == false;
-  // });
-  // players_to_remove = players_to_remove_during_ping.concat(players_to_remove_after_ping);
+  console.log('[LOG]: Wait 5 seconds');
+  await sleep(5000);
+  console.log('[LOG]: After 5 seconds. Check for Players to remove');
+  console.log('[LOG]: Remove unresponsive Player(s)');
+  writeToFile(server_log, 'Removing unresponsive Player(s)');
 
-  // console.log(players_to_remove);
-  console.log(players_to_remove_during_ping);
-  _.forEach(players_to_remove_during_ping, (player) => {
+  players_to_remove_after_ping = _.filter(players, (player) => {
+    return player.isActive == false;
+  });
+  players_to_remove = players_to_remove_during_ping.concat(players_to_remove_after_ping);
+
+  console.log(players_to_remove);
+  // console.log(players_to_remove_during_ping);
+  _.forEach(players_to_remove, (player) => {
     _.remove(players, player);
   });
 
@@ -699,7 +692,9 @@ function handleHostCodeRequest(socket) {
     socket: socket,
     players: [],
     audience: [],
-    lastPing: moment().valueOf()
+    lastPing: moment().valueOf(),
+    midGame: false,
+    isActive: true
   };
   hosts.push(host);
 
