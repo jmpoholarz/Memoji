@@ -7,6 +7,7 @@ var lobbyScreenScene = preload("res://Screens/WaitingForGameStartScreen.tscn")
 var prompt_answering_screen_scene = preload("res://Screens/PlayerPromptScreen.tscn")
 var wait_screen = preload("res://Screens/WaitingScreen.tscn")
 var playerWaitingAfterVotingScreen = preload("res://WaitingAfterVotingScreen.tscn")
+var finalVotingScreen = preload("res://FinalVotingScreen.tscn")
 
 signal sendMessageToServer(msg)
 signal connectToServer()
@@ -22,7 +23,8 @@ enum SCREENS {
 	WAITING_SCREEN = 4,
 	PROMPT_ANSWERING_SCREEN = 5,
 	PLAYER_VOTING_SCREEN = 6,
-	PLAYER_WAITING_AFTER_VOTING_SCREEN = 7
+	PLAYER_WAITING_AFTER_VOTING_SCREEN = 7,
+	FINAL_VOTING_SCREEN = 8
 	
 }
 
@@ -92,6 +94,12 @@ func changeScreenTo(screen):
 		
 		PLAYER_WAITING_AFTER_VOTING_SCREEN:
 			currentScreenInstance = wait_screen.instance()
+		
+		FINAL_VOTING_SCREEN:
+			currentScreenInstance = finalVotingScreen.instance()
+			currentScreenInstance.connect("send_message", self, "forwardMessage")
+			currentScreenInstance.connect("change_screen", self, "changeScreenTo")
+			
 
 	currentScreen = screen
 	add_child(currentScreenInstance)
