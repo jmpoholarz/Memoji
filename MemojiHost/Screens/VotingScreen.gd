@@ -1,5 +1,7 @@
 extends Panel
 signal updateGameState(msg)
+signal changeScreen()
+signal messageServer()
 
 onready var _TimerLabel = $TimerLabel
 onready var _Timer = $Timer

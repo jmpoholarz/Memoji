@@ -57,8 +57,8 @@ func changeScreenTo(screen):
 		GlobalVars.TOTAL_SCREEN:
 			currentScreenInstance = totalResultsScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
-		GlobalVars.CREDITS_SCREE:
-			currentScreenInstance = creditsScene
+		GlobalVars.CREDITS_SCREEN:
+			currentScreenInstance = creditsScene.instance()
 			currentScreenInstance.connect("restart", self, "restartGame")
 			currentScreenInstance.connect("newGame", self, "newGame")
 	

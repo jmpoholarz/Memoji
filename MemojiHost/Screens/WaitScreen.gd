@@ -1,6 +1,7 @@
 extends Panel
 
 signal messageServer(msg)
+signal changeScreen()
 
 onready var _TimerLabel = $TimerContainer/TimerLabel
 onready var _Timer = $Timer 
