@@ -629,6 +629,18 @@ func _on_Networking_lostConnection():
 	$ScreenManager.lost_connection()
 	pass # replace with function body
 
+
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+		if $Networking.socket.is_connected_to_host():
+			var message = {
+				"messageType": 130,
+				"letterCode": $Networking.letterCode
+			}
+			$Networking.sendMessageToServer(message)
+		get_tree().quit()
+
+
 func restartGame():
 	instructions = false
 	repeatInstruct = false
