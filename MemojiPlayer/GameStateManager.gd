@@ -126,13 +126,23 @@ func _on_Networking_updatePlayerGameState(messageDict):
 	print("End of updatePlayerGameState")
 	pass # replace with function body
 
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+		if $Networking.socket.is_connected_to_host():
+			var message = {
+				"messageType": 402,
+				"letterCode": $Networking.letterCode,
+				"playerID": player.playerID
+			}
+			$Networking.sendMessageToServer(message)
+		get_tree().quit()
 
 ################################
 # # # # # TITLE SCREEN # # # # #
 ################################
 func _on_Networking_enteredValidHostCode(playerID, isPlayer, code):
 	lobbyCode = code
-	player = playerScene.instance() #might not work
+	player = playerScene.instance()
 	player.playerID = playerID
 	player.isPlayer = isPlayer
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
