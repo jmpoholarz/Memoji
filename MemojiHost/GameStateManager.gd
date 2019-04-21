@@ -618,7 +618,7 @@ func _on_Networking_playerBadDisconnect(playerID):
 				disconnected_players.append(player)
 			return
 	
-	# TODO: Doe we need to handle audience?
+	# TODO: Do we need to handle audience?
 
 
 func _on_ScreenManager_sendMessageToServer(msg):
