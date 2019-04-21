@@ -243,10 +243,10 @@ func showResults():
 	var audienceCount
 	# Votes from players
 	var results = [0, 0]
-	var scores = []
+	var scores = [0, 0]
 	# Audience votes
 	var audienceResults = [0, 0]
-	var aPercentages = []
+	var aPercentages = [0, 0]
 	
 	var leftVoterIDs
 	var rightVoterIDs
@@ -285,7 +285,7 @@ func showResults():
 			audienceResults[1] += 1
 	
 	scores.resize(2)
-	aPercentages.resize(2)
+	#aPercentages.resize(2)
 	audienceCount = audiencePlayers.size()
 	# Calculate audience percent
 	if (audienceCount > 0):
