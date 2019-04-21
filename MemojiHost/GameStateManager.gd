@@ -101,19 +101,16 @@ func promptPhase():
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
 	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
-
-	sendPrompts()
-
-func sendPrompts():
+	
 	# Create message dictionary
 	var messages_to_send = pair_players(players.size())
+	sendPrompts(messages_to_send)
 
+func sendPrompts(messages_to_send):
 	print(messages_to_send)
 	for m in messages_to_send:
 		$Networking.sendMessageToServer(m)
 		yield(get_tree().create_timer(1), "timeout")
-
-	pass
 
 func shufflePlayers(numPlayers):
 	var shuffled_players = []
@@ -335,15 +332,17 @@ func showTotalResults():
 
 func multiPromptPhase():
 	var finalPromptObj
+	var messageArr = []
 	currentState = GAME_STATE.MULTI_PROMPT_PHASE
 	
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
 	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
 	
-	# TODO: Generate a prompt and send it to the players
+	# Generate final prompt
 	finalPromptObj = $PromptManager.create_prompt()
 	for p in players:
+		finalPromptObj.add_competitor(p.playerID) # prepare prompt for answewrs
 		var message = {
 				"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
 				"letterCode": lobbyCode,
@@ -351,7 +350,9 @@ func multiPromptPhase():
 				"prompt": finalPromptObj.get_prompt_text(),
 				"playerID": p.playerID
 		}
-		$Networking.sendMessageToServer(message)
+		messageArr.append(message) # Populate messages to send
+	
+	sendPrompts(messageArr)
 
 func advanceGame():
 	print("DEBUG: Advance Game function")
