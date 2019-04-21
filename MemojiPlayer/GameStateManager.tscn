@@ -5,7 +5,7 @@
 [ext_resource path="res://ScreenManager.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Singletons/Networking.tscn" type="PackedScene" id=4]
 
-[node name="GameStateManager" type="Node" index="0"]
+[node name="GameStateManager" type="Node"]
 
 script = ExtResource( 1 )
 
@@ -65,3 +65,5 @@ _sections_unfolded = [ "Theme" ]
 [connection signal="promptReceived" from="Networking" to="." method="_on_Networking_promptReceived"]
 
 [connection signal="updatePlayerGameState" from="Networking" to="." method="_on_Networking_updatePlayerGameState"]
+
+
