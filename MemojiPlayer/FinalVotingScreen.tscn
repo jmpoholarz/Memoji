@@ -98,10 +98,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -82.0
-margin_top = -113.0
-margin_right = 62.0
-margin_bottom = -56.0
+margin_left = 66.0
+margin_top = -776.0
+margin_right = 210.0
+margin_bottom = -719.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -140,7 +140,6 @@ _sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "M
 
 [node name="Answer1" type="MarginContainer" parent="GridContainer" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -574,6 +573,7 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="Rank1Label" type="RichTextLabel" parent="." index="5"]
 
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
