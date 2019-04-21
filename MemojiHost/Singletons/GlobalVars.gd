@@ -11,7 +11,10 @@ enum SCREENS {
 	VOTE_SCREEN = 5
 	RESULTS_SCREEN = 6
 	TOTAL_SCREEN = 7
+	CREDITS_SCREEN = 8
 }
+
+enum AVATAR_EMOTIONS {HAPPY = 1, UNHAPPY = 2, ALTERNATE = 3}
 
 # TODO: Replace with actual avatars
 const AVATARPATHS = [

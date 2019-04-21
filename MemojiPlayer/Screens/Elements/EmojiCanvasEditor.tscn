@@ -1,16 +1,17 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Screens/Elements/EmojiCanvasEditor.gd" type="Script" id=1]
 [ext_resource path="res://Screens/Elements/EmojiCanvasSubElements/EmojiCanvasContainerPanel.gd" type="Script" id=2]
 [ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Assets/Emojis/blank.png" type="Texture" id=4]
-[ext_resource path="res://Screens/Elements/EmojiCanvasSubElements/EmojiCanvasEditorToolButtonGroup.tres" type="ButtonGroup" id=5]
-[ext_resource path="res://Assets/ObjectIcon.png" type="Texture" id=6]
-[ext_resource path="res://Assets/MoveIcon.png" type="Texture" id=7]
-[ext_resource path="res://Assets/TrashIcon.png" type="Texture" id=8]
-[ext_resource path="res://Screens/Elements/EmojiPalette.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Assets/Themes/grey_inner_theme.tres" type="Theme" id=4]
+[ext_resource path="res://Assets/Emojis/blank.png" type="Texture" id=5]
+[ext_resource path="res://Screens/Elements/EmojiCanvasSubElements/EmojiCanvasEditorToolButtonGroup.tres" type="ButtonGroup" id=6]
+[ext_resource path="res://Assets/ObjectIcon.png" type="Texture" id=7]
+[ext_resource path="res://Assets/MoveIcon.png" type="Texture" id=8]
+[ext_resource path="res://Assets/TrashIcon.png" type="Texture" id=9]
+[ext_resource path="res://Screens/Elements/EmojiPalette.tscn" type="PackedScene" id=10]
 
-[node name="EmojiCanvasContainer" type="Control"]
+[node name="EmojiCanvasContainer" type="Control" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -79,7 +80,8 @@ anchor_bottom = 0.0
 margin_left = 27.0
 margin_right = 360.0
 margin_bottom = 335.0
-_sections_unfolded = [ "Rect", "Size Flags" ]
+theme = ExtResource( 4 )
+_sections_unfolded = [ "Rect", "Size Flags", "Theme" ]
 is_editable = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer" index="1"]
@@ -120,7 +122,7 @@ _sections_unfolded = [ "Rect" ]
 
 [node name="CurrentEmojiSelectedPreview" type="Sprite" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer/CenterContainer" index="0"]
 
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 centered = false
 offset = Vector2( 8, 8 )
 _sections_unfolded = [ "Offset", "Transform" ]
@@ -166,7 +168,7 @@ toggle_mode = true
 pressed = true
 enabled_focus_mode = 2
 shortcut = null
-group = ExtResource( 5 )
+group = ExtResource( 6 )
 flat = false
 align = 1
 _sections_unfolded = [ "Size Flags" ]
@@ -174,7 +176,7 @@ _sections_unfolded = [ "Size Flags" ]
 [node name="Sprite" type="Sprite" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer/AddButton" index="0"]
 
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 centered = false
 offset = Vector2( 8, 8 )
 _sections_unfolded = [ "Offset", "Transform" ]
@@ -200,7 +202,7 @@ size_flags_vertical = 1
 toggle_mode = true
 enabled_focus_mode = 2
 shortcut = null
-group = ExtResource( 5 )
+group = ExtResource( 6 )
 flat = false
 align = 1
 _sections_unfolded = [ "Rect", "Size Flags" ]
@@ -208,7 +210,7 @@ _sections_unfolded = [ "Rect", "Size Flags" ]
 [node name="Sprite" type="Sprite" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer/MoveButton" index="0"]
 
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 centered = false
 offset = Vector2( 8, 8 )
 _sections_unfolded = [ "Offset", "Transform" ]
@@ -234,7 +236,7 @@ size_flags_vertical = 1
 toggle_mode = true
 enabled_focus_mode = 2
 shortcut = null
-group = ExtResource( 5 )
+group = ExtResource( 6 )
 flat = false
 align = 1
 _sections_unfolded = [ "Rect", "Size Flags" ]
@@ -242,7 +244,7 @@ _sections_unfolded = [ "Rect", "Size Flags" ]
 [node name="Sprite" type="Sprite" parent="EmojiCanvasContainerPanel/VBoxContainer/HBoxContainer/VBoxContainer/DeleteButton" index="0"]
 
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 centered = false
 offset = Vector2( 8, 8 )
 _sections_unfolded = [ "Offset", "Transform" ]
@@ -264,7 +266,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 _sections_unfolded = [ "Rect", "Size Flags" ]
 
-[node name="EmojiPalette" parent="EmojiCanvasContainerPanel/VBoxContainer/MarginContainer" index="0" instance=ExtResource( 9 )]
+[node name="EmojiPalette" parent="EmojiCanvasContainerPanel/VBoxContainer/MarginContainer" index="0" instance=ExtResource( 10 )]
 
 anchor_right = 0.0
 anchor_bottom = 0.0

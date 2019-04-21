@@ -18,6 +18,7 @@ signal enteredInvalidVote
 signal enteredValidVote
 signal enteredInvalidMultiVote
 signal enteredValidMultiVote
+signal acceptedPlayerReconnection()
 signal updatePlayerGameState(messageDict)
 signal lostConnection()
 # # # # # # # # # #
@@ -112,6 +113,7 @@ func sendMessageToServer(message):
 	# Check if can send message
 	if !socket.is_connected_to_host():
 		var response = connectPlayerToServer(defaultServerIP, defaultServerPort)
+		yield(get_tree().create_timer(1), "timeout")
 		if response == OK:
 			# Send reconnection message to server
 			var reconn_message = {
@@ -120,7 +122,6 @@ func sendMessageToServer(message):
 				"playerID": SessionStorer.get_player_id()
 			}
 			sendMessageToServer(reconn_message)
-			yield(get_tree().create_timer(1), "timeout")
 			return
 		print("Failed to send message.  Not connected to server.")
 		emit_signal("lostConnection")
@@ -172,11 +173,15 @@ func getMessageFromServer():
 	match int(messageCode):
 		MESSAGE_TYPES.SERVER_MESSAGE_ERROR:
 			sendMessageToServer(mostRecentMessage)
+		MESSAGE_TYPES.SERVER_PING:
+			sendMessageToServer({"messageType": MESSAGE_TYPES.PLAYER_RESPONDING_TO_PING, "playerID": SessionStorer.get_player_id()})
 		MESSAGE_TYPES.VALID_SERVER_CODE:
 			letterCode = messageDict["letterCode"]
 			emit_signal("enteredValidHostCode", messageDict["playerID"], messageDict["isPlayer"], messageDict["letterCode"])
 		MESSAGE_TYPES.INVALID_SERVER_CODE:
 			emit_signal("enteredInvalidHostCode")
+		MESSAGE_TYPES.ACCEPTED_PLAYER_RECONNECTION:
+			emit_signal("acceptedPlayerReconnection")
 		MESSAGE_TYPES.SERVER_FORCE_DISCONNECT_CLIENT:
 			print("Forcibly disconnected from Host by Server.")
 			emit_signal("forcedToDisconnect")
@@ -206,6 +211,7 @@ func getMessageFromServer():
 		MESSAGE_TYPES.ACCEPTED_MULTI_VOTE:
 			emit_signal("enteredInvalidMultiVote")
 		MESSAGE_TYPES.UPDATE_PLAYER_GAME_STATE:
+			print("UPDATE_PLAYER_GAME_STATE")
 			emit_signal("updatePlayerGameState", messageDict)
 		_:
 			print("Unrecognized message code " + str(messageCode))

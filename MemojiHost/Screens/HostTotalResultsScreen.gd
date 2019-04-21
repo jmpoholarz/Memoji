@@ -1,5 +1,9 @@
 extends Container
 
+# First 2 required by ScreenManager
+signal messageServer(msg)
+signal changeScreen(screen)
+signal updateGameState(msg)
 
 func displayResults(scores, players):
 	#duplicate the scores to be sorted into highest to lowest
@@ -66,3 +70,7 @@ func displayResults(scores, players):
 		currentPlace += 1
 		displayPlace += 1
 	return
+
+
+func _on_ProceedButton_pressed():
+	emit_signal("updateGameState", "advance")

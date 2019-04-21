@@ -7,10 +7,8 @@
 
 anchor_left = 0.0
 anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -20,43 +18,124 @@ size_flags_vertical = 1
 custom_constants/separation = 5
 alignment = 0
 script = ExtResource( 1 )
-_sections_unfolded = [ "custom_constants" ]
+_sections_unfolded = [ "Size Flags", "custom_constants" ]
 
-[node name="W1" parent="." index="0" instance=ExtResource( 2 )]
+[node name="LeftColumn" type="VBoxContainer" parent="." index="0"]
 
-[node name="W2" parent="." index="1" instance=ExtResource( 2 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 180.0
+margin_bottom = 600.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 1
 
-margin_left = 85.0
-margin_right = 165.0
+[node name="W1" parent="LeftColumn" index="0" instance=ExtResource( 2 )]
 
-[node name="W3" parent="." index="2" instance=ExtResource( 2 )]
+margin_right = 180.0
+margin_bottom = 147.0
+size_flags_vertical = 3
+_sections_unfolded = [ "Rect", "Size Flags" ]
+wait_screen_column = 0
 
-margin_left = 170.0
-margin_right = 250.0
+[node name="W3" parent="LeftColumn" index="1" instance=ExtResource( 2 )]
 
-[node name="W4" parent="." index="3" instance=ExtResource( 2 )]
+margin_top = 151.0
+margin_right = 180.0
+margin_bottom = 298.0
+size_flags_vertical = 3
+wait_screen_column = 0
 
-margin_left = 255.0
-margin_right = 335.0
+[node name="W5" parent="LeftColumn" index="2" instance=ExtResource( 2 )]
 
-[node name="W5" parent="." index="4" instance=ExtResource( 2 )]
+margin_top = 302.0
+margin_right = 180.0
+margin_bottom = 449.0
+size_flags_vertical = 3
+wait_screen_column = 0
 
-margin_left = 340.0
-margin_right = 420.0
+[node name="W7" parent="LeftColumn" index="3" instance=ExtResource( 2 )]
 
-[node name="W6" parent="." index="5" instance=ExtResource( 2 )]
+margin_top = 453.0
+margin_right = 180.0
+margin_bottom = 600.0
+size_flags_vertical = 3
+wait_screen_column = 0
 
-margin_left = 425.0
-margin_right = 505.0
+[node name="VSeparator" type="VSeparator" parent="." index="1"]
 
-[node name="W7" parent="." index="6" instance=ExtResource( 2 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 185.0
+margin_right = 839.0
+margin_bottom = 600.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+_sections_unfolded = [ "Size Flags" ]
 
-margin_left = 510.0
-margin_right = 590.0
+[node name="RightColumn" type="VBoxContainer" parent="." index="2"]
 
-[node name="W8" parent="." index="7" instance=ExtResource( 2 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 844.0
+margin_right = 1024.0
+margin_bottom = 600.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 1
+_sections_unfolded = [ "Size Flags" ]
 
-margin_left = 595.0
-margin_right = 675.0
+[node name="W2" parent="RightColumn" index="0" instance=ExtResource( 2 )]
+
+margin_right = 180.0
+margin_bottom = 147.0
+size_flags_vertical = 3
+_sections_unfolded = [ "Rect", "Size Flags" ]
+wait_screen_column = 1
+
+[node name="W4" parent="RightColumn" index="1" instance=ExtResource( 2 )]
+
+margin_top = 151.0
+margin_right = 180.0
+margin_bottom = 298.0
+size_flags_vertical = 3
+_sections_unfolded = [ "Rect", "Size Flags" ]
+wait_screen_column = 1
+
+[node name="W6" parent="RightColumn" index="2" instance=ExtResource( 2 )]
+
+margin_top = 302.0
+margin_right = 180.0
+margin_bottom = 449.0
+size_flags_vertical = 3
+_sections_unfolded = [ "Rect", "Size Flags" ]
+wait_screen_column = 1
+
+[node name="W8" parent="RightColumn" index="3" instance=ExtResource( 2 )]
+
+margin_top = 453.0
+margin_right = 180.0
+margin_bottom = 600.0
+size_flags_vertical = 3
+_sections_unfolded = [ "Rect", "Size Flags" ]
+wait_screen_column = 1
 
 

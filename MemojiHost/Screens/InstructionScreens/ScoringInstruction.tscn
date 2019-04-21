@@ -37,30 +37,55 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 258.0
+margin_top = 207.0
 margin_right = 1024.0
-margin_bottom = 272.0
+margin_bottom = 221.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-text = "INSTRUCTIONS"
+text = "SCORING"
 align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="ProceedButton" type="Button" parent="Rows" index="1"]
+[node name="Instruction1" type="Label" parent="Rows" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 292.0
+margin_top = 241.0
 margin_right = 1024.0
-margin_bottom = 342.0
+margin_bottom = 323.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "The responses are about to be scored.
+Every player vote is worth 100 points.
+If you have an audience, their votes are calculated as percentages.
+For every percent of the audience that votes for a result, they get twice as many votes.
+So if 50% of the audience votes for an answer, that answer gets 100 points."
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ProceedButton" type="Button" parent="Rows" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 343.0
+margin_right = 1024.0
+margin_bottom = 393.0
 rect_min_size = Vector2( 400, 50 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false

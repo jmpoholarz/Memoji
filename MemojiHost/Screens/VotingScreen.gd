@@ -1,11 +1,11 @@
-extends Node2D
+extends Panel
 signal updateGameState(msg)
 
-onready var _TimerLabel = $Foreground/TimerLabel
+onready var _TimerLabel = $TimerLabel
 onready var _Timer = $Timer
-onready var canvas1 = $Foreground/Answer1/Emojis1
-onready var canvas2 = $Foreground/Answer2/Emojis2
-onready var promptLabel = $Foreground/PromptLabel
+onready var canvas1 = $VBoxContainer/HBoxContainer/Answer1/Emojis1
+onready var canvas2 = $VBoxContainer/HBoxContainer/Answer2/Emojis2
+onready var promptLabel = $VBoxContainer/PromptLabel
 
 var remainingTime = 60
 
@@ -17,7 +17,6 @@ func display_emojis(answer1, answer2):
 func display_prompt_text(text):
 	promptLabel.text = text
 	promptLabel.show()
-	pass
 
 func reset_display():
 	canvas1.clear()
@@ -25,10 +24,7 @@ func reset_display():
 	promptLabel.hide()
 
 func _ready():
-	# Called when the node is added to the scene for the first time.
-	# Initialization here
 	_Timer.start()
-	pass
 
 func _on_Timer_timeout():
 	remainingTime -= 1
@@ -39,4 +35,3 @@ func _on_Timer_timeout():
 		emit_signal("messageServer", message)
 		
 	_TimerLabel.text = str(remainingTime)
-	pass # replace with function body

@@ -2,6 +2,7 @@ extends Panel
 
 signal connectToServer()
 signal sendMessage(msg)
+signal updateLetterCode(letter_code)
 
 
 onready var _JoinButton = $VBoxContainer/JoinButton
@@ -80,6 +81,8 @@ func _on_YesReconnectButton_pressed():
 		"playerID": game_info["player_id"]
 	}
 	emit_signal("sendMessage", message)
+	_ReconnectPopup.hide()
+	_ConnectingLabel.visible = true
 	pass # replace with function body
 
 func _on_NoReconnectButton_pressed():

@@ -26,8 +26,37 @@ func _ready():
 
 	$ScreenManager.connect("connectToServer", self, "connectToServer")
 	$ScreenManager.connect("disconnectFromServer", self, "disconnectFromServer")
+	$ScreenManager.connect("updateLetterCode", self, "updateLetterCode")
 	$Networking.connect("_disconnectedFromServer", self, "_on_Networking_connectionTimeout")
 
+func handleReceivedPrompt(prompt_id, prompt_text):
+	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
+		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN)
+		if $ScreenManager.currentScreen != $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
+			yield($ScreenManager, "screen_change_completed") # Needs testing
+		current_prompts.append([prompt_id, prompt_text])
+		$ScreenManager.currentScreenInstance.add_prompts([[prompt_id, prompt_text]])
+		$ScreenManager.currentScreenInstance.get_next_prompt()
+	elif $ScreenManager.currentScreen == $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
+		current_prompts.append([prompt_id, prompt_text])
+		$ScreenManager.currentScreenInstance.add_prompts([[prompt_id, prompt_text]])
+
+func handleReceivedAnswers(prompt, answers):
+	if answers.size() == 2:
+		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
+			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PLAYER_VOTING_SCREEN)
+			if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
+				$ScreenManager.currentScreenInstance.set_answers(answers)
+	else:
+		# Change to final voting screen
+		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
+			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.FINAL_VOTING_SCREEN)
+			if $ScreenManager.currentScreen == $ScreenManager.SCREENS.FINAL_VOTING_SCREEN:
+				$ScreenManager.currentScreenInstance.set_answers(answers)
+
+func updateLetterCode(letter_code):
+	$Networking.letterCode = letter_code
+	lobbyCode = letter_code
 
 func _on_ScreenManager_sendMessageToServer(msg):
 	if player != null:
@@ -70,13 +99,19 @@ func _on_Networking_forcedToDisconnect():
 	# Store empty game session
 	SessionStorer.save_game_info("", "")
 
+func _on_Networking_acceptedPlayerReconnection():
+	print("Player reconnected to server properly")
+
+
 func _on_Networking_updatePlayerGameState(messageDict):
-	match (messageDict["gameState"]):
+	print("GameState from message: " + str(messageDict["gameState"]))
+	match (int(messageDict["gameState"])):
 		GAME_STATE.NOT_STARTED:
-			currentState = messageDict["gameState"]
+			pass
 		GAME_STATE.PROMPT_PHASE:
 			# We have prompts to answer
 			# Look at received prompts
+			print("HEY!!!!")
 			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
 			for x in range(messageDict["promptIDs"].size()):
 				handleReceivedPrompt(messageDict["promptIDs"][x], messageDict["promptText"][x])
@@ -94,15 +129,26 @@ func _on_Networking_updatePlayerGameState(messageDict):
 		GAME_STATE.FINAL_RESULTS:
 			# TODO
 			pass
-	pass # replace with function body
+	currentState = messageDict["gameState"]
+	print("End of updatePlayerGameState")
 
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+		if $Networking.socket.is_connected_to_host():
+			var message = {
+				"messageType": 402,
+				"letterCode": $Networking.letterCode,
+				"playerID": player.playerID
+			}
+			$Networking.sendMessageToServer(message)
+		get_tree().quit()
 
 ################################
 # # # # # TITLE SCREEN # # # # #
 ################################
 func _on_Networking_enteredValidHostCode(playerID, isPlayer, code):
 	lobbyCode = code
-	player = playerScene.instance() #might not work
+	player = playerScene.instance()
 	player.playerID = playerID
 	player.isPlayer = isPlayer
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
@@ -156,16 +202,7 @@ func _on_Networking_gameStartedByHost():
 # # # # # PLAYER RESPONSE SCREEN # # # # #
 ##########################################
 func _on_Networking_promptReceived(prompt_id, prompt_text):
-	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
-		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN)
-		if $ScreenManager.currentScreen != $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
-			yield($ScreenManager, "screen_change_completed") # Needs testing
-		current_prompts.append([prompt_id, prompt_text])
-		$ScreenManager.currentScreenInstance.add_prompts([[prompt_id, prompt_text]])
-		$ScreenManager.currentScreenInstance.get_next_prompt()
-	elif $ScreenManager.currentScreen == $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
-		current_prompts.append([prompt_id, prompt_text])
-		$ScreenManager.currentScreenInstance.add_prompts([[prompt_id, prompt_text]])
+	handleReceivedPrompt(prompt_id, prompt_text)
 
 func _on_Networking_enteredValidAnswer():
 	pass # replace with function body
@@ -178,10 +215,7 @@ func _on_Networking_enteredInvalidAnswer():
 # # # # # VOTING SCREEN # # # # #
 #################################
 func _on_Networking_answersReceived(prompt, answers):
-	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
-		$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
-		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
-			$ScreenManager.currentScreenInstance.set_answers(answers)
+	handleReceivedAnswers(prompt, answers)
 
 func _on_Networking_enteredValidVote():
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
