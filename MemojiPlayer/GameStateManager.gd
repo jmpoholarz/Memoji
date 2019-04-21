@@ -46,7 +46,7 @@ func handleReceivedAnswers(prompt, answers):
 		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:
 			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.PLAYER_VOTING_SCREEN)
 			if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
-				$ScreenManager.currentScreenInstance.set_answers(answers)
+				$ScreenManager.currentScreenInstance.set_answers(answers, prompt)
 	else:
 		# Change to final voting screen
 		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.WAITING_SCREEN:

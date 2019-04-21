@@ -33,9 +33,9 @@ func display_emojis(answer1, answer2):
 	canvas2.decode_emojis(answer2)
 	return
 
-func set_answers(answers):
+func set_answers(answers, prompt):
 	answerNum = answers.size()
-	
+	get_node("PromptLabel").text = prompt
 	display_emojis(answers[0],answers[1])
 	#hididng all buttons in grid
 	
@@ -58,7 +58,6 @@ func set_answer_label():
 
 func on_SubmitButton_Pressed():
 	var voteID = buttonID
-	get_node("PromptLabel").text = str(voteID)
 	var msg = {
 		"messageType": MESSAGE_TYPES.PLAYER_SENDING_SINGLE_VOTE,
 		"voteID": voteID
