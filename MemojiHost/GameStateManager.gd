@@ -75,6 +75,10 @@ func setupGame():
 			return
 
 	# Everything ok to start
+	
+	promptPhase()
+
+func promptPhase():
 	currentRound = 1
 	currentState = GAME_STATE.PROMPT_PHASE
 	for player in players: # Clear prompts left from last round
@@ -85,7 +89,7 @@ func setupGame():
 		player.reset_score()
 		player.clear_prompts()
 		player.clear_vote()
-
+	
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
 	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
@@ -321,8 +325,19 @@ func advanceGame():
 				votePhase()
 			else:
 				#TODO:
-				roundResults()
-				pass
+				if (currentRound < 3):
+					roundResults()
+				else:
+					pass # TODO: add function for final round results
+			
+		GAME_STATE.FINAL_RESULTS:
+			currentRound += 1
+			if (currentRound < 3):
+				setupGame() # TODO:
+			pass
+		GAME_STATE.MULTI_PROMPT_PHASE:
+			pass
+		GAME_STATE.MULTI_PROMPT_PHASE:
 			pass
 	pass
 
@@ -553,17 +568,18 @@ func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
 	if (playerObj == null):
 		return # Did not find player
 	
-	# TODO: Implement multivote
+	# Store multivote
 	playerObj.multi_vote(voteArray[0], voteArray[1], voteArray[2])
 	
 	message = {
-		"messageType": MESSAGE_TYPES.ACCEPTED_VOTE_RESPONSE,
+		"messageType": MESSAGE_TYPES.ACCEPTED_MULTI_VOTE,
 		"letterCode": lobbyCode,
 		"playerID": playerID
 	}
 	
-	# TODO: Check vote completion
+	$Networking.sendMessageToServer(message)
 	
+	# TODO: Check vote completion
 	
 	pass
 
@@ -580,6 +596,8 @@ func _on_Networking_playerBadDisconnect(playerID):
 			else:
 				disconnected_players.append(player)
 			return
+	
+	# TODO: Doe we need to handle audience?
 
 
 func _on_ScreenManager_sendMessageToServer(msg):
