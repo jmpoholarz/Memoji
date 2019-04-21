@@ -10,10 +10,14 @@ var voteScreenScene = preload("res://Screens/VotingScreen.tscn")
 var resultsScreenScene = preload("res://Screens/HostResultsScreen.tscn")
 var totalResultsScreenScene = preload("res://Screens/HostTotalResultsScreen.tscn")
 
+var creditsScene = preaload("res://Screens/InstructionScreens/Credits.tscn")
+
 signal connectToServer()
 signal sendMessageToServer(msg)
 signal handleGameState(msg)			# for GameStateManager
 signal startGame()
+signal restart()
+signal newGame()
 
 onready var _LostConnectionPopup = $LostConectionPopup
 
@@ -52,6 +56,10 @@ func changeScreenTo(screen):
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.TOTAL_SCREEN:
 			currentScreenInstance = totalResultsScreenScene.instance()
+		GlobalVars.CREDITS_SCREE:
+			currentScreenInstance = creditsScene
+			currentScreenInstance.connect("restart", self, "restartGame")
+			currentScreenInstance.connect("newGame", self, "newGame")
 	
 	if (currentScreenInstance != null):
 		currentScreen = screen
@@ -75,3 +83,9 @@ func startGame():
 
 func lost_connection():
 	_LostConnectionPopup.popup()
+
+func restartGame():
+	emit_signal("restart")
+
+func newGame():
+	emit_signal("newGame")
