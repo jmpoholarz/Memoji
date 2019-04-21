@@ -602,3 +602,7 @@ func _on_ScreenManager_handleGameState(msg):
 func _on_Networking_lostConnection():
 	$ScreenManager.lost_connection()
 	pass # replace with function body
+
+func restartGame():
+	instructions = false
+	repeatInstruct = false
