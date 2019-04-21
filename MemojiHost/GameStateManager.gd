@@ -46,6 +46,8 @@ func _ready():
 	$ScreenManager.connect("startGame", self, "on_startGame")
 	$ScreenManager.connect("sendMessageToServer", self, "_on_ScreenManager_sendMessageToServer")
 	$ScreenManager.connect("handleGameState", self, "_on_ScreenManager_handleGameState")
+	$ScreenManager.connect("restart", self, "restartGame")
+	$ScreenManager.connect("newGame", self, "toTitle")
 	toTitle()
 
 func on_startGame():
@@ -74,8 +76,14 @@ func setupGame():
 
 	# Everything ok to start
 	currentRound = 1
+	promptPhase()
+
+func promptPhase():
 	currentState = GAME_STATE.PROMPT_PHASE
-	for player in players: # Clear prompts left from last round
+	
+	# Clear prompts left from last round
+	$PromptManager.reset()
+	for player in players:
 		player.reset_score()
 		player.clear_prompts()
 		player.clear_vote()
@@ -83,7 +91,7 @@ func setupGame():
 		player.reset_score()
 		player.clear_prompts()
 		player.clear_vote()
-
+	
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
 	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
@@ -231,7 +239,15 @@ func showResults():
 	# Give IDs of players competing, also calculate array of who voted for what
 	var promptID
 	var answers
-	var currentPlayerVotes = [] # array of which selection was voted for by each players
+	
+	var playerVote
+	# Votes from players
+	var results = [0, 0]
+	var scores = []
+	# Audience votes
+	var audienceResults = [0, 0]
+	var aPercentages = []
+	
 	var leftVoterIDs
 	var rightVoterIDs
 	var leftVoters = [] # Player array - Voted for left answer
@@ -252,43 +268,55 @@ func showResults():
 
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
 	$ScreenManager.currentScreenInstance.displayAnswers(answers)
-	#variables for keeping number of votes and later each calculated player score
-	var results1 = $PromptManager.get_votes(promptID, 0)
-	var results2 = $PromptManager.get_votes(promptID, 1)
-
-	#currentPlayerVotes
-	#tally votes for each result
-	#for vote in currentPlayerVotes:
-	#	if vote == 1:
-	#		results1 = results1 + 1
-	#	elif vote == 2:
-	#		results2 = results2 + 1
+	
+	# TODO: Count audience
+	#tally player votes for each result
+	for p in players:
+		playerVote = p.get_regular_vote()
+		if (playerVote == 0):
+			results[0] += 1
+		elif (playerVote == 1):
+			results[1] += 1
+	
+	for p in audiencePlayers:
+		playerVote = p.get_regular_vote()
+		if (playerVote == 0):
+			audienceResults[0] += 1
+		elif (playerVote == 1):
+			audienceResults[1] += 1
+	
+	scores.resize(2)
+	aPercentages.resize(2)
+	
+	# Calculate audience percent
+	aPercentages[0] = 100 * (float(audienceResults[0]) / audiencePlayers.size())
+	aPercentages[1] = 100 * (float(audienceResults[1]) / audiencePlayers.size())
 	#calculate and display totals of scores
-	results1 = $ScreenManager.currentScreenInstance.calculateTotals(1, results1, 0)
-	results2 = $ScreenManager.currentScreenInstance.calculateTotals(2, results2, 0)
+	scores[0] = $ScreenManager.currentScreenInstance.calculateTotals(1, results[0], aPercentages[0])
+	scores[1] = $ScreenManager.currentScreenInstance.calculateTotals(2, results[1], aPercentages[1])
 	#display who voted for each answer
 	$ScreenManager.currentScreenInstance.displayVoters(leftVoters, rightVoters)
 	#reset votes for next round now that they have been displayed
-	#for vote in currentPlayerVotes:
-	#	vote = 0
+
 	var pIndex
 	for x in range(0,players.size()):
 		if competitors[0] == players[x]:
 			pIndex = x
-			players[x].increase_score(results1) # NEW - repalces totalScoreTally
+			players[x].increase_score(results[0]) # NEW - repalces totalScoreTally
 	# TODO: Remove this line
-	totalScoreTally[pIndex] += results1
+	totalScoreTally[pIndex] += results[0]
 
 	pIndex = 0
 	for x in range(0,players.size()):
 		if competitors[1] == players[x]:
 			pIndex = x
-			players[x].increase_score(results1) # NEW - repalces totalScoreTally
+			players[x].increase_score(results[1]) # NEW - repalces totalScoreTally
 	# TODO: Remove this line
-	totalScoreTally[pIndex] += results2
+	totalScoreTally[pIndex] += results[1]
 
 func showTotalResults():
 	$ScreenManager.changeScreenTo(GlobalVars.TOTAL_SCREEN)
+	# TODO: change this function
 	$ScreenManager.currentScreenInstance.displayResults(totalScoreTally, players)
 	#time till reset
 	"""var t = Timer.new()
@@ -319,8 +347,19 @@ func advanceGame():
 				votePhase()
 			else:
 				#TODO:
-				roundResults()
-				pass
+				if (currentRound < 3):
+					roundResults()
+				else:
+					pass # TODO: add function for final round results
+			
+		GAME_STATE.FINAL_RESULTS:
+			currentRound += 1
+			if (currentRound < 3):
+				promptPhase() # TODO: Make sure PromptManager is reset
+			pass
+		GAME_STATE.MULTI_PROMPT_PHASE:
+			pass
+		GAME_STATE.MULTI_PROMPT_PHASE:
 			pass
 	pass
 
@@ -492,7 +531,6 @@ func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 
 
 func _on_Networking_receivedPlayerVote(playerID, voteID):
-	#currentPlayerVotes[playerID] = voteID
 	var message
 	var promptID
 
@@ -551,17 +589,18 @@ func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
 	if (playerObj == null):
 		return # Did not find player
 	
-	# TODO: Implement multivote
+	# Store multivote
 	playerObj.multi_vote(voteArray[0], voteArray[1], voteArray[2])
 	
 	message = {
-		"messageType": MESSAGE_TYPES.ACCEPTED_VOTE_RESPONSE,
+		"messageType": MESSAGE_TYPES.ACCEPTED_MULTI_VOTE,
 		"letterCode": lobbyCode,
 		"playerID": playerID
 	}
 	
-	# TODO: Check vote completion
+	$Networking.sendMessageToServer(message)
 	
+	# TODO: Check vote completion
 	
 	pass
 
@@ -578,6 +617,8 @@ func _on_Networking_playerBadDisconnect(playerID):
 			else:
 				disconnected_players.append(player)
 			return
+	
+	# TODO: Do we need to handle audience?
 
 
 func _on_ScreenManager_sendMessageToServer(msg):
@@ -597,8 +638,30 @@ func _on_ScreenManager_handleGameState(msg):
 		if (msg == "advance"):
 			advanceGame()
 			return
+	elif $ScreenManager.currentScreen == GlobalVars.TOTAL_SCREEN:
+		if (msg == "advance"):
+			advanceGame()
+			return
 
 
 func _on_Networking_lostConnection():
 	$ScreenManager.lost_connection()
 	pass # replace with function body
+
+
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+		if $Networking.socket.is_connected_to_host():
+			var message = {
+				"messageType": 130,
+				"letterCode": $Networking.letterCode
+			}
+			$Networking.sendMessageToServer(message)
+		get_tree().quit()
+
+
+func restartGame():
+	instructions = false
+	repeatInstruct = false
+	totalScoreTally = []
+	setupGame()

@@ -26,6 +26,7 @@ func _ready():
 
 	$ScreenManager.connect("connectToServer", self, "connectToServer")
 	$ScreenManager.connect("disconnectFromServer", self, "disconnectFromServer")
+	$ScreenManager.connect("updateLetterCode", self, "updateLetterCode")
 	$Networking.connect("_disconnectedFromServer", self, "_on_Networking_connectionTimeout")
 
 func handleReceivedPrompt(prompt_id, prompt_text):
@@ -45,6 +46,10 @@ func handleReceivedAnswers(prompt, answers):
 		$ScreenManager.changeScreenTo($ScreenManager.PLAYER_VOTING_SCREEN)
 		if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
 			$ScreenManager.currentScreenInstance.set_answers(answers)
+
+func updateLetterCode(letter_code):
+	$Networking.letterCode = letter_code
+	lobbyCode = letter_code
 
 func _on_ScreenManager_sendMessageToServer(msg):
 	if player != null:
@@ -121,13 +126,23 @@ func _on_Networking_updatePlayerGameState(messageDict):
 	print("End of updatePlayerGameState")
 	pass # replace with function body
 
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+		if $Networking.socket.is_connected_to_host():
+			var message = {
+				"messageType": 402,
+				"letterCode": $Networking.letterCode,
+				"playerID": player.playerID
+			}
+			$Networking.sendMessageToServer(message)
+		get_tree().quit()
 
 ################################
 # # # # # TITLE SCREEN # # # # #
 ################################
 func _on_Networking_enteredValidHostCode(playerID, isPlayer, code):
 	lobbyCode = code
-	player = playerScene.instance() #might not work
+	player = playerScene.instance()
 	player.playerID = playerID
 	player.isPlayer = isPlayer
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.TITLE_SCREEN:
