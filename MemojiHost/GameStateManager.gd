@@ -606,3 +606,5 @@ func _on_Networking_lostConnection():
 func restartGame():
 	instructions = false
 	repeatInstruct = false
+	totalScoreTally = []
+	setupGame()
