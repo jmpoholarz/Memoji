@@ -6,7 +6,7 @@
 [ext_resource path="res://Assets/Emojis/symbols/punctuation/203c.png" type="Texture" id=4]
 [ext_resource path="res://Screens/Elements/ErrorPopup.tscn" type="PackedScene" id=5]
 
-[node name="TitleScreenPanel" type="Panel" index="0"]
+[node name="TitleScreenPanel" type="Panel"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -224,6 +224,7 @@ _sections_unfolded = [ "Hint" ]
 [node name="ServerErrorPopup" parent="." index="3" instance=ExtResource( 5 )]
 
 visible = false
+_sections_unfolded = [ "Rect" ]
 label_text = "Cannot connect to server."
 
 [node name="RoomCodeInvalidLengthPopup" parent="." index="4" instance=ExtResource( 5 )]
@@ -245,9 +246,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -212.0
-margin_top = -110.0
+margin_top = -109.5
 margin_right = 212.0
-margin_bottom = 109.0
+margin_bottom = 109.5
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0

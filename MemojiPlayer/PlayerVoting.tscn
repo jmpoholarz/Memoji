@@ -200,4 +200,8 @@ margin_left = 8.0
 margin_right = 400.0
 margin_bottom = 400.0
 
+[connection signal="pressed" from="GridContainer/ChoiceOneButton" to="." method="_on_ChoiceOneButton_pressed"]
+
+[connection signal="pressed" from="GridContainer/ChoiceTwoButton" to="." method="_on_ChoiceTwoButton_pressed"]
+
 
