@@ -333,8 +333,9 @@ func showTotalResults():
 func multiPromptPhase():
 	var finalPromptObj
 	var messageArr = []
-	currentState = GAME_STATE.MULTI_PROMPT_PHASE
 	
+	currentState = GAME_STATE.MULTI_PROMPT_PHASE
+	print("DEBUG: Multi Prompt reached! Woot")
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
 	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
@@ -382,9 +383,9 @@ func advanceGame():
 			if (currentRound < 3):
 				promptPhase() # TODO: Make sure PromptManager is reset
 			else:
-				pass # TODO: add function for final round start
+				multiPromptPhase()
 		GAME_STATE.MULTI_PROMPT_PHASE:
-			multiPromptPhase()
+			pass
 		GAME_STATE.MULTI_VOTE_PHASE:
 			pass
 		GAME_STATE.MULTI_RESULTS_PHASE:
