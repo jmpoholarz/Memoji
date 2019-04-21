@@ -46,6 +46,8 @@ func _ready():
 	$ScreenManager.connect("startGame", self, "on_startGame")
 	$ScreenManager.connect("sendMessageToServer", self, "_on_ScreenManager_sendMessageToServer")
 	$ScreenManager.connect("handleGameState", self, "_on_ScreenManager_handleGameState")
+	$ScreenManager.connect("restart", self, "restartGame")
+	$ScreenManager.connect("newGame", self, "toTitle")
 	toTitle()
 
 func on_startGame():
