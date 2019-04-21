@@ -173,6 +173,8 @@ func getMessageFromServer():
 	match int(messageCode):
 		MESSAGE_TYPES.SERVER_MESSAGE_ERROR:
 			sendMessageToServer(mostRecentMessage)
+		MESSAGE_TYPES.SERVER_PING:
+			sendMessageToServer({"messageType": MESSAGE_TYPES.PLAYER_RESPONDING_TO_PING, "playerID": SessionStorer.get_player_id()})
 		MESSAGE_TYPES.VALID_SERVER_CODE:
 			letterCode = messageDict["letterCode"]
 			emit_signal("enteredValidHostCode", messageDict["playerID"], messageDict["isPlayer"], messageDict["letterCode"])
