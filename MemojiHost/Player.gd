@@ -10,12 +10,17 @@ var answeredPromptIDs = []
 var votes = [] # Array for votes; During regular rounds, only contains 1 element
 # During Final Round, contains 3 elements in order of [Gold, Silver, Bronze]
 
-func reset_score():
-	totalScore = 0
+func reset_score(fullReset = false):
+	roundScore = 0
+	if (fullReset):
+		totalScore = 0
 
 func increase_score(points):
+	roundScore += points
 	totalScore += points
 
+func get_round_score():
+	return roundScore
 func get_score():
 	return totalScore
 
@@ -60,3 +65,9 @@ func check_vote(final = false):
 		return false
 	
 	return true
+	
+func get_regular_vote():
+	if (votes.size() < 1):
+		return null
+	else:
+		return votes[0]

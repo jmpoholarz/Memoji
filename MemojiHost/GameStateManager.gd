@@ -239,7 +239,15 @@ func showResults():
 	# Give IDs of players competing, also calculate array of who voted for what
 	var promptID
 	var answers
-	var currentPlayerVotes = [] # array of which selection was voted for by each players
+	
+	var playerVote
+	# Votes from players
+	var results = [0, 0]
+	var scores = []
+	# Audience votes
+	var audienceResults = [0, 0]
+	var aPercentages = []
+	
 	var leftVoterIDs
 	var rightVoterIDs
 	var leftVoters = [] # Player array - Voted for left answer
@@ -260,43 +268,55 @@ func showResults():
 
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
 	$ScreenManager.currentScreenInstance.displayAnswers(answers)
-	#variables for keeping number of votes and later each calculated player score
-	var results1 = $PromptManager.get_votes(promptID, 0)
-	var results2 = $PromptManager.get_votes(promptID, 1)
-
-	#currentPlayerVotes
-	#tally votes for each result
-	#for vote in currentPlayerVotes:
-	#	if vote == 1:
-	#		results1 = results1 + 1
-	#	elif vote == 2:
-	#		results2 = results2 + 1
+	
+	# TODO: Count audience
+	#tally player votes for each result
+	for p in players:
+		playerVote = p.get_regular_vote()
+		if (playerVote == 0):
+			results[0] += 1
+		elif (playerVote == 1):
+			results[1] += 1
+	
+	for p in audiencePlayers:
+		playerVote = p.get_regular_vote()
+		if (playerVote == 0):
+			audienceResults[0] += 1
+		elif (playerVote == 1):
+			audienceResults[1] += 1
+	
+	scores.resize(2)
+	aPercentages.resize(2)
+	
+	# Calculate audience percent
+	aPercentages[0] = 100 * (float(audienceResults[0]) / audiencePlayers.size())
+	aPercentages[1] = 100 * (float(audienceResults[1]) / audiencePlayers.size())
 	#calculate and display totals of scores
-	results1 = $ScreenManager.currentScreenInstance.calculateTotals(1, results1, 0)
-	results2 = $ScreenManager.currentScreenInstance.calculateTotals(2, results2, 0)
+	scores[0] = $ScreenManager.currentScreenInstance.calculateTotals(1, results[0], aPercentages[0])
+	scores[1] = $ScreenManager.currentScreenInstance.calculateTotals(2, results[1], aPercentages[1])
 	#display who voted for each answer
 	$ScreenManager.currentScreenInstance.displayVoters(leftVoters, rightVoters)
 	#reset votes for next round now that they have been displayed
-	#for vote in currentPlayerVotes:
-	#	vote = 0
+
 	var pIndex
 	for x in range(0,players.size()):
 		if competitors[0] == players[x]:
 			pIndex = x
-			players[x].increase_score(results1) # NEW - repalces totalScoreTally
+			players[x].increase_score(results[0]) # NEW - repalces totalScoreTally
 	# TODO: Remove this line
-	totalScoreTally[pIndex] += results1
+	totalScoreTally[pIndex] += results[0]
 
 	pIndex = 0
 	for x in range(0,players.size()):
 		if competitors[1] == players[x]:
 			pIndex = x
-			players[x].increase_score(results1) # NEW - repalces totalScoreTally
+			players[x].increase_score(results[1]) # NEW - repalces totalScoreTally
 	# TODO: Remove this line
-	totalScoreTally[pIndex] += results2
+	totalScoreTally[pIndex] += results[1]
 
 func showTotalResults():
 	$ScreenManager.changeScreenTo(GlobalVars.TOTAL_SCREEN)
+	# TODO: change this function
 	$ScreenManager.currentScreenInstance.displayResults(totalScoreTally, players)
 	#time till reset
 	"""var t = Timer.new()
@@ -511,7 +531,6 @@ func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 
 
 func _on_Networking_receivedPlayerVote(playerID, voteID):
-	#currentPlayerVotes[playerID] = voteID
 	var message
 	var promptID
 
