@@ -134,13 +134,6 @@ func _on_Networking_updatePlayerGameState(messageDict):
 
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
-		if $Networking.socket.is_connected_to_host():
-			var message = {
-				"messageType": 402,
-				"letterCode": $Networking.letterCode,
-				"playerID": player.playerID
-			}
-			$Networking.sendMessageToServer(message)
 		get_tree().quit()
 
 ################################
