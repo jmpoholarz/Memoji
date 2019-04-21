@@ -282,7 +282,7 @@ if (cluster.isMaster) {
           // Check if there is room in the lobby
           if (codeCheck(letterCode)) {
             const host = _.find(hosts, ['code', letterCode]);
-            if (host.players.length < max_players) {
+            if (host.players.length < max_players && !host.midGame) {
               // Player can join
               var id = handlePlayerConn(letterCode, socket);
               if (id === -1) {
@@ -345,8 +345,22 @@ if (cluster.isMaster) {
         case 302: // Host ending game -------> Send to all Players and Audience
         case 312: // Host sending answers ---> Send to all Players and Audience
           sendToPlayersAndAudience(letterCode, message);
-          if (message.messageType === 301) mtype = 'Host starting game.';
-          if (message.messageType === 302) mtype = 'Host ending game.';
+          if (message.messageType === 301) {
+            mtype = 'Host starting game.';
+            _.forEach(hosts, (host) => {
+              if (host.code == letterCode) {
+                host.midGame = true;
+              }
+            });
+          }
+          if (message.messageType === 302) {
+            mtype = 'Host ending game.';
+            _.forEach(hosts, (host) => {
+              if (host.code == letterCode) {
+                host.midGame = false;
+              }
+            });
+          }
           if (message.messageType === 312) mtype = 'Host sending answers.';
           writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to all Players and Audience`);
           break;
