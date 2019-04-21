@@ -58,7 +58,7 @@ func decode_emojis(encoding):
 		var x = encoding[i][0]
 		var y = encoding[i][1]
 		var id = encoding[i][2]
-		grid_dict[Vector2(x,y)][1].texture = load(EmojiIdToFilename.EmojiIdToFilenameDict[id])
+		grid_dict[Vector2(x,y)][1].texture = load(EmojiIdToFilename.EmojiIdToFilenameDict[int(id)])
 		grid_dict[Vector2(x,y)][2] = id
 
 func handle_canvas_click(row, column):
