@@ -13,6 +13,7 @@ enum MESSAGE_TYPES {
 
 	SERVER_PING = 120,						# Sent when server is checking if the game is still active
 	HOST_RESPONDING_TO_PING = 121,			# Sent when host tells the server it's still handing games
+	PLAYER_RESPONDING_TO_PING = 122			# Sent when player tells the server it's still active
 
 	HOST_SHUTTING_DOWN = 130,				# Sent when host has closed their game session
 	SERVER_FORCE_DISCONNECT_CLIENT = 131,	# Sent when the server forces a player to disconnect

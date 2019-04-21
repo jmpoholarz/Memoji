@@ -94,7 +94,7 @@ func _on_Networking_forcedToDisconnect():
 
 func _on_Networking_acceptedPlayerReconnection():
 	print("Player reconnected to server properly")
-	pass # replace with function body
+
 
 func _on_Networking_updatePlayerGameState(messageDict):
 	print("GameState from message: " + str(messageDict["gameState"]))
@@ -124,7 +124,6 @@ func _on_Networking_updatePlayerGameState(messageDict):
 			pass
 	currentState = messageDict["gameState"]
 	print("End of updatePlayerGameState")
-	pass # replace with function body
 
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:

@@ -117,14 +117,14 @@ if (cluster.isMaster) {
   // Workers can share any TCP connection
 
   // Send a ping to each host every 5 minutes to check if the game is still active
-  // setInterval(() => {
-  //   console.log('[LOG]: Ping Hosts');
-  //   pingHosts();
-  //   console.log('[LOG]: End Ping Hosts');
-  //   console.log('[LOG]: Ping Players');
-  //   pingPlayers();
-  //   console.log('[LOG]: End Ping Players');
-  // }, 300000);
+  setInterval(() => {
+    console.log('[LOG]: Ping Hosts');
+    pingHosts();
+    console.log('[LOG]: End Ping Hosts');
+    console.log('[LOG]: Ping Players');
+    pingPlayers();
+    console.log('[LOG]: End Ping Players');
+  }, 300000);
 
   const server = net.createServer(socket => {
 
@@ -267,10 +267,12 @@ if (cluster.isMaster) {
           break;
         case 122:
           console.log('[LOG]: Player is still active');
-          const player_index = _.findIndex(players, (p) => {
-            return p.code === letterCode;
+          const player = _.find(players, (p) => {
+            return p.id == message.playerID;
           });
-          players[player_index].isActive = true;
+          _.remove(players, player);
+          player.isActive = true;
+          players.push(player);
         case 130: // Host shutting down
           handleHostDisConn(letterCode);
           break;
@@ -954,13 +956,13 @@ function handlePlayerDisConn(letterCode, id) {
   }
   const host = _.find(hosts, ['code', letterCode]);
   if (host === undefined) {
-    console.error(`[ERROR]: [ERROR]: Could not find Host - ${letterCode}`);
+    console.error(`[ERROR]: Could not find Host - ${letterCode}`);
     writeToFile(error_log, `[ERROR]: Could not find Host - ${letterCode}`);
     // return -1;
   }
   const player = _.find(players, ['id', id]);
   if (player === undefined) {
-    console.error(`[ERROR]: [ERROR]: Could not find Player: ${id}`);
+    console.error(`[ERROR]: Could not find Player: ${id}`);
     writeToFile(error_log, `[ERROR]: Could not find Player: ${id}`);
     return -1;
   }
@@ -1036,7 +1038,6 @@ function sendToPlayer(message) {
   // console.log(players)
   console.log(`[LOG]: Find player with id: ${message.playerID}`);
   const player = _.find(players, (p) => {
-    console.log(p.id);
     return p.id == message.playerID;
   });
   if(player == undefined) {
