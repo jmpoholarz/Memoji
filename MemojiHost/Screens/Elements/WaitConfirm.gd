@@ -14,6 +14,7 @@ var maxPrompts
 func _ready():
 	# TODO: Replace Placeholder
 	avatarSetup()
+	hide()
 	$PlayerDisplay.hide()
 	#$Checkmark.hide()
 	
@@ -26,6 +27,7 @@ func avatarSetup(): # loads the avatars in use
 func link_player(player):
 	self.playerID = player.playerID
 	update_from_player(player)
+	show()
 	$PlayerDisplay.show()
 	$Checkmark.hide()
 	
@@ -47,5 +49,6 @@ func record_answer():
 
 func reset():
 	playerID = null
+	hide()
 	$PlayerDisplay.hide()
 	$Checkmark.hide()

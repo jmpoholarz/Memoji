@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Assets/Themes/grey_inner_theme.tres" type="Theme" id=1]
 [ext_resource path="res://Screens/WaitScreen.gd" type="Script" id=2]
-[ext_resource path="res://Screens/Elements/ConfirmationRow.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Themes/font/comfortaa_reg_32.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Screens/Elements/ConfirmationRow.tscn" type="PackedScene" id=4]
 
-[node name="WaitScreen" type="Panel" index="0"]
+[node name="WaitScreen" type="Panel"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -35,12 +36,14 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
+custom_fonts/font = ExtResource( 3 )
 text = "View your device!"
 align = 1
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
 
 [node name="TimerContainer" type="MarginContainer" parent="." index="1"]
 
@@ -72,7 +75,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 16.0
 margin_top = 16.0
-margin_right = 56.0
+margin_right = 65.0
 margin_bottom = 56.0
 rect_min_size = Vector2( 40, 40 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -81,12 +84,14 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
+custom_fonts/font = ExtResource( 3 )
 text = "120"
 align = 1
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
 
 [node name="Timer" type="Timer" parent="." index="2"]
 
@@ -95,7 +100,7 @@ wait_time = 1.0
 one_shot = false
 autostart = true
 
-[node name="ConfirmationRow" parent="." index="3" instance=ExtResource( 3 )]
+[node name="ConfirmationRow" parent="." index="3" instance=ExtResource( 4 )]
 
 margin_left = 16.0
 margin_top = 16.0

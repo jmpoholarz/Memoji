@@ -41,4 +41,4 @@ func update_player(newName, avatarID):
 		avatar_pic.texture = DEFAULT_AVATAR
 
 func animate_avatar(emotion):
-	avatar_pic.texture = avatarDict[avatarID + emotion]
+	avatar_pic.texture = avatarDict[selected_avatar + emotion]

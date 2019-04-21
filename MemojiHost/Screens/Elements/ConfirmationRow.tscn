@@ -3,7 +3,7 @@
 [ext_resource path="res://Screens/Elements/ConfirmationRow.gd" type="Script" id=1]
 [ext_resource path="res://Screens/Elements/WaitConfirm.tscn" type="PackedScene" id=2]
 
-[node name="ConfirmationRow" type="HBoxContainer" index="0"]
+[node name="ConfirmationRow" type="HBoxContainer"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -18,7 +18,7 @@ size_flags_vertical = 1
 custom_constants/separation = 5
 alignment = 0
 script = ExtResource( 1 )
-_sections_unfolded = [ "custom_constants" ]
+_sections_unfolded = [ "Size Flags", "custom_constants" ]
 
 [node name="LeftColumn" type="VBoxContainer" parent="." index="0"]
 
@@ -26,7 +26,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 168.0
+margin_right = 180.0
 margin_bottom = 600.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -34,33 +34,33 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-alignment = 0
+alignment = 1
 
 [node name="W1" parent="LeftColumn" index="0" instance=ExtResource( 2 )]
 
-margin_right = 168.0
+margin_right = 180.0
 margin_bottom = 147.0
 size_flags_vertical = 3
-_sections_unfolded = [ "Size Flags" ]
+_sections_unfolded = [ "Rect", "Size Flags" ]
 
 [node name="W3" parent="LeftColumn" index="1" instance=ExtResource( 2 )]
 
 margin_top = 151.0
-margin_right = 168.0
+margin_right = 180.0
 margin_bottom = 298.0
 size_flags_vertical = 3
 
 [node name="W5" parent="LeftColumn" index="2" instance=ExtResource( 2 )]
 
 margin_top = 302.0
-margin_right = 168.0
+margin_right = 180.0
 margin_bottom = 449.0
 size_flags_vertical = 3
 
 [node name="W7" parent="LeftColumn" index="3" instance=ExtResource( 2 )]
 
 margin_top = 453.0
-margin_right = 168.0
+margin_right = 180.0
 margin_bottom = 600.0
 size_flags_vertical = 3
 
@@ -70,8 +70,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 173.0
-margin_right = 851.0
+margin_left = 185.0
+margin_right = 839.0
 margin_bottom = 600.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -87,7 +87,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 856.0
+margin_left = 844.0
 margin_right = 1024.0
 margin_bottom = 600.0
 rect_pivot_offset = Vector2( 0, 0 )
@@ -96,11 +96,12 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-alignment = 0
+alignment = 1
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="W2" parent="RightColumn" index="0" instance=ExtResource( 2 )]
 
-margin_right = 168.0
+margin_right = 180.0
 margin_bottom = 147.0
 size_flags_vertical = 3
 _sections_unfolded = [ "Rect", "Size Flags" ]
@@ -109,7 +110,7 @@ wait_screen_column = 1
 [node name="W4" parent="RightColumn" index="1" instance=ExtResource( 2 )]
 
 margin_top = 151.0
-margin_right = 168.0
+margin_right = 180.0
 margin_bottom = 298.0
 size_flags_vertical = 3
 _sections_unfolded = [ "Rect", "Size Flags" ]
@@ -118,7 +119,7 @@ wait_screen_column = 1
 [node name="W6" parent="RightColumn" index="2" instance=ExtResource( 2 )]
 
 margin_top = 302.0
-margin_right = 168.0
+margin_right = 180.0
 margin_bottom = 449.0
 size_flags_vertical = 3
 _sections_unfolded = [ "Rect", "Size Flags" ]
@@ -127,7 +128,7 @@ wait_screen_column = 1
 [node name="W8" parent="RightColumn" index="3" instance=ExtResource( 2 )]
 
 margin_top = 453.0
-margin_right = 168.0
+margin_right = 180.0
 margin_bottom = 600.0
 size_flags_vertical = 3
 _sections_unfolded = [ "Rect", "Size Flags" ]
