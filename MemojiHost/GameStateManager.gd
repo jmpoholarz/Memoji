@@ -240,6 +240,7 @@ func showResults():
 	var answers
 	
 	var playerVote
+	var audienceCount
 	# Votes from players
 	var results = [0, 0]
 	var scores = []
@@ -285,10 +286,13 @@ func showResults():
 	
 	scores.resize(2)
 	aPercentages.resize(2)
-	
+	audienceCount = audiencePlayers.size()
 	# Calculate audience percent
-	aPercentages[0] = 100 * (float(audienceResults[0]) / audiencePlayers.size())
-	aPercentages[1] = 100 * (float(audienceResults[1]) / audiencePlayers.size())
+	if (audienceCount > 0):
+		aPercentages[0] = 100 * (float(audienceResults[0]) / audiencePlayers.size())
+		aPercentages[1] = 100 * (float(audienceResults[1]) / audiencePlayers.size())
+		
+	
 	#calculate and display totals of scores
 	scores[0] = $ScreenManager.currentScreenInstance.calculateTotals(1, results[0], aPercentages[0])
 	scores[1] = $ScreenManager.currentScreenInstance.calculateTotals(2, results[1], aPercentages[1])
