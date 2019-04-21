@@ -238,6 +238,7 @@ func on_SubmitButton_Pressed():
 		reset_display()
 		emit_signal("change_screen", 4)
 		print("Submitted")
+		print(answerChoicesToBeReturned)
 	else:
 		print("Cant be submitted")
 	
