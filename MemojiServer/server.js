@@ -122,7 +122,7 @@ if (cluster.isMaster) {
     pingHosts();
     console.log('[LOG]: Ping Players');
     pingPlayers();
-  }, 15000);
+  }, 300000);
 
   const server = net.createServer(socket => {
 
@@ -273,6 +273,7 @@ if (cluster.isMaster) {
             }
           });
           update_players();
+          break;
         case 130: // Host shutting down
           handleHostDisConn(letterCode);
           break;
