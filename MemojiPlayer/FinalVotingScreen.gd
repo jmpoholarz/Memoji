@@ -36,7 +36,7 @@ func _ready():
 	for i in range(4):
 		test.append(-1)
 		
-	set_answers(test)
+	#set_answers(test)
 	
 	
 	get_node("SubmitButton").connect("pressed", self, "on_SubmitButton_Pressed")
