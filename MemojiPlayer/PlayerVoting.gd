@@ -11,7 +11,7 @@ signal change_screen(screen)
 onready var canvas1 = $Answer1/Emoji1
 onready var canvas2 = $Answer2/Emoji2
 
-var buttonID
+var buttonID = -1
 
 
 var answerNum = 0
@@ -33,10 +33,6 @@ func display_emojis(answer1, answer2):
 	canvas2.decode_emojis(answer2)
 	return
 
-#func reset_display():
-	#canvas1.clear()
-	#canvas2.clear()
-	
 func set_answers(answers):
 	answerNum = answers.size()
 	
@@ -58,13 +54,11 @@ func set_answer_label():
 	get_node("GridContainer/ChoiceOneButton").text = answer1
 	get_node("GridContainer/ChoiceTwoButton").text = answer2
 
-func on_ChoiceOne_Pressed():
-	buttonID = "0"
 
 
 func on_SubmitButton_Pressed():
 	var voteID = buttonID
-	get_node("PromptLabel").text = voteID
+	get_node("PromptLabel").text = str(voteID)
 	var msg = {
 		"messageType": MESSAGE_TYPES.PLAYER_SENDING_SINGLE_VOTE,
 		"voteID": voteID
@@ -78,7 +72,9 @@ func on_SubmitButton_Pressed():
 func receive_Prompt(prompt):
 	get_node("PromptLabel").text = prompt
 
-#func _process(delta):
-#	# Called every frame. Delta is time since last frame.
-#	# Update game logic here.
-#	pass
+
+func _on_ChoiceOneButton_pressed():
+	buttonID = 0
+
+func _on_ChoiceTwoButton_pressed():
+	buttonID = 1
