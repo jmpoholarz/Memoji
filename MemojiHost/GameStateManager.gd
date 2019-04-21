@@ -232,6 +232,7 @@ func resultsPhase():
 	showResults()
 
 func roundResults():
+	currentState = GAME_STATE.ROUND_RESULTS
 	showTotalResults()
 
 func showResults():
@@ -285,13 +286,15 @@ func showResults():
 			audienceResults[1] += 1
 	
 	scores.resize(2)
-	#aPercentages.resize(2)
+	aPercentages.resize(2)
 	audienceCount = audiencePlayers.size()
 	# Calculate audience percent
 	if (audienceCount > 0):
 		aPercentages[0] = 100 * (float(audienceResults[0]) / audiencePlayers.size())
 		aPercentages[1] = 100 * (float(audienceResults[1]) / audiencePlayers.size())
-		
+	else:
+		aPercentages[0] = 0
+		aPercentages[1] = 0
 	
 	#calculate and display totals of scores
 	scores[0] = $ScreenManager.currentScreenInstance.calculateTotals(1, results[0], aPercentages[0])
@@ -330,6 +333,14 @@ func showTotalResults():
 	t.queue_free()
 	toTitle()
 	"""
+
+func multiPromptPhase():
+	currentState = GAME_STATE.MULTI_PROMPT_PHASE
+	
+	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
+	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
+	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
+	
 
 func advanceGame():
 	print("DEBUG: Advance Game function")
