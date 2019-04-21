@@ -117,14 +117,12 @@ if (cluster.isMaster) {
   // Workers can share any TCP connection
 
   // Send a ping to each host every 5 minutes to check if the game is still active
-  // setInterval(() => {
-  //   console.log('[LOG]: Ping Hosts');
-  //   pingHosts();
-  //   console.log('[LOG]: End Ping Hosts');
-  //   console.log('[LOG]: Ping Players');
-  //   pingPlayers();
-  //   console.log('[LOG]: End Ping Players');
-  // }, 300000);
+  setInterval(() => {
+    console.log('[LOG]: Ping Hosts');
+    pingHosts();
+    console.log('[LOG]: Ping Players');
+    pingPlayers();
+  }, 15000);
 
   const server = net.createServer(socket => {
 
@@ -552,6 +550,7 @@ async function pingHosts() {
   });
   printAll();
   update_all();
+  console.log('[LOG]: End Ping Hosts');
 }
 
 
@@ -597,6 +596,8 @@ async function pingPlayers() {
 
   printAll();
   update_all();
+
+  console.log('[LOG]: End Ping Players');
 
 }
 
