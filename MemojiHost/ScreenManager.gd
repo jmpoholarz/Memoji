@@ -10,7 +10,7 @@ var voteScreenScene = preload("res://Screens/VotingScreen.tscn")
 var resultsScreenScene = preload("res://Screens/HostResultsScreen.tscn")
 var totalResultsScreenScene = preload("res://Screens/HostTotalResultsScreen.tscn")
 
-var creditsScene = preaload("res://Screens/InstructionScreens/Credits.tscn")
+var creditsScene = preload("res://Screens/InstructionScreens/Credits.tscn")
 
 signal connectToServer()
 signal sendMessageToServer(msg)
