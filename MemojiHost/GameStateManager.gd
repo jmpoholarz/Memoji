@@ -75,13 +75,15 @@ func setupGame():
 			return
 
 	# Everything ok to start
-	
+	currentRound = 1
 	promptPhase()
 
 func promptPhase():
-	currentRound = 1
 	currentState = GAME_STATE.PROMPT_PHASE
-	for player in players: # Clear prompts left from last round
+	
+	# Clear prompts left from last round
+	$PromptManager.reset()
+	for player in players:
 		player.reset_score()
 		player.clear_prompts()
 		player.clear_vote()
@@ -333,7 +335,7 @@ func advanceGame():
 		GAME_STATE.FINAL_RESULTS:
 			currentRound += 1
 			if (currentRound < 3):
-				setupGame() # TODO:
+				promptPhase() # TODO: Make sure PromptManager is reset
 			pass
 		GAME_STATE.MULTI_PROMPT_PHASE:
 			pass
@@ -614,6 +616,10 @@ func _on_ScreenManager_handleGameState(msg):
 			toTitle()
 			return
 	elif $ScreenManager.currentScreen == GlobalVars.RESULTS_SCREEN:
+		if (msg == "advance"):
+			advanceGame()
+			return
+	elif $ScreenManager.currentScreen == GlobalVars.TOTAL_SCREEN:
 		if (msg == "advance"):
 			advanceGame()
 			return

@@ -3,7 +3,8 @@ var username
 var avatarID
 var isPlayer
 
-var totalScore = 0 # NEW - used to keep track of scores for final results
+var roundScore = 0 # NEW - used to keep track of scores for each round
+var totalScore = 0 # Total across all rounds
 var currentPromptIDs = []
 var answeredPromptIDs = []
 var votes = [] # Array for votes; During regular rounds, only contains 1 element
