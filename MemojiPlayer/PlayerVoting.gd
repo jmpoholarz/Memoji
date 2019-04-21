@@ -1,19 +1,12 @@
 extends Panel
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
-signal connectToServer()
 signal send_message(msg)
-signal changeVotingOption(ChoiceId)
-signal voting_has_ended()
 signal change_screen(screen)
+
 onready var canvas1 = $Answer1/Emoji1
 onready var canvas2 = $Answer2/Emoji2
 
-var buttonID = -1
-
-
+var vote_id = -1
 var answerNum = 0
 
 func _ready():
@@ -21,12 +14,7 @@ func _ready():
 	get_node("GridContainer/ChoiceTwoButton").connect("pressed", self, "on_ChoiceTwo_Pressed")
 	
 	get_node("SubmitButton").connect("pressed", self, "on_SubmitButton_Pressed")
-	#Get Single prompt 
-	#Get Choice option ID's 0 or 1
-	#Display the Prompt in the label PromptLabel
-	#When clicked on an answer send the answer ID to the server to send to host
-	#Redirect the player to the waiting screen
-	#Send Answer for Voting func in gsm
+
 
 func display_emojis(answer1, answer2):
 	canvas1.decode_emojis(answer1)
@@ -57,14 +45,12 @@ func set_answer_label():
 
 
 func on_SubmitButton_Pressed():
-	var voteID = buttonID
 	var msg = {
 		"messageType": MESSAGE_TYPES.PLAYER_SENDING_SINGLE_VOTE,
-		"voteID": voteID
+		"voteID": vote_id
 	}
 	
 	emit_signal("send_message", msg)
-	#reset_display()
 	emit_signal("change_screen", 4)
 	
 
@@ -73,7 +59,7 @@ func receive_Prompt(prompt):
 
 
 func _on_ChoiceOneButton_pressed():
-	buttonID = 0
+	vote_id = 0
 
 func _on_ChoiceTwoButton_pressed():
-	buttonID = 1
+	vote_id = 1

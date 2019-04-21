@@ -142,6 +142,7 @@ align = 1
 
 [node name="Answer1" type="MarginContainer" parent="." index="3"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -172,6 +173,7 @@ margin_bottom = 400.0
 
 [node name="Answer2" type="MarginContainer" parent="." index="4"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -199,5 +201,9 @@ anchor_bottom = 0.0
 margin_left = 8.0
 margin_right = 400.0
 margin_bottom = 400.0
+
+[connection signal="pressed" from="GridContainer/ChoiceOneButton" to="." method="_on_ChoiceOneButton_pressed"]
+
+[connection signal="pressed" from="GridContainer/ChoiceTwoButton" to="." method="_on_ChoiceTwoButton_pressed"]
 
 
