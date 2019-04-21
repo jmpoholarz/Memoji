@@ -4,15 +4,15 @@
 [ext_resource path="res://Screens/Elements/VotingButtonGroup.tres" type="ButtonGroup" id=2]
 [ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=3]
 
-[node name="Panel" type="Panel" index="0"]
+[node name="Panel" type="Panel"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -2.0
+margin_left = -3.0
 margin_top = -2.0
-margin_right = -3.0
+margin_right = -4.0
 margin_bottom = -7.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
