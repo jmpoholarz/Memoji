@@ -150,7 +150,6 @@ if (cluster.isMaster) {
       }
       // Not a Host
       // Is this a Player?
-      console.log(players);
       sock = _.find(players, (player) => {
         return player.socket === socket;
       });
@@ -170,6 +169,8 @@ if (cluster.isMaster) {
         sock.isActive = false;
         players.push(sock);
         host.players.push(sock);
+
+        console.log(players);
 
         const res = {
           "messageType": 132,
@@ -258,19 +259,22 @@ if (cluster.isMaster) {
           break;
         case 121: // Host is still handling games
           console.log('[LOG]: Host is still handling games');
-          const host = _.find(hosts, ['code', letterCode]);
-          host.isActive = true;
+          _.forEach(hosts, (host) => {
+            if (host.code == letterCode) {
+              host.isActive = true;
+            }
+          });
           update_hosts();
           writeToFile(server_log, `${letterCode} Host still handling games`);
           break;
         case 122:
           console.log('[LOG]: Player is still active');
-          const player = _.find(players, (p) => {
-            return p.id == message.playerID;
+          _.forEach(players, (player) => {
+            if (player.id == message.playerID) {
+              player.isActive = true;
+            }
           });
-          _.remove(players, player);
-          player.isActive = true;
-          players.push(player);
+          update_players();
         case 130: // Host shutting down
           handleHostDisConn(letterCode);
           break;
@@ -559,8 +563,8 @@ async function pingPlayers() {
   var players_to_remove_after_ping = []
   _.forEach(players, (player) => {
     console.log('[LOG]: Send message to player:');
-    console.log(`[LOG]: ${player.id}, ${player.code}, ${player.isActive}`);
     player.isActive = false;
+    console.log(`[LOG]: ${player.id} | ${player.code} | ${player.isActive}`);
     const res = {
       "messageType": 120
     };
