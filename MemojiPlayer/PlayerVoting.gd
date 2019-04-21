@@ -33,9 +33,9 @@ func display_emojis(answer1, answer2):
 	canvas2.decode_emojis(answer2)
 	return
 
-func reset_display():
-	canvas1.clear()
-	canvas2.clear()
+#func reset_display():
+	#canvas1.clear()
+	#canvas2.clear()
 	
 func set_answers(answers):
 	answerNum = answers.size()
@@ -71,7 +71,7 @@ func on_SubmitButton_Pressed():
 	}
 	
 	emit_signal("send_message", msg)
-	reset_display()
+	#reset_display()
 	emit_signal("change_screen", 4)
 	
 

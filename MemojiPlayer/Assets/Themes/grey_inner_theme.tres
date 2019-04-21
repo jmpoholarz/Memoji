@@ -138,5 +138,5 @@ VScrollBar/styles/scroll = ExtResource( 11 )
 VScrollBar/styles/scroll_focus = ExtResource( 11 )
 VSeparator/constants/separation = 4
 VSeparator/styles/separator = SubResource( 2 )
-_sections_unfolded = [ "Button/colors", "CheckBox/colors", "CheckButton/colors", "Fonts/fonts", "HScrollBar/styles", "HSeparator/styles", "HSlider/icons", "HSlider/styles", "Icons/icons", "LineEdit/colors", "LineEdit/styles", "Panel/styles", "PanelContainer/styles", "PopupPanel/styles", "VScrollBar/styles", "VSeparator", "VSeparator/styles" ]
+_sections_unfolded = [ "Button/colors", "CheckBox/colors", "CheckButton/colors", "Fonts/fonts", "HScrollBar/styles", "HSeparator/styles", "HSlider/icons", "HSlider/styles", "Icons/icons", "LineEdit", "LineEdit/colors", "LineEdit/styles", "Panel", "Panel/styles", "PanelContainer", "PanelContainer/styles", "PopupPanel", "PopupPanel/styles", "VScrollBar/styles", "VSeparator", "VSeparator/styles" ]
 
