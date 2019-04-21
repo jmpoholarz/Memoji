@@ -233,7 +233,6 @@ func resultsPhase():
 
 func roundResults():
 	showTotalResults()
-	pass
 
 func showResults():
 	# Give IDs of players competing, also calculate array of who voted for what
@@ -269,7 +268,6 @@ func showResults():
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
 	$ScreenManager.currentScreenInstance.displayAnswers(answers)
 	
-	# TODO: Count audience
 	#tally player votes for each result
 	for p in players:
 		playerVote = p.get_regular_vote()
@@ -277,7 +275,7 @@ func showResults():
 			results[0] += 1
 		elif (playerVote == 1):
 			results[1] += 1
-	
+	# tally audience votes
 	for p in audiencePlayers:
 		playerVote = p.get_regular_vote()
 		if (playerVote == 0):
@@ -350,16 +348,19 @@ func advanceGame():
 				if (currentRound < 3):
 					roundResults()
 				else:
-					pass # TODO: add function for final round results
+					pass
 			
 		GAME_STATE.FINAL_RESULTS:
 			currentRound += 1
 			if (currentRound < 3):
 				promptPhase() # TODO: Make sure PromptManager is reset
-			pass
+			else:
+				pass # TODO: add function for final round start
 		GAME_STATE.MULTI_PROMPT_PHASE:
 			pass
-		GAME_STATE.MULTI_PROMPT_PHASE:
+		GAME_STATE.MULTI_VOTE_PHASE:
+			pass
+		GAME_STATE.MULTI_RESULTS_PHASE:
 			pass
 	pass
 
