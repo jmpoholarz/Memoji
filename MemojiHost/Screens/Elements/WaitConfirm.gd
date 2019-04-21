@@ -9,7 +9,7 @@ const READY_OFFSET = 32
 var playerID = null
 var avatarList = []
 var progress = 0
-var maxPrompts
+var maxPrompts = 2
 
 func _ready():
 	# TODO: Replace Placeholder
