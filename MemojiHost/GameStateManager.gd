@@ -76,6 +76,12 @@ func setupGame():
 
 	# Everything ok to start
 	currentRound = 1
+	var message = {"messageType":MESSAGE_TYPES.HOST_STARTING_GAME,
+				"letterCode" : lobbyCode}
+	# Send message to players
+	$Networking.sendMessageToServer(message)
+	yield(get_tree().create_timer(1), "timeout")
+	
 	promptPhase()
 
 func promptPhase():
@@ -95,13 +101,6 @@ func promptPhase():
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
 	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
-
-	# Create message to send to players that game is starting
-	var message = {"messageType":MESSAGE_TYPES.HOST_STARTING_GAME,
-				"letterCode" : lobbyCode}
-	# Send message to server
-	$Networking.sendMessageToServer(message)
-	yield(get_tree().create_timer(1), "timeout")
 
 	sendPrompts()
 
@@ -335,12 +334,24 @@ func showTotalResults():
 	"""
 
 func multiPromptPhase():
+	var finalPromptObj
 	currentState = GAME_STATE.MULTI_PROMPT_PHASE
 	
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
 	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
 	
+	# TODO: Generate a prompt and send it to the players
+	finalPromptObj = $PromptManager.create_prompt()
+	for p in players:
+		var message = {
+				"messageType":MESSAGE_TYPES.HOST_SENDING_PROMPT,
+				"letterCode": lobbyCode,
+				"promptID": finalPromptObj.get_prompt_id(),
+				"prompt": finalPromptObj.get_prompt_text(),
+				"playerID": p.playerID
+		}
+		$Networking.sendMessageToServer(message)
 
 func advanceGame():
 	print("DEBUG: Advance Game function")
@@ -372,7 +383,7 @@ func advanceGame():
 			else:
 				pass # TODO: add function for final round start
 		GAME_STATE.MULTI_PROMPT_PHASE:
-			pass
+			multiPromptPhase()
 		GAME_STATE.MULTI_VOTE_PHASE:
 			pass
 		GAME_STATE.MULTI_RESULTS_PHASE:
