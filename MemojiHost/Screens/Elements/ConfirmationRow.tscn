@@ -42,6 +42,7 @@ margin_right = 180.0
 margin_bottom = 147.0
 size_flags_vertical = 3
 _sections_unfolded = [ "Rect", "Size Flags" ]
+wait_screen_column = 0
 
 [node name="W3" parent="LeftColumn" index="1" instance=ExtResource( 2 )]
 
@@ -49,6 +50,7 @@ margin_top = 151.0
 margin_right = 180.0
 margin_bottom = 298.0
 size_flags_vertical = 3
+wait_screen_column = 0
 
 [node name="W5" parent="LeftColumn" index="2" instance=ExtResource( 2 )]
 
@@ -56,6 +58,7 @@ margin_top = 302.0
 margin_right = 180.0
 margin_bottom = 449.0
 size_flags_vertical = 3
+wait_screen_column = 0
 
 [node name="W7" parent="LeftColumn" index="3" instance=ExtResource( 2 )]
 
@@ -63,6 +66,7 @@ margin_top = 453.0
 margin_right = 180.0
 margin_bottom = 600.0
 size_flags_vertical = 3
+wait_screen_column = 0
 
 [node name="VSeparator" type="VSeparator" parent="." index="1"]
 

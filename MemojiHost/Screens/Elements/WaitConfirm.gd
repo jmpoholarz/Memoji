@@ -1,6 +1,6 @@
 extends VBoxContainer
 
-export(int, "left", "right") var wait_screen_column = -1
+export(int, "left", "right") var wait_screen_column = 0
 
 const LEFT_WAIT_SCREEN_COLUMN = 0
 const RIGHT_WAIT_SCREEN_COLUMN = 1

@@ -4,7 +4,7 @@
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Themes/font/comfortaa_reg_16.tres" type="DynamicFont" id=3]
 
-[node name="Player" type="VBoxContainer" index="0"]
+[node name="Player" type="VBoxContainer"]
 
 anchor_left = 0.0
 anchor_top = 0.0
