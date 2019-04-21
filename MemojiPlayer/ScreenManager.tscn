@@ -1,38 +1,21 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://ScreenManager.gd" type="Script" id=1]
 [ext_resource path="res://Screens/Elements/ErrorPopup.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Themes/grey_inner_theme.tres" type="Theme" id=3]
 
-[node name="ScreenManager" type="MarginContainer"]
+[node name="ScreenManager" type="Node"]
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-custom_constants/margin_right = 4
-custom_constants/margin_top = 4
-custom_constants/margin_left = 4
-custom_constants/margin_bottom = 4
 script = ExtResource( 1 )
-_sections_unfolded = [ "custom_constants" ]
+_sections_unfolded = [ "Theme", "custom_constants" ]
 
 [node name="LostConnectionPopup" parent="." index="0" instance=ExtResource( 2 )]
 
 visible = false
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 476.0
-margin_bottom = 796.0
-label_text = "You have lost connection to the server."
+margin_left = -236.0
+margin_right = 236.0
+theme = ExtResource( 3 )
+_sections_unfolded = [ "Rect", "Theme" ]
+label_text = "Lost connection to server. Please retry."
 
 
