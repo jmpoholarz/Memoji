@@ -148,11 +148,10 @@ func _on_Networking_hostTimeOut():
 				print("[DEBUG]: num_prompts: " + str(num_prompts))
 				for x in range(num_prompts):
 					$ScreenManager.currentScreenInstance._on_SubmitButton_pressed()
-			pass
 		GAME_STATE.VOTE_PHASE:
-			# Force send vote / change screen
-			pass
-	pass # replace with function body
+			# Force change screen
+			if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PLAYER_VOTING_SCREEN:
+				$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
 
 
 ################################

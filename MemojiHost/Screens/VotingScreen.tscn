@@ -26,7 +26,7 @@ _sections_unfolded = [ "Theme" ]
 process_mode = 1
 wait_time = 1.0
 one_shot = false
-autostart = false
+autostart = true
 
 [node name="TimerLabel" type="Label" parent="." index="1"]
 
@@ -226,5 +226,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Rect" ]
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 
 
