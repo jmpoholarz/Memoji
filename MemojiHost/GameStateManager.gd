@@ -629,9 +629,9 @@ func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
 	
 	$Networking.sendMessageToServer(message)
 	
-	# TODO: Check vote completion
-	
-	pass
+	# TODO: Check vote completion for final round
+	if ($PromptManager.check_votes(players, audiencePlayers, true)):
+			advanceGame()
 
 
 func _on_Networking_playerBadDisconnect(playerID):

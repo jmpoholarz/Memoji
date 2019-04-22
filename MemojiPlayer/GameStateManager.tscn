@@ -60,6 +60,8 @@ _sections_unfolded = [ "Theme" ]
 
 [connection signal="gameStartedByHost" from="Networking" to="." method="_on_Networking_gameStartedByHost"]
 
+[connection signal="hostTimeOut" from="Networking" to="." method="_on_Networking_hostTimeOut"]
+
 [connection signal="lostConnection" from="Networking" to="." method="_on_Networking_lostConnection"]
 
 [connection signal="promptReceived" from="Networking" to="." method="_on_Networking_promptReceived"]

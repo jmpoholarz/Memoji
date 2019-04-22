@@ -73,4 +73,5 @@ func displayResults(scores, players):
 
 
 func _on_ProceedButton_pressed():
+	print("DEBUG: sent message to advance")
 	emit_signal("updateGameState", "advance")
