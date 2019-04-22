@@ -118,14 +118,14 @@ func sendMessageToServer(message):
 		if socket.get_status() == socket.STATUS_CONNECTED:
 			# Send reconnection message to server
 			var reconn_message = {
-				"messageType": 406,
+				"messageType": MESSAGE_TYPES.PLAYER_RECONNECT,
 				"letterCode": SessionStorer.get_letter_code(),
 				"playerID": SessionStorer.get_player_id()
 			}
 			sendMessageToServer(reconn_message)
 			return
 		print("Failed to send message.  Not connected to server.")
-		if message["messageType"] != MESSAGE_TYPES.PLAYER_CONNECTED:
+		if message["messageType"] != MESSAGE_TYPES.PLAYER_CONNECTED and message["messageType"] != MESSAGE_TYPES.PLAYER_RECONNECT:
 			emit_signal("lostConnection")
 		Logger.writeLine("Failed to send message (" + str(message) + ").  Not connected to server.")
 		return
