@@ -201,14 +201,14 @@ if (cluster.isMaster) {
     });
 
     socket.on('data', (data) => {
-      console.log(data);
-      console.log(data.toString());
-      console.log(data.length);
 
       if (data.length <= 4) {
         // console.log('[INFO]: Ignore message. Length too short.');
         return;
       }
+      console.log(data);
+      console.log(data.toString());
+      console.log(data.length);
 
       const json = parseData(data);
       if (json === -1) {
@@ -544,7 +544,7 @@ async function pingHosts() {
     return host.isActive == false;
   });
   hosts_to_remove = hosts_to_remove_during_ping.concat(hosts_to_remove_after_ping);
-  console.log(hosts_to_remove);
+  // console.log(hosts_to_remove);
   // console.log(hosts_to_remove_during_ping);
   _.forEach(hosts_to_remove, (host) => {
     _.remove(players, (player) => {
@@ -738,7 +738,7 @@ function handleHostDisConn(letterCode) {
     console.error('[ERROR]: Host is undefined');
     return;
   }
-  console.log(host);
+  // console.log(host);
   console.log('[INFO]: Send players disconnect message.');
 
   const res = {
