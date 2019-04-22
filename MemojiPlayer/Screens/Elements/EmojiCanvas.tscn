@@ -11,7 +11,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -147.0
 margin_bottom = -465.0
-rect_min_size = Vector2( 333, 335 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -21,6 +20,7 @@ size_flags_vertical = 1
 script = ExtResource( 1 )
 _sections_unfolded = [ "Rect" ]
 is_editable = false
+resize_factor = 1.0
 
 [node name="Panel" type="Panel" parent="." index="0"]
 
@@ -38,6 +38,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
+_sections_unfolded = [ "Rect" ]
 
 [node name="GridContainer" type="GridContainer" parent="." index="1"]
 
@@ -58,7 +59,7 @@ size_flags_vertical = 1
 custom_constants/vseparation = 0
 custom_constants/hseparation = 0
 columns = 5
-_sections_unfolded = [ "custom_constants" ]
+_sections_unfolded = [ "Rect", "custom_constants" ]
 
 [node name="CanvasTileMap" type="TileMap" parent="." index="2"]
 

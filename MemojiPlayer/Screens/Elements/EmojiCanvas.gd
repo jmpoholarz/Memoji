@@ -1,6 +1,7 @@
 extends PanelContainer
 
 export(bool) var is_editable = false
+export(float) var resize_factor = 1.0
 
 signal emoji_grabbed(id)
 
@@ -9,7 +10,11 @@ const COLUMNS = 5
 
 onready var _GridContainer = $GridContainer
 onready var _CanvasTileMap = $CanvasTileMap
+onready var _Panel = $Panel
 
+var scaled_cell_size = Vector2(64,64)
+var scaled_spr_offset = Vector2(26,26)
+var scaled_spr_size = Vector2(0.5, 0.5)
 var grid_dict = {}
 var currently_selected_emoji_id = 10000
 var currently_selected_tool = "add"
@@ -17,6 +22,16 @@ var currently_selected_tool = "add"
 var saved_encoding = []
 
 func _ready():
+	# Update dynamic variables based on resize_factor
+	scaled_cell_size = Vector2(int(64*resize_factor), int(64*resize_factor))
+	scaled_spr_offset = Vector2(int(26*resize_factor), int(26*resize_factor))
+	scaled_spr_size = Vector2(0.5*resize_factor, 0.5*resize_factor)
+	# Update size of windows based on resize_factor
+	_CanvasTileMap.cell_size = scaled_cell_size
+	_GridContainer.rect_size = Vector2(320*resize_factor, 320*resize_factor)
+	_Panel.rect_size = Vector2(320*resize_factor, 320*resize_factor)
+	rect_size = Vector2(13+320*resize_factor, 13+320*resize_factor)
+	
 	_CanvasTileMap.connect("canvas_clicked", self, "handle_canvas_click")
 	setup_grid()
 
@@ -26,13 +41,13 @@ func setup_grid():
 		for j in range(5):
 			var filename = EmojiIdToFilename.EmojiIdToFilenameDict[id]
 			var spr = Sprite.new()
-			spr.set_scale(Vector2(0.5, 0.5))
+			spr.set_scale(scaled_spr_size)
 			spr.texture = load(filename)
 			spr.centered = false
-			spr.offset = Vector2(26, 26)
+			spr.offset = scaled_spr_offset
 			#id += 10
 			var cell = TextureRect.new()
-			cell.rect_min_size = Vector2(64,64)
+			cell.rect_min_size = scaled_cell_size
 			cell.add_child(spr)
 			_GridContainer.add_child(cell)
 			grid_dict[Vector2(i,j)] = [cell, spr, id]

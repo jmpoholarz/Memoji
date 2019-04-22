@@ -3,63 +3,38 @@ extends Panel
 signal send_message(msg)
 signal change_screen(screen)
 
-onready var canvas1 = $Answer1/Emoji1
-onready var canvas2 = $Answer2/Emoji2
+onready var _Canvases = [$VBoxContainer/HBoxContainer/Canvas0,
+						 $VBoxContainer/HBoxContainer/Canvas1]
+
+onready var _PromptLabel = $VBoxContainer/PromptLabel
+onready var _SubmitButton = $VBoxContainer/SubmitButton
+onready var _StarTexture = $StarTexture
 
 var vote_id = -1
-var answerNum = 0
 
 func _ready():
-	get_node("GridContainer/ChoiceOneButton").connect("pressed", self, "on_ChoiceOne_Pressed")
-	get_node("GridContainer/ChoiceTwoButton").connect("pressed", self, "on_ChoiceTwo_Pressed")
-	
-	get_node("SubmitButton").connect("pressed", self, "on_SubmitButton_Pressed")
+	pass
 
+func set_answers(answers, prompt_text):
+	if answers.size() != 2:
+		print("Error: number of answers not equal to 2")
+		return
+	_PromptLabel.text = prompt_text
+	_Canvases[0].decode_emojis(answers[0])
+	_Canvases[1].decode_emojis(answers[1])
 
-func display_emojis(answer1, answer2):
-	canvas1.decode_emojis(answer1)
-	canvas2.decode_emojis(answer2)
-	return
+func _on_ChoiceButton_pressed(button_index):
+	vote_id = button_index
+	_SubmitButton.disabled = false
+	_StarTexture.rect_position = _Canvases[button_index].rect_global_position
+	_StarTexture.visible = true
 
-func set_answers(answers, prompt):
-	answerNum = answers.size()
-	get_node("PromptLabel").text = prompt
-	display_emojis(answers[0],answers[1])
-	#hididng all buttons in grid
-	
-	get_node("GridContainer/ChoiceOneButton").hide()
-	get_node("GridContainer/ChoiceTwoButton").hide()
-	
-	if(answerNum == 2):
-		get_node("GridContainer/ChoiceOneButton").show()
-		get_node("GridContainer/ChoiceTwoButton").show()
-	else:
-		print("Error: AnswerNumber value is less than 2")
-
-func set_answer_label():
-	var answer1 = "Choice One"
-	var answer2 = "Choice Two"
-	get_node("GridContainer/ChoiceOneButton").text = answer1
-	get_node("GridContainer/ChoiceTwoButton").text = answer2
-
-
-
-func on_SubmitButton_Pressed():
+func _on_SubmitButton_pressed():
+	_SubmitButton.disabled = true
 	var msg = {
 		"messageType": MESSAGE_TYPES.PLAYER_SENDING_SINGLE_VOTE,
 		"voteID": vote_id
 	}
-	
 	emit_signal("send_message", msg)
 	emit_signal("change_screen", 4)
-	
 
-func receive_Prompt(prompt):
-	get_node("PromptLabel").text = prompt
-
-
-func _on_ChoiceOneButton_pressed():
-	vote_id = 0
-
-func _on_ChoiceTwoButton_pressed():
-	vote_id = 1
