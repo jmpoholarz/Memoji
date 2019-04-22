@@ -16,6 +16,9 @@ var current_prompt_id = -1
 func _ready():
 	_SubmitButtonTimer.start()
 
+func get_num_prompts():
+	return prompt_array.size()
+
 func add_prompts(prompt_array):
 	for prompt in prompt_array:
 		self.prompt_array.append(prompt)

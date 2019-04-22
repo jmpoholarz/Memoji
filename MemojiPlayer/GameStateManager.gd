@@ -139,9 +139,15 @@ func _on_Networking_updatePlayerGameState(messageDict):
 func _on_Networking_hostTimeOut():
 	print("[DEBUG]: Host Timer time out!")
 	# Find what current state is
-	match (int(currentState)):
+	match (currentState):
 		GAME_STATE.PROMPT_PHASE:
 			# Force send prompts
+			# Simulate sending player prompt
+			if $ScreenManager.currentScreen == $ScreenManager.SCREENS.PROMPT_ANSWERING_SCREEN:
+				var num_prompts = $ScreenManager.currentScreenInstance.get_num_prompts() + 1
+				print("[DEBUG]: num_prompts: " + str(num_prompts))
+				for x in range(num_prompts):
+					$ScreenManager.currentScreenInstance._on_SubmitButton_pressed()
 			pass
 		GAME_STATE.VOTE_PHASE:
 			# Force send vote / change screen
