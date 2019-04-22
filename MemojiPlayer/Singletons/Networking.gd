@@ -21,6 +21,7 @@ signal enteredValidMultiVote
 signal acceptedPlayerReconnection()
 signal updatePlayerGameState(messageDict)
 signal lostConnection()
+signal hostTimeOut()
 # # # # # # # # # #
 
 var defaultServerIP = "18.224.39.240"
@@ -195,6 +196,8 @@ func getMessageFromServer():
 			emit_signal("promptReceived", messageDict["promptID"], messageDict["prompt"])
 		MESSAGE_TYPES.HOST_SENDING_ANSWERS:
 			emit_signal("answersReceived", messageDict["prompt"], messageDict["answers"])
+		MESSAGE_TYPES.HOST_TIME_UP:
+			emit_signal("hostTimeOut")
 		MESSAGE_TYPES.INVALID_USERNAME:
 			emit_signal("enteredInvalidUsername")
 		MESSAGE_TYPES.ACCEPTED_USERNAME_AND_AVATAR:

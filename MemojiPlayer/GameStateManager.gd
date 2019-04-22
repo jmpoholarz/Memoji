@@ -66,6 +66,10 @@ func _on_ScreenManager_sendMessageToServer(msg):
 func _on_ScreenManager_updateGameState(newState):
 	currentState = newState
 
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+		get_tree().quit()
+
 
 ######################################
 # # # # # GENERAL NETWORKING # # # # #
@@ -132,9 +136,18 @@ func _on_Networking_updatePlayerGameState(messageDict):
 	currentState = messageDict["gameState"]
 	print("End of updatePlayerGameState")
 
-func _notification(what):
-	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
-		get_tree().quit()
+func _on_Networking_hostTimeOut():
+	print("[DEBUG]: Host Timer time out!")
+	# Find what current state is
+	match (int(currentState)):
+		GAME_STATE.PROMPT_PHASE:
+			# Force send prompts
+			pass
+		GAME_STATE.VOTE_PHASE:
+			# Force send vote / change screen
+			pass
+	pass # replace with function body
+
 
 ################################
 # # # # # TITLE SCREEN # # # # #
@@ -223,3 +236,4 @@ func _on_Networking_enteredValidMultiVote():
 
 func _on_Networking_enteredInvalidMultiVote():
 	pass # replace with function body
+
