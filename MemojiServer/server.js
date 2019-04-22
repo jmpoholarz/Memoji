@@ -122,7 +122,7 @@ if (cluster.isMaster) {
     pingHosts();
     console.log('[LOG]: Ping Players');
     pingPlayers();
-  }, 300000);
+  }, 600000);
 
   const server = net.createServer(socket => {
 
