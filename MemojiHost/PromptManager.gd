@@ -14,12 +14,13 @@ func reset():
 	active_prompt_ids.clear()
 
 func set_answer(prompt_id, player_id, answer):
+	var success # return value
 	print("DEBUG: prompt answer - ", prompt_id)
 	print("Dictionary: ", active_prompts)
 	if (active_prompts.has(prompt_id)):
-		active_prompts[prompt_id].update_player_answer(player_id, answer)
-		print("DEBUG: prompt answer added successfully")
-		return true
+		success = active_prompts[prompt_id].update_player_answer(player_id, answer)
+		if success: print("DEBUG: prompt answer added successfully")
+		return success
 	else:
 		return false
 

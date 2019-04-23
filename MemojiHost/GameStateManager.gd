@@ -547,16 +547,31 @@ func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 				player.currentPromptIDs.erase(promptID)
 				print(player.get_promptIDs())
 				player.answeredPromptIDs.append(promptID)
-		$PromptManager.set_answer(int(promptID), playerID, emojiArray)
-		message = {
-			"messageType": MESSAGE_TYPES.ACCEPTED_PROMPT_RESPONSE,
-			"letterCode": lobbyCode,
-			"playerID": playerID
-		}
-		$Networking.sendMessageToServer(message)
+		if ($PromptManager.set_answer(int(promptID), playerID, emojiArray)):
+			message = {
+				"messageType": MESSAGE_TYPES.ACCEPTED_PROMPT_RESPONSE,
+				"letterCode": lobbyCode,
+				"playerID": playerID
+			}
+			$Networking.sendMessageToServer(message)
 
 		if ($PromptManager.check_completion()):
 			advanceGame()
+	elif (currentState == GAME_STATE.MULTI_PROMPT_PHASE):
+		for player in players:
+			if (player.playerID == playerID):
+				pass # TODO: provide for disconnect/reconnect
+				
+		if ($PromptManager.set_answer(promptID, playerID, emojiArray)):
+			message = {
+				"messageType": MESSAGE_TYPES.ACCEPTED_PROMPT_RESPONSE,
+				"letterCode": lobbyCode,
+				"playerID": playerID
+			}
+		
+		if ($PromptManager.check_completion()):
+			advanceGame()
+	# TODO: Multi Prompt Phase
 
 
 func _on_Networking_receivedPlayerVote(playerID, voteID):
