@@ -1,8 +1,5 @@
 extends Panel
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
 signal connectToServer()
 signal send_message(msg)
 signal change_screen(screen)

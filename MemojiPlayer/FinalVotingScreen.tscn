@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://FinalVotingScreen.gd" type="Script" id=1]
-[ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Themes/grey_inner_theme.tres" type="Theme" id=1]
+[ext_resource path="res://FinalVotingScreen.gd" type="Script" id=2]
+[ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=3]
 
 [node name="FinalVotingPanel" type="Panel" index="0"]
 
@@ -15,7 +16,9 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 1 )
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+_sections_unfolded = [ "Theme" ]
 
 [node name="FinalVotingPromptLabel" type="Label" parent="." index="0"]
 
@@ -23,10 +26,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 123.0
-margin_top = 70.0
-margin_right = 372.0
-margin_bottom = 122.0
+margin_left = 33.0
+margin_top = 34.0
+margin_right = 282.0
+margin_bottom = 86.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -120,6 +123,7 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="GridContainer" type="GridContainer" parent="." index="4"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -140,12 +144,13 @@ _sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "M
 
 [node name="Answer1" type="MarginContainer" parent="GridContainer" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -157,13 +162,14 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Emoji1" parent="GridContainer/Answer1" index="0" instance=ExtResource( 2 )]
+[node name="Emoji1" parent="GridContainer/Answer1" index="0" instance=ExtResource( 3 )]
 
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
+resize_factor = 0.5
 
 [node name="B1" type="Button" parent="GridContainer/Answer1" index="1"]
 
@@ -173,8 +179,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -197,9 +203,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 341.0
-margin_right = 682.0
-margin_bottom = 335.0
+margin_left = 12.0
+margin_right = 24.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -211,13 +217,14 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Emoji2" parent="GridContainer/Answer2" index="0" instance=ExtResource( 2 )]
+[node name="Emoji2" parent="GridContainer/Answer2" index="0" instance=ExtResource( 3 )]
 
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
+resize_factor = 0.5
 
 [node name="B2" type="Button" parent="GridContainer/Answer2" index="1"]
 
@@ -227,8 +234,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -251,9 +258,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 339.0
-margin_right = 341.0
-margin_bottom = 674.0
+margin_top = 36.0
+margin_right = 12.0
+margin_bottom = 68.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -265,13 +272,14 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Emoji3" parent="GridContainer/Answer3" index="0" instance=ExtResource( 2 )]
+[node name="Emoji3" parent="GridContainer/Answer3" index="0" instance=ExtResource( 3 )]
 
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
+resize_factor = 0.5
 
 [node name="B3" type="Button" parent="GridContainer/Answer3" index="1"]
 
@@ -281,8 +289,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -305,10 +313,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 341.0
-margin_top = 339.0
-margin_right = 682.0
-margin_bottom = 674.0
+margin_left = 12.0
+margin_top = 36.0
+margin_right = 24.0
+margin_bottom = 68.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -320,13 +328,14 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Emoji4" parent="GridContainer/Answer4" index="0" instance=ExtResource( 2 )]
+[node name="Emoji4" parent="GridContainer/Answer4" index="0" instance=ExtResource( 3 )]
 
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
+resize_factor = 0.5
 
 [node name="B4" type="Button" parent="GridContainer/Answer4" index="1"]
 
@@ -336,8 +345,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -360,9 +369,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 678.0
-margin_right = 341.0
-margin_bottom = 1013.0
+margin_top = 72.0
+margin_right = 12.0
+margin_bottom = 104.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -374,13 +383,14 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Emoji5" parent="GridContainer/Answer5" index="0" instance=ExtResource( 2 )]
+[node name="Emoji5" parent="GridContainer/Answer5" index="0" instance=ExtResource( 3 )]
 
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
+resize_factor = 0.5
 
 [node name="B5" type="Button" parent="GridContainer/Answer5" index="1"]
 
@@ -390,8 +400,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -414,10 +424,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 341.0
-margin_top = 678.0
-margin_right = 682.0
-margin_bottom = 1013.0
+margin_left = 12.0
+margin_top = 72.0
+margin_right = 24.0
+margin_bottom = 104.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -429,13 +439,14 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Emoji6" parent="GridContainer/Answer6" index="0" instance=ExtResource( 2 )]
+[node name="Emoji6" parent="GridContainer/Answer6" index="0" instance=ExtResource( 3 )]
 
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
+resize_factor = 0.5
 
 [node name="B6" type="Button" parent="GridContainer/Answer6" index="1"]
 
@@ -445,8 +456,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -469,9 +480,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 1017.0
-margin_right = 341.0
-margin_bottom = 1352.0
+margin_top = 108.0
+margin_right = 12.0
+margin_bottom = 140.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -483,13 +494,14 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Emoji7" parent="GridContainer/Answer7" index="0" instance=ExtResource( 2 )]
+[node name="Emoji7" parent="GridContainer/Answer7" index="0" instance=ExtResource( 3 )]
 
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
+resize_factor = 0.5
 
 [node name="B7" type="Button" parent="GridContainer/Answer7" index="1"]
 
@@ -499,8 +511,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -518,15 +530,14 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="Answer8" type="MarginContainer" parent="GridContainer" index="7"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 341.0
-margin_top = 1017.0
-margin_right = 682.0
-margin_bottom = 1352.0
+margin_left = 12.0
+margin_top = 108.0
+margin_right = 24.0
+margin_bottom = 140.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -538,13 +549,14 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Emoji8" parent="GridContainer/Answer8" index="0" instance=ExtResource( 2 )]
+[node name="Emoji8" parent="GridContainer/Answer8" index="0" instance=ExtResource( 3 )]
 
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
+resize_factor = 0.5
 
 [node name="B8" type="Button" parent="GridContainer/Answer8" index="1"]
 
@@ -554,8 +566,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 341.0
-margin_bottom = 335.0
+margin_right = 12.0
+margin_bottom = 32.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
