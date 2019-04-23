@@ -686,6 +686,10 @@ func _on_ScreenManager_handleGameState(msg):
 		if (msg == "advance"):
 			advanceGame()
 			return
+	elif $ScreenManager.currentScreen == GlobalVars.VOTE_SCREEN:
+		if (msg == "advance"):
+			advanceGame()
+			return
 
 
 func _on_Networking_lostConnection():
