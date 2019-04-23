@@ -9,6 +9,7 @@ func displayResults(scores, players):
 	#duplicate the scores to be sorted into highest to lowest
 	var ordered = [] + scores
 	var temp
+	ordered.append(0)
 	#sort through the scores to put them in order
 	for x in range(1, ordered.size()):
 		var y = x
@@ -19,7 +20,6 @@ func displayResults(scores, players):
 			y -= 1
 	#place every player is their correct location, and make them visible
 	#displayPlace is the displayed place of players
-	ordered.append(0)
 	var displayPlace = 2
 	var lastScore = ordered[0]
 	var remainingPlayers = [] + players
@@ -30,7 +30,7 @@ func displayResults(scores, players):
 	var placeNodeText
 	var placeNodeIcon
 	#while there are still players that have not been placed
-	while(remainingPlayers.size() != 1):
+	while(ordered.size() != 1):
 		#find the highest score remaining in the array
 		for i in range(0, scores.size()):
 			if(scores[i] == ordered[0]):
