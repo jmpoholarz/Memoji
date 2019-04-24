@@ -41,61 +41,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="RankTwo" type="OptionButton" parent="." index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 764.0
-margin_top = 368.0
-margin_right = 1084.0
-margin_bottom = 421.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-action_mode = 0
-enabled_focus_mode = 2
-shortcut = null
-group = null
-flat = false
-align = 0
-items = [  ]
-selected = -1
-
-[node name="RankThree" type="OptionButton" parent="." index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 772.0
-margin_top = 501.0
-margin_right = 1092.0
-margin_bottom = 554.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-action_mode = 0
-enabled_focus_mode = 2
-shortcut = null
-group = null
-flat = false
-align = 0
-items = [  ]
-selected = -1
-
-[node name="SubmitButton" type="Button" parent="." index="3"]
+[node name="SubmitButton" type="Button" parent="." index="1"]
 
 anchor_left = 0.5
 anchor_top = 1.0
@@ -121,9 +67,8 @@ flat = false
 align = 1
 _sections_unfolded = [ "Visibility" ]
 
-[node name="GridContainer" type="GridContainer" parent="." index="4"]
+[node name="GridContainer" type="GridContainer" parent="." index="2"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -530,6 +475,7 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="Answer8" type="MarginContainer" parent="GridContainer" index="7"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -583,17 +529,17 @@ flat = false
 align = 1
 _sections_unfolded = [ "Visibility" ]
 
-[node name="Rank1Label" type="RichTextLabel" parent="." index="5"]
+[node name="Rank1Label" type="RichTextLabel" parent="." index="3"]
 
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 66.0
-margin_top = 822.0
-margin_right = 197.0
-margin_bottom = 867.0
+margin_left = 802.0
+margin_top = 193.0
+margin_right = 932.0
+margin_bottom = 233.0
+rect_scale = Vector2( 0.75, 0.75 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = true
 mouse_filter = 0
@@ -606,24 +552,24 @@ visible_characters = -1
 percent_visible = 1.0
 meta_underlined = true
 tab_size = 4
-text = "Rank One"
+text = "Rank 1"
 scroll_active = true
 scroll_following = false
 selection_enabled = false
 override_selected_font_color = false
-_sections_unfolded = [ "Rect" ]
+_sections_unfolded = [ "Anchor", "BBCode", "Focus", "Grow Direction", "Hint", "Margin", "Material", "Mouse", "Pause", "Rect", "Size Flags", "Theme", "Visibility", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
 
-[node name="Rank2Label" type="RichTextLabel" parent="." index="6"]
+[node name="Rank2Label" type="RichTextLabel" parent="." index="4"]
 
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 93.0
-margin_top = 498.0
-margin_right = 224.0
-margin_bottom = 543.0
+margin_left = 977.0
+margin_top = 193.0
+margin_right = 1107.0
+margin_bottom = 233.0
+rect_scale = Vector2( 0.75, 0.75 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = true
 mouse_filter = 0
@@ -636,24 +582,24 @@ visible_characters = -1
 percent_visible = 1.0
 meta_underlined = true
 tab_size = 4
-text = "Rank Two"
+text = "Rank 2"
 scroll_active = true
 scroll_following = false
 selection_enabled = false
 override_selected_font_color = false
-_sections_unfolded = [ "Hint", "Mouse", "Rect", "Visibility" ]
+_sections_unfolded = [ "Anchor", "BBCode", "Focus", "Grow Direction", "Hint", "Margin", "Material", "Mouse", "Pause", "Rect", "Size Flags", "Theme", "Visibility", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
 
-[node name="Rank3Label" type="RichTextLabel" parent="." index="7"]
+[node name="Rank3Label" type="RichTextLabel" parent="." index="5"]
 
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 321.0
-margin_top = 58.0
-margin_right = 452.0
-margin_bottom = 103.0
+margin_left = 815.0
+margin_top = 283.0
+margin_right = 945.0
+margin_bottom = 323.0
+rect_scale = Vector2( 0.75, 0.75 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = true
 mouse_filter = 0
@@ -666,11 +612,11 @@ visible_characters = -1
 percent_visible = 1.0
 meta_underlined = true
 tab_size = 4
-text = "Rank Three"
+text = "Rank 3"
 scroll_active = true
 scroll_following = false
 selection_enabled = false
 override_selected_font_color = false
-_sections_unfolded = [ "Rect" ]
+_sections_unfolded = [ "Anchor", "BBCode", "Focus", "Grow Direction", "Hint", "Margin", "Material", "Mouse", "Pause", "Rect", "Size Flags", "Theme", "Visibility", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
 
 
