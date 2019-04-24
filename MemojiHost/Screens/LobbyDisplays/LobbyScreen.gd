@@ -84,7 +84,7 @@ func update_audience(count):
 func _on_StartButton_pressed():
 	# Disable button
 	_StartButton.disabled = true
-	emit_signal("startGame")
+	emit_signal("updateGameState", "startGame")
 
 func _on_ExitButton_pressed():
 	_ExitButton.disabled = true
