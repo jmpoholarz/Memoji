@@ -61,6 +61,8 @@ func updateLetterCode(letter_code):
 func _on_ScreenManager_sendMessageToServer(msg):
 	if player != null:
 		msg["playerID"] = player.playerID
+	else:
+		msg["playerID"] = SessionStorer.get_player_id()
 	$Networking.sendMessageToServer(msg)
 
 func _on_ScreenManager_updateGameState(newState):
@@ -123,16 +125,12 @@ func _on_Networking_updatePlayerGameState(messageDict):
 			# We have voting to do
 			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
 			handleReceivedAnswers(messageDict["prompt"], messageDict["answers"])
-			pass
 		GAME_STATE.RESULTS_PHASE:
-			# TODO
-			pass
+			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
 		GAME_STATE.ROUND_RESULTS:
-			# TODO
-			pass
+			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
 		GAME_STATE.FINAL_RESULTS:
-			# TODO
-			pass
+			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
 	currentState = messageDict["gameState"]
 	print("End of updatePlayerGameState")
 

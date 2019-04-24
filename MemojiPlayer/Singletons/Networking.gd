@@ -183,6 +183,7 @@ func getMessageFromServer():
 		MESSAGE_TYPES.INVALID_SERVER_CODE:
 			emit_signal("enteredInvalidHostCode")
 		MESSAGE_TYPES.ACCEPTED_PLAYER_RECONNECTION:
+			letterCode = SessionStorer.get_letter_code()
 			emit_signal("acceptedPlayerReconnection")
 		MESSAGE_TYPES.SERVER_FORCE_DISCONNECT_CLIENT:
 			print("Forcibly disconnected from Host by Server.")
