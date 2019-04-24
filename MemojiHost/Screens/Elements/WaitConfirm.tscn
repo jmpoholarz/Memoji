@@ -1,8 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Screens/Elements/WaitConfirm.gd" type="Script" id=1]
-[ext_resource path="res://Screens/LobbyDisplays/P_Status.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Screens/Elements/P_Status.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/m7.png" type="Texture" id=3]
+
 
 [node name="WaitConfirm" type="VBoxContainer" index="0"]
 
