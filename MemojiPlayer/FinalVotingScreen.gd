@@ -4,25 +4,18 @@ signal connectToServer()
 signal send_message(msg)
 signal change_screen(screen)
 var answerChoicesToBeReturned = []
-onready var canvas1 = $Answer1/Emoji1
-onready var canvas2 = $Answer2/Emoji2
-onready var canvas3 = $Answer3/Emoji3
-onready var canvas4 = $Answer4/Emoji4
-onready var canvas5 = $Answer5/Emoji5
-onready var canvas7 = $Answer6/Emoji6
-onready var canvas6 = $Answer7/Emoji7
-onready var canvas8 = $Answer8/Emoji8
+onready var _Canvases = [$GridContainer/Answer1/Emoji1,
+						 $GridContainer/Answer2/Emoji2,
+						 $GridContainer/Answer3/Emoji3, 
+						 $GridContainer/Answer4/Emoji4,
+						 $GridContainer/Answer5/Emoji5,
+						 $GridContainer/Answer6/Emoji6,
+						 $GridContainer/Answer7/Emoji7,
+						 $GridContainer/Answer8/Emoji8]
+onready var _SubmitButton = $SubmitButton
 onready var rankOneLabel = $Rank1Label
 onready var rankTwoLabel = $Rank2Label
 onready var rankThreeLabel = $Rank3Label
-onready var choiceOneVector = Vector2(138, 165)
-onready var choiceTwoVector = Vector2(423, 128)
-onready var choiceThreeVector = Vector2(93, 498)
-onready var choiceFourVector = Vector2(429, 491)
-onready var choiceFiveVector = Vector2(66, 822)
-onready var choiceSixVector = Vector2(93, 498)
-onready var choiceSevenVector = Vector2(93, 498)
-onready var choiceEightVector = Vector2(93, 498)
 
 func _ready():
 	# Called when the node is added to the scene for the first time.
@@ -30,11 +23,10 @@ func _ready():
 		answerChoicesToBeReturned.append(-1)
 	#Test
 	var test = []
-	for i in range(4):
+	for i in range(8):
 		test.append(-1)
 		
-	#set_answers(test)
-	
+	set_answers(test)
 	
 	get_node("SubmitButton").connect("pressed", self, "on_SubmitButton_Pressed")
 	get_node("GridContainer/Answer1/B1").connect("toggled", self, "on_ButtonPressed", [get_node("GridContainer/Answer1/B1")])
@@ -49,6 +41,7 @@ func _ready():
 	
 func on_ButtonPressed(toggled, target):
 	print("button = ", target.get_name())
+	
 	var id = -1
 	
 	if (target.get_name() == "B1"):
@@ -97,57 +90,57 @@ func on_ButtonPressed(toggled, target):
 func set_positionLabel(rank, id):
 	if(rank == 0):
 		if(id == 0):
-			$Rank1Label.rect_position = choiceOneVector
+			$Rank1Label.rect_position = _Canvases[0].rect_global_position
 		elif(id == 1):
-			$Rank1Label.rect_position = choiceTwoVector
+			$Rank1Label.rect_position = _Canvases[1].rect_global_position
 		elif(id == 2):
-			$Rank1Label.rect_position = choiceThreeVector
+			$Rank1Label.rect_position = _Canvases[2].rect_global_position
 		elif(id == 3):
-			$Rank1Label.rect_position = choiceFourVector
+			$Rank1Label.rect_position = _Canvases[3].rect_global_position
 		elif(id == 4):
-			$Rank1Label.rect_position = choiceFiveVector
+			$Rank1Label.rect_position = _Canvases[4].rect_global_position
 		elif(id == 5):
-			$Rank1Label.rect_position = choiceSixVector
+			$Rank1Label.rect_position = _Canvases[5].rect_global_position
 		elif(id == 6):
-			$Rank1Label.rect_position = choiceSevenVector
+			$Rank1Label.rect_position = _Canvases[6].rect_global_position
 		elif(id == 7):
-			$Rank1Label.rect_position = choiceEightVector
+			$Rank1Label.rect_position = _Canvases[7].rect_global_position
 		$Rank1Label.show()
 	elif(rank == 1):
 		if(id == 0):
-			$Rank2Label.rect_position = choiceOneVector
+			$Rank2Label.rect_position = _Canvases[0].rect_global_position
 		elif(id == 1):
-			$Rank2Label.rect_position = choiceTwoVector
+			$Rank2Label.rect_position = _Canvases[1].rect_global_position
 		elif(id == 2):
-			$Rank2Label.rect_position = choiceThreeVector
+			$Rank2Label.rect_position = _Canvases[2].rect_global_position
 		elif(id == 3):
-			$Rank2Label.rect_position = choiceFourVector
+			$Rank2Label.rect_position = _Canvases[3].rect_global_position
 		elif(id == 4):
-			$Rank2Label.rect_position = choiceFiveVector
+			$Rank2Label.rect_position = _Canvases[4].rect_global_position
 		elif(id == 5):
-			$Rank2Label.rect_position = choiceSixVector
+			$Rank2Label.rect_position = _Canvases[5].rect_global_position
 		elif(id == 6):
-			$Rank2Label.rect_position = choiceSevenVector
+			$Rank2Label.rect_position = _Canvases[6].rect_global_position
 		elif(id == 7):
-			$Rank2Label.rect_position = choiceEightVector
+			$Rank2Label.rect_position = _Canvases[7].rect_global_position
 		$Rank2Label.show()
 	elif(rank == 2):
 		if(id == 0):
-			$Rank3Label.rect_position = choiceOneVector
+			$Rank3Label.rect_position = _Canvases[0].rect_global_position
 		elif(id == 1):
-			$Rank3Label.rect_position = choiceTwoVector
+			$Rank3Label.rect_position = _Canvases[1].rect_global_position
 		elif(id == 2):
-			$Rank3Label.rect_position = choiceThreeVector
+			$Rank3Label.rect_position = _Canvases[2].rect_global_position
 		elif(id == 3):
-			$Rank3Label.rect_position = choiceFourVector
+			$Rank3Label.rect_position = _Canvases[3].rect_global_position
 		elif(id == 4):
-			$Rank3Label.rect_position = choiceFiveVector
+			$Rank3Label.rect_position = _Canvases[4].rect_global_position
 		elif(id == 5):
-			$Rank3Label.rect_position = choiceSixVector
+			$Rank3Label.rect_position = _Canvases[5].rect_global_position
 		elif(id == 6):
-			$Rank3Label.rect_position = choiceSevenVector
+			$Rank3Label.rect_position = _Canvases[6].rect_global_position
 		elif(id == 7):
-			$Rank3Label.rect_position = choiceEightVector
+			$Rank3Label.rect_position = _Canvases[7].rect_global_position
 		$Rank3Label.show()
 			
 	print("test")
@@ -162,7 +155,8 @@ func remove_positionLabel(i):
 	print("test2")
 
 func display_emojis(canvas,answer):
-	canvas.decode_emojis(answer)
+	var test = [[0,0,10080], [0,2,10080], [2,0,10080]]
+	canvas.decode_emojis(test)
 	return
 
 #func reset_display():
@@ -184,36 +178,36 @@ func set_answers(answers):
 	if(answerNum == 2):
 		get_node("GridContainer/Answer1").show()
 		get_node("GridContainer/Answer2").show()
-		display_emojis(canvas1,answers[0])
-		display_emojis(canvas2,answers[1])
+		display_emojis(_Canvases[0],answers[0])
+		display_emojis(_Canvases[1],answers[1])
 		
 	elif(answerNum > 2 && answerNum <= 8):
 		for i in range(0, answerNum):
 			print(i)
 			if(i == 0):
 				get_node("GridContainer/Answer1").show()
-				display_emojis(canvas1,answers[0])
+				display_emojis(_Canvases[0],answers[0])
 			elif(i == 1):
 				get_node("GridContainer/Answer2").show()
-				display_emojis(canvas2,answers[1])				
+				display_emojis(_Canvases[1],answers[1])				
 			elif(i == 2):
 				get_node("GridContainer/Answer3").show()
-				display_emojis(canvas3,answers[2])
+				display_emojis(_Canvases[2],answers[2])
 			elif(i == 3):
 				get_node("GridContainer/Answer4").show()		
-				display_emojis(canvas4,answers[3])
+				display_emojis(_Canvases[3],answers[3])
 			elif(i == 4):
 				get_node("GridContainer/Answer5").show()
-				display_emojis(canvas5,answers[4])
+				display_emojis(_Canvases[4],answers[4])
 			elif(i == 5):
 				get_node("GridContainer/Answer6").show()
-				display_emojis(canvas6,answers[5])
+				display_emojis(_Canvases[5],answers[5])
 			elif(i == 6):
 				get_node("GridContainer/Answer7").show()
-				display_emojis(canvas7,answers[6])
+				display_emojis(_Canvases[6],answers[6])
 			elif(i == 7):
 				get_node("GridContainer/Answer8").show()
-				display_emojis(canvas8,answers[7])
+				display_emojis(_Canvases[7],answers[7])
 			
 	else:
 		print("Error: AnswerNumber value is less than 2")
@@ -232,7 +226,6 @@ func on_SubmitButton_Pressed():
 			"voteArray": voteArray
 		}
 		emit_signal("send_message", msg)
-		reset_display()
 		emit_signal("change_screen", 4)
 		print("Submitted")
 		print(answerChoicesToBeReturned)
