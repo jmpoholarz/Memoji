@@ -130,11 +130,12 @@ func displayVotersNew(players):
 			dispNode = PlayerDisplayScene.instance()
 			votersLeftNode.add_child(dispNode)
 			dispNode.update_player(p.username, p.avatarID)
+			dispNode.show()
 		elif(vote == 1):
 			dispNode = PlayerDisplayScene.instance()
 			votersRightNode.add_child(dispNode)
 			dispNode.update_player(p.username, p.avatarID)
-			
+			dispNode.show()
 		pass
 	return 
 

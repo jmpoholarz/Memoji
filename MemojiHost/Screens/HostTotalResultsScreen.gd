@@ -113,6 +113,7 @@ func displayResultsNew(players):
 			resultsRightNode.add_child(dispNode)
 		
 		dispNode.update_display( index + 1, players[index].username, players[index].avatarID )
+		dispNode.show()
 	
 
 func _on_ProceedButton_pressed():
