@@ -12,8 +12,8 @@ var selected_avatar = -1
 
 func _ready():
 	avatarSetup()
-	#reset()
-	#hide()
+	reset()
+	hide()
 
 func avatarSetup(): # loads the avatars in use
 	for key in AvatarIdToFilename.AvatarIdToFilenameDict.keys():

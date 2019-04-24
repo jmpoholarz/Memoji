@@ -118,7 +118,14 @@ func displayVoters(leftPlayers, rightPlayers):
 	return
 	
 # TODO: Use the player
-func displayVotersNew():
+func displayVotersNew(players):
+	var vote
+	for p in players:
+		vote = p.get_regular_vote()
+		if (vote != null):
+			
+			pass
+		pass
 	return 
 
 func displayAudience(votes):
