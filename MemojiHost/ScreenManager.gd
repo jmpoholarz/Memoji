@@ -12,6 +12,9 @@ var totalResultsScreenScene = preload("res://Screens/HostTotalResultsScreen.tscn
 
 var creditsScene = preload("res://Screens/InstructionScreens/Credits.tscn")
 
+#instruction screens
+var initialInstruction = preload("res://Screens/InstructionScreens/InitialInstruction.tscn")
+
 signal connectToServer()
 signal sendMessageToServer(msg)
 signal handleGameState(msg)			# for GameStateManager
@@ -24,6 +27,10 @@ onready var _LostConnectionPopup = $LostConectionPopup
 
 var currentScreen
 var currentScreenInstance
+
+var instructions = true # whether or not to show instructions before the actual game begins
+var repeatInstruct = false # whether to show instructions for every round of the game
+var onInstructionScreen = false # whether the game is currently on an instruction screen
 
 func _ready():
 	pass
@@ -97,4 +104,6 @@ func newGame():
 	emit_signal("newGame")
 
 func instructionState():
-	emit_signal("instructionUpdate", currentScreenInstance.getInstructionState(), currentScreenInstance.getRepeatState())
+	instructions = currentScreenInstance.getInstructionState()
+	repeatInstruct = currentScreenInstance.getInstructionState()
+	emit_signal("instructionUpdate", instructions, repeatInstruct)
