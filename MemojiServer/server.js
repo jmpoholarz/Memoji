@@ -125,7 +125,8 @@ if (cluster.isMaster) {
     pingHosts();
     console.log('[INFO]: Ping Players');
     pingPlayers();
-  }, 600000);
+    printAll();
+  }, 300000);
 
   const server = net.createServer(socket => {
 
@@ -559,7 +560,6 @@ async function pingHosts() {
     host.socket.destroy();
     _.remove(hosts, host);
   });
-  printAll();
   update_all();
   console.log('[INFO]: End Ping Hosts');
 }
@@ -605,9 +605,7 @@ async function pingPlayers() {
     _.remove(players, player);
   });
 
-  printAll();
   update_all();
-
   console.log('[INFO]: End Ping Players');
 
 }
