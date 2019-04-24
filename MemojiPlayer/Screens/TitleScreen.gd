@@ -67,8 +67,6 @@ func show_ServerErrorPopup(text):
 	_JoinButton.disabled = false
 	$ServerErrorPopup/Label.text = text
 	_ServerErrorPopup.popup()
-	
-	
 
 
 func _on_YesReconnectButton_pressed():
