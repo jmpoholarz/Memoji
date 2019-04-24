@@ -44,8 +44,8 @@ func changeScreenTo(screen):
 			currentScreenInstance.connect("connectToServer", self, "connectToServer")
 		GlobalVars.SETUP_SCREEN:
 			currentScreenInstance = setupScreenScene.instance()
-		GlobalVars.LOBBY_SCREEN:
 			instructionState()
+		GlobalVars.LOBBY_SCREEN:
 			currentScreenInstance = lobbyScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 			currentScreenInstance.connect("startGame", self, "startGame")
@@ -95,4 +95,4 @@ func newGame():
 	emit_signal("newGame")
 
 func instructionState():
-	emitSignal("instructionUpdate", currentScreenInstance.getInstructionState(), currentScreenInstance.getRepeatState())
+	emit_signal("instructionUpdate", currentScreenInstance.getInstructionState(), currentScreenInstance.getRepeatState())
