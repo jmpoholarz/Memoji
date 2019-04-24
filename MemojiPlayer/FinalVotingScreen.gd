@@ -26,7 +26,7 @@ func _ready():
 	for i in range(8):
 		test.append(-1)
 		
-	set_answers(test)
+	#set_answers(test)
 	
 	get_node("SubmitButton").connect("pressed", self, "on_SubmitButton_Pressed")
 	get_node("GridContainer/Answer1/B1").connect("toggled", self, "on_ButtonPressed", [get_node("GridContainer/Answer1/B1")])
@@ -156,7 +156,7 @@ func remove_positionLabel(i):
 
 func display_emojis(canvas,answer):
 	var test = [[0,0,10080], [0,2,10080], [2,0,10080]]
-	canvas.decode_emojis(test)
+	canvas.decode_emojis(answer)
 	return
 
 #func reset_display():
