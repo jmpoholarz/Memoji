@@ -379,8 +379,8 @@ func advanceGame():
 			else:
 				#TODO:
 				roundResults()
-				
-		GAME_STATE.FINAL_RESULTS:
+			
+		GAME_STATE.ROUND_RESULTS:
 			currentRound += 1
 			if (currentRound < 3):
 				promptPhase() # TODO: Make sure PromptManager is reset
@@ -392,8 +392,8 @@ func advanceGame():
 			pass
 		GAME_STATE.MULTI_RESULTS_PHASE:
 			pass
-	pass
-
+		GAME_STATE.FINAL_RESULTS:
+			pass
 
 func updatePlayerGameState(player):
 	var message = { "messageType": MESSAGE_TYPES.UPDATE_PLAYER_GAME_STATE, "playerID": player.playerID, "gameState": currentState }
