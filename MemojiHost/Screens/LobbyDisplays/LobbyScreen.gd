@@ -20,6 +20,8 @@ onready var _NotEnoughPlayers = $NotEnoughPlayersPopup
 onready var _NotAllPlayersHaveAvatar = $NotAllPlayersHaveAvatar
 onready var _TopLine = $VBoxContainer/Content/Lines/TopLine
 onready var _ContentContainer = $VBoxContainer/Content
+onready var _StartButton = $VBoxContainer/Content/Lines/TopLine/VBoxContainer/StartButton
+onready var _ExitButton = $VBoxContainer/Content/Lines/TopLine/VBoxContainer/ExitButton
 
 var linkedIDs = [] # Stores the playerID
 
@@ -80,9 +82,12 @@ func update_audience(count):
 	_AudienceLabel.update_count(count)
 
 func _on_StartButton_pressed():
+	# Disable button
+	_StartButton.disabled = true
 	emit_signal("startGame")
 
 func _on_ExitButton_pressed():
+	_ExitButton.disabled = true
 	emit_signal("updateGameState", "disconnectLobby")
 	
 func showNotEnoughPlayers():

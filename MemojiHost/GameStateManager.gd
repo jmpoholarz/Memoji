@@ -331,7 +331,7 @@ func showTotalResults():
 	"""
 
 func multiPromptPhase():
-	var finalPromptObj
+	var finalPromptObj # TODO: make class member
 	var messageArr = []
 	
 	currentState = GAME_STATE.MULTI_PROMPT_PHASE
@@ -355,6 +355,11 @@ func multiPromptPhase():
 	
 	sendPrompts(messageArr)
 
+func multiVotePhase():
+	return
+func multiResultsPhase():
+	return
+
 func advanceGame():
 	print("DEBUG: Advance Game function")
 	match (currentState):
@@ -373,11 +378,8 @@ func advanceGame():
 				votePhase()
 			else:
 				#TODO:
-				if (currentRound < 3):
-					roundResults()
-				else:
-					pass
-			
+				roundResults()
+				
 		GAME_STATE.FINAL_RESULTS:
 			currentRound += 1
 			if (currentRound < 3):
@@ -684,6 +686,7 @@ func _on_ScreenManager_handleGameState(msg):
 			return
 	elif $ScreenManager.currentScreen == GlobalVars.TOTAL_SCREEN:
 		if (msg == "advance"):
+			print("DEBUG: **** TotalScreen advanceGame() ****")
 			advanceGame()
 			return
 	elif $ScreenManager.currentScreen == GlobalVars.VOTE_SCREEN:
