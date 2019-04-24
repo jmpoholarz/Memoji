@@ -1,6 +1,6 @@
 extends Node
 
-var currentRound
+var currentRound = 0
 var currentState = GAME_STATE.NOT_STARTED
 var currentPrompt # Index starting from 0 that refers to the prompt players are currently voting on
 var instructions = true # whether or not to show instructions before the actual game begins
@@ -17,6 +17,7 @@ var lobbyCode = null
 
 enum GAME_STATE {
 	NOT_STARTED = 0
+	GAME_STARTING = -1
 	PROMPT_PHASE = 1
 	VOTE_PHASE = 2
 	RESULTS_PHASE = 3
@@ -63,7 +64,6 @@ func setupGame():
 		print("Not enough players joined")
 		if $ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN:
 			$ScreenManager.currentScreenInstance.showNotEnoughPlayers()
-			$ScreenManager.currentScreenInstance._StartButton.disabled = false
 		return
 	# Check for players are connected but no avatar is selected
 	for player in players:
@@ -72,8 +72,12 @@ func setupGame():
 			print("Not all players have username or avatar")
 			if $ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN:
 				$ScreenManager.currentScreenInstance.showNotAllPlayersHaveAvatar()
-				$ScreenManager.currentScreenInstance._StartButton.disabled = false
 			return
+
+	if (currentState != GAME_STATE.NOT_STARTED): # NEW - Error checking for out of place calls
+		return
+	else:
+		currentState = GAME_STATE.GAME_STARTING
 
 	# Everything ok to start
 	currentRound = 1
