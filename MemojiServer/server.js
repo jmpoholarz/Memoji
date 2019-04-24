@@ -231,8 +231,8 @@ if (cluster.isMaster) {
         return;
       }
 
-      console.log('[INFO]: Message Received:');
       console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+      console.log('[INFO]: Message Received:');
       console.log(message);
       console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
 
