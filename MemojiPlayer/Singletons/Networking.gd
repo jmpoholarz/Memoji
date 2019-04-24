@@ -109,9 +109,10 @@ func _on_ConnectingTimer_timeout():
 		Logger.writeLine("Connection attempt was successful.")
 		print("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
 		Logger.writeLine("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
+		$NetworkStatusPinger.start()
 
 func sendMessageToServer(message):
-	print("--x--")
+	print("--X--")
 	print(socket.is_connected_to_host())
 	print(socket.get_status())
 	print("--x--")
@@ -127,11 +128,16 @@ func sendMessageToServer(message):
 				"playerID": SessionStorer.get_player_id()
 			}
 			sendMessageToServer(reconn_message)
+			sendMessageToServer(message)
 			return
 		print("Failed to send message.  Not connected to server.")
 		if message["messageType"] != MESSAGE_TYPES.PLAYER_CONNECTED and message["messageType"] != MESSAGE_TYPES.PLAYER_RECONNECT:
 			emit_signal("lostConnection")
 		Logger.writeLine("Failed to send message (" + str(message) + ").  Not connected to server.")
+		return
+	if socket.get_status() != socket.STATUS_CONNECTED:
+		print("connection was lost")
+		emit_signal("lostConnection")
 		return
 	# Check if valid message
 	if message["messageType"] != MESSAGE_TYPES.HOST_REQUESTING_CODE:
@@ -225,3 +231,10 @@ func getMessageFromServer():
 		_:
 			print("Unrecognized message code " + str(messageCode))
 			Logger.writeLine("Unrecognized message code " + str(messageCode))
+
+
+func _on_NetworkStatusPinger_timeout():
+	# Dummy put message to update network status
+	socket.put_u8(6)
+	print(socket.get_status())
+	

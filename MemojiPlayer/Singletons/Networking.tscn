@@ -3,7 +3,7 @@
 [ext_resource path="res://Singletons/Networking.gd" type="Script" id=1]
 [ext_resource path="res://Singletons/Parser.gd" type="Script" id=2]
 
-[node name="Networking" type="Node"]
+[node name="Networking" type="Node" index="0"]
 
 script = ExtResource( 1 )
 
@@ -18,6 +18,15 @@ wait_time = 1.0
 one_shot = true
 autostart = false
 
+[node name="NetworkStatusPinger" type="Timer" parent="." index="2"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
 [connection signal="timeout" from="ConnectingTimer" to="." method="_on_ConnectingTimer_timeout"]
+
+[connection signal="timeout" from="NetworkStatusPinger" to="." method="_on_NetworkStatusPinger_timeout"]
 
 
