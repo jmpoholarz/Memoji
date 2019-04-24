@@ -308,17 +308,17 @@ func showResults():
 	for x in range(0,players.size()):
 		if competitors[0] == players[x]:
 			pIndex = x
-			players[x].increase_score(results[0]) # NEW - repalces totalScoreTally
+			players[x].increase_score(scores[0]) # NEW - replaces totalScoreTally
 	# TODO: Remove this line
-	totalScoreTally[pIndex] += results[0]
+	totalScoreTally[pIndex] += scores[0]
 
 	pIndex = 0
 	for x in range(0,players.size()):
 		if competitors[1] == players[x]:
 			pIndex = x
-			players[x].increase_score(results[1]) # NEW - repalces totalScoreTally
+			players[x].increase_score(scores[1]) # NEW - replaces totalScoreTally
 	# TODO: Remove this line
-	totalScoreTally[pIndex] += results[1]
+	totalScoreTally[pIndex] += scoress[1]
 
 func showTotalResults():
 	$ScreenManager.changeScreenTo(GlobalVars.TOTAL_SCREEN)
