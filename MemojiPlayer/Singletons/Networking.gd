@@ -111,6 +111,10 @@ func _on_ConnectingTimer_timeout():
 		Logger.writeLine("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
 
 func sendMessageToServer(message):
+	print("--x--")
+	print(socket.is_connected_to_host())
+	print(socket.get_status())
+	print("--x--")
 	# Check if can send message
 	if !socket.is_connected_to_host():
 		var response = connectPlayerToServer(defaultServerIP, defaultServerPort)
