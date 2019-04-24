@@ -206,6 +206,9 @@ if (cluster.isMaster) {
         return;
       }
 
+      console.log('Raw message received');
+      console.log(data.toString());
+
       const json = parseData(data);
       if (json === -1) {
         console.error('[ERROR]: Error parsing data');
