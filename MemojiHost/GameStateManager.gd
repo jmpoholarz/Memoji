@@ -48,13 +48,11 @@ func _ready():
 	$ScreenManager.connect("handleGameState", self, "_on_ScreenManager_handleGameState")
 	$ScreenManager.connect("restart", self, "restartGame")
 	$ScreenManager.connect("newGame", self, "toTitle")
+	$ScreenManager.connect("instructionUpdate", self, "updateInstructions")
 	toTitle()
 
 func on_startGame():
 	# set the instruction variables to what they need to be, only if screen is correct at the moment just in case
-	if $ScreenManager.currentScreen == GlobalVars.SETUP_SCREEN:
-		instructions = $ScreenManager.currentScreenInstance.getInstructionState()
-		repeatInstruct = $ScreenManager.currentScreenInstance.getRepeatState()
 	setupGame()
 
 func setupGame():
@@ -716,3 +714,7 @@ func restartGame():
 	repeatInstruct = false
 	totalScoreTally = []
 	setupGame()
+
+func updateInstructions(instruct, repeat):
+	instructions = instruct
+	repeatInstruct = repeat
