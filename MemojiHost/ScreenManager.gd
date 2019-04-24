@@ -51,6 +51,7 @@ func changeScreenTo(screen):
 			currentScreenInstance = waitScreenScene.instance()
 		GlobalVars.VOTE_SCREEN:
 			currentScreenInstance = voteScreenScene.instance()
+			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.RESULTS_SCREEN:
 			currentScreenInstance = resultsScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")

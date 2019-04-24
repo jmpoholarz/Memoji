@@ -34,4 +34,4 @@ func _on_Timer_timeout():
 		_Timer.stop()
 		var message = {"messageType": 320}
 		emit_signal("messageServer", message)
-		emit_signal("changeScreen", GlobalVars.RESULTS_SCREEN)
+		emit_signal("updateGameState", "advance")

@@ -1063,6 +1063,7 @@ function sendToPlayersAndAudience(letterCode, message) {
 
 
 function sendToHost(letterCode, message) {
+  console.log('[INFO]: Send Message to Host:');
   console.log(message);
   const host = _.find(hosts, ['code', letterCode]);
   if (host == undefined) {
