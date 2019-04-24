@@ -113,7 +113,7 @@ func _on_Networking_updatePlayerGameState(messageDict):
 	print("GameState from message: " + str(messageDict["gameState"]))
 	match (int(messageDict["gameState"])):
 		GAME_STATE.NOT_STARTED:
-			pass
+			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.USERINFORMATION_SCREEN)
 		GAME_STATE.PROMPT_PHASE:
 			# We have prompts to answer
 			# Look at received prompts

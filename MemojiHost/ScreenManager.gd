@@ -18,6 +18,7 @@ signal handleGameState(msg)			# for GameStateManager
 signal startGame()
 signal restart()
 signal newGame()
+signal instructionUpdate(instruct, repeat)
 
 onready var _LostConnectionPopup = $LostConectionPopup
 
@@ -44,6 +45,7 @@ func changeScreenTo(screen):
 		GlobalVars.SETUP_SCREEN:
 			currentScreenInstance = setupScreenScene.instance()
 		GlobalVars.LOBBY_SCREEN:
+			instructionState()
 			currentScreenInstance = lobbyScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 			currentScreenInstance.connect("startGame", self, "startGame")
@@ -91,3 +93,6 @@ func restartGame():
 
 func newGame():
 	emit_signal("newGame")
+
+func instructionState():
+	emitSignal("instructionUpdate", currentScreenInstance.getInstructionState(), currentScreenInstance.getRepeatState())
