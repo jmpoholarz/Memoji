@@ -1104,7 +1104,7 @@ function send(socket, data) {
   try {
     socket.write(buff2);
     console.log('\x1b[36m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-    console.log(`[INFO]: Message sent successfully`);
+    console.log(`[INFO]: Message sent successfully ${buff2.toString()}`);
     console.log('\x1b[36m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   } catch (err) {
     logError(err);
