@@ -18,7 +18,7 @@ func _ready():
 	
 	return
 	
-func displayResults(scores, players):
+func displayResultsOld(scores, players):
 	#duplicate the scores to be sorted into highest to lowest
 	var ordered = [] + scores
 	var temp
@@ -84,7 +84,7 @@ func displayResults(scores, players):
 		displayPlace += 1
 	return
 
-func displayResultsNew(players):
+func displayResults(players):
 	var arr = []
 	var temp # for swaps
 	var subIndex
@@ -113,6 +113,7 @@ func displayResultsNew(players):
 			resultsRightNode.add_child(dispNode)
 		
 		dispNode.update_display( index + 1, players[index].username, players[index].avatarID )
+		dispNode.show()
 	
 
 func _on_ProceedButton_pressed():

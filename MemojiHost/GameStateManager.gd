@@ -302,7 +302,7 @@ func showResults():
 	scores[1] = $ScreenManager.currentScreenInstance.calculateTotals(2, results[1], aPercentages[1])
 	#display who voted for each answer
 	#$ScreenManager.currentScreenInstance.displayVoters(leftVoters, rightVoters)
-	$ScreenManager.currentScreenInstance.displayVotersNew(players)
+	$ScreenManager.currentScreenInstance.displayVoters(players)
 	#reset votes for next round now that they have been displayed
 
 	var pIndex
@@ -324,7 +324,7 @@ func showResults():
 func showTotalResults():
 	$ScreenManager.changeScreenTo(GlobalVars.TOTAL_SCREEN)
 	# TODO: change this function
-	$ScreenManager.currentScreenInstance.displayResults(totalScoreTally, players)
+	$ScreenManager.currentScreenInstance.displayResults(players)
 	#time till reset
 	"""var t = Timer.new()
 	t.setWaitTime(30)

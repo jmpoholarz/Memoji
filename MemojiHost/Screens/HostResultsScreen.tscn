@@ -1,11 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Screens/HostResultsScreen.gd" type="Script" id=1]
 [ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
-[ext_resource path="res://Screens/Elements/SmallPlayerStatus.tscn" type="PackedScene" id=4]
 
-[node name="ResultsUI" type="Container" index="0"]
+[node name="ResultsUI" type="Container"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -752,16 +751,6 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="P1" parent="MarginContainer/Rows/Voters/VotersLeft" index="8" instance=ExtResource( 4 )]
-
-margin_left = 54.0
-margin_right = 186.0
-
-[node name="Player" parent="MarginContainer/Rows/Voters/VotersLeft" index="9" instance=ExtResource( 4 )]
-
-margin_left = 298.0
-margin_right = 430.0
-
 [node name="Divider" type="MarginContainer" parent="MarginContainer/Rows/Voters" index="1"]
 
 anchor_left = 0.0
@@ -1283,11 +1272,6 @@ text = "name here"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-
-[node name="P8" parent="MarginContainer/Rows/Voters/VotersRight" index="8" instance=ExtResource( 4 )]
-
-margin_left = 177.0
-margin_right = 309.0
 
 [node name="AudienceVotes" type="HBoxContainer" parent="MarginContainer/Rows" index="4"]
 
