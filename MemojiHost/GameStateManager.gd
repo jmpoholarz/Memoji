@@ -331,7 +331,7 @@ func showTotalResults():
 	"""
 
 func multiPromptPhase():
-	var finalPromptObj
+	var finalPromptObj # TODO: make class member
 	var messageArr = []
 	
 	currentState = GAME_STATE.MULTI_PROMPT_PHASE
@@ -355,6 +355,11 @@ func multiPromptPhase():
 	
 	sendPrompts(messageArr)
 
+func multiVotePhase():
+	return
+func multiResultsPhase():
+	return
+
 func advanceGame():
 	print("DEBUG: Advance Game function")
 	match (currentState):
@@ -373,12 +378,9 @@ func advanceGame():
 				votePhase()
 			else:
 				#TODO:
-				if (currentRound < 3):
-					roundResults()
-				else:
-					pass
+				roundResults()
 			
-		GAME_STATE.FINAL_RESULTS:
+		GAME_STATE.ROUND_RESULTS:
 			currentRound += 1
 			if (currentRound < 3):
 				promptPhase() # TODO: Make sure PromptManager is reset
@@ -390,8 +392,8 @@ func advanceGame():
 			pass
 		GAME_STATE.MULTI_RESULTS_PHASE:
 			pass
-	pass
-
+		GAME_STATE.FINAL_RESULTS:
+			pass
 
 func updatePlayerGameState(player):
 	var message = { "messageType": MESSAGE_TYPES.UPDATE_PLAYER_GAME_STATE, "playerID": player.playerID, "gameState": currentState }
@@ -547,16 +549,31 @@ func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 				player.currentPromptIDs.erase(promptID)
 				print(player.get_promptIDs())
 				player.answeredPromptIDs.append(promptID)
-		$PromptManager.set_answer(int(promptID), playerID, emojiArray)
-		message = {
-			"messageType": MESSAGE_TYPES.ACCEPTED_PROMPT_RESPONSE,
-			"letterCode": lobbyCode,
-			"playerID": playerID
-		}
-		$Networking.sendMessageToServer(message)
+		if ($PromptManager.set_answer(int(promptID), playerID, emojiArray)):
+			message = {
+				"messageType": MESSAGE_TYPES.ACCEPTED_PROMPT_RESPONSE,
+				"letterCode": lobbyCode,
+				"playerID": playerID
+			}
+			$Networking.sendMessageToServer(message)
 
 		if ($PromptManager.check_completion()):
 			advanceGame()
+	elif (currentState == GAME_STATE.MULTI_PROMPT_PHASE):
+		for player in players:
+			if (player.playerID == playerID):
+				pass # TODO: provide for disconnect/reconnect
+				
+		if ($PromptManager.set_answer(promptID, playerID, emojiArray)):
+			message = {
+				"messageType": MESSAGE_TYPES.ACCEPTED_PROMPT_RESPONSE,
+				"letterCode": lobbyCode,
+				"playerID": playerID
+			}
+		
+		if ($PromptManager.check_completion()):
+			advanceGame()
+	# TODO: Multi Prompt Phase
 
 
 func _on_Networking_receivedPlayerVote(playerID, voteID):
@@ -668,6 +685,11 @@ func _on_ScreenManager_handleGameState(msg):
 			advanceGame()
 			return
 	elif $ScreenManager.currentScreen == GlobalVars.TOTAL_SCREEN:
+		if (msg == "advance"):
+			print("DEBUG: **** TotalScreen advanceGame() ****")
+			advanceGame()
+			return
+	elif $ScreenManager.currentScreen == GlobalVars.VOTE_SCREEN:
 		if (msg == "advance"):
 			advanceGame()
 			return
