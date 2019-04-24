@@ -13,10 +13,10 @@ var totalResultsScreenScene = preload("res://Screens/HostTotalResultsScreen.tscn
 var creditsScene = preload("res://Screens/InstructionScreens/Credits.tscn")
 
 #instruction screens
-var initialInstruction = preload("res://Screens/InstructionScreens/InitialInstruction.tscn")
-var promptInstruction = preload("res://Screens/InstructionScreens/PromptInstruction.tscn")
-var votingInstruction = preload("res://Screens/InstructionScreens/VotingInstruction.tscn")
-var scoringInstruction = preload("res://Screens/InstructionScreens/ScoringInstruction.tscn")
+var initialInstruction = preload("res://Screens/InstructionScreens/InitialInstruction.tscn") # check
+var promptInstruction = preload("res://Screens/InstructionScreens/PromptInstruction.tscn") # check
+var votingInstruction = preload("res://Screens/InstructionScreens/VotingInstruction.tscn") # check
+var scoringInstruction = preload("res://Screens/InstructionScreens/ScoringInstruction.tscn") # check
 var finalInstruction = preload("res://Screens/InstructionScreens/FinalRoundInstruction.tscn")
 
 
@@ -59,21 +59,39 @@ func changeScreenTo(screen):
 		GlobalVars.SETUP_SCREEN:
 			currentScreenInstance = setupScreenScene.instance()
 		GlobalVars.LOBBY_SCREEN:
+			if(instructions && !onInstructionScreen):
+				currentScreenInstance = initialInstruction.instance()
+				onInstructionScreen = true
+			onInstructionScreen = false
 			currentScreenInstance = lobbyScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 			currentScreenInstance.connect("startGame", self, "startGame")
 		GlobalVars.WAIT_SCREEN:
+			if(instructions && !onInstructionScreen):
+				currentScreenInstance = promptInstruction.instance()
+				onInstructionScreen = true
+			onInstructionScreen = false
 			currentScreenInstance = waitScreenScene.instance()
 		GlobalVars.VOTE_SCREEN:
+			if(instructions && !onInstructionScreen):
+				currentScreenInstance = votingInstruction.instance()
+				onInstructionScreen = true
+			onInstructionScreen = false
 			currentScreenInstance = voteScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.RESULTS_SCREEN:
+			if(instructions && !onInstructionScreen):
+				currentScreenInstance = scoringInstruction.instance()
+				onInstructionScreen = true
+			onInstructionScreen = false
 			currentScreenInstance = resultsScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.TOTAL_SCREEN:
 			currentScreenInstance = totalResultsScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.CREDITS_SCREEN:
+			if(!repeatInstruct):
+				instructions = false
 			currentScreenInstance = creditsScene.instance()
 			currentScreenInstance.connect("restart", self, "restartGame")
 			currentScreenInstance.connect("newGame", self, "newGame")

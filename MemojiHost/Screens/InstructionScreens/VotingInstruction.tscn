@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/Themes/grey_outer_theme.tres" type="Theme" id=1]
-[ext_resource path="res://Screens/InstructionScreens/Screenshots/Voting.png" type="Texture" id=2]
+[ext_resource path="res://Screens/InstructionScreens/VotingInstruction.gd" type="Script" id=2]
+[ext_resource path="res://Screens/InstructionScreens/Screenshots/Voting.png" type="Texture" id=3]
 
 [node name="VotingInstruction" type="Panel" index="0"]
 
@@ -18,6 +19,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 theme = ExtResource( 1 )
+script = ExtResource( 2 )
 _sections_unfolded = [ "Theme" ]
 
 [node name="Rows" type="VBoxContainer" parent="." index="0"]
@@ -42,9 +44,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 25.0
+margin_top = 21.0
 margin_right = 1026.0
-margin_bottom = 53.0
+margin_bottom = 49.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -63,9 +65,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 73.0
+margin_top = 69.0
 margin_right = 1026.0
-margin_bottom = 163.0
+margin_bottom = 159.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -86,9 +88,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 183.0
+margin_top = 179.0
 margin_right = 1026.0
-margin_bottom = 433.0
+margin_bottom = 429.0
 rect_min_size = Vector2( 1026, 250 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -96,7 +98,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 expand = true
 stretch_mode = 6
 _sections_unfolded = [ "Rect" ]
@@ -107,9 +109,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 453.0
+margin_top = 449.0
 margin_right = 1026.0
-margin_bottom = 512.0
+margin_bottom = 508.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -129,9 +131,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 532.0
+margin_top = 528.0
 margin_right = 1026.0
-margin_bottom = 582.0
+margin_bottom = 578.0
 rect_min_size = Vector2( 400, 50 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -148,5 +150,7 @@ text = "Proceed"
 flat = false
 align = 1
 _sections_unfolded = [ "Rect" ]
+
+[connection signal="pressed" from="Rows/ProceedButton" to="." method="_on_ProceedButton_pressed"]
 
 

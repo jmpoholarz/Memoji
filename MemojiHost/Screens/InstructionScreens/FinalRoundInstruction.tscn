@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Assets/Themes/grey_outer_theme.tres" type="Theme" id=1]
+[ext_resource path="res://Screens/InstructionScreens/FinalRoundInstruction.gd" type="Script" id=2]
 
 [node name="VotingInstruction" type="Panel" index="0"]
 
@@ -17,6 +18,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 theme = ExtResource( 1 )
+script = ExtResource( 2 )
 _sections_unfolded = [ "Theme" ]
 
 [node name="Rows" type="VBoxContainer" parent="." index="0"]
@@ -127,5 +129,7 @@ text = "Proceed"
 flat = false
 align = 1
 _sections_unfolded = [ "Rect" ]
+
+[connection signal="pressed" from="Rows/ProceedButton" to="." method="_on_ProceedButton_pressed"]
 
 
