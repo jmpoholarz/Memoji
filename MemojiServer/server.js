@@ -155,7 +155,7 @@ if (cluster.isMaster) {
         return player.socket === socket;
       });
       if (sock !== undefined) {
-        console.log('[INFO]: Client that disconnected was a Player:');
+        console.log(`[INFO]: Client that disconnected was a Player: ${sock.id}`);
 
         // Find Host for this player
         const host = _.find(hosts, ['code', sock.code]);
@@ -169,8 +169,6 @@ if (cluster.isMaster) {
         sock.isActive = false;
         players.push(sock);
         host.players.push(sock);
-
-        console.log(players);
 
         const res = {
           "messageType": 132,
