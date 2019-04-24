@@ -9,7 +9,7 @@ onready var canvas1 = $VBoxContainer/HBoxContainer/Answer1/Emojis1
 onready var canvas2 = $VBoxContainer/HBoxContainer/Answer2/Emojis2
 onready var promptLabel = $VBoxContainer/PromptLabel
 
-var remainingTime = 60
+var remainingTime = 10
 
 func display_emojis(answer1, answer2):
 	canvas1.decode_emojis(answer1)
