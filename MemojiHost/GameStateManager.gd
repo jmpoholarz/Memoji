@@ -368,6 +368,7 @@ func multiVotePhase():
 	currentState = GAME_STATE.MULTI_VOTE_PHASE
 	$ScreenManager.changeScreenTo(GlobalVars.MULTI_VOTE_SCREEN)
 	var message
+	var answerEmojis
 	
 	message = {
 		"messageType": MESSAGE_TYPES.HOST_SENDING_ANSWERS,
@@ -375,7 +376,9 @@ func multiVotePhase():
 		"promptID": finalPromptObj.get_prompt_id()
 	}
 	
-	sendAnswersForVoting(finalPromptObj.get_prompt_text(), finalPromptObj.get_answers())
+	# TODO: Clean this up
+	answerEmojis = $PromptManager.get_answers_to_prompt(finalPromptObj.get_prompt_id())
+	sendAnswersForVoting(finalPromptObj.get_prompt_text(), answerEmojis)
 	
 	
 func multiResultsPhase():
@@ -402,15 +405,13 @@ func advanceGame():
 			if (currentPrompt < players.size()): # Check for prompt completion
 				votePhase()
 			else:
-				#TODO:
+				# Instructions #
+				if (instructions && currentRound < 3):
+					$ScreenManager.changeScreenTo(GlobalVars.SCORING_INSTRUCTION)
+					yield($ScreenManager, "handleGameState")
 				roundResults()
 			
 		GAME_STATE.ROUND_RESULTS:
-			# Instructions #
-			if (instructions && currentRound < 2):
-				$ScreenManager.changeScreenTo(GlobalVars.SCORING_INSTRUCTION)
-				yield($ScreenManager, "handleGameState")
-				
 			currentRound += 1
 			if (currentRound < 3):
 				promptPhase() # TODO: Make sure PromptManager is reset
