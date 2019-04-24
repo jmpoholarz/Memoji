@@ -85,8 +85,10 @@ func setupGame():
 				"letterCode" : lobbyCode}
 	# Send message to players
 	$Networking.sendMessageToServer(message)
-	yield(get_tree().create_timer(1), "timeout")
-	
+	yield(get_tree().create_timer(0.5), "timeout")
+	if (instructions):
+		$ScreenManager.changeScreenTo(GlobalVars.INITIAL_INSTRUCTION)
+		yield($ScreenManager, "handleGameState")
 	promptPhase()
 
 func promptPhase():
