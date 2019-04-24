@@ -109,7 +109,7 @@ func _on_ConnectingTimer_timeout():
 		Logger.writeLine("Connection attempt was successful.")
 		print("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
 		Logger.writeLine("Now listening on " + defaultServerIP + ":" + str(defaultServerPort))
-		$NetworkStatusPinger.start()
+		#$NetworkStatusPinger.start()
 
 func sendMessageToServer(message):
 	print("--X--")
@@ -233,8 +233,8 @@ func getMessageFromServer():
 			Logger.writeLine("Unrecognized message code " + str(messageCode))
 
 
-func _on_NetworkStatusPinger_timeout():
+#func _on_NetworkStatusPinger_timeout():
 	# Dummy put message to update network status
-	socket.put_u8(6)
-	print(socket.get_status())
+	#socket.put_u8(6)
+	#print(socket.get_status())
 	
