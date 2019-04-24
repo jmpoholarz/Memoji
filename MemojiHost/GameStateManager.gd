@@ -5,6 +5,7 @@ var currentState = GAME_STATE.NOT_STARTED
 var currentPrompt # Index starting from 0 that refers to the prompt players are currently voting on
 var instructions = true # whether or not to show instructions before the actual game begins
 var repeatInstruct = false # whether to show instructions for every round of the game
+var finalPromptObj = null # Reference to final prompt for convenience
 
 var players = [] # array of all players in the game
 var audiencePlayers = [] # array of all players in the audience
@@ -64,6 +65,7 @@ func setupGame():
 		print("Not enough players joined")
 		if $ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN:
 			$ScreenManager.currentScreenInstance.showNotEnoughPlayers()
+			$ScreenManager.currentScreenInstance._StartButton.disabled = false
 		return
 	# Check for players are connected but no avatar is selected
 	for player in players:
@@ -72,6 +74,7 @@ func setupGame():
 			print("Not all players have username or avatar")
 			if $ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN:
 				$ScreenManager.currentScreenInstance.showNotAllPlayersHaveAvatar()
+				$ScreenManager.currentScreenInstance._StartButton.disabled = false
 			return
 
 	# Everything ok to start
@@ -331,7 +334,6 @@ func showTotalResults():
 	"""
 
 func multiPromptPhase():
-	var finalPromptObj # TODO: make class member
 	var messageArr = []
 	
 	currentState = GAME_STATE.MULTI_PROMPT_PHASE
@@ -356,7 +358,19 @@ func multiPromptPhase():
 	sendPrompts(messageArr)
 
 func multiVotePhase():
-	return
+	currentState = GAME_STATE.MULTI_VOTE_PHASE
+	$ScreenManager.changeScreenTo(GlobalVars.MULTI_VOTE_SCREEN)
+	var message
+	
+	message = {
+		"messageType": MESSAGE_TYPES.HOST_SENDING_ANSWERS,
+		"lettercode": lobbyCode,
+		"promptID": finalPromptObj.get_prompt_id()
+	}
+	
+	sendAnswersForVoting(finalPromptObj.get_prompt_text(), finalPromptObj.get_answers())
+	
+	
 func multiResultsPhase():
 	return
 
@@ -385,9 +399,10 @@ func advanceGame():
 			if (currentRound < 3):
 				promptPhase() # TODO: Make sure PromptManager is reset
 			else:
+				# currentPrompt is the correct value
 				multiPromptPhase()
 		GAME_STATE.MULTI_PROMPT_PHASE:
-			pass
+			multiVotePhase()
 		GAME_STATE.MULTI_VOTE_PHASE:
 			pass
 		GAME_STATE.MULTI_RESULTS_PHASE:
@@ -679,6 +694,9 @@ func _on_ScreenManager_handleGameState(msg):
 			return
 		elif (msg == "disconnectLobby"):
 			toTitle()
+			return
+		elif (msg == "startGame"): # NEW
+			setupGame()
 			return
 	elif $ScreenManager.currentScreen == GlobalVars.RESULTS_SCREEN:
 		if (msg == "advance"):
