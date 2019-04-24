@@ -116,6 +116,10 @@ func displayVoters(leftPlayers, rightPlayers):
 #			currentNode = get_node(voterLoc + "VotersRight/PlayerIcon" + str(x+1))
 #			currentNode.visible = false
 	return
+	
+# TODO: Use the player
+func displayVotersNew():
+	return 
 
 func displayAudience(votes):
 	#TODO
