@@ -18,7 +18,7 @@ func _ready():
 	
 	return
 	
-func displayResults(scores, players):
+func displayResultsOld(scores, players):
 	#duplicate the scores to be sorted into highest to lowest
 	var ordered = [] + scores
 	var temp
@@ -84,7 +84,7 @@ func displayResults(scores, players):
 		displayPlace += 1
 	return
 
-func displayResultsNew(players):
+func displayResults(players):
 	var arr = []
 	var temp # for swaps
 	var subIndex

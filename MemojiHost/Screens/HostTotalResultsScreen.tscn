@@ -3,7 +3,7 @@
 [ext_resource path="res://Screens/HostTotalResultsScreen.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 
-[node name="ResultsUI" type="Container" index="0"]
+[node name="ResultsUI" type="Container"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -85,9 +85,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 226.0
+margin_top = 258.0
 margin_right = 1006.0
-margin_bottom = 240.0
+margin_bottom = 272.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -106,9 +106,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 290.0
+margin_top = 322.0
 margin_right = 1006.0
-margin_bottom = 354.0
+margin_bottom = 322.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -124,9 +124,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 329.0
-margin_right = 476.0
-margin_bottom = 64.0
+margin_left = 403.0
+margin_right = 403.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -475,9 +474,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 676.0
-margin_right = 676.0
-margin_bottom = 64.0
+margin_left = 603.0
+margin_right = 603.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1

@@ -57,7 +57,7 @@ func calculateTotals(ID, votes, audiencePercent):
 		audienceRightLabel.text = (str(audiencePercent) + "%")
 	return totalPoints
 
-func displayVoters(leftPlayers, rightPlayers):
+func displayVotersOld(leftPlayers, rightPlayers):
 	#recieve who voted for each answer and display appropriately
 	#location of the voter images
 	#display the correct voter images that voted for each answer
@@ -120,7 +120,7 @@ func displayVoters(leftPlayers, rightPlayers):
 	return
 	
 # TODO: Use the player objects to determine their vote
-func displayVotersNew(players):
+func displayVoters(players):
 	var vote = null
 	var dispNode = null
 	
