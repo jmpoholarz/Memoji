@@ -1,10 +1,11 @@
 [gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Assets/Themes/grey_inner_theme.tres" type="Theme" id=1]
-[ext_resource path="res://PlayerVoting.gd" type="Script" id=2]
+[ext_resource path="res://Screens/PlayerVoting.gd" type="Script" id=2]
 [ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Screens/Elements/VotingButtonGroup.tres" type="ButtonGroup" id=4]
 [ext_resource path="res://Assets/star_full.png" type="Texture" id=5]
+
 
 [sub_resource type="StyleBoxEmpty" id=1]
 

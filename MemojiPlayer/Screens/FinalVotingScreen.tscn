@@ -1,11 +1,12 @@
 [gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Assets/Themes/grey_inner_theme.tres" type="Theme" id=1]
-[ext_resource path="res://FinalVotingScreen.gd" type="Script" id=2]
+[ext_resource path="res://Screens/FinalVotingScreen.gd" type="Script" id=2]
 [ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/medal_first.png" type="Texture" id=4]
 [ext_resource path="res://Assets/medal_second.png" type="Texture" id=5]
 [ext_resource path="res://Assets/medal_third.png" type="Texture" id=6]
+
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
