@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Screens/InstructionScreens/Credits.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Themes/grey_outer_theme.tres" type="Theme" id=1]
+[ext_resource path="res://Screens/InstructionScreens/Credits.gd" type="Script" id=2]
 
 [node name="VotingInstruction" type="Panel" index="0"]
 
@@ -16,7 +17,9 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 1 )
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+_sections_unfolded = [ "Theme" ]
 
 [node name="Rows" type="VBoxContainer" parent="." index="0"]
 
@@ -40,9 +43,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 95.0
+margin_top = 46.0
 margin_right = 1024.0
-margin_bottom = 109.0
+margin_bottom = 74.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -61,9 +64,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 159.0
+margin_top = 124.0
 margin_right = 1024.0
-margin_bottom = 173.0
+margin_bottom = 152.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -82,9 +85,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 223.0
+margin_top = 202.0
 margin_right = 1024.0
-margin_bottom = 305.0
+margin_bottom = 354.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -107,9 +110,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 355.0
+margin_top = 404.0
 margin_right = 1024.0
-margin_bottom = 405.0
+margin_bottom = 454.0
 rect_min_size = Vector2( 400, 50 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -133,9 +136,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 455.0
+margin_top = 504.0
 margin_right = 1024.0
-margin_bottom = 505.0
+margin_bottom = 554.0
 rect_min_size = Vector2( 400, 50 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
