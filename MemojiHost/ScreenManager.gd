@@ -87,18 +87,23 @@ func changeScreenTo(screen):
 		GlobalVars.INITIAL_INSTRUCTION:
 			currentScreenInstance = initialInstruction.instance()
 			onInstructionScreen = true
+			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.PROMPT_INSTRUCTION:
 			currentScreenInstance = promptInstruction.instance()
 			onInstructionScreen = true
+			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.VOTING_INSTRUCTION:
 			currentScreenInstance = votingInstruction.instance()
 			onInstructionScreen = true
+			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.SCORING_INSTRUCTION:
 			currentScreenInstance = scoringInstruction.instance()
 			onInstructionScreen = true
+			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.FINAL_INSTRUCTION:
 			currentScreenInstance = finalInstruction.instance()
 			onInstructionScreen = true
+			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 			
 	if (currentScreenInstance != null):
 		currentScreen = screen
