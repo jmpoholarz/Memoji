@@ -21,7 +21,8 @@ func increase_score(points):
 
 func get_round_score():
 	return roundScore
-func get_score():
+	
+func get_total_score():
 	return totalScore
 
 func clear_prompts():

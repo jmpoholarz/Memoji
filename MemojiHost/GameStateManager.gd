@@ -301,7 +301,8 @@ func showResults():
 	scores[0] = $ScreenManager.currentScreenInstance.calculateTotals(1, results[0], aPercentages[0])
 	scores[1] = $ScreenManager.currentScreenInstance.calculateTotals(2, results[1], aPercentages[1])
 	#display who voted for each answer
-	$ScreenManager.currentScreenInstance.displayVoters(leftVoters, rightVoters)
+	#$ScreenManager.currentScreenInstance.displayVoters(leftVoters, rightVoters)
+	$ScreenManager.currentScreenInstance.displayVotersNew(players)
 	#reset votes for next round now that they have been displayed
 
 	var pIndex

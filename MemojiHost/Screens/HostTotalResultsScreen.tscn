@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Screens/HostTotalResultsScreen.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Screens/Elements/PlaceDisplay.tscn" type="PackedScene" id=3]
 
 [node name="ResultsUI" type="Container" index="0"]
 
@@ -85,9 +86,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 132.0
+margin_top = 85.0
 margin_right = 1006.0
-margin_bottom = 146.0
+margin_bottom = 99.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -106,9 +107,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 196.0
+margin_top = 149.0
 margin_right = 1006.0
-margin_bottom = 448.0
+margin_bottom = 495.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -126,7 +127,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 327.0
 margin_right = 478.0
-margin_bottom = 252.0
+margin_bottom = 346.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -468,6 +469,11 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
+[node name="PlaceDisplay" parent="MarginContainer/Rows/Columns/ResultsLeft" index="4" instance=ExtResource( 3 )]
+
+margin_top = 282.0
+margin_bottom = 346.0
+
 [node name="ResultsRight" type="VBoxContainer" parent="MarginContainer/Rows/Columns" index="1"]
 
 anchor_left = 0.0
@@ -476,7 +482,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 678.0
 margin_right = 678.0
-margin_bottom = 252.0
+margin_bottom = 346.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
