@@ -94,25 +94,25 @@ func displayResults(players):
 	
 	# Insertion Sort by total score
 	
-	for index in range(players.size()):
+	for index in range(arr.size()):
 		subIndex = index
-		temp = players[index]
+		temp = arr[index]
 		while (subIndex > 0):
-			if (temp.get_total_score() > players[subIndex - 1].get_total_score()):
-				players[subIndex] = players[subIndex - 1]
+			if (temp.get_total_score() > arr[subIndex - 1].get_total_score()):
+				arr[subIndex] = arr[subIndex - 1]
 			else:
-				players[subIndex] = temp
 				break
 			subIndex -= 1
+		arr[subIndex] = temp
 		
-	for index in range(players.size()):
+	for index in range(arr.size()):
 		dispNode = PlaceDisplayScene.instance()
 		if (index < 4):
 			resultsLeftNode.add_child(dispNode)
 		else:
 			resultsRightNode.add_child(dispNode)
 		
-		dispNode.update_display( index + 1, players[index].username, players[index].avatarID )
+		dispNode.update_display( index + 1, arr[index].username, arr[index].avatarID )
 		dispNode.show()
 	
 
