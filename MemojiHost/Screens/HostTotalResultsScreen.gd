@@ -12,6 +12,7 @@ onready var resultsLeftNode = $MarginContainer/Rows/Columns/ResultsLeft
 onready var resultsRightNode = $MarginContainer/Rows/Columns/ResultsRight
 
 var playerDispArr = [] # stores the nodes displying player ranking
+var PlaceDisplayScene = preload("res://Screens/Elements/PlaceDisplay.tscn")
 
 func _ready():
 	
@@ -84,8 +85,35 @@ func displayResults(scores, players):
 	return
 
 func displayResultsNew(players):
+	var arr = []
+	var temp # for swaps
+	var subIndex
+	var dispNode
 	
-	return
+	arr = players.duplicate() # make a copy for sorting
+	
+	# Insertion Sort by total score
+	
+	for index in range(players.size()):
+		subIndex = index
+		temp = players[index]
+		while (subIndex > 0):
+			if (temp.get_total_score() > players[subIndex - 1].get_total_score()):
+				players[subIndex] = players[subIndex - 1]
+			else:
+				players[subIndex] = temp
+				break
+			subIndex -= 1
+		
+	for index in range(players.size()):
+		dispNode = PlaceDisplayScene.instance()
+		if (index < 4):
+			resultsLeftNode.add_child(dispNode)
+		else:
+			resultsRightNode.add_child(dispNode)
+		
+		dispNode.update_display( index + 1, players[index].username, players[index].avatarID )
+	
 
 func _on_ProceedButton_pressed():
 	print("DEBUG: sent message to advance")

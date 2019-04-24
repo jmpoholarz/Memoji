@@ -6,9 +6,9 @@ onready var avatar_pic = $Icon/Avatar
 const DEFAULT_TEXT = "Joining"
 
 var DEFAULT_AVATAR = load(GlobalVars.DEFAULTAVATAR)
-var avatarList = [] # Old list
 var avatarDict = {}
 var selected_avatar = -1
+#var avatarList = [] # Old list
 
 func _ready():
 	avatarSetup()
@@ -16,10 +16,6 @@ func _ready():
 	hide()
 
 func avatarSetup(): # loads the avatars in use
-	avatarList.resize(GlobalVars.MAXPLAYERS)
-	#for index in range(avatarList.size()):
-	#	avatarList[index] = load(GlobalVars.AVATARPATHS[index])
-		
 	for key in AvatarIdToFilename.AvatarIdToFilenameDict.keys():
 		avatarDict[key] = load(AvatarIdToFilename.AvatarIdToFilenameDict[key])
 
