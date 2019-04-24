@@ -2,12 +2,11 @@ extends Node
 
 var titleScreenScene = preload("res://Screens/TitleScreen.tscn")
 var userinfoScreenScene = preload("res://Screens/UserInformationScreen.tscn")
-var playerVotingScene = preload("res://PlayerVoting.tscn")
+var playerVotingScene = preload("res://Screens/PlayerVoting.tscn")
 var lobbyScreenScene = preload("res://Screens/WaitingForGameStartScreen.tscn")
 var prompt_answering_screen_scene = preload("res://Screens/PlayerPromptScreen.tscn")
 var wait_screen = preload("res://Screens/WaitingScreen.tscn")
-var playerWaitingAfterVotingScreen = preload("res://WaitingAfterVotingScreen.tscn")
-var finalVotingScreen = preload("res://FinalVotingScreen.tscn")
+var finalVotingScreen = preload("res://Screens/FinalVotingScreen.tscn")
 
 signal sendMessageToServer(msg)
 signal connectToServer()
