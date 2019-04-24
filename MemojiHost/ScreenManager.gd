@@ -62,30 +62,34 @@ func changeScreenTo(screen):
 			if(instructions && !onInstructionScreen):
 				currentScreenInstance = initialInstruction.instance()
 				onInstructionScreen = true
-			onInstructionScreen = false
-			currentScreenInstance = lobbyScreenScene.instance()
-			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
-			currentScreenInstance.connect("startGame", self, "startGame")
+			else:
+				onInstructionScreen = false
+				currentScreenInstance = lobbyScreenScene.instance()
+				currentScreenInstance.connect("updateGameState", self, "forwardGameState")
+				currentScreenInstance.connect("startGame", self, "startGame")
 		GlobalVars.WAIT_SCREEN:
 			if(instructions && !onInstructionScreen):
 				currentScreenInstance = promptInstruction.instance()
 				onInstructionScreen = true
-			onInstructionScreen = false
-			currentScreenInstance = waitScreenScene.instance()
+			else:
+				onInstructionScreen = false
+				currentScreenInstance = waitScreenScene.instance()
 		GlobalVars.VOTE_SCREEN:
 			if(instructions && !onInstructionScreen):
 				currentScreenInstance = votingInstruction.instance()
 				onInstructionScreen = true
-			onInstructionScreen = false
-			currentScreenInstance = voteScreenScene.instance()
-			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
+			else:
+				onInstructionScreen = false
+				currentScreenInstance = voteScreenScene.instance()
+				currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.RESULTS_SCREEN:
 			if(instructions && !onInstructionScreen):
 				currentScreenInstance = scoringInstruction.instance()
 				onInstructionScreen = true
-			onInstructionScreen = false
-			currentScreenInstance = resultsScreenScene.instance()
-			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
+			else:
+				onInstructionScreen = false
+				currentScreenInstance = resultsScreenScene.instance()
+				currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.TOTAL_SCREEN:
 			currentScreenInstance = totalResultsScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
