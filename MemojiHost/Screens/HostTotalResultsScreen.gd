@@ -8,6 +8,15 @@ signal updateGameState(msg)
 var leftColumnPlace = "MarginContainer/Rows/Columns/ResultsLeft/Place"
 var rightColumnPlace = "MarginContainer/Rows/Columns/ResultsRight/Place"
 
+onready var resultsLeftNode = $MarginContainer/Rows/Columns/ResultsLeft
+onready var resultsRightNode = $MarginContainer/Rows/Columns/ResultsRight
+
+var playerDispArr = [] # stores the nodes displying player ranking
+
+func _ready():
+	
+	return
+	
 func displayResults(scores, players):
 	#duplicate the scores to be sorted into highest to lowest
 	var ordered = [] + scores
@@ -74,6 +83,9 @@ func displayResults(scores, players):
 		displayPlace += 1
 	return
 
+func displayResultsNew(players):
+	
+	return
 
 func _on_ProceedButton_pressed():
 	print("DEBUG: sent message to advance")
