@@ -3,11 +3,12 @@
 [ext_resource path="res://Assets/Themes/grey_inner_theme.tres" type="Theme" id=1]
 [ext_resource path="res://Screens/LobbyDisplays/LobbyScreen.gd" type="Script" id=2]
 [ext_resource path="res://Assets/logo_memoji.png" type="Texture" id=3]
-[ext_resource path="res://Screens/LobbyDisplays/P_Status.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Screens/Elements/P_Status.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/font/Comfortaa-Bold.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://Screens/LobbyDisplays/Audience.gd" type="Script" id=6]
 [ext_resource path="res://Screens/LobbyDisplays/ABCDcode.gd" type="Script" id=7]
 [ext_resource path="res://Assets/Themes/grey_outer_theme.tres" type="Theme" id=8]
+
 
 [sub_resource type="DynamicFont" id=1]
 

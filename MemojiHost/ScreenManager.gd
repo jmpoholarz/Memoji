@@ -33,6 +33,8 @@ func _ready():
 func changeScreenTo(screen):
 	# TODO - queue_free() before changing scenes
 	if (currentScreenInstance != null):
+		if(currentScreen == GlobalVars.SETUP_SCREEN):
+			instructionState()
 		remove_child(currentScreenInstance)
 		currentScreenInstance.queue_free()
 		currentScreenInstance = null
@@ -45,7 +47,6 @@ func changeScreenTo(screen):
 		GlobalVars.SETUP_SCREEN:
 			currentScreenInstance = setupScreenScene.instance()
 		GlobalVars.LOBBY_SCREEN:
-			instructionState()
 			currentScreenInstance = lobbyScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 			currentScreenInstance.connect("startGame", self, "startGame")
@@ -72,6 +73,7 @@ func changeScreenTo(screen):
 		add_child(currentScreenInstance)
 
 
+
 func connectToServer():
 	emit_signal("connectToServer")
 
@@ -95,4 +97,4 @@ func newGame():
 	emit_signal("newGame")
 
 func instructionState():
-	emitSignal("instructionUpdate", currentScreenInstance.getInstructionState(), currentScreenInstance.getRepeatState())
+	emit_signal("instructionUpdate", currentScreenInstance.getInstructionState(), currentScreenInstance.getRepeatState())

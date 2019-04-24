@@ -91,7 +91,9 @@ func _on_ExitButton_pressed():
 	emit_signal("updateGameState", "disconnectLobby")
 	
 func showNotEnoughPlayers():
+	_StartButton.disabled = false
 	_NotEnoughPlayers.popup()
 
 func showNotAllPlayersHaveAvatar():
+	_StartButton.disabled = false
 	_NotAllPlayersHaveAvatar.popup()
