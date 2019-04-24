@@ -6,6 +6,8 @@ signal updateGameState(msg)
 var score1 = 0
 var score2 = 0
 
+var PlayerDisplayScene = preload("res://Screens/Elements/SmallPlayerStatus.tscn")
+
 onready var votersLeftNode = $MarginContainer/Rows/Voters/VotersLeft
 onready var votersRightNode = $MarginContainer/Rows/Voters/VotersRight
 onready var leftDisplayBox = $MarginContainer/Rows/AnswerBoxes/AnswerLeft/EmojiCanvas
@@ -117,14 +119,22 @@ func displayVoters(leftPlayers, rightPlayers):
 #			currentNode.visible = false
 	return
 	
-# TODO: Use the player
+# TODO: Use the player objects to determine their vote
 func displayVotersNew(players):
-	var vote
+	var vote = null
+	var dispNode = null
+	
 	for p in players:
 		vote = p.get_regular_vote()
-		if (vote != null):
+		if (vote == 0):
+			dispNode = PlayerDisplayScene.instance()
+			votersLeftNode.add_child(dispNode)
+			dispNode.update_player(p.username, p.avatarID)
+		elif(vote == 1):
+			dispNode = PlayerDisplayScene.instance()
+			votersRightNode.add_child(dispNode)
+			dispNode.update_player(p.username, p.avatarID)
 			
-			pass
 		pass
 	return 
 
