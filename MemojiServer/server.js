@@ -434,7 +434,7 @@ if (cluster.isMaster) {
       hosts = msg.hosts;
       players = msg.players;
       audience_members = msg.audience_members;
-      console.log('[INFO]: UDPATE LOCAL VALUES');
+      console.log('[INFO]: UPDATE LOCAL VALUES');
     }
   });
 
