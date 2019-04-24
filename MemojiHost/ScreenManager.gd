@@ -14,6 +14,11 @@ var creditsScene = preload("res://Screens/InstructionScreens/Credits.tscn")
 
 #instruction screens
 var initialInstruction = preload("res://Screens/InstructionScreens/InitialInstruction.tscn")
+var promptInstruction = preload("res://Screens/InstructionScreens/PromptInstruction.tscn")
+var votingInstruction = preload("res://Screens/InstructionScreens/VotingInstruction.tscn")
+var scoringInstruction = preload("res://Screens/InstructionScreens/ScoringInstruction.tscn")
+var finalInstruction = preload("res://Screens/InstructionScreens/FinalRoundInstruction.tscn")
+
 
 signal connectToServer()
 signal sendMessageToServer(msg)
