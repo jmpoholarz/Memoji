@@ -318,7 +318,7 @@ func showResults():
 			pIndex = x
 			players[x].increase_score(scores[1]) # NEW - replaces totalScoreTally
 	# TODO: Remove this line
-	totalScoreTally[pIndex] += scoress[1]
+	totalScoreTally[pIndex] += scores[1]
 
 func showTotalResults():
 	$ScreenManager.changeScreenTo(GlobalVars.TOTAL_SCREEN)
