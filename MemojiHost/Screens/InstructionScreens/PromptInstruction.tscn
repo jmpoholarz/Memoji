@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/Themes/grey_outer_theme.tres" type="Theme" id=1]
 [ext_resource path="res://Screens/InstructionScreens/PromptInstruction.gd" type="Script" id=2]
+[ext_resource path="res://Screens/InstructionScreens/Screenshots/Prompt.png" type="Texture" id=3]
 
-[node name="PromptInstruction" type="Panel"]
+[node name="PromptInstruction" type="Panel" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -98,6 +99,8 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
+texture = ExtResource( 3 )
+expand = true
 stretch_mode = 6
 _sections_unfolded = [ "Rect" ]
 
