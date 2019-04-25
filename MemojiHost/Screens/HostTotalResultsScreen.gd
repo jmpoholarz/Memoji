@@ -1,4 +1,4 @@
-extends Container
+extends Panel
 
 # First 2 required by ScreenManager
 signal messageServer(msg)

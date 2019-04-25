@@ -1,10 +1,12 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Screens/HostResultsScreen.gd" type="Script" id=1]
-[ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Themes/grey_outer_theme.tres" type="Theme" id=1]
+[ext_resource path="res://Screens/HostResultsScreen.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Themes/font/comfortaa_reg_16.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Screens/Elements/EmojiCanvas.tscn" type="PackedScene" id=4]
+[ext_resource path="res://icon.png" type="Texture" id=5]
 
-[node name="ResultsUI" type="Container"]
+[node name="ResultsUI" type="Panel" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -18,11 +20,13 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 1 )
-_sections_unfolded = [ "Rect" ]
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+_sections_unfolded = [ "Theme" ]
 
 [node name="BackgroundColor" type="ColorRect" parent="." index="0"]
 
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -39,7 +43,34 @@ size_flags_vertical = 1
 color = Color( 0.0415039, 0.191822, 0.3125, 1 )
 _sections_unfolded = [ "Rect", "Visibility" ]
 
-[node name="MarginContainer" type="MarginContainer" parent="." index="1"]
+[node name="ProceedButton" type="Button" parent="." index="1"]
+
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -144.0
+margin_top = 16.0
+margin_right = -16.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 128, 48 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Proceed"
+flat = false
+align = 1
+_sections_unfolded = [ "Margin", "Rect" ]
+
+[node name="MarginContainer" type="MarginContainer" parent="." index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -68,7 +99,7 @@ anchor_bottom = 0.0
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 1016.0
-margin_bottom = 590.0
+margin_bottom = 676.0
 rect_min_size = Vector2( 900, 500 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -80,34 +111,15 @@ custom_constants/separation = 20
 alignment = 1
 _sections_unfolded = [ "Rect", "custom_constants" ]
 
-[node name="PromptContainer" type="HBoxContainer" parent="MarginContainer/Rows" index="0"]
+[node name="Prompt" type="Label" parent="MarginContainer/Rows" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 1.0
+margin_top = 45.0
 margin_right = 1006.0
-margin_bottom = 21.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-alignment = 1
-
-[node name="Prompt" type="Label" parent="MarginContainer/Rows/PromptContainer" index="0"]
-
-visible = false
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 324.0
-margin_top = 3.0
-margin_right = 613.0
-margin_bottom = 17.0
+margin_bottom = 73.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -120,31 +132,7 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Visibility" ]
-
-[node name="ProceedButton" type="Button" parent="MarginContainer/Rows/PromptContainer" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 471.0
-margin_right = 535.0
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-text = "Proceed"
-flat = false
-align = 1
+_sections_unfolded = [ "Size Flags", "Visibility" ]
 
 [node name="AnswerBoxes" type="HBoxContainer" parent="MarginContainer/Rows" index="1"]
 
@@ -152,9 +140,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 41.0
+margin_top = 93.0
 margin_right = 1006.0
-margin_bottom = 376.0
+margin_bottom = 451.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -165,15 +153,54 @@ custom_constants/separation = 0
 alignment = 1
 _sections_unfolded = [ "custom_constants" ]
 
-[node name="AnswerLeft" type="Container" parent="MarginContainer/Rows/AnswerBoxes" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Rows/AnswerBoxes" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 160.0
-margin_right = 495.0
-margin_bottom = 335.0
+margin_left = 151.0
+margin_right = 486.0
+margin_bottom = 358.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="LeftUsernameLabel" type="Label" parent="MarginContainer/Rows/AnswerBoxes/VBoxContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 335.0
+margin_bottom = 19.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 3 )
+text = "<username1>"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="AnswerLeft" type="Container" parent="MarginContainer/Rows/AnswerBoxes/VBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 23.0
+margin_right = 335.0
+margin_bottom = 358.0
 rect_min_size = Vector2( 335, 335 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -183,7 +210,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/AnswerLeft" index="0" instance=ExtResource( 2 )]
+[node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/VBoxContainer/AnswerLeft" index="0" instance=ExtResource( 4 )]
 
 margin_right = -2.0
 margin_bottom = 0.0
@@ -194,10 +221,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 495.0
-margin_top = 160.0
-margin_right = 510.0
-margin_bottom = 174.0
+margin_left = 486.0
+margin_top = 165.0
+margin_right = 519.0
+margin_bottom = 193.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -211,15 +238,55 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="AnswerRight" type="Container" parent="MarginContainer/Rows/AnswerBoxes" index="2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/Rows/AnswerBoxes" index="2"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 519.0
+margin_right = 854.0
+margin_bottom = 358.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="RightUsernameLabel" type="Label" parent="MarginContainer/Rows/AnswerBoxes/VBoxContainer2" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 510.0
-margin_right = 845.0
-margin_bottom = 335.0
+margin_right = 335.0
+margin_bottom = 19.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 3 )
+text = "<username2>"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="AnswerRight" type="Container" parent="MarginContainer/Rows/AnswerBoxes/VBoxContainer2" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 23.0
+margin_right = 335.0
+margin_bottom = 358.0
 rect_min_size = Vector2( 335, 335 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -229,7 +296,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 _sections_unfolded = [ "Rect" ]
 
-[node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/AnswerRight" index="0" instance=ExtResource( 2 )]
+[node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/VBoxContainer2/AnswerRight" index="0" instance=ExtResource( 4 )]
 
 [node name="Label" type="Label" parent="MarginContainer/Rows" index="2"]
 
@@ -237,9 +304,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 396.0
+margin_top = 471.0
 margin_right = 1006.0
-margin_bottom = 410.0
+margin_bottom = 499.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -258,9 +325,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 430.0
+margin_top = 519.0
 margin_right = 1006.0
-margin_bottom = 510.0
+margin_bottom = 524.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -277,8 +344,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 485.0
-margin_bottom = 80.0
+margin_right = 495.0
+margin_bottom = 5.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -296,9 +363,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 280.0
-margin_right = 349.0
-margin_bottom = 82.0
+margin_left = 361.0
+margin_right = 495.0
+margin_bottom = 96.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -313,7 +380,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 69.0
+margin_right = 134.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -322,7 +389,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -333,8 +400,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 68.0
-margin_right = 69.0
-margin_bottom = 82.0
+margin_right = 134.0
+margin_bottom = 96.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -354,9 +421,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 207.0
-margin_right = 276.0
-margin_bottom = 82.0
+margin_left = 361.0
+margin_right = 495.0
+margin_bottom = 96.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -371,7 +438,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 69.0
+margin_right = 134.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -380,7 +447,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -391,8 +458,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 68.0
-margin_right = 69.0
-margin_bottom = 82.0
+margin_right = 134.0
+margin_bottom = 96.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -437,7 +504,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -495,7 +562,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -553,7 +620,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -611,7 +678,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -669,7 +736,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -701,9 +768,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 280.0
-margin_right = 349.0
-margin_bottom = 82.0
+margin_left = 351.0
+margin_right = 485.0
+margin_bottom = 96.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -718,7 +785,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 69.0
+margin_right = 134.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -727,7 +794,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -738,8 +805,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 68.0
-margin_right = 69.0
-margin_bottom = 82.0
+margin_right = 134.0
+margin_bottom = 96.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -751,15 +818,15 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Divider" type="MarginContainer" parent="MarginContainer/Rows/Voters" index="1"]
+[node name="Divider" type="VSeparator" parent="MarginContainer/Rows/Voters" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 490.0
-margin_right = 515.0
-margin_bottom = 80.0
+margin_left = 500.0
+margin_right = 505.0
+margin_bottom = 5.0
 rect_min_size = Vector2( 5, 5 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -767,40 +834,18 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_constants/margin_right = 10
-custom_constants/margin_top = 0
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 0
 _sections_unfolded = [ "Rect", "custom_constants" ]
-
-[node name="ColorRect" type="ColorRect" parent="MarginContainer/Rows/Voters/Divider" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 10.0
-margin_right = 15.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 5, 80 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-color = Color( 1, 1, 1, 1 )
-_sections_unfolded = [ "Rect" ]
 
 [node name="VotersRight" type="HBoxContainer" parent="MarginContainer/Rows/Voters" index="2"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 520.0
+margin_left = 510.0
 margin_right = 1006.0
-margin_bottom = 80.0
+margin_bottom = 5.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -843,7 +888,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -901,7 +946,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -959,7 +1004,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -1017,7 +1062,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -1075,7 +1120,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -1133,7 +1178,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -1191,7 +1236,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -1249,7 +1294,7 @@ mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
@@ -1275,13 +1320,14 @@ max_lines_visible = -1
 
 [node name="AudienceVotes" type="HBoxContainer" parent="MarginContainer/Rows" index="4"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 530.0
+margin_top = 544.0
 margin_right = 1006.0
-margin_bottom = 544.0
+margin_bottom = 572.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -1298,9 +1344,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 395.0
-margin_right = 423.0
-margin_bottom = 14.0
+margin_left = 325.0
+margin_right = 375.0
+margin_bottom = 28.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -1318,9 +1364,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 453.0
-margin_right = 553.0
-margin_bottom = 14.0
+margin_left = 405.0
+margin_right = 600.0
+margin_bottom = 28.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -1339,9 +1385,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 583.0
-margin_right = 611.0
-margin_bottom = 14.0
+margin_left = 630.0
+margin_right = 680.0
+margin_bottom = 28.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -1355,13 +1401,14 @@ max_lines_visible = -1
 
 [node name="Results" type="HBoxContainer" parent="MarginContainer/Rows" index="5"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 564.0
+margin_top = 592.0
 margin_right = 1006.0
-margin_bottom = 578.0
+margin_bottom = 620.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -1378,9 +1425,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 340.0
-margin_right = 364.0
-margin_bottom = 14.0
+margin_left = 287.0
+margin_right = 324.0
+margin_bottom = 28.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -1398,9 +1445,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 464.0
-margin_right = 541.0
-margin_bottom = 14.0
+margin_left = 424.0
+margin_right = 581.0
+margin_bottom = 28.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -1418,9 +1465,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 641.0
-margin_right = 665.0
-margin_bottom = 14.0
+margin_left = 681.0
+margin_right = 718.0
+margin_bottom = 28.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -1431,7 +1478,5 @@ text = "100"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-
-[connection signal="pressed" from="MarginContainer/Rows/PromptContainer/ProceedButton" to="." method="_on_ProceedButton_pressed"]
 
 
