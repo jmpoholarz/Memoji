@@ -113,6 +113,10 @@ if (cluster.isMaster) {
   cluster.on('exit', (worker, code, signal) => {
     console.log('[INFO]: worker %d died (%s). restarting...',
       worker.process.pid, signal || code);
+    writeToFile(server_log, 'worker %d died (%s). restarting...',
+      worker.process.pid, signal || code);
+    writeToFile(error_log, 'worker %d died (%s). restarting...',
+      worker.process.pid, signal || code);
     cluster.fork();
   });
 
@@ -144,6 +148,7 @@ if (cluster.isMaster) {
       });
       if (sock !== undefined) {
         console.log('[INFO]: Client that disconnected was a Host');
+        writeToFile(server_log, `Client disconnected | Host | ${sock.code}`);
         // Handle Host properly
         console.log(`[INFO]: letterCode: ${sock.code}`);
         console.log('[INFO]: Keep host in limbo.');
@@ -156,7 +161,7 @@ if (cluster.isMaster) {
       });
       if (sock !== undefined) {
         console.log(`[INFO]: Client that disconnected was a Player: ${sock.id}`);
-
+        writeToFile(server_log, `Client disconnected | Player | ${sock.id}`);
         // Find Host for this player
         const host = _.find(hosts, ['code', sock.code]);
         if (host == undefined) {
@@ -185,6 +190,7 @@ if (cluster.isMaster) {
       });
       if (sock !== undefined) {
         console.log('[INFO]: Client that disconnected was an Audience');
+        writeToFile(server_log, `Client disconnected | Audience | ${sock.id}`);
         // Handle Audience properly
 
         const res = {
@@ -236,6 +242,7 @@ if (cluster.isMaster) {
       console.log('[INFO]: Message Received:');
       console.log(message);
       console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+      writeToFile(server_log, `Message Received: ${message}`);
 
       // See what message type (action)
       var letterCode = ""
@@ -598,8 +605,6 @@ async function pingPlayers() {
     return player.isActive == false;
   });
   players_to_remove = players_to_remove_during_ping.concat(players_to_remove_after_ping);
-
-  console.log(players_to_remove);
   // console.log(players_to_remove_during_ping);
   _.forEach(players_to_remove, (player) => {
     _.remove(players, player);
@@ -1028,10 +1033,10 @@ function existInactivePlayers(letterCode) {
 
 
 function sendToAllPlayers(letterCode, message) {
-  console.log('[INFO]: SEND MESSAGE TO ALL PLAYERS');
-  console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-  console.log(message);
-  console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log(`[INFO]: Send message to All Players with letterCode: ${letterCode}`);
+  // console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  // console.log(message);
+  // console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   const host = _.find(hosts, ['code', letterCode]);
   if (host == undefined) {
     console.error('[ERROR]: Issue finding host bases on letterCode. In sendToAllPlayers.');
@@ -1049,19 +1054,19 @@ function sendToPlayer(message) {
   if(player == undefined) {
     console.error('[ERROR]: Issue finding player based on id. In sendToPlayer.');
   }
-  console.log(`[INFO]: SEND MESSAGE TO ${player.id}`);
-  console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-  console.log(message);
-  console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log(`[INFO]: Send message to: ${player.id}`);
+  // console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  // console.log(message);
+  // console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   send(player.socket, JSON.stringify(message));
 }
 
 
 function sendToPlayersAndAudience(letterCode, message) {
-  console.log(`[INFO]: SEND MESSAGE TO PLAYERS AND AUDIENCE: ${letterCode}`);
-  console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-  console.log(message);
-  console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log(`[INFO]: Send message to players and audience with letterCode: ${letterCode}`);
+  // console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  // console.log(message);
+  // console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   const host = _.find(hosts, ['code', letterCode]);
   _.forEach(host.players, (player) => {
     send(player.socket, JSON.stringify(message));
@@ -1073,10 +1078,10 @@ function sendToPlayersAndAudience(letterCode, message) {
 
 
 function sendToHost(letterCode, message) {
-  console.log('[INFO]: Send Message to Host:');
-  console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-  console.log(message);
-  console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  console.log(`[INFO]: Send Message to Host: ${letterCode}`);
+  // console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  // console.log(message);
+  // console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   const host = _.find(hosts, ['code', letterCode]);
   if (host == undefined) {
     console.error(`[ERROR]: There was an issue finding the Host with letterCode: ${letterCode}`);
