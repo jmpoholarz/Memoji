@@ -605,8 +605,6 @@ async function pingPlayers() {
     return player.isActive == false;
   });
   players_to_remove = players_to_remove_during_ping.concat(players_to_remove_after_ping);
-
-  console.log(players_to_remove);
   // console.log(players_to_remove_during_ping);
   _.forEach(players_to_remove, (player) => {
     _.remove(players, player);
