@@ -84,7 +84,7 @@ func changeScreenTo(screen):
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.MULTI_RESULTS_SCREEN:
 			currentScreenInstance = mulltiResultsScreenScene.instance()
-			#TODO: Signals maybe
+				currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.CREDITS_SCREEN:
 			if(!repeatInstruct):
 				instructions = false

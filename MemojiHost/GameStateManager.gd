@@ -419,6 +419,9 @@ func multiResultsPhase():
 		$ScreenManager.currentScreenInstance.load_answer(participantsArr[index].username, answersArr[index], voteCounts[index][0], voteCounts[index][1], voteCounts[index][2])
 	$ScreenManager.currentScreenInstance.update_prompt_label(finalPromptObj.get_prompt_text())
 	
+func finalResultsPhase():
+	currentState = GAME_STATE.FINAL_RESULTS
+	print ("DEBUG: FINAL RESULTS")
 	return
 
 func advanceGame():
@@ -460,7 +463,7 @@ func advanceGame():
 		GAME_STATE.MULTI_VOTE_PHASE:
 			multiResultsPhase()
 		GAME_STATE.MULTI_RESULTS_PHASE:
-			pass # Goto final results
+			finalResultsPhase()
 		GAME_STATE.FINAL_RESULTS:
 			pass
 
@@ -767,7 +770,10 @@ func _on_ScreenManager_handleGameState(msg):
 		if (msg == "advance"):
 			advanceGame()
 			return
-
+	elif $ScreenManager.currentScreen == GlobalVars.MULTI_RESULTS_SCREEN:
+		if (msg == "advance"):
+			advanceGame()
+			return
 
 func _on_Networking_lostConnection():
 	$ScreenManager.lost_connection()

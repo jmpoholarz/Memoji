@@ -1,5 +1,9 @@
 extends Panel
 
+signal messageServer(msg)
+signal changeScreen(screen)
+signal updateGameState(msg)
+
 var _FinalRoundDisplayScene = preload("res://Screens/Elements/FinalRoundDisplay.tscn")
 
 onready var _PromptLabel = $VBoxContainer/PromptLabel
