@@ -413,15 +413,26 @@ func multiResultsPhase():
 		voteCounts[currentVoteArr[0]][0] += 1 # Gold
 		voteCounts[currentVoteArr[1]][1] += 1 # Silver
 		voteCounts[currentVoteArr[2]][2] += 1 # Bronze
+	for p in audiencePlayers:
+		currentVoteArr = p.votes
+		voteCounts[currentVoteArr[0]][0] += 1 # Gold
+		voteCounts[currentVoteArr[1]][1] += 1 # Silver
+		voteCounts[currentVoteArr[2]][2] += 1 # Bronze
 	
 	$ScreenManager.changeScreenTo(GlobalVars.MULTI_RESULTS_SCREEN)
 	for index in range(answersArr.size()):
 		$ScreenManager.currentScreenInstance.load_answer(participantsArr[index].username, answersArr[index], voteCounts[index][0], voteCounts[index][1], voteCounts[index][2])
+		participantsArr[index].increase_score(
+			voteCounts[index][0] * 100 +
+			voteCounts[index][1] * 50 +
+			voteCounts[index][2] * 25
+		)
 	$ScreenManager.currentScreenInstance.update_prompt_label(finalPromptObj.get_prompt_text())
 	
 func finalResultsPhase():
 	currentState = GAME_STATE.FINAL_RESULTS
 	print ("DEBUG: FINAL RESULTS")
+	
 	return
 
 func advanceGame():
