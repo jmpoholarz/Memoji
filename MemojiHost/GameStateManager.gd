@@ -377,8 +377,11 @@ func multiVotePhase():
 	
 	# TODO: Clean this up
 	answerEmojis = $PromptManager.get_answers_to_prompt(finalPromptObj.get_prompt_id())
+	# Update screen visuals
+	for index in answerEmojis.size():
+		$ScreenManager.currentScreenInstance.load_answer(answerEmojis[index]) # NEW - Test this
+		pass
 	sendAnswersForVoting(finalPromptObj.get_prompt_text(), answerEmojis)
-	
 	
 func multiResultsPhase():
 	print("DEBUG: Multi Results Phase")
@@ -808,7 +811,7 @@ func restartGame():
 	
 	# TODO: Goto Lobby
 	
-	setupGame()
+	#setupGame()
 
 func updateInstructions(instruct, repeat):
 	instructions = instruct
