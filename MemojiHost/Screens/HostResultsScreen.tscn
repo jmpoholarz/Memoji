@@ -99,7 +99,7 @@ anchor_bottom = 0.0
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 1016.0
-margin_bottom = 676.0
+margin_bottom = 593.0
 rect_min_size = Vector2( 900, 500 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -117,9 +117,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 45.0
+margin_top = 169.0
 margin_right = 1006.0
-margin_bottom = 73.0
+margin_bottom = 197.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -140,9 +140,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 93.0
+margin_top = 217.0
 margin_right = 1006.0
-margin_bottom = 451.0
+margin_bottom = 245.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -159,16 +159,19 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 151.0
-margin_right = 486.0
-margin_bottom = 358.0
+margin_left = 377.0
+margin_right = 485.0
+margin_bottom = 28.0
+grow_horizontal = 0
+grow_vertical = 0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-alignment = 0
+alignment = 2
+_sections_unfolded = [ "Grow Direction", "Size Flags" ]
 
 [node name="LeftUsernameLabel" type="Label" parent="MarginContainer/Rows/AnswerBoxes/VBoxContainer" index="0"]
 
@@ -176,8 +179,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 335.0
-margin_bottom = 19.0
+margin_top = 1.0
+margin_right = 108.0
+margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -190,30 +194,17 @@ align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "custom_fonts" ]
+_sections_unfolded = [ "Size Flags", "custom_fonts" ]
 
-[node name="AnswerLeft" type="Container" parent="MarginContainer/Rows/AnswerBoxes/VBoxContainer" index="1"]
+[node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/VBoxContainer" index="1" instance=ExtResource( 4 )]
 
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 23.0
-margin_right = 335.0
-margin_bottom = 358.0
-rect_min_size = Vector2( 335, 335 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-_sections_unfolded = [ "Rect" ]
-
-[node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/VBoxContainer/AnswerLeft" index="0" instance=ExtResource( 4 )]
-
-margin_right = -2.0
-margin_bottom = 0.0
+margin_top = 24.0
+margin_right = 108.0
+margin_bottom = 28.0
+_sections_unfolded = [ "Size Flags" ]
+resize_factor = 0.8
 
 [node name="TextureRect" type="Label" parent="MarginContainer/Rows/AnswerBoxes" index="1"]
 
@@ -221,10 +212,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 486.0
-margin_top = 165.0
-margin_right = 519.0
-margin_bottom = 193.0
+margin_left = 485.0
+margin_right = 518.0
+margin_bottom = 28.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -237,24 +227,27 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/Rows/AnswerBoxes" index="2"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 519.0
-margin_right = 854.0
-margin_bottom = 358.0
+margin_left = 518.0
+margin_right = 629.0
+margin_bottom = 28.0
+grow_horizontal = 0
+grow_vertical = 0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-alignment = 0
+alignment = 1
+_sections_unfolded = [ "Grow Direction" ]
 
 [node name="RightUsernameLabel" type="Label" parent="MarginContainer/Rows/AnswerBoxes/VBoxContainer2" index="0"]
 
@@ -262,7 +255,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 335.0
+margin_right = 111.0
 margin_bottom = 19.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -278,25 +271,15 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_fonts" ]
 
-[node name="AnswerRight" type="Container" parent="MarginContainer/Rows/AnswerBoxes/VBoxContainer2" index="1"]
+[node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/VBoxContainer2" index="1" instance=ExtResource( 4 )]
 
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 23.0
-margin_right = 335.0
-margin_bottom = 358.0
-rect_min_size = Vector2( 335, 335 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-_sections_unfolded = [ "Rect" ]
-
-[node name="EmojiCanvas" parent="MarginContainer/Rows/AnswerBoxes/VBoxContainer2/AnswerRight" index="0" instance=ExtResource( 4 )]
+margin_right = 111.0
+margin_bottom = 27.0
+_sections_unfolded = [ "Size Flags" ]
+resize_factor = 0.8
 
 [node name="Label" type="Label" parent="MarginContainer/Rows" index="2"]
 
@@ -304,9 +287,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 471.0
+margin_top = 265.0
 margin_right = 1006.0
-margin_bottom = 499.0
+margin_bottom = 293.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -325,9 +308,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 519.0
+margin_top = 313.0
 margin_right = 1006.0
-margin_bottom = 524.0
+margin_bottom = 318.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -1325,9 +1308,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 544.0
+margin_top = 338.0
 margin_right = 1006.0
-margin_bottom = 572.0
+margin_bottom = 366.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -1406,9 +1389,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 592.0
+margin_top = 386.0
 margin_right = 1006.0
-margin_bottom = 620.0
+margin_bottom = 414.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
