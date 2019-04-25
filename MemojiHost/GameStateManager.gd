@@ -344,6 +344,17 @@ func multiPromptPhase():
 	currentState = GAME_STATE.MULTI_PROMPT_PHASE
 	print("DEBUG: Multi Prompt reached! Woot")
 	
+	# Clear prompts left from last round
+	$PromptManager.reset()
+	for player in players:
+		player.reset_score()
+		player.clear_prompts()
+		player.clear_vote()
+	for player in audiencePlayers:
+		player.reset_score()
+		player.clear_prompts()
+		player.clear_vote()
+	
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
 	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
@@ -368,6 +379,14 @@ func multiVotePhase():
 	$ScreenManager.changeScreenTo(GlobalVars.MULTI_VOTE_SCREEN)
 	var message
 	var answerEmojis
+	
+	# Clear votes
+	for p in players:
+		p.clear_vote()
+	for p in audiencePlayers:
+		p.clear_vote()
+	for p in disconnected_players:
+		p.clear_vote()
 	
 	message = {
 		"messageType": MESSAGE_TYPES.HOST_SENDING_ANSWERS,
