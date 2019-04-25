@@ -113,6 +113,10 @@ if (cluster.isMaster) {
   cluster.on('exit', (worker, code, signal) => {
     console.log('[INFO]: worker %d died (%s). restarting...',
       worker.process.pid, signal || code);
+    writeToFile(server_log, 'worker %d died (%s). restarting...',
+      worker.process.pid, signal || code);
+    writeToFile(error_log, 'worker %d died (%s). restarting...',
+      worker.process.pid, signal || code);
     cluster.fork();
   });
 
@@ -144,6 +148,7 @@ if (cluster.isMaster) {
       });
       if (sock !== undefined) {
         console.log('[INFO]: Client that disconnected was a Host');
+        writeToFile(server_log, `Client disconnected | Host | ${sock.code}`);
         // Handle Host properly
         console.log(`[INFO]: letterCode: ${sock.code}`);
         console.log('[INFO]: Keep host in limbo.');
@@ -156,7 +161,7 @@ if (cluster.isMaster) {
       });
       if (sock !== undefined) {
         console.log(`[INFO]: Client that disconnected was a Player: ${sock.id}`);
-
+        writeToFile(server_log, `Client disconnected | Player | ${sock.id}`);
         // Find Host for this player
         const host = _.find(hosts, ['code', sock.code]);
         if (host == undefined) {
@@ -185,6 +190,7 @@ if (cluster.isMaster) {
       });
       if (sock !== undefined) {
         console.log('[INFO]: Client that disconnected was an Audience');
+        writeToFile(server_log, `Client disconnected | Audience | ${sock.id}`);
         // Handle Audience properly
 
         const res = {
@@ -236,6 +242,7 @@ if (cluster.isMaster) {
       console.log('[INFO]: Message Received:');
       console.log(message);
       console.log('\x1b[33m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+      writeToFile(server_log, `Message Received: ${message}`);
 
       // See what message type (action)
       var letterCode = ""
