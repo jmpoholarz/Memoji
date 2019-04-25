@@ -9,7 +9,6 @@ var finalPromptObj = null # Reference to final prompt for convenience
 
 var players = [] # array of all players in the game
 var audiencePlayers = [] # array of all players in the audience
-var totalScoreTally = [] # array of scores for each player, in total
 var competitors = [] # players who are competing in the current round of voting
 var disconnected_players = [] # players who have disconnected
 
@@ -93,9 +92,9 @@ func setupGame():
 		yield($ScreenManager, "handleGameState")
 	
 	# TODO: DEBUG TESTING #
-	multiPromptPhase()
+	#multiPromptPhase()
 	
-	#promptPhase()
+	promptPhase()
 
 func promptPhase():
 	currentState = GAME_STATE.PROMPT_PHASE
@@ -258,23 +257,23 @@ func showResults():
 	var audienceResults = [0, 0]
 	var aPercentages = [0, 0]
 	
-	var leftVoterIDs
-	var rightVoterIDs
-	var leftVoters = [] # Player array - Voted for left answer
-	var rightVoters = [] # Player array - Voted for right answer
+	#var leftVoterIDs
+	#var rightVoterIDs
+	#var leftVoters = [] # Player array - Voted for left answer
+	#var rightVoters = [] # Player array - Voted for right answer
 
 	promptID = $PromptManager.active_prompt_ids[currentPrompt]
 	answers = $PromptManager.get_answers_to_prompt(promptID)
-	leftVoterIDs = $PromptManager.get_supporters(promptID, 0)
-	rightVoterIDs = $PromptManager.get_supporters(promptID, 1)
+	#leftVoterIDs = $PromptManager.get_supporters(promptID, 0)
+	#rightVoterIDs = $PromptManager.get_supporters(promptID, 1)
 
-	leftVoters.resize(leftVoterIDs.size())
-	rightVoters.resize(rightVoterIDs.size())
+	#leftVoters.resize(leftVoterIDs.size())
+	#rightVoters.resize(rightVoterIDs.size())
 
-	for index in range(leftVoterIDs.size()):
-		leftVoters[index] = findPlayer(players, leftVoterIDs[index])
-	for index in range(rightVoterIDs.size()):
-		rightVoters[index] = findPlayer(players, rightVoterIDs[index])
+	#for index in range(leftVoterIDs.size()):
+	#	leftVoters[index] = findPlayer(players, leftVoterIDs[index])
+	#for index in range(rightVoterIDs.size()):
+	#	rightVoters[index] = findPlayer(players, rightVoterIDs[index])
 
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
 	$ScreenManager.currentScreenInstance.displayAnswers(answers)
@@ -317,21 +316,16 @@ func showResults():
 	for x in range(0,players.size()):
 		if competitors[0] == players[x]:
 			pIndex = x
-			players[x].increase_score(scores[0]) # NEW - replaces totalScoreTally
-	# TODO: Remove this line
-	totalScoreTally[pIndex] += scores[0]
+			players[x].increase_score(scores[0])
 
 	pIndex = 0
 	for x in range(0,players.size()):
 		if competitors[1] == players[x]:
 			pIndex = x
-			players[x].increase_score(scores[1]) # NEW - replaces totalScoreTally
-	# TODO: Remove this line
-	totalScoreTally[pIndex] += scores[1]
+			players[x].increase_score(scores[1])
 
 func showTotalResults():
 	$ScreenManager.changeScreenTo(GlobalVars.TOTAL_SCREEN)
-	# TODO: change this function
 	$ScreenManager.currentScreenInstance.displayResults(players)
 	#time till reset
 	"""var t = Timer.new()
@@ -349,6 +343,7 @@ func multiPromptPhase():
 	
 	currentState = GAME_STATE.MULTI_PROMPT_PHASE
 	print("DEBUG: Multi Prompt reached! Woot")
+	
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
 	$ScreenManager.currentScreenInstance.confirmDisplay.update_from_list(players)
@@ -393,7 +388,7 @@ func multiResultsPhase():
 	var participantsArr = null	
 	currentState = GAME_STATE.MULTI_RESULTS_PHASE
 	
-	# Clean up this - Is a Hack
+	# TODO: Clean up this - Is a Hack
 	answersArr = $PromptManager.get_answers_to_prompt(finalPromptObj.get_prompt_id())
 	participantsArr = finalPromptObj.get_players_who_answered()
 	for index in participantsArr.size():
@@ -433,7 +428,7 @@ func finalResultsPhase():
 	currentState = GAME_STATE.FINAL_RESULTS
 	print ("DEBUG: FINAL RESULTS")
 	
-	return
+	showTotalResults()
 
 func advanceGame():
 	print("DEBUG: Advance Game function")
@@ -451,7 +446,6 @@ func advanceGame():
 			resultsPhase()
 
 		GAME_STATE.RESULTS_PHASE: # Which prompt won in one phase of voting
-			# TODO: check if last round of voting, then continue to final prompt
 			currentPrompt += 1
 			if (currentPrompt < players.size()): # Check for prompt completion
 				votePhase()
@@ -476,6 +470,7 @@ func advanceGame():
 		GAME_STATE.MULTI_RESULTS_PHASE:
 			finalResultsPhase()
 		GAME_STATE.FINAL_RESULTS:
+			# TODO: Restart the game by going back to the lobby
 			pass
 
 func updatePlayerGameState(player):
@@ -524,7 +519,6 @@ func toTitle():
 	players.clear()
 	audiencePlayers.clear()
 	currentState = GAME_STATE.NOT_STARTED
-	totalScoreTally.clear()
 	competitors.clear()
 	lobbyCode = null
 
@@ -561,7 +555,6 @@ func _on_Networking_playerConnected(playerID, isPlayer):
 
 	if (isPlayer):
 		players.append(player)
-		totalScoreTally.append(0)
 
 		if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
 			$ScreenManager.currentScreenInstance.add_player_id(playerID)
@@ -805,7 +798,16 @@ func _notification(what):
 func restartGame():
 	instructions = false
 	repeatInstruct = false
-	totalScoreTally = []
+	
+	currentRound = 0
+	currentState = GAME_STATE.NOT_STARTED
+	currentPrompt = 0
+	finalPromptObj = null
+	
+	competitors.clear()
+	
+	# TODO: Goto Lobby
+	
 	setupGame()
 
 func updateInstructions(instruct, repeat):
