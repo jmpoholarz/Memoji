@@ -1,11 +1,8 @@
 extends Panel
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
-
-
+signal messageServer(msg)
 signal changeScreen(screen)
+signal updateGameState(msg)
 
 func _ready():
 	# Called when the node is added to the scene for the first time.
@@ -19,4 +16,4 @@ func _ready():
 
 
 func _on_ProceedButton_pressed():
-	emit_signal(GlobalVars.WAIT_SCREEN)
+	emit_signal("updateGameState", "instructionsDone")

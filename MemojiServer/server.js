@@ -155,7 +155,7 @@ if (cluster.isMaster) {
         return player.socket === socket;
       });
       if (sock !== undefined) {
-        console.log('[INFO]: Client that disconnected was a Player:');
+        console.log(`[INFO]: Client that disconnected was a Player: ${sock.id}`);
 
         // Find Host for this player
         const host = _.find(hosts, ['code', sock.code]);
@@ -169,8 +169,6 @@ if (cluster.isMaster) {
         sock.isActive = false;
         players.push(sock);
         host.players.push(sock);
-
-        console.log(players);
 
         const res = {
           "messageType": 132,
@@ -207,6 +205,9 @@ if (cluster.isMaster) {
         // console.log('[INFO]: Ignore message. Length too short.');
         return;
       }
+
+      console.log('Raw message received');
+      console.log(data.toString());
 
       const json = parseData(data);
       if (json === -1) {
@@ -436,7 +437,7 @@ if (cluster.isMaster) {
       hosts = msg.hosts;
       players = msg.players;
       audience_members = msg.audience_members;
-      console.log('[INFO]: UDPATE LOCAL VALUES');
+      console.log('[INFO]: UPDATE LOCAL VALUES');
     }
   });
 
@@ -1103,7 +1104,7 @@ function send(socket, data) {
   try {
     socket.write(buff2);
     console.log('\x1b[36m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-    console.log(`[INFO]: Message sent successfully`);
+    console.log(`[INFO]: Message sent successfully ${buff2.toString()}`);
     console.log('\x1b[36m%s\x1b[0m', '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   } catch (err) {
     logError(err);

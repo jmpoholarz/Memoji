@@ -10,6 +10,8 @@ var voteScreenScene = preload("res://Screens/VotingScreen.tscn")
 var resultsScreenScene = preload("res://Screens/HostResultsScreen.tscn")
 var totalResultsScreenScene = preload("res://Screens/HostTotalResultsScreen.tscn")
 
+var multiVoteScreenScene = preload("res://Screens/MultiVotingScreen.tscn")
+
 var creditsScene = preload("res://Screens/InstructionScreens/Credits.tscn")
 
 #instruction screens
@@ -59,50 +61,62 @@ func changeScreenTo(screen):
 		GlobalVars.SETUP_SCREEN:
 			currentScreenInstance = setupScreenScene.instance()
 		GlobalVars.LOBBY_SCREEN:
-			if(instructions && !onInstructionScreen):
-				currentScreenInstance = initialInstruction.instance()
-				onInstructionScreen = true
 			onInstructionScreen = false
 			currentScreenInstance = lobbyScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 			currentScreenInstance.connect("startGame", self, "startGame")
 		GlobalVars.WAIT_SCREEN:
-			if(instructions && !onInstructionScreen):
-				currentScreenInstance = promptInstruction.instance()
-				onInstructionScreen = true
 			onInstructionScreen = false
 			currentScreenInstance = waitScreenScene.instance()
 		GlobalVars.VOTE_SCREEN:
-			if(instructions && !onInstructionScreen):
-				currentScreenInstance = votingInstruction.instance()
-				onInstructionScreen = true
 			onInstructionScreen = false
 			currentScreenInstance = voteScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.RESULTS_SCREEN:
-			if(instructions && !onInstructionScreen):
-				currentScreenInstance = scoringInstruction.instance()
-				onInstructionScreen = true
 			onInstructionScreen = false
 			currentScreenInstance = resultsScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.TOTAL_SCREEN:
 			currentScreenInstance = totalResultsScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
+		GlobalVars.MULTI_VOTE_SCREEN:
+			currentScreenInstance = multiVoteScreenScene.instance()
+			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
+		GlobalVars.MULTI_RESULTS_SCREEN:
+			currentScreenInstance = null
 		GlobalVars.CREDITS_SCREEN:
 			if(!repeatInstruct):
 				instructions = false
 			currentScreenInstance = creditsScene.instance()
 			currentScreenInstance.connect("restart", self, "restartGame")
 			currentScreenInstance.connect("newGame", self, "newGame")
-	
+		
+		GlobalVars.INITIAL_INSTRUCTION:
+			currentScreenInstance = initialInstruction.instance()
+			onInstructionScreen = true
+			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
+		GlobalVars.PROMPT_INSTRUCTION:
+			currentScreenInstance = promptInstruction.instance()
+			onInstructionScreen = true
+			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
+		GlobalVars.VOTING_INSTRUCTION:
+			currentScreenInstance = votingInstruction.instance()
+			onInstructionScreen = true
+			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
+		GlobalVars.SCORING_INSTRUCTION:
+			currentScreenInstance = scoringInstruction.instance()
+			onInstructionScreen = true
+			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
+		GlobalVars.FINAL_INSTRUCTION:
+			currentScreenInstance = finalInstruction.instance()
+			onInstructionScreen = true
+			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
+			
 	if (currentScreenInstance != null):
 		currentScreen = screen
 		currentScreenInstance.connect("messageServer", self, "forwardMessage")
 		currentScreenInstance.connect("changeScreen", self, "changeScreenTo")
 		add_child(currentScreenInstance)
-
-
 
 func connectToServer():
 	emit_signal("connectToServer")

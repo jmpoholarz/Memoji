@@ -85,8 +85,12 @@ func setupGame():
 				"letterCode" : lobbyCode}
 	# Send message to players
 	$Networking.sendMessageToServer(message)
-	yield(get_tree().create_timer(1), "timeout")
-	
+	yield(get_tree().create_timer(0.5), "timeout")
+	if (instructions):
+		$ScreenManager.changeScreenTo(GlobalVars.INITIAL_INSTRUCTION)
+		yield($ScreenManager, "handleGameState")
+		$ScreenManager.changeScreenTo(GlobalVars.PROMPT_INSTRUCTION)
+		yield($ScreenManager, "handleGameState")
 	promptPhase()
 
 func promptPhase():
@@ -364,6 +368,7 @@ func multiVotePhase():
 	currentState = GAME_STATE.MULTI_VOTE_PHASE
 	$ScreenManager.changeScreenTo(GlobalVars.MULTI_VOTE_SCREEN)
 	var message
+	var answerEmojis
 	
 	message = {
 		"messageType": MESSAGE_TYPES.HOST_SENDING_ANSWERS,
@@ -371,10 +376,42 @@ func multiVotePhase():
 		"promptID": finalPromptObj.get_prompt_id()
 	}
 	
-	sendAnswersForVoting(finalPromptObj.get_prompt_text(), finalPromptObj.get_answers())
+	# TODO: Clean this up
+	answerEmojis = $PromptManager.get_answers_to_prompt(finalPromptObj.get_prompt_id())
+	sendAnswersForVoting(finalPromptObj.get_prompt_text(), answerEmojis)
 	
 	
 func multiResultsPhase():
+	print("DEBUG: Multi Results Phase")
+	var currentVoteArr = null
+	var voteCounts = [] # Stores the amount of gold, silver, and bronze votes for each prompt answer
+	var answerArr = null
+	var participantsArr = null	
+	currentState = GAME_STATE.MULTI_RESULTS_PHASE
+	
+	# Clean up this - Is a Hack
+	$PromptManager.get_answers_to_prompt(finalPromptObj.get_prompt_id())
+	participantsArr = finalPromptObj.get_players_who_answered()
+	for p in participantsArr:
+		p = findPlayer(players, p)
+	
+	voteCounts.resize(answerArr.size())
+	
+	# Set them all to zero
+	for x in voteCounts:
+		x = [0, 0, 0] # Gold, Silver, Bronze
+		
+	for p in players:
+		currentVoteArr = p.get_multi_vote()
+		voteCounts[currentVoteArr[0]][0] += 1 # Gold
+		voteCounts[currentVoteArr[1]][1] += 1 # Silver
+		voteCounts[currentVoteArr[2]][2] += 1 # Bronze
+	
+	$ScreenManager.changeScreenTo(GlobalVars.MULTI_RESULTS_SCREEN)
+	for index in range(answerArr.size()):
+		$ScreenManager.currentScreenInstance.load_answer(participantsArr[index].username, answerArr[index], voteCounts[index][0], voteCounts[index][1], voteCounts[index][2])
+	$ScreenManager.currentScreenInstance.update_prompt_label(finalPromptObj.get_prompt_text())
+	
 	return
 
 func advanceGame():
@@ -383,6 +420,10 @@ func advanceGame():
 		GAME_STATE.PROMPT_PHASE:
 			print("DEBUG: Calling votephase")
 			currentPrompt = 0
+			# Instructions #
+			if (instructions && currentRound < 2):
+				$ScreenManager.changeScreenTo(GlobalVars.VOTING_INSTRUCTION)
+				yield($ScreenManager, "handleGameState")
 			votePhase()
 
 		GAME_STATE.VOTE_PHASE:
@@ -394,7 +435,10 @@ func advanceGame():
 			if (currentPrompt < players.size()): # Check for prompt completion
 				votePhase()
 			else:
-				#TODO:
+				# Instructions #
+				if (instructions && currentRound < 3):
+					$ScreenManager.changeScreenTo(GlobalVars.SCORING_INSTRUCTION)
+					yield($ScreenManager, "handleGameState")
 				roundResults()
 			
 		GAME_STATE.ROUND_RESULTS:
@@ -407,9 +451,9 @@ func advanceGame():
 		GAME_STATE.MULTI_PROMPT_PHASE:
 			multiVotePhase()
 		GAME_STATE.MULTI_VOTE_PHASE:
-			pass
+			multiResultsPhase()
 		GAME_STATE.MULTI_RESULTS_PHASE:
-			pass
+			pass # Goto final results
 		GAME_STATE.FINAL_RESULTS:
 			pass
 
@@ -591,7 +635,6 @@ func _on_Networking_receivedPlayerAnswer(playerID, promptID, emojiArray):
 		
 		if ($PromptManager.check_completion()):
 			advanceGame()
-	# TODO: Multi Prompt Phase
 
 
 func _on_Networking_receivedPlayerVote(playerID, voteID):

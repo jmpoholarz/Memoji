@@ -4,7 +4,7 @@
 [ext_resource path="res://Screens/InstructionScreens/VotingInstruction.gd" type="Script" id=2]
 [ext_resource path="res://Screens/InstructionScreens/Screenshots/Voting.png" type="Texture" id=3]
 
-[node name="VotingInstruction" type="Panel" index="0"]
+[node name="VotingInstruction" type="Panel"]
 
 anchor_left = 0.0
 anchor_top = 0.0
