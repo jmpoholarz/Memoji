@@ -91,7 +91,11 @@ func setupGame():
 		yield($ScreenManager, "handleGameState")
 		$ScreenManager.changeScreenTo(GlobalVars.PROMPT_INSTRUCTION)
 		yield($ScreenManager, "handleGameState")
-	promptPhase()
+	
+	# TODO: DEBUG TESTING #
+	multiPromptPhase()
+	
+	#promptPhase()
 
 func promptPhase():
 	currentState = GAME_STATE.PROMPT_PHASE
@@ -679,7 +683,7 @@ func _on_Networking_receivedPlayerVote(playerID, voteID):
 			advanceGame()
 
 
-func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
+func _on_Networking_receivedPlayerMultiVote(playerID, voteArray):
 	var message
 	var playerObj
 	var localPromptID
@@ -698,6 +702,9 @@ func _on_Networking_receivedPlayerMultiVote(playerID, promptID, voteArray):
 	
 	# Store multivote
 	playerObj.multi_vote(voteArray[0], voteArray[1], voteArray[2])
+	
+	# TODO: DEBUG #
+	print(playerObj.votes, "::::", playerObj.votes.size())
 	
 	message = {
 		"messageType": MESSAGE_TYPES.ACCEPTED_MULTI_VOTE,
