@@ -6,7 +6,6 @@
 [ext_resource path="res://Screens/Elements/VotingButtonGroup.tres" type="ButtonGroup" id=4]
 [ext_resource path="res://Assets/star_full.png" type="Texture" id=5]
 
-
 [sub_resource type="StyleBoxEmpty" id=1]
 
 content_margin_left = -1.0
@@ -77,7 +76,7 @@ content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 
-[node name="PlayerVotingScreen" type="Panel"]
+[node name="PlayerVotingScreen" type="Panel" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -99,6 +98,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 16.0
+margin_right = -16.0
+margin_bottom = -16.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -106,6 +109,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
+_sections_unfolded = [ "Margin" ]
 
 [node name="InstructionsLabel" type="Label" parent="VBoxContainer" index="0"]
 
@@ -113,9 +117,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 97.0
-margin_right = 480.0
-margin_bottom = 156.0
+margin_top = 91.0
+margin_right = 448.0
+margin_bottom = 150.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -137,9 +141,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 257.0
-margin_right = 480.0
-margin_bottom = 285.0
+margin_top = 246.0
+margin_right = 448.0
+margin_bottom = 274.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -161,9 +165,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 399.0
-margin_right = 480.0
-margin_bottom = 431.0
+margin_top = 383.0
+margin_right = 448.0
+margin_bottom = 415.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -177,8 +181,8 @@ _sections_unfolded = [ "Rect", "Size Flags" ]
 
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 117.0
-margin_right = 121.0
+margin_left = 109.0
+margin_right = 113.0
 margin_bottom = 32.0
 size_flags_horizontal = 6
 _sections_unfolded = [ "Rect", "Size Flags" ]
@@ -218,8 +222,8 @@ _sections_unfolded = [ "Mouse", "custom_styles" ]
 
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 359.0
-margin_right = 363.0
+margin_left = 335.0
+margin_right = 339.0
 margin_bottom = 32.0
 size_flags_horizontal = 6
 _sections_unfolded = [ "Rect", "Size Flags" ]
@@ -260,10 +264,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 160.0
-margin_top = 641.0
-margin_right = 320.0
-margin_bottom = 705.0
+margin_left = 144.0
+margin_top = 614.0
+margin_right = 304.0
+margin_bottom = 678.0
 rect_min_size = Vector2( 160, 64 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false

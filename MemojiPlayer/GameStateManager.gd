@@ -53,6 +53,7 @@ func handleReceivedAnswers(prompt, answers):
 			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.FINAL_VOTING_SCREEN)
 			if $ScreenManager.currentScreen == $ScreenManager.SCREENS.FINAL_VOTING_SCREEN:
 				$ScreenManager.currentScreenInstance.set_answers(answers)
+				$ScreenManager.currentScreenInstance.set_prompt_text(prompt)
 
 func updateLetterCode(letter_code):
 	$Networking.letterCode = letter_code
