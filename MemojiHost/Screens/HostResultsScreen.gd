@@ -11,7 +11,7 @@ var PlayerDisplayScene = preload("res://Screens/Elements/SmallPlayerStatus.tscn"
 onready var votersLeftNode = $MarginContainer/Rows/Voters/VotersLeft
 onready var votersRightNode = $MarginContainer/Rows/Voters/VotersRight
 onready var leftDisplayBox = $MarginContainer/Rows/AnswerBoxes/VBoxContainer/AnswerLeft/EmojiCanvas
-onready var rightDisplayBox = $MarginContainer/Rows/AnswerBoxes/VBoxContainer/AnswerRight/EmojiCanvas
+onready var rightDisplayBox = $MarginContainer/Rows/AnswerBoxes/VBoxContainer2/AnswerRight/EmojiCanvas
 
 onready var scoreLeftLabel = $MarginContainer/Rows/Results/ScoreLeft
 onready var scoreRightLabel = $MarginContainer/Rows/Results/ScoreRight
