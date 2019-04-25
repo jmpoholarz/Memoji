@@ -1,5 +1,9 @@
 extends Panel
 
+signal messageServer(msg)
+signal changeScreen(screen)
+signal updateGameState(msg)
+
 var _FinalRoundDisplayScene = preload("res://Screens/Elements/FinalRoundDisplay.tscn")
 
 onready var _PromptLabel = $VBoxContainer/PromptLabel
@@ -27,6 +31,8 @@ func load_answer(username, emojis, gold_count, silver_count, bronze_count):
 	final_round_display_instance.set_silvers(silver_count)
 	final_round_display_instance.set_bronzes(bronze_count)
 	#TODO Score calulation
+	var final_round_score = gold_count * 100 + silver_count * 50 + bronze_count * 25
+	final_round_display_instance.set_points(final_round_score)
 
 func _ready():
 	#load_answer("Applesauce", [[2,2,10080]], 3, 0, 1)
