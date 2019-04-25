@@ -11,7 +11,7 @@ var resultsScreenScene = preload("res://Screens/HostResultsScreen.tscn")
 var totalResultsScreenScene = preload("res://Screens/HostTotalResultsScreen.tscn")
 
 var multiVoteScreenScene = preload("res://Screens/MultiVotingScreen.tscn")
-
+var mulltiResultsScreenScene = preload("res://Screens/HostFinalRoundResultScreen.tscn")
 var creditsScene = preload("res://Screens/InstructionScreens/Credits.tscn")
 
 #instruction screens
@@ -83,7 +83,8 @@ func changeScreenTo(screen):
 			currentScreenInstance = multiVoteScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
 		GlobalVars.MULTI_RESULTS_SCREEN:
-			currentScreenInstance = null
+			currentScreenInstance = mulltiResultsScreenScene.instance()
+			#TODO: Signals maybe
 		GlobalVars.CREDITS_SCREEN:
 			if(!repeatInstruct):
 				instructions = false

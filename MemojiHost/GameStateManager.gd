@@ -389,31 +389,34 @@ func multiResultsPhase():
 	print("DEBUG: Multi Results Phase")
 	var currentVoteArr = null
 	var voteCounts = [] # Stores the amount of gold, silver, and bronze votes for each prompt answer
-	var answerArr = null
+	var answersArr = null
 	var participantsArr = null	
 	currentState = GAME_STATE.MULTI_RESULTS_PHASE
 	
 	# Clean up this - Is a Hack
-	$PromptManager.get_answers_to_prompt(finalPromptObj.get_prompt_id())
+	answersArr = $PromptManager.get_answers_to_prompt(finalPromptObj.get_prompt_id())
 	participantsArr = finalPromptObj.get_players_who_answered()
-	for p in participantsArr:
-		p = findPlayer(players, p)
+	for index in participantsArr.size():
+		var pid = participantsArr[index]
+		participantsArr[index] = findPlayer(players, pid)
 	
-	voteCounts.resize(answerArr.size())
+	voteCounts.resize(answersArr.size())
 	
 	# Set them all to zero
-	for x in voteCounts:
-		x = [0, 0, 0] # Gold, Silver, Bronze
+	#for x in voteCounts:
+	#	x = [0, 0, 0] # Gold, Silver, Bronze
+	for index in voteCounts.size():
+		voteCounts[index] = [0, 0, 0]
 		
 	for p in players:
-		currentVoteArr = p.get_multi_vote()
+		currentVoteArr = p.votes
 		voteCounts[currentVoteArr[0]][0] += 1 # Gold
 		voteCounts[currentVoteArr[1]][1] += 1 # Silver
 		voteCounts[currentVoteArr[2]][2] += 1 # Bronze
 	
 	$ScreenManager.changeScreenTo(GlobalVars.MULTI_RESULTS_SCREEN)
-	for index in range(answerArr.size()):
-		$ScreenManager.currentScreenInstance.load_answer(participantsArr[index].username, answerArr[index], voteCounts[index][0], voteCounts[index][1], voteCounts[index][2])
+	for index in range(answersArr.size()):
+		$ScreenManager.currentScreenInstance.load_answer(participantsArr[index].username, answersArr[index], voteCounts[index][0], voteCounts[index][1], voteCounts[index][2])
 	$ScreenManager.currentScreenInstance.update_prompt_label(finalPromptObj.get_prompt_text())
 	
 	return
