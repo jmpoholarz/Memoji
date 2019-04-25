@@ -1,7 +1,8 @@
 extends Panel
 
 signal messageServer(msg)
-signal changeScreen()
+signal changeScreen(screen)
+signal updateGameState(msg)
 
 onready var _TimerLabel = $TimerContainer/TimerLabel
 onready var _Timer = $Timer 
@@ -18,3 +19,4 @@ func _on_Timer_timeout():
 		_Timer.stop()
 		var message = {"messageType": MESSAGE_TYPES.HOST_TIME_UP}
 		emit_signal("messageServer", message)
+		#emit_signal("updateGameState", "advance")
