@@ -16,11 +16,15 @@ onready var _Canvases = [$VBoxContainer/ScrollContainer/GridContainer/Answer0/Ca
 						$VBoxContainer/ScrollContainer/GridContainer/Answer6/Canvas6,
 						$VBoxContainer/ScrollContainer/GridContainer/Answer7/Canvas7]
 onready var _VoteIcons = [$GoldIcon, $SilverIcon, $BronzeIcon]
+onready var _PromptLabel = $VBoxContainer/FinalVotingPromptLabel
 
 var votes_chosen = [-1, -1, -1]
 
 #func _ready():
 	#set_answers([ [[0,0,10090]], [[0,0,10090]], [[0,0,10090]], [[0,0,10090]], [[0,0,10090]] ])
+
+func set_prompt_text(prompt_text):
+	_PromptLabel.text = prompt_text
 
 func set_answers(answers):
 	if answers.size() < 2:

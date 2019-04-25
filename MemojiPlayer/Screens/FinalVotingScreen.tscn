@@ -7,7 +7,6 @@
 [ext_resource path="res://Assets/medal_second.png" type="Texture" id=5]
 [ext_resource path="res://Assets/medal_third.png" type="Texture" id=6]
 
-
 [sub_resource type="StyleBoxEmpty" id=1]
 
 content_margin_left = -1.0
@@ -393,7 +392,7 @@ scroll_vertical_enabled = true
 scroll_vertical = 0
 scroll_deadzone = 0
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/ScrollContainer" index="2"]
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/ScrollContainer" index="0"]
 
 editor/display_folded = true
 anchor_left = 0.0
