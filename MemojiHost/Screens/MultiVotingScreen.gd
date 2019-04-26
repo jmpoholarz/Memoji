@@ -35,7 +35,9 @@ func _on_Timer_timeout():
 	_TimerLabel.text = str(time_left)
 	if time_left == 0:
 		$Timer.stop()
-		#TODO transition to next screen
+		var message = {"messageType": MESSAGE_TYPES.HOST_TIME_UP}
+		emit_signal("messageServer", message)
+		emit_signal("updateGameState", "advance")
 
 func _ready():
 	#load_answer([[2,2,10080]])
@@ -45,4 +47,3 @@ func _ready():
 	#load_answer([[3,3,10090]])
 	#load_answer([[1,1,10010]])
 	pass
-
