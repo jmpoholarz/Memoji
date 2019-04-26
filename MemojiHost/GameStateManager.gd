@@ -472,6 +472,7 @@ func advanceGame():
 			print("DEBUG: Calling votephase")
 			currentPrompt = 0
 			# Instructions #
+			print("DEBUG: VOTING INSTRUCTION - Current Round #", currentRound)
 			if (instructions && (currentRound < 2 || repeatInstruct)):
 				$ScreenManager.changeScreenTo(GlobalVars.VOTING_INSTRUCTION)
 				yield($ScreenManager, "handleGameState")
@@ -485,6 +486,7 @@ func advanceGame():
 			if (currentPrompt < players.size()): # Check for prompt completion
 				votePhase()
 			else:
+				print("DEBUG: SCORING INSTRUCTION - Current Round #", currentRound)
 				# Instructions #
 				if (instructions && (currentRound < 2 || repeatInstruct)):
 					$ScreenManager.changeScreenTo(GlobalVars.SCORING_INSTRUCTION)
