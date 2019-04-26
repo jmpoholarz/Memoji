@@ -339,20 +339,29 @@ if (cluster.isMaster) {
             writeToFile(server_log, 'Player could not join. Invalid letter code.');
           }
           break;
+        case 303: // Host setting up new game -> Send to all Players and Audience
         case 320: // Host round time is up --> Send to all Players
           sendToAllPlayers(letterCode, message);
           if (message.messageType === 301) mtype = 'Host starting game.';
           if (message.messageType === 302) mtype = 'Host ending game.';
           if (message.messageType === 320) mtype = 'Round timer is over.';
+          if (message.messageType === 303) {
+            mtype = 'Host setting up new game.';
+            _.forEach(hosts, (host) => {
+              if (host.code == letterCode) {
+                host.midGame = false;
+              }
+            });
+          }
           writeToFile(server_log, `[MessageType: ${message.messageType} - ${mtype}] Sending to all Players`);
           break;
         case 311: // Host Sending promtpt ---> Send to Player
           sendToPlayer(message);
           writeToFile(server_log, `[MessageType: ${message.messageType} - Host sending prompt.] Sending to Player: ${message.playerID}`);
           break;
-        case 301: // Host starting game -----> Send to all Players and Audience
-        case 302: // Host ending game -------> Send to all Players and Audience
-        case 312: // Host sending answers ---> Send to all Players and Audience
+        case 301: // Host starting game -------> Send to all Players and Audience
+        case 302: // Host ending game ---------> Send to all Players and Audience
+        case 312: // Host sending answers -----> Send to all Players and Audience
           sendToPlayersAndAudience(letterCode, message);
           if (message.messageType === 301) {
             mtype = 'Host starting game.';
