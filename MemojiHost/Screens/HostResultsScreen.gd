@@ -20,6 +20,9 @@ onready var audienceRightLabel = $MarginContainer/Rows/AudienceVotes/AudienceRig
 
 onready var _audienceFullLabel = $MarginContainer/Rows/AudienceVotes
 
+onready var leftNameLabel = $MarginContainer/Rows/AnswerBoxes/VBoxContainer/LeftUsernameLabel
+onready var rightNameLabel = $MarginContainer/Rows/AnswerBoxes/VBoxContainer2/RightUsernameLabel
+
 # Stores the player1, player2... nodes for easier access updated in ready
 var votersLeftArr = []
 var votersRightArr = []
@@ -42,6 +45,10 @@ func displayAnswers(answers):
 	leftDisplayBox.decode_emojis(answers[0])
 	rightDisplayBox.decode_emojis(answers[1])
 	return
+	
+func displayNames(playerNameArr):
+	leftNameLabel.text = playerNameArr[0]
+	rightNameLabel.text = playerNameArr[1]
 
 func calculateTotals(ID, votes, audiencePercent):
 	#calculate how many points are to be awarded to the player based on

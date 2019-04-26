@@ -19,8 +19,6 @@ script = ExtResource( 1 )
 
 [connection signal="restart" from="ScreenManager" to="." method="on_restart"]
 
-[connection signal="audienceBadDisconnect" from="Networking" to="." method="_on_Networking_audienceBadDisconnect"]
-
 [connection signal="lostConnection" from="Networking" to="." method="_on_Networking_lostConnection"]
 
 [connection signal="obtainedLetterCode" from="Networking" to="." method="_on_Networking_obtainedLetterCode"]
