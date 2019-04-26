@@ -609,18 +609,6 @@ async function pingPlayers() {
       console.error('[ERROR]: Remove player');
       players_to_remove_during_ping.push(host);
     }
-    try {
-      const res = {
-        "messageType": 132,
-        "letterCode": player.code,
-        "playerID": player.id,
-        "isPlayer": true
-      }
-      sendToHost(player.code, res);
-    } catch (err) {
-      logError(err);
-      console.error('[ERROR]: Host socket has been shutdown');
-    }
   });
 
   // console.log('[INFO]: Wait 5 seconds');
