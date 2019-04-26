@@ -3,7 +3,7 @@
 [ext_resource path="res://Assets/Themes/grey_inner_theme.tres" type="Theme" id=1]
 [ext_resource path="res://Screens/WaitingForGameStartScreen.gd" type="Script" id=2]
 
-[node name="WaitingForGameScreen" type="Panel"]
+[node name="WaitingForGameScreen" type="Panel" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
