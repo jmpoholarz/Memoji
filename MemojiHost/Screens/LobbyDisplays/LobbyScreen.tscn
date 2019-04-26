@@ -7,8 +7,7 @@
 [ext_resource path="res://Assets/font/Comfortaa-Bold.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://Screens/LobbyDisplays/Audience.gd" type="Script" id=6]
 [ext_resource path="res://Screens/LobbyDisplays/ABCDcode.gd" type="Script" id=7]
-[ext_resource path="res://Assets/Themes/grey_outer_theme.tres" type="Theme" id=8]
-
+[ext_resource path="res://Screens/Elements/ErrorPopup.tscn" type="PackedScene" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -460,92 +459,15 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="NotAllPlayersHaveAvatar" type="PopupDialog" parent="." index="1"]
+[node name="NotAllPlayersHaveAvatar" parent="." index="1" instance=ExtResource( 8 )]
 
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -240.0
-margin_top = -40.0
-margin_right = 240.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 480, 80 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-theme = ExtResource( 8 )
-popup_exclusive = false
-_sections_unfolded = [ "Theme" ]
+label_text = "Not all players have username or avatar"
 
-[node name="Label" type="Label" parent="NotAllPlayersHaveAvatar" index="0"]
+[node name="NotEnoughPlayersPopup" parent="." index="2" instance=ExtResource( 8 )]
 
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -126.5
-margin_top = -7.0
-margin_right = 126.5
-margin_bottom = 7.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-text = "Not all players have username or avatar"
-align = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="NotEnoughPlayersPopup" type="PopupDialog" parent="." index="2"]
-
-editor/display_folded = true
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -240.0
-margin_top = -40.0
-margin_right = 240.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 480, 80 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-popup_exclusive = false
-_sections_unfolded = [ "Rect" ]
-
-[node name="Label" type="Label" parent="NotEnoughPlayersPopup" index="0"]
-
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -86.0
-margin_top = -7.0
-margin_right = 86.0
-margin_bottom = 7.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-text = "Not enough players joined."
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
+label_text = "Not enough players joined."
 
 [connection signal="resized" from="VBoxContainer/Content/Lines/TopLine" to="." method="_on_TopLine_resized"]
 
