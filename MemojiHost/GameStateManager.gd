@@ -468,7 +468,7 @@ func advanceGame():
 			print("DEBUG: Calling votephase")
 			currentPrompt = 0
 			# Instructions #
-			if (instructions && currentRound < 2):
+			if (instructions && (currentRound < 2 || repeatInstruct)):
 				$ScreenManager.changeScreenTo(GlobalVars.VOTING_INSTRUCTION)
 				yield($ScreenManager, "handleGameState")
 			votePhase()
@@ -482,7 +482,7 @@ func advanceGame():
 				votePhase()
 			else:
 				# Instructions #
-				if (instructions && currentRound < 2):
+				if (instructions && (currentRound < 2 || repeatInstruct)):
 					$ScreenManager.changeScreenTo(GlobalVars.SCORING_INSTRUCTION)
 					yield($ScreenManager, "handleGameState")
 				roundResults()
@@ -493,6 +493,9 @@ func advanceGame():
 				promptPhase() # TODO: Make sure PromptManager is reset
 			else:
 				# currentPrompt is the correct value
+				if (instructions):
+					$ScreenManager.changeScreenTo(GlobalVars.FINAL_INSTRUCTION)
+					yield($ScreenManager, "handleGameState")
 				multiPromptPhase()
 		GAME_STATE.MULTI_PROMPT_PHASE:
 			multiVotePhase()
