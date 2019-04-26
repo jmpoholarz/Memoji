@@ -4,11 +4,16 @@ var playerScene = preload("res://Player.tscn")
 
 enum GAME_STATE {
 	NOT_STARTED = 0
+	GAME_STARTING = -1
 	PROMPT_PHASE = 1
 	VOTE_PHASE = 2
 	RESULTS_PHASE = 3
 	ROUND_RESULTS = 4
 	FINAL_RESULTS = 5
+	MULTI_PROMPT_PHASE = 6
+	MULTI_VOTE_PHASE = 7
+	MULTI_RESULTS_PHASE = 8
+	CREDITS = 9
 }
 
 var currentRound
@@ -118,7 +123,6 @@ func _on_Networking_updatePlayerGameState(messageDict):
 		GAME_STATE.PROMPT_PHASE:
 			# We have prompts to answer
 			# Look at received prompts
-			print("HEY!!!!")
 			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
 			for x in range(messageDict["promptIDs"].size()):
 				handleReceivedPrompt(messageDict["promptIDs"][x], messageDict["promptText"][x])
@@ -126,11 +130,15 @@ func _on_Networking_updatePlayerGameState(messageDict):
 			# We have voting to do
 			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
 			handleReceivedAnswers(messageDict["prompt"], messageDict["answers"])
-		GAME_STATE.RESULTS_PHASE:
+		GAME_STATE.MULTI_PROMPT_PHASE:
 			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
-		GAME_STATE.ROUND_RESULTS:
-			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
-		GAME_STATE.FINAL_RESULTS:
+			for x in range(messageDict["promptIDs"].size()):
+				handleReceivedPrompt(messageDict["promptIDs"][x], messageDict["promptText"][x])
+		GAME_STATE.MULTI_VOTE_PHASE:
+			$ScreenManager.changeScreenTO($ScreenManager.SCREENS.WAITING_SCREEN)
+			handleReceivedAnswers(messageDict["prompt"], messageDict["answers"])
+			pass
+		_:
 			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
 	currentState = messageDict["gameState"]
 	print("End of updatePlayerGameState")
@@ -190,7 +198,6 @@ func _on_Networking_enteredValidUsername(pName, pIcon):
 	playerIcon = pIcon
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
 		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.LOBBY_SCREEN)
-		$ScreenManager.currentScreenInstance.new_room_code(lobbyCode)
 
 func _on_Networking_enteredInvalidUsername():
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
