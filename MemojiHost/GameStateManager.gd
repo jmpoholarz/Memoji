@@ -551,7 +551,7 @@ func updatePlayerGameState(player):
 			
 			if (finalPromptObj.get_answer_from_player(player.playerID) == null):
 				prompt_IDs.append(finalPromptObj.get_prompt_id())
-				prompt_text.append(finalPromptObj.get_prompt_id())
+				prompt_text.append(finalPromptObj.get_prompt_text())
 			
 			message["promptIDs"] = prompt_IDs
 			message["promptText"] = prompt_text
@@ -583,6 +583,7 @@ func toTitle():
 
 	players.clear()
 	audiencePlayers.clear()
+	disconnected_players.clear()
 	competitors.clear()
 
 	lobbyCode = null
@@ -877,7 +878,8 @@ func backToLobby():
 	currentState = GAME_STATE.NOT_STARTED
 	currentPrompt = 0
 	finalPromptObj = null
-
+	
+	disconnected_players.clear()
 	competitors.clear()
 
 	resetPromptData(true)
