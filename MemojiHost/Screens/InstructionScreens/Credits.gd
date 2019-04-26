@@ -11,7 +11,7 @@ func _on_SameButton_pressed():
 		"messageType": MESSAGE_TYPES.HOST_NEW_GAME
 	}
 	emit_signal("restart")
-	emit_signal("messageServer", msg)
+	emit_signal("messageServer", message)
 
 
 func _on_NewButton_pressed():
