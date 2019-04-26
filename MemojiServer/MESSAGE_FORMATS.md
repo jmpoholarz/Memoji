@@ -46,6 +46,15 @@ _Sent to advance players back to join game screen where they can quit_
 }
 ```
 
+* **HOST_NEW_GAME = 303**  
+_Send to reset players back to lobby screen_  
+```javascript
+{
+  messageType: 303,
+  letterCode: "ABCD" (Added by Networking.gd)
+}
+```
+
 * **HOST_SENDING_PROMPT = 311**  
 _Sent to move players to a prompt answering screen_  
 ```javascript

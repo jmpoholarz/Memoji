@@ -22,6 +22,7 @@ signal acceptedPlayerReconnection()
 signal updatePlayerGameState(messageDict)
 signal lostConnection()
 signal hostTimeOut()
+signal hostNewGame()
 # # # # # # # # # #
 
 var defaultServerIP = "18.224.39.240"
@@ -203,6 +204,8 @@ func getMessageFromServer():
 			emit_signal("gameStartedByHost")
 		MESSAGE_TYPES.HOST_ENDING_GAME:
 			emit_signal("gameEndedByHost")
+		MESSAGE_TYPES.HOST_NEW_GAME:
+			emit_signal("hostNewGame")
 		MESSAGE_TYPES.HOST_SENDING_PROMPT:
 			emit_signal("promptReceived", messageDict["promptID"], messageDict["prompt"])
 		MESSAGE_TYPES.HOST_SENDING_ANSWERS:

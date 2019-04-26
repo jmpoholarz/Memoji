@@ -207,6 +207,9 @@ func _on_Networking_gameStartedByHost():
 	# Store game session
 	#SessionStorer.save_game_info(player.playerID, $Networking.letterCode)
 
+func _on_Networking_hostNewGame():
+	$ScreenManager.changeScreenTo($ScreenManager.SCREENS.LOBBY_SCREEN)
+
 
 ##########################################
 # # # # # PLAYER RESPONSE SCREEN # # # # #
@@ -240,4 +243,3 @@ func _on_Networking_enteredValidMultiVote():
 
 func _on_Networking_enteredInvalidMultiVote():
 	pass # replace with function body
-
