@@ -18,9 +18,12 @@ onready var scoreRightLabel = $MarginContainer/Rows/Results/ScoreRight
 onready var audienceLeftLabel = $MarginContainer/Rows/AudienceVotes/AudienceLeft
 onready var audienceRightLabel = $MarginContainer/Rows/AudienceVotes/AudienceRight
 
+onready var _audienceFullLabel = $MarginContainer/Rows/AudienceVotes
+
 # Stores the player1, player2... nodes for easier access updated in ready
 var votersLeftArr = []
 var votersRightArr = []
+var num_audience = 0
 
 func _ready():
 	for index in range(votersLeftNode.get_child_count()):
@@ -28,6 +31,11 @@ func _ready():
 		
 	for index in range(votersRightNode.get_child_count()):
 		votersRightArr.append(votersRightNode.get_child(index))
+
+func updateAudienceNum(num):
+	num_audience = num
+	if num_audience == 0:
+		_audienceFullLabel.visible = false
 
 func displayAnswers(answers):
 	#get the arrays of answers so that the responses can be displayed

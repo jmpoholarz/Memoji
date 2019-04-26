@@ -320,6 +320,7 @@ func showResults():
 	else:
 		aPercentages[0] = 0
 		aPercentages[1] = 0
+		$ScreenManager.currentScreenInstance.updateAudienceNum(audienceCount)
 	
 	#calculate and display totals of scores
 	scores[0] = $ScreenManager.currentScreenInstance.calculateTotals(1, results[0], aPercentages[0])
