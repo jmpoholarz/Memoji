@@ -112,7 +112,7 @@ func displayResults(players):
 		else:
 			resultsRightNode.add_child(dispNode)
 		
-		dispNode.update_display( index + 1, arr[index].username, arr[index].avatarID )
+		dispNode.update_display( index + 1, arr[index].get_total_score(), arr[index].username, arr[index].avatarID )
 		dispNode.show()
 	
 
