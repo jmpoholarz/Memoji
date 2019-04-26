@@ -226,13 +226,15 @@ if (cluster.isMaster) {
         send(socket, JSON.stringify(res));
         return;
       }
+
       console.log(`json: ${json}`);
       var splitMsg = json.split('{')[1].split('}')[0];
       var msg = '{'.concat(splitMsg, '}');
       console.log(`msg: ${msg}`);
+
       var message = "";
       try {
-        message = JSON.parse(json);
+        message = JSON.parse(msg);
       } catch (err) {
         console.error(err);
         const res = {
