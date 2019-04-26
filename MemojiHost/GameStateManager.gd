@@ -294,6 +294,7 @@ func showResults():
 
 	$ScreenManager.changeScreenTo(GlobalVars.RESULTS_SCREEN)
 	$ScreenManager.currentScreenInstance.displayAnswers(answers)
+	$ScreenManager.currentScreenInstance.displayNames(competitors[0].username, competitors[1].username)
 	
 	#tally player votes for each result
 	for p in players:
@@ -384,10 +385,11 @@ func multiPromptPhase():
 	sendPrompts(messageArr)
 
 func multiVotePhase():
-	currentState = GAME_STATE.MULTI_VOTE_PHASE
-	$ScreenManager.changeScreenTo(GlobalVars.MULTI_VOTE_SCREEN)
 	var message
 	var answerEmojis
+	
+	currentState = GAME_STATE.MULTI_VOTE_PHASE
+	$ScreenManager.changeScreenTo(GlobalVars.MULTI_VOTE_SCREEN)
 	
 	# Clear votes
 	for p in players:
@@ -404,11 +406,12 @@ func multiVotePhase():
 	}
 	
 	# TODO: Clean this up
-	answerEmojis = $PromptManager.get_answers_to_prompt(finalPromptObj.get_prompt_id())
 	# Update screen visuals
+	$ScreenManager.currentScreenInstance.update_prompt_label(finalPromptObj.get_prompt_text())
+	answerEmojis = $PromptManager.get_answers_to_prompt(finalPromptObj.get_prompt_id())
 	for index in answerEmojis.size():
 		$ScreenManager.currentScreenInstance.load_answer(answerEmojis[index]) # NEW - Test this
-		pass
+	
 	sendAnswersForVoting(finalPromptObj.get_prompt_text(), answerEmojis)
 	
 func multiResultsPhase():
