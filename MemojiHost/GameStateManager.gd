@@ -44,18 +44,18 @@ func resetPlayerVotes():
 	for p in disconnected_players:
 		p.clear_vote()
 # Reset PromptManager and player prompt data from previous rounds
-func resetPromptData():
+func resetPromptData(fullReset = false):
 	$PromptManager.reset()
 	for player in players:
-		player.reset_score() # only resets current round's scores
+		player.reset_score(fullReset)
 		player.clear_prompts()
 		player.clear_vote()
 	for player in audiencePlayers:
-		player.reset_score()
+		player.reset_score(fullReset)
 		player.clear_prompts()
 		player.clear_vote()
 	for player in disconnected_players:
-		player.reset_score()
+		player.reset_score(fullReset)
 		player.clear_prompts()
 		player.clear_vote()
 
@@ -842,7 +842,7 @@ func backToLobby():
 	
 	competitors.clear()
 	
-	resetPromptData()
+	resetPromptData(true)
 	resetPlayerVotes()
 	
 	$ScreenManager.changeScreenTo(GlobalVars.LOBBY_SCREEN)
