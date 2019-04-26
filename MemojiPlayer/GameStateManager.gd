@@ -190,7 +190,6 @@ func _on_Networking_enteredValidUsername(pName, pIcon):
 	playerIcon = pIcon
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
 		$ScreenManager.changeScreenTo($ScreenManager.SCREENS.LOBBY_SCREEN)
-		$ScreenManager.currentScreenInstance.new_room_code(lobbyCode)
 
 func _on_Networking_enteredInvalidUsername():
 	if $ScreenManager.currentScreen == $ScreenManager.SCREENS.USERINFORMATION_SCREEN:
