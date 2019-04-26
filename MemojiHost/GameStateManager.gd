@@ -545,6 +545,23 @@ func updatePlayerGameState(player):
 			pass
 		GAME_STATE.FINAL_RESULTS:
 			pass
+		GAME_STATE.MULTI_PROMPT_PHASE:
+			var prompt_IDs = []
+			var prompt_text = []
+			
+			if (finalPromptObj.get_answer_from_player(player.playerID) == null):
+				prompt_IDs.append(finalPromptObj.get_prompt_id())
+				prompt_text.append(finalPromptObj.get_prompt_id())
+			
+			message["promptIDs"] = prompt_IDs
+			message["promptText"] = prompt_text
+			
+		GAME_STATE.MULTI_VOTE_PHASE:
+			message["answers"] = $PromptManager.get_answers_to_prompt(finalPromptObj.get_prompt_id())
+			message["prompt"] = finalPromptObj.get_prompt_text()
+		_:
+			pass
+			
 	$Networking.sendMessageToServer(message)
 
 
