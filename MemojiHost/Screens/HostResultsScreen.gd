@@ -46,9 +46,9 @@ func displayAnswers(answers):
 	rightDisplayBox.decode_emojis(answers[1])
 	return
 	
-func displayNames(playerNameArr):
-	leftNameLabel.text = playerNameArr[0]
-	rightNameLabel.text = playerNameArr[1]
+func displayNames(leftName, rightName):
+	leftNameLabel.text = leftName
+	rightNameLabel.text = rightName
 
 func calculateTotals(ID, votes, audiencePercent):
 	#calculate how many points are to be awarded to the player based on
