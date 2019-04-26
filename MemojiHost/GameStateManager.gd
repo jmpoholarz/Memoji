@@ -113,14 +113,15 @@ func setupGame():
 		yield($ScreenManager, "handleGameState")
 	
 	# TODO: DEBUG TESTING #
-	multiPromptPhase()
+	#multiPromptPhase()
 	
-	#promptPhase()
+	promptPhase()
 
 func promptPhase():
 	currentState = GAME_STATE.PROMPT_PHASE
 	
 	# Clear prompts left from last round
+	# TODO: FIX THIS
 	$PromptManager.reset()
 	for player in players:
 		player.reset_score()
