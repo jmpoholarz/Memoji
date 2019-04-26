@@ -135,7 +135,7 @@ func _on_Networking_updatePlayerGameState(messageDict):
 			for x in range(messageDict["promptIDs"].size()):
 				handleReceivedPrompt(messageDict["promptIDs"][x], messageDict["promptText"][x])
 		GAME_STATE.MULTI_VOTE_PHASE:
-			$ScreenManager.changeScreenTO($ScreenManager.SCREENS.WAITING_SCREEN)
+			$ScreenManager.changeScreenTo($ScreenManager.SCREENS.WAITING_SCREEN)
 			handleReceivedAnswers(messageDict["prompt"], messageDict["answers"])
 			pass
 		_:
