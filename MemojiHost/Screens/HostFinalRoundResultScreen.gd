@@ -41,4 +41,4 @@ func _ready():
 	pass
 
 func _on_NextButton_pressed():
-	pass # replace with function body
+	emit_signal("updateGameState", "advance")

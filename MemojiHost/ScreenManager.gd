@@ -25,7 +25,7 @@ var finalInstruction = preload("res://Screens/InstructionScreens/FinalRoundInstr
 signal connectToServer()
 signal sendMessageToServer(msg)
 signal handleGameState(msg)			# for GameStateManager
-signal startGame()
+
 signal restart()
 signal newGame()
 signal instructionUpdate(instruct, repeat)
@@ -64,7 +64,6 @@ func changeScreenTo(screen):
 			onInstructionScreen = false
 			currentScreenInstance = lobbyScreenScene.instance()
 			currentScreenInstance.connect("updateGameState", self, "forwardGameState")
-			currentScreenInstance.connect("startGame", self, "startGame")
 		GlobalVars.WAIT_SCREEN:
 			onInstructionScreen = false
 			currentScreenInstance = waitScreenScene.instance()
@@ -128,9 +127,6 @@ func forwardMessage(msg):
 # Allows GUI to communicate with GameStateManager
 func forwardGameState(msg):
 	emit_signal("handleGameState", msg)
-
-func startGame():
-	emit_signal("startGame")
 
 func lost_connection():
 	_LostConnectionPopup.popup()

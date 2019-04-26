@@ -25,6 +25,7 @@ enum GAME_STATE {
 	MULTI_PROMPT_PHASE = 6
 	MULTI_VOTE_PHASE = 7
 	MULTI_RESULTS_PHASE = 8
+	CREDITS = 9
 }
 
 # arr - array to look in # id - playerID
@@ -33,6 +34,30 @@ func findPlayer(arr, id):
 		if (p.playerID == id):
 			return p
 	return null
+
+# Reset votes stored in player objects
+func resetPlayerVotes():
+	for p in players:
+		p.clear_vote()
+	for p in audiencePlayers:
+		p.clear_vote()
+	for p in disconnected_players:
+		p.clear_vote()
+# Reset PromptManager and player prompt data from previous rounds
+func resetPromptData():
+	$PromptManager.reset()
+	for player in players:
+		player.reset_score() # only resets current round's scores
+		player.clear_prompts()
+		player.clear_vote()
+	for player in audiencePlayers:
+		player.reset_score()
+		player.clear_prompts()
+		player.clear_vote()
+	for player in disconnected_players:
+		player.reset_score()
+		player.clear_prompts()
+		player.clear_vote()
 
 func debug_to_lobby():
 	$ScreenManager.changeScreenTo(GlobalVars.LOBBY_SCREEN)
@@ -44,17 +69,13 @@ func _ready():
 	$ScreenManager.connect("connectToServer", self, "connectToServer")
 	$Networking.connect("_disconnectedFromServer", self, "on_Networking_connectionTimeout")
 	$Networking.connect("connectedSuccessfully", self, "on_Networking_successful")
-	$ScreenManager.connect("startGame", self, "on_startGame")
+
 	$ScreenManager.connect("sendMessageToServer", self, "_on_ScreenManager_sendMessageToServer")
 	$ScreenManager.connect("handleGameState", self, "_on_ScreenManager_handleGameState")
-	$ScreenManager.connect("restart", self, "restartGame")
-	$ScreenManager.connect("newGame", self, "toTitle")
+	$ScreenManager.connect("restart", self, "on_restart")
+	$ScreenManager.connect("newGame", self, "on_newGame")
 	$ScreenManager.connect("instructionUpdate", self, "updateInstructions")
 	toTitle()
-
-func on_startGame():
-	# set the instruction variables to what they need to be, only if screen is correct at the moment just in case
-	setupGame()
 
 func setupGame():
 	# Check for if there are enough players joined
@@ -92,9 +113,9 @@ func setupGame():
 		yield($ScreenManager, "handleGameState")
 	
 	# TODO: DEBUG TESTING #
-	#multiPromptPhase()
+	multiPromptPhase()
 	
-	promptPhase()
+	#promptPhase()
 
 func promptPhase():
 	currentState = GAME_STATE.PROMPT_PHASE
@@ -200,12 +221,7 @@ func votePhase(): # handle voting for one prompt
 	currentState = GAME_STATE.VOTE_PHASE
 
 	# TODO: Reset everyone's stored votes
-	for p in players:
-		p.clear_vote()
-	for p in audiencePlayers:
-		p.clear_vote()
-	for p in disconnected_players:
-		p.clear_vote()
+	resetPlayerVotes()
 
 	# Change to VotingScreen if not already there and update it
 	if ($ScreenManager.currentScreen != GlobalVars.SCREENS.VOTE_SCREEN):
@@ -345,15 +361,7 @@ func multiPromptPhase():
 	print("DEBUG: Multi Prompt reached! Woot")
 	
 	# Clear prompts left from last round
-	$PromptManager.reset()
-	for player in players:
-		player.reset_score()
-		player.clear_prompts()
-		player.clear_vote()
-	for player in audiencePlayers:
-		player.reset_score()
-		player.clear_prompts()
-		player.clear_vote()
+	resetPromptData()
 	
 	$ScreenManager.changeScreenTo(GlobalVars.WAIT_SCREEN)
 	$Networking.connect("receivedPlayerAnswer", $ScreenManager.currentScreenInstance.confirmDisplay, "on_prompt_answer")
@@ -473,7 +481,7 @@ func advanceGame():
 				votePhase()
 			else:
 				# Instructions #
-				if (instructions && currentRound < 3):
+				if (instructions && currentRound < 2):
 					$ScreenManager.changeScreenTo(GlobalVars.SCORING_INSTRUCTION)
 					yield($ScreenManager, "handleGameState")
 				roundResults()
@@ -492,8 +500,11 @@ func advanceGame():
 		GAME_STATE.MULTI_RESULTS_PHASE:
 			finalResultsPhase()
 		GAME_STATE.FINAL_RESULTS:
-			# TODO: Restart the game by going back to the lobby
-			pass
+			currentState = GAME_STATE.CREDITS
+			$ScreenManager.changeScreenTo(GlobalVars.CREDITS_SCREEN)
+		GAME_STATE.CREDITS:
+			# Restart the game by going back to the lobby
+			backToLobby()
 
 func updatePlayerGameState(player):
 	var message = { "messageType": MESSAGE_TYPES.UPDATE_PLAYER_GAME_STATE, "playerID": player.playerID, "gameState": currentState }
@@ -537,11 +548,16 @@ func toTitle():
 		$Networking.sendMessageToServer(endRequest)
 	# Disconnect even if lobby code hasn't been requested yet
 	$Networking.disconnectHostFromServer()
-
+	
+	currentRound = 0
+	currentState = GAME_STATE.NOT_STARTED
+	currentPrompt = 0
+	finalPromptObj = null
+	
 	players.clear()
 	audiencePlayers.clear()
-	currentState = GAME_STATE.NOT_STARTED
 	competitors.clear()
+	
 	lobbyCode = null
 
 	$ScreenManager.changeScreenTo(GlobalVars.TITLE_SCREEN)
@@ -789,7 +805,6 @@ func _on_ScreenManager_handleGameState(msg):
 			return
 	elif $ScreenManager.currentScreen == GlobalVars.TOTAL_SCREEN:
 		if (msg == "advance"):
-			print("DEBUG: **** TotalScreen advanceGame() ****")
 			advanceGame()
 			return
 	elif $ScreenManager.currentScreen == GlobalVars.VOTE_SCREEN:
@@ -816,8 +831,7 @@ func _notification(what):
 			$Networking.sendMessageToServer(message)
 		get_tree().quit()
 
-
-func restartGame():
+func backToLobby():
 	instructions = false
 	repeatInstruct = false
 	
@@ -828,9 +842,19 @@ func restartGame():
 	
 	competitors.clear()
 	
-	# TODO: Goto Lobby
+	resetPromptData()
+	resetPlayerVotes()
 	
-	#setupGame()
+	$ScreenManager.changeScreenTo(GlobalVars.LOBBY_SCREEN)
+	$ScreenManager.currentScreenInstance.update_from_list(players)
+
+	
+func on_restart():
+	backToLobby()
+	
+func on_newGame():
+	toTitle()
+
 
 func updateInstructions(instruct, repeat):
 	instructions = instruct
