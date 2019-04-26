@@ -623,18 +623,6 @@ async function pingPlayers() {
   players_to_remove = players_to_remove_during_ping.concat(players_to_remove_after_ping);
   // console.log(players_to_remove_during_ping);
   _.forEach(players_to_remove, (player) => {
-    try {
-      const res = {
-        "messageType": 132,
-        "letterCode": player.code,
-        "playerID": player.id,
-        "isPlayer": true
-      }
-      sendToHost(player.code, res);
-    } catch (err) {
-      logError(err);
-      console.error('[ERROR]: Host socket has been shutdown');
-    }
     _.remove(players, player);
   });
 
