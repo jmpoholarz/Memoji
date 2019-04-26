@@ -12,6 +12,7 @@ signal receivedPlayerAnswer(playerID, promptID, emojiArray)
 signal receivedPlayerVote(playerID, promptID, voteID)
 signal receivedPlayerMultiVote(playerID, voteArray)
 signal playerBadDisconnect(playerID)
+signal audienceBadDisconnect(playerID)
 signal playerReconnected(playerID)
 signal lostConnection()
 # # # # # # # # # #
@@ -195,7 +196,10 @@ func getMessageFromServer():
 		MESSAGE_TYPES.PLAYER_SENDING_MULTI_VOTE:
 			emit_signal("receivedPlayerMultiVote", messageDict["playerID"], messageDict["voteArray"])
 		MESSAGE_TYPES.PLAYER_BAD_DISCONNECT:
-			emit_signal("playerBadDisconnect", messageDict["playerID"])
+			if messageDict["isPlayer"]:
+				emit_signal("playerBadDisconnect", messageDict["playerID"])
+			else:
+				emit_signal("audienceBadDisconnect", messageDict["playerID"])
 		MESSAGE_TYPES.PLAYER_RECONNECT:
 			emit_signal("playerReconnected", messageDict["playerID"])
 		_:

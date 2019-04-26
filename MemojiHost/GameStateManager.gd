@@ -783,8 +783,18 @@ func _on_Networking_playerBadDisconnect(playerID):
 			else:
 				disconnected_players.append(player)
 			return
-	
-	# TODO: Do we need to handle audience?
+
+
+func _on_Networking_audienceBadDisconnect(playerID):
+	print("DEBUG MESSAGE: Audience Bad Disconnect")
+	# Find audience based on playerID
+	for audience in audiencePlayers:
+		if audience.playerID == playerID:
+			print("DEBUG MESSAGE: Audience found")
+			audiencePlayers.erase(audience)
+			if ($ScreenManager.currentScreen == GlobalVars.LOBBY_SCREEN):
+				$ScreenManager.currentScreenInstance.update_from_list(audiencePlayers)
+			return
 
 
 func _on_ScreenManager_sendMessageToServer(msg):
