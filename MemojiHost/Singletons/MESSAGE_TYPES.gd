@@ -19,6 +19,7 @@ enum MESSAGE_TYPES {
 
 	HOST_STARTING_GAME = 301,				# Sent to advance players to blank screen before prompts
 	HOST_ENDING_GAME = 302,					# Sent to advance players back to join game screen where they can quit
+	HOST_NEW_GAME = 303						# Sent to reset players back to lobby screen
 	HOST_SENDING_PROMPT = 311,				# Sent to move players to a prompt answering screen
 	HOST_SENDING_ANSWERS = 312,				# Sent to move players to a screen to vote on answers
 	HOST_TIME_UP = 320,						# Sent to move players to black screen @ prompt/vote timer expires
