@@ -838,6 +838,10 @@ func _on_ScreenManager_handleGameState(msg):
 		elif (msg == "startGame"): # NEW
 			setupGame()
 			return
+	elif $ScreenManager.currentScreen == GlobalVars.WAIT_SCREEN:
+		if (msg == "advance"):
+			advanceGame()
+			return
 	elif $ScreenManager.currentScreen == GlobalVars.RESULTS_SCREEN:
 		if (msg == "advance"):
 			advanceGame()
@@ -851,6 +855,10 @@ func _on_ScreenManager_handleGameState(msg):
 			advanceGame()
 			return
 	elif $ScreenManager.currentScreen == GlobalVars.MULTI_RESULTS_SCREEN:
+		if (msg == "advance"):
+			advanceGame()
+			return
+	elif $ScreenManager.currentScreen == GlobalVars.MULTI_VOTE_SCREEN:
 		if (msg == "advance"):
 			advanceGame()
 			return
