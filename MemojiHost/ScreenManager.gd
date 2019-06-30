@@ -139,5 +139,5 @@ func newGame():
 
 func instructionState():
 	instructions = currentScreenInstance.getInstructionState()
-	repeatInstruct = currentScreenInstance.getInstructionState()
+	repeatInstruct = currentScreenInstance.getRepeatState()
 	emit_signal("instructionUpdate", instructions, repeatInstruct)
